@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27004.2002
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Onyx3DEditor", "Onyx3DEditor.csproj", "{C7C89AB5-6F20-4710-8CE0-0D42A3C063DF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Onyx3DEditor", "Onyx3DEditor\Onyx3DEditor.csproj", "{C7C89AB5-6F20-4710-8CE0-0D42A3C063DF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Onyx3D", "..\Onyx3D\Onyx3D.csproj", "{70AF8A89-9081-40D0-B501-D6B70C4353B9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Onyx3D", "Onyx3D\Onyx3D.csproj", "{70AF8A89-9081-40D0-B501-D6B70C4353B9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
