@@ -17,3 +17,13 @@ C:\Users\MiriamYJosue\Documents\Projects\Onyx3DSharp\Onyx3D\bin\Debug\OpenTK.xml
 C:\Users\MiriamYJosue\Documents\Projects\Onyx3DSharp\Onyx3D\bin\Debug\OpenTK.dll.config
 C:\Users\MiriamYJosue\Documents\Projects\Onyx3DSharp\Onyx3D\obj\Debug\Onyx3D.dll
 C:\Users\MiriamYJosue\Documents\Projects\Onyx3DSharp\Onyx3D\obj\Debug\Onyx3D.pdb
+C:\Users\Josue\Desktop\Onyx3DSharp\Onyx3D\bin\Debug\Onyx3D.dll
+C:\Users\Josue\Desktop\Onyx3DSharp\Onyx3D\bin\Debug\Onyx3D.pdb
+C:\Users\Josue\Desktop\Onyx3DSharp\Onyx3D\bin\Debug\OpenTK.dll
+C:\Users\Josue\Desktop\Onyx3DSharp\Onyx3D\bin\Debug\OpenTK.pdb
+C:\Users\Josue\Desktop\Onyx3DSharp\Onyx3D\bin\Debug\OpenTK.xml
+C:\Users\Josue\Desktop\Onyx3DSharp\Onyx3D\bin\Debug\OpenTK.dll.config
+C:\Users\Josue\Desktop\Onyx3DSharp\Onyx3D\obj\Debug\Onyx3D.csprojResolveAssemblyReference.cache
+C:\Users\Josue\Desktop\Onyx3DSharp\Onyx3D\obj\Debug\Onyx3D.csproj.CoreCompileInputs.cache
+C:\Users\Josue\Desktop\Onyx3DSharp\Onyx3D\obj\Debug\Onyx3D.dll
+C:\Users\Josue\Desktop\Onyx3DSharp\Onyx3D\obj\Debug\Onyx3D.pdb

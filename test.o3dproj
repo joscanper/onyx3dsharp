@@ -1,0 +1,14 @@
+
+
+texture("id", "relative_path")
+texture("id", "relative_path")
+texture("id", "relative_path")
+texture("id", "relative_path")
+
+cubemap("skymap",
+	"resources/skyboxes/4/right.tga",
+	"resources/skyboxes/4/left.tga",
+	"resources/skyboxes/4/top.tga",
+	"resources/skyboxes/4/bottom.tga",
+	"resources/skyboxes/4/back.tga",
+	"resources/skyboxes/4/front.tga")
