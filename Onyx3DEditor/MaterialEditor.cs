@@ -19,40 +19,46 @@ namespace Onyx3DEditor
         {
             InitializeComponent();
 			InitializeGL();
-        }
+		}
 
         private void renderCanvas_Load(object sender, EventArgs e)
         {
-            Logger.Instance.Clear();
+			RebuildShader();
 
-            myObject = new SceneObject("BaseObject");
-
-            // Load shaders from files
-            myShader = new Shader("./Shaders/VertexShader.glsl", "./Shaders/FragmentShader.glsl");
-
-            myRenderer = myObject.AddComponent<MeshRenderer>();
+			myObject = new SceneObject("BaseObject");
+			myRenderer = myObject.AddComponent<MeshRenderer>();
             myRenderer.Mesh = new CubeMesh();
             myRenderer.Material = new Material();
             myRenderer.Material.Shader = myShader;
-            
-            /*
+
+			/*
             myRenderer.Mesh.Vertices.Add(new Vertex(new OpenTK.Vector3(0, 0.5f, -0.5f)));
             myRenderer.Mesh.Vertices.Add(new Vertex(new OpenTK.Vector3(0.5f, -0.5f, -0.5f)));
             myRenderer.Mesh.Vertices.Add(new Vertex(new OpenTK.Vector3(-0.5f, -0.5f, -0.5f)));
             myRenderer.Mesh.GenerateVAO();
             */
+			
+			textBoxVertexCode.Text = myShader.VertexCode;
+			textBoxFragmentCode.Text = myShader.FragmentCode;
 
-            textBoxLog.Text = Logger.Instance.Content;
-
-            canDraw = true;
+			canDraw = true;
         }
+
+		private void RebuildShader()
+		{
+			Logger.Instance.Clear();
+			if (myShader == null)
+				myShader = new Shader("./Shaders/VertexShader.glsl", "./Shaders/FragmentShader.glsl");
+			else
+				myShader.InitProgram(textBoxVertexCode.Text, textBoxFragmentCode.Text);
+			textBoxLog.Text = Logger.Instance.Content;
+		}
      
 
         private void renderCanvas_Paint(object sender, PaintEventArgs e)
         {
-            //RenderManager.Instance.Render();
-            
-            GL.ClearColor(Color.DarkBlue);
+			
+			GL.ClearColor(Color.DarkBlue);
             GL.Viewport(0, 0, renderCanvas.Width, renderCanvas.Height);
 			GL.Clear(ClearBufferMask.ColorBufferBit);
             
@@ -66,6 +72,22 @@ namespace Onyx3DEditor
 		{
 			toolStripMaterialsComboBox.Items.Add("New Material");
 			toolStripMaterialsComboBox.SelectedIndex = toolStripMaterialsComboBox.Items.Count - 1;
+		}
+
+		private void tabControlMain_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			if (tabControlMain.TabIndex == 0)
+			{
+
+				RebuildShader();
+			}
+		}
+		
+
+		private void trackBarRotation_ValueChanged(object sender, EventArgs e)
+		{
+			myObject.Transform.testRot = trackBarRotation.Value;
+			renderCanvas.Refresh();
 		}
 	}
 }

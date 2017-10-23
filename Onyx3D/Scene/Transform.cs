@@ -14,10 +14,11 @@ namespace Onyx3D
 		public Vector3 Position;
 		public Quaternion Rotation;
 
+		public float testRot;
 
         public Matrix4 GetRotationMatrix()
         {
-            return GetYawMatrix(0);
+            return GetYawMatrix((float)(testRot * Math.PI / 180.0f));
         }
 
         public Matrix4 GetYawMatrix(float rotY)

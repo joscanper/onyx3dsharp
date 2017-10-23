@@ -12,17 +12,31 @@ namespace Onyx3D
     {
 		private int mProgram;
 
+		private string mVertexCode;
+		private string mFragmentCode;
+
 		public int Program
 		{
 			get { return mProgram; }
 		}
 
+		public string VertexCode
+		{
+			get { return mVertexCode;  }
+		}
+
+		public string FragmentCode
+		{
+			get { return mFragmentCode; }
+		}
+
 		public Shader(string vFileName, string fFileName)
 		{
-			string vSource = LoadShader(vFileName);
-			string fSource = LoadShader(fFileName);
-			InitProgram(vSource, fSource);
+			mVertexCode = LoadShader(vFileName);
+			mFragmentCode = LoadShader(fFileName);
+			InitProgram(mVertexCode, mFragmentCode);
 		}
+		
 
 		
 		public bool InitProgram(string vShaderSource, string fShaderSource)
