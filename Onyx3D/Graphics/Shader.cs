@@ -30,7 +30,7 @@ namespace Onyx3D
 			mProgram = CreateProgram(vShaderSource, fShaderSource);
 			if (mProgram == 0)
 			{
-				Logger.Append("Shader :: Failed to create program");
+				Logger.Instance.Append("Shader :: Failed to create program");
 				return false;
 			}
 
@@ -81,7 +81,7 @@ namespace Onyx3D
 			if (status == 0)
 			{
 				string errorString = string.Format("Shader :: Failed to link program: {0}" + Environment.NewLine, GL.GetProgramInfoLog(program));
-				Logger.Append(errorString);
+                Logger.Instance.Append(errorString);
 				GL.DeleteProgram(program);
 				GL.DeleteShader(vertexShader);
 				GL.DeleteShader(fragmentShader);
@@ -97,7 +97,7 @@ namespace Onyx3D
 			int shader = GL.CreateShader(shaderType);
 			if (shader == 0)
 			{
-				Logger.Append("Shader :: Unable to create shader");
+                Logger.Instance.Append("Shader :: Unable to create shader");
 				return 0;
 			}
 
@@ -113,7 +113,7 @@ namespace Onyx3D
 			if (status == 0)
 			{
 				string errorString = string.Format("Shader :: Failed to compile {0} shader: {1}", shaderType.ToString(), GL.GetShaderInfoLog(shader));
-				Logger.Append(errorString);
+                Logger.Instance.Append(errorString);
 				GL.DeleteShader(shader);
 				return 0;
 			}

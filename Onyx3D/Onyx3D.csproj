@@ -43,15 +43,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Component.cs" />
-    <Compile Include="SceneNode.cs" />
-    <Compile Include="Logger.cs" />
-    <Compile Include="Material.cs" />
-    <Compile Include="RenderManager.cs" />
-    <Compile Include="Shader.cs" />
+    <Compile Include="Components\Component.cs" />
+    <Compile Include="Graphics\Meshes\CubeMesh.cs" />
+    <Compile Include="Graphics\Meshes\Mesh.cs" />
+    <Compile Include="Components\MeshRenderer.cs" />
+    <Compile Include="Scene\SceneObject.cs" />
+    <Compile Include="Core\Logger.cs" />
+    <Compile Include="Graphics\Material.cs" />
+    <Compile Include="Core\RenderManager.cs" />
+    <Compile Include="Graphics\Shader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Singleton.cs" />
-    <Compile Include="Transform.cs" />
+    <Compile Include="Core\Singleton.cs" />
+    <Compile Include="Scene\Transform.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

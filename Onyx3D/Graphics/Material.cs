@@ -21,9 +21,9 @@ namespace Onyx3D
 		object Data;
 	}
 
-	class Material
+	public class Material
 	{
 		public Shader Shader;
-		public Dictionary<string, MaterialProperty> Properties;
+		private Dictionary<string, MaterialProperty> Properties;
 	}
 }
