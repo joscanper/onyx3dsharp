@@ -1,1 +1,5 @@
-*/bin/
+
+Onyx3D/obj/
+Onyx3D/bin/
+Onyx3DEditor/bin/
+Onyx3DEditor/obj/
