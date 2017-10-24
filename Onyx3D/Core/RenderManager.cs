@@ -9,6 +9,8 @@ namespace Onyx3D
 {
 	public class RenderManager : Singleton<RenderManager>
 	{
+		private SceneObject mRoot;
+
 		public void Render()
 		{
 			

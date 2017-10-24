@@ -11,24 +11,52 @@ namespace Onyx3D
 	{
 		public SceneObject SceneObject;
 		public Transform Parent;
-		public Vector3 Position;
-		public Quaternion Rotation;
+		public Vector3 LocalPosition = Vector3.Zero;
+		public Vector3 LocalScale = Vector3.One;
+		public Quaternion LocalRotation = Quaternion.Identity;
 
-		public float testRot;
+		public float testRotX;
+		public float testRotY;
+		public float testRotZ;
+
+		public Matrix4 GetModelMatrix()
+		{
+			Matrix4 t = Matrix4.CreateTranslation(LocalPosition);
+			Matrix4 r = Matrix4.CreateFromQuaternion(LocalRotation);
+			Matrix4 s = Matrix4.CreateScale(LocalScale);
+			//TODO - Check if needs to be rebaked
+
+			return s * r * t;
+		}
+
+		Matrix4 GetScaleMatrix()
+		{
+			return Matrix4.CreateScale(LocalScale);
+		}
+
+		public Matrix4 GetTranslationMatrix()
+		{
+			return Matrix4.CreateTranslation(LocalPosition);
+		}
 
         public Matrix4 GetRotationMatrix()
         {
-            return GetYawMatrix((float)(testRot * Math.PI / 180.0f));
-        }
+			return Matrix4.CreateFromQuaternion(LocalRotation);
+		}
 
         public Matrix4 GetYawMatrix(float rotY)
         {
-            Matrix4 yaw = Matrix4.Identity;
-            yaw[0, 0] = (float)Math.Cos(rotY);
-            yaw[0, 2] = (float)-Math.Sin(rotY);
-            yaw[2, 0] = (float)Math.Sin(rotY);
-            yaw[2, 2] = (float)Math.Cos(rotY);
-            return yaw;
+			return Matrix4.CreateRotationY(rotY);
         }
+
+		public Matrix4 GetPitchMatrix(float rotX)
+		{
+			return Matrix4.CreateRotationX(rotX);
+		}
+
+		public Matrix4 GetRollMatrix(float rotZ)
+		{
+			return Matrix4.CreateRotationZ(rotZ);
+		}
 	}
 }

@@ -13,13 +13,16 @@ namespace Onyx3D
         public Mesh Mesh;
         public Material Material;
         
-        public void Render()
+        public void Render(Matrix4 view, Matrix4 projection)
         {
+
             int program = Material.Shader.Program;
             GL.UseProgram(program);
 
-            Matrix4 M = Transform.GetRotationMatrix();
-            GL.UniformMatrix4(GL.GetUniformLocation(program, "M"), false, ref M);
+			Matrix4 M = Transform.GetModelMatrix();
+			GL.UniformMatrix4(GL.GetUniformLocation(program, "V"), false, ref view);
+			GL.UniformMatrix4(GL.GetUniformLocation(program, "P"), false, ref projection);
+			GL.UniformMatrix4(GL.GetUniformLocation(program, "M"), false, ref M);
 
             GL.BindVertexArray(Mesh.VertexArrayObject);
             GL.DrawArrays(PrimitiveType.Triangles, 0, Mesh.Vertices.Count);

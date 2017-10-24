@@ -13,5 +13,5 @@ out vec3 o_color;
 void main()
 {
 	o_color = color;
-    gl_Position = M * vec4(position, 1);
+    gl_Position = P * V * M * vec4(position, 1);
 }
