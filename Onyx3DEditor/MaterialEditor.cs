@@ -84,14 +84,13 @@ namespace Onyx3DEditor
 		{
 			if (tabControlMain.TabIndex == 0)
 			{
-
 				RebuildShader();
 			}
 		}
 
 		private void trackBarRotation_ValueChanged(object sender, EventArgs e)
 		{
-			myObject.Transform.LocalRotation = Quaternion.FromAxisAngle(new Vector3(1, 0, 0), (float)(trackBarRotation.Value * Math.PI / 180.0f));
+			myObject.Transform.LocalRotation = Quaternion.FromAxisAngle(new Vector3(1, 1, 0), (float)(trackBarRotation.Value * Math.PI / 180.0f));
 			renderCanvas.Refresh();
 		}
 	}

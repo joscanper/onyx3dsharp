@@ -25,56 +25,39 @@ namespace Onyx3D
             v2.Color = new Vector3(0, 1, 0);
             v3.Color = new Vector3(0, 0, 1);
             v4.Color = new Vector3(0, 1, 1);
+			v5.Color = new Vector3(1, 0, 1);
+			v6.Color = new Vector3(1, 1, 0);
+			v7.Color = new Vector3(1, 1, 1);
+			v8.Color = new Vector3(0, 0, 0);
 
-			//Front
-            Vertices.Add(v1);
-            Vertices.Add(v2);
-            Vertices.Add(v3);
-            Vertices.Add(v2);
-            Vertices.Add(v4);
-            Vertices.Add(v3);
-
-			//Right
-			Vertices.Add(v2);
-			Vertices.Add(v6);
-			Vertices.Add(v4);
-			Vertices.Add(v6);
-			Vertices.Add(v8);
-			Vertices.Add(v4);
-
-			//Back
-			Vertices.Add(v6);
-			Vertices.Add(v5);
-			Vertices.Add(v8);
-			Vertices.Add(v5);
-			Vertices.Add(v7);
-			Vertices.Add(v8);
-
-			// Left
-			Vertices.Add(v5);
-			Vertices.Add(v1);
-			Vertices.Add(v7);
-			Vertices.Add(v1);
-			Vertices.Add(v3);
-			Vertices.Add(v7);
-
-			// Top
-			Vertices.Add(v5);
-			Vertices.Add(v6);
-			Vertices.Add(v1);
-			Vertices.Add(v6);
-			Vertices.Add(v2);
-			Vertices.Add(v1);
-
-			// Down
-			Vertices.Add(v3);
-			Vertices.Add(v4);
-			Vertices.Add(v7);
-			Vertices.Add(v4);
-			Vertices.Add(v8);
-			Vertices.Add(v7);
-
+			AddFace(v1, v2, v3, v4, new Vector3(0, 0, 1));
+			AddFace(v2, v6, v4, v8, new Vector3(1, 0, 0));
+			AddFace(v6, v5, v8, v7, new Vector3(0, 0, -1));
+			AddFace(v5, v1, v7, v3, new Vector3(-1, 0, 0));
+			AddFace(v5, v6, v1, v2, new Vector3(0, -1, 0));
+			AddFace(v3, v4, v7, v8, new Vector3(0, 1, 0));
+			
 			GenerateVAO();
         }
-    }
+
+
+		private void AddFace(Vertex v1, Vertex v2, Vertex v3, Vertex v4, Vector3 n)
+		{
+
+			v1.Normal = n;
+			v2.Normal = n;
+			v3.Normal = n;
+			v4.Normal = n;
+
+			Vertices.Add(v1);
+			Vertices.Add(v2);
+			Vertices.Add(v3);
+			Vertices.Add(v2);
+			Vertices.Add(v4);
+			Vertices.Add(v3);
+
+		}
+	}
+
+
 }
