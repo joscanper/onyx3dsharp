@@ -17,24 +17,23 @@ namespace Onyx3DEditor
 		private Shader myShader;
         private MeshRenderer myRenderer;
 
-		private Matrix4 mView = Matrix4.Identity;
-		private Matrix4 mProjection;
-
+		private Camera myCamera;
+		
         public MaterialEditor()
         {
             InitializeComponent();
 			InitializeGL();
-			
 		}
 
         private void renderCanvas_Load(object sender, EventArgs e)
         {
 			RebuildShader();
 
-			myObject = new SceneObject("BaseObject");
-			myObject.Transform.LocalPosition = new Vector3(0, 0, -2);
-			myObject.Transform.LocalScale = new Vector3(2, 1, 1);
+			myCamera = new Camera("MainCamera");
+			myCamera.Transform.LocalPosition = new Vector3(0, 0, 2);
 
+			myObject = new SceneObject("BaseObject");
+			
 			myRenderer = myObject.AddComponent<MeshRenderer>();
             myRenderer.Mesh = new CubeMesh();
             myRenderer.Material = new Material();
@@ -62,14 +61,14 @@ namespace Onyx3DEditor
 			if (!canDraw)
 				return;
 
-			mProjection = Matrix4.CreatePerspectiveFieldOfView(1.3f, renderCanvas.Width / renderCanvas.Height, 0.1f, 1000f);
+			myCamera.InitPerspective(1.5f, renderCanvas.Width / renderCanvas.Height);
 
 			GL.Enable(EnableCap.DepthTest);
 			GL.ClearColor(Color.DarkBlue);
             GL.Viewport(0, 0, renderCanvas.Width, renderCanvas.Height);
 			GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
             
-            myRenderer.Render(mView, mProjection);
+            myRenderer.Render(myCamera);
             
 			GL.Flush();
 			renderCanvas.SwapBuffers();
@@ -92,7 +91,7 @@ namespace Onyx3DEditor
 
 		private void trackBarRotation_ValueChanged(object sender, EventArgs e)
 		{
-			myObject.Transform.LocalRotation = Quaternion.FromAxisAngle(new Vector3(0, 1, 0), (float)(trackBarRotation.Value * Math.PI / 180.0f));
+			myObject.Transform.LocalRotation = Quaternion.FromAxisAngle(new Vector3(1, 0, 0), (float)(trackBarRotation.Value * Math.PI / 180.0f));
 			renderCanvas.Refresh();
 		}
 	}

@@ -13,15 +13,18 @@ namespace Onyx3D
         public Mesh Mesh;
         public Material Material;
         
-        public void Render(Matrix4 view, Matrix4 projection)
+        public void Render(Camera cam)
         {
 
             int program = Material.Shader.Program;
             GL.UseProgram(program);
 
 			Matrix4 M = Transform.GetModelMatrix();
-			GL.UniformMatrix4(GL.GetUniformLocation(program, "V"), false, ref view);
-			GL.UniformMatrix4(GL.GetUniformLocation(program, "P"), false, ref projection);
+			Matrix4 V = cam.ViewMatrix;
+			Matrix4 P = cam.ProjectionMatrix;
+
+			GL.UniformMatrix4(GL.GetUniformLocation(program, "V"), false, ref V);
+			GL.UniformMatrix4(GL.GetUniformLocation(program, "P"), false, ref P);
 			GL.UniformMatrix4(GL.GetUniformLocation(program, "M"), false, ref M);
 
             GL.BindVertexArray(Mesh.VertexArrayObject);
