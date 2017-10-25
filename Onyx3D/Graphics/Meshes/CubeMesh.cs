@@ -41,22 +41,6 @@ namespace Onyx3D
         }
 
 
-		private void AddFace(Vertex v1, Vertex v2, Vertex v3, Vertex v4, Vector3 n)
-		{
-
-			v1.Normal = n;
-			v2.Normal = n;
-			v3.Normal = n;
-			v4.Normal = n;
-
-			Vertices.Add(v1);
-			Vertices.Add(v2);
-			Vertices.Add(v3);
-			Vertices.Add(v2);
-			Vertices.Add(v4);
-			Vertices.Add(v3);
-
-		}
 	}
 
 

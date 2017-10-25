@@ -34,9 +34,9 @@ namespace Onyx3D
 			mProjection = Matrix4.CreatePerspectiveFieldOfView(fov, aspect, near, far);
 		}
 
-		public void InitOrtho()
+		public void InitOrtho(float w, float h, float near = 0.1f, float far = 1000)
 		{
-			//TODO
+			mProjection = Matrix4.CreateOrthographic(w, h, near, far);
 		}
 
 

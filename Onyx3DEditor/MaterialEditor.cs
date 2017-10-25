@@ -35,8 +35,9 @@ namespace Onyx3DEditor
 			myObject = new SceneObject("BaseObject");
 			
 			myRenderer = myObject.AddComponent<MeshRenderer>();
-            myRenderer.Mesh = new CubeMesh();
-            myRenderer.Material = new Material();
+			//myRenderer.Mesh = new CubeMesh();
+			myRenderer.Mesh = new CylinderMesh();
+			myRenderer.Material = new Material();
             myRenderer.Material.Shader = myShader;
 			
 			textBoxVertexCode.Text = myShader.VertexCode;
@@ -62,7 +63,9 @@ namespace Onyx3DEditor
 				return;
 
 			myCamera.InitPerspective(1.5f, renderCanvas.Width / renderCanvas.Height);
+			//myCamera.InitOrtho(3, 3); ;
 
+			GL.Enable(EnableCap.CullFace);
 			GL.Enable(EnableCap.DepthTest);
 			GL.ClearColor(Color.DarkBlue);
             GL.Viewport(0, 0, renderCanvas.Width, renderCanvas.Height);

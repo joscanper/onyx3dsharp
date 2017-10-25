@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="Components\Component.cs" />
     <Compile Include="Graphics\Meshes\CubeMesh.cs" />
+    <Compile Include="Graphics\Meshes\CylinderMesh.cs" />
     <Compile Include="Graphics\Meshes\Mesh.cs" />
     <Compile Include="Components\MeshRenderer.cs" />
     <Compile Include="Scene\Camera.cs" />
