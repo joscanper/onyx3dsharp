@@ -30,12 +30,12 @@ namespace Onyx3D
 			v7.Color = new Vector3(1, 1, 1);
 			v8.Color = new Vector3(0, 0, 0);
 
-			AddFace(v1, v2, v3, v4, new Vector3(0, 0, 1));
-			AddFace(v2, v6, v4, v8, new Vector3(1, 0, 0));
-			AddFace(v6, v5, v8, v7, new Vector3(0, 0, -1));
-			AddFace(v5, v1, v7, v3, new Vector3(-1, 0, 0));
-			AddFace(v5, v6, v1, v2, new Vector3(0, -1, 0));
-			AddFace(v3, v4, v7, v8, new Vector3(0, 1, 0));
+			AddFace(v1, v2, v3, v4);
+			AddFace(v2, v6, v4, v8);
+			AddFace(v6, v5, v8, v7);
+			AddFace(v5, v1, v7, v3);
+			AddFace(v5, v6, v1, v2);
+			AddFace(v3, v4, v7, v8);
 			
 			GenerateVAO();
         }

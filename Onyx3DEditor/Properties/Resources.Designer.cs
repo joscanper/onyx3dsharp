@@ -59,5 +59,35 @@ namespace Onyx3DEditor.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap if_stock_draw_cube_21540 {
+            get {
+                object obj = ResourceManager.GetObject("if_stock_draw-cube_21540", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap if_stock_draw_cylinder_21550 {
+            get {
+                object obj = ResourceManager.GetObject("if_stock_draw-cylinder_21550", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap if_teapot_93284 {
+            get {
+                object obj = ResourceManager.GetObject("if_teapot_93284", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
     }
 }

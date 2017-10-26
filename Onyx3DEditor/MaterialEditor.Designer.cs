@@ -49,29 +49,34 @@
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MaterialEditor));
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
 			this.panel1 = new System.Windows.Forms.Panel();
+			this.trackBarRotation = new System.Windows.Forms.TrackBar();
 			this.toolStrip1 = new System.Windows.Forms.ToolStrip();
 			this.toolStripMaterialsComboBox = new System.Windows.Forms.ToolStripComboBox();
 			this.toolStripNewMaterialButton = new System.Windows.Forms.ToolStripButton();
 			this.tabControlMain = new System.Windows.Forms.TabControl();
 			this.tabPreview = new System.Windows.Forms.TabPage();
+			this.toolStrip2 = new System.Windows.Forms.ToolStrip();
+			this.toolStripButtonCube = new System.Windows.Forms.ToolStripButton();
+			this.toolStripButtonSphere = new System.Windows.Forms.ToolStripButton();
+			this.toolStripButtonTeapot = new System.Windows.Forms.ToolStripButton();
 			this.textBoxLog = new System.Windows.Forms.TextBox();
 			this.renderCanvas = new OpenTK.GLControl();
 			this.tabVertex = new System.Windows.Forms.TabPage();
 			this.textBoxVertexCode = new System.Windows.Forms.TextBox();
 			this.tabFragment = new System.Windows.Forms.TabPage();
 			this.textBoxFragmentCode = new System.Windows.Forms.TextBox();
-			this.trackBarRotation = new System.Windows.Forms.TrackBar();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
 			this.splitContainer1.Panel1.SuspendLayout();
 			this.splitContainer1.Panel2.SuspendLayout();
 			this.splitContainer1.SuspendLayout();
 			this.panel1.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.trackBarRotation)).BeginInit();
 			this.toolStrip1.SuspendLayout();
 			this.tabControlMain.SuspendLayout();
 			this.tabPreview.SuspendLayout();
+			this.toolStrip2.SuspendLayout();
 			this.tabVertex.SuspendLayout();
 			this.tabFragment.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.trackBarRotation)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// splitContainer1
@@ -100,6 +105,15 @@
 			this.panel1.Name = "panel1";
 			this.panel1.Size = new System.Drawing.Size(250, 547);
 			this.panel1.TabIndex = 4;
+			// 
+			// trackBarRotation
+			// 
+			this.trackBarRotation.Location = new System.Drawing.Point(3, 3);
+			this.trackBarRotation.Maximum = 360;
+			this.trackBarRotation.Name = "trackBarRotation";
+			this.trackBarRotation.Size = new System.Drawing.Size(244, 45);
+			this.trackBarRotation.TabIndex = 0;
+			this.trackBarRotation.ValueChanged += new System.EventHandler(this.trackBarRotation_ValueChanged);
 			// 
 			// toolStrip1
 			// 
@@ -146,6 +160,7 @@
 			// 
 			// tabPreview
 			// 
+			this.tabPreview.Controls.Add(this.toolStrip2);
 			this.tabPreview.Controls.Add(this.textBoxLog);
 			this.tabPreview.Controls.Add(this.renderCanvas);
 			this.tabPreview.Location = new System.Drawing.Point(4, 22);
@@ -154,6 +169,48 @@
 			this.tabPreview.TabIndex = 2;
 			this.tabPreview.Text = "Preview";
 			this.tabPreview.UseVisualStyleBackColor = true;
+			// 
+			// toolStrip2
+			// 
+			this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripButtonCube,
+            this.toolStripButtonSphere,
+            this.toolStripButtonTeapot});
+			this.toolStrip2.Location = new System.Drawing.Point(0, 0);
+			this.toolStrip2.Name = "toolStrip2";
+			this.toolStrip2.Size = new System.Drawing.Size(615, 25);
+			this.toolStrip2.TabIndex = 2;
+			this.toolStrip2.Text = "toolStrip2";
+			// 
+			// toolStripButtonCube
+			// 
+			this.toolStripButtonCube.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.toolStripButtonCube.Image = global::Onyx3DEditor.Properties.Resources.if_stock_draw_cube_21540;
+			this.toolStripButtonCube.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.toolStripButtonCube.Name = "toolStripButtonCube";
+			this.toolStripButtonCube.Size = new System.Drawing.Size(23, 22);
+			this.toolStripButtonCube.Text = "toolStripButton1";
+			this.toolStripButtonCube.Click += new System.EventHandler(this.toolStripButtonCube_Click);
+			// 
+			// toolStripButtonSphere
+			// 
+			this.toolStripButtonSphere.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.toolStripButtonSphere.Image = global::Onyx3DEditor.Properties.Resources.if_stock_draw_cylinder_21550;
+			this.toolStripButtonSphere.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.toolStripButtonSphere.Name = "toolStripButtonSphere";
+			this.toolStripButtonSphere.Size = new System.Drawing.Size(23, 22);
+			this.toolStripButtonSphere.Text = "toolStripButton2";
+			this.toolStripButtonSphere.Click += new System.EventHandler(this.toolStripButtonSphere_Click);
+			// 
+			// toolStripButtonTeapot
+			// 
+			this.toolStripButtonTeapot.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.toolStripButtonTeapot.Image = global::Onyx3DEditor.Properties.Resources.if_teapot_93284;
+			this.toolStripButtonTeapot.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.toolStripButtonTeapot.Name = "toolStripButtonTeapot";
+			this.toolStripButtonTeapot.Size = new System.Drawing.Size(23, 22);
+			this.toolStripButtonTeapot.Text = "toolStripButton3";
+			this.toolStripButtonTeapot.Click += new System.EventHandler(this.toolStripButtonTeapot_Click);
 			// 
 			// textBoxLog
 			// 
@@ -195,7 +252,7 @@
 			this.textBoxVertexCode.BackColor = System.Drawing.SystemColors.InfoText;
 			this.textBoxVertexCode.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.textBoxVertexCode.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.textBoxVertexCode.ForeColor = System.Drawing.SystemColors.InactiveCaption;
+			this.textBoxVertexCode.ForeColor = System.Drawing.SystemColors.GradientActiveCaption;
 			this.textBoxVertexCode.Location = new System.Drawing.Point(3, 3);
 			this.textBoxVertexCode.Multiline = true;
 			this.textBoxVertexCode.Name = "textBoxVertexCode";
@@ -220,21 +277,12 @@
 			this.textBoxFragmentCode.BackColor = System.Drawing.SystemColors.InfoText;
 			this.textBoxFragmentCode.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.textBoxFragmentCode.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.textBoxFragmentCode.ForeColor = System.Drawing.SystemColors.InactiveCaption;
+			this.textBoxFragmentCode.ForeColor = System.Drawing.SystemColors.GradientActiveCaption;
 			this.textBoxFragmentCode.Location = new System.Drawing.Point(3, 3);
 			this.textBoxFragmentCode.Multiline = true;
 			this.textBoxFragmentCode.Name = "textBoxFragmentCode";
 			this.textBoxFragmentCode.Size = new System.Drawing.Size(609, 540);
 			this.textBoxFragmentCode.TabIndex = 1;
-			// 
-			// trackBarRotation
-			// 
-			this.trackBarRotation.Location = new System.Drawing.Point(3, 3);
-			this.trackBarRotation.Maximum = 360;
-			this.trackBarRotation.Name = "trackBarRotation";
-			this.trackBarRotation.Size = new System.Drawing.Size(244, 45);
-			this.trackBarRotation.TabIndex = 0;
-			this.trackBarRotation.ValueChanged += new System.EventHandler(this.trackBarRotation_ValueChanged);
 			// 
 			// MaterialEditor
 			// 
@@ -253,16 +301,18 @@
 			this.splitContainer1.ResumeLayout(false);
 			this.panel1.ResumeLayout(false);
 			this.panel1.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.trackBarRotation)).EndInit();
 			this.toolStrip1.ResumeLayout(false);
 			this.toolStrip1.PerformLayout();
 			this.tabControlMain.ResumeLayout(false);
 			this.tabPreview.ResumeLayout(false);
 			this.tabPreview.PerformLayout();
+			this.toolStrip2.ResumeLayout(false);
+			this.toolStrip2.PerformLayout();
 			this.tabVertex.ResumeLayout(false);
 			this.tabVertex.PerformLayout();
 			this.tabFragment.ResumeLayout(false);
 			this.tabFragment.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.trackBarRotation)).EndInit();
 			this.ResumeLayout(false);
 
 		}
@@ -283,6 +333,10 @@
 		private System.Windows.Forms.ToolStripButton toolStripNewMaterialButton;
         private System.Windows.Forms.TextBox textBoxLog;
 		private System.Windows.Forms.TrackBar trackBarRotation;
+		private System.Windows.Forms.ToolStrip toolStrip2;
+		private System.Windows.Forms.ToolStripButton toolStripButtonCube;
+		private System.Windows.Forms.ToolStripButton toolStripButtonSphere;
+		private System.Windows.Forms.ToolStripButton toolStripButtonTeapot;
 	}
 }
 

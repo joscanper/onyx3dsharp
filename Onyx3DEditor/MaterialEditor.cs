@@ -30,13 +30,14 @@ namespace Onyx3DEditor
 			RebuildShader();
 
 			myCamera = new Camera("MainCamera");
-			myCamera.Transform.LocalPosition = new Vector3(0, 0, 2);
+			myCamera.Transform.LocalPosition = new Vector3(0, 0.85f, 2);
+			myCamera.Transform.LocalRotation = Quaternion.FromAxisAngle(new Vector3(1,0,0), -0.45f);
 
 			myObject = new SceneObject("BaseObject");
 			
 			myRenderer = myObject.AddComponent<MeshRenderer>();
 			//myRenderer.Mesh = new CubeMesh();
-			myRenderer.Mesh = new CylinderMesh();
+			myRenderer.Mesh = ObjLoader.Load("./Models/teapot.obj");//new CylinderMesh();
 			myRenderer.Material = new Material();
             myRenderer.Material.Shader = myShader;
 			
@@ -90,10 +91,28 @@ namespace Onyx3DEditor
 				RebuildShader();
 			}
 		}
-
+		
 		private void trackBarRotation_ValueChanged(object sender, EventArgs e)
 		{
 			myObject.Transform.LocalRotation = Quaternion.FromAxisAngle(new Vector3(1, 1, 0), (float)(trackBarRotation.Value * Math.PI / 180.0f));
+			renderCanvas.Refresh();
+		}
+
+		private void toolStripButtonCube_Click(object sender, EventArgs e)
+		{
+			myRenderer.Mesh = new CubeMesh();
+			renderCanvas.Refresh();
+		}
+
+		private void toolStripButtonSphere_Click(object sender, EventArgs e)
+		{
+			myRenderer.Mesh = new CylinderMesh();
+			renderCanvas.Refresh();
+		}
+
+		private void toolStripButtonTeapot_Click(object sender, EventArgs e)
+		{
+			myRenderer.Mesh = ObjLoader.Load("./Models/teapot.obj");
 			renderCanvas.Refresh();
 		}
 	}

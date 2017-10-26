@@ -48,6 +48,8 @@
     <Compile Include="Graphics\Meshes\CylinderMesh.cs" />
     <Compile Include="Graphics\Meshes\Mesh.cs" />
     <Compile Include="Components\MeshRenderer.cs" />
+    <Compile Include="Graphics\Meshes\TeapotMesh.cs" />
+    <Compile Include="Graphics\ObjLoader.cs" />
     <Compile Include="Scene\Camera.cs" />
     <Compile Include="Scene\SceneObject.cs" />
     <Compile Include="Core\Logger.cs" />

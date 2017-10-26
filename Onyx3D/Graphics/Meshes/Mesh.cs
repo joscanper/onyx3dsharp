@@ -16,60 +16,99 @@ namespace Onyx3D
         public Vector3 Position;
         public Vector3 Color;
         public Vector3 Normal;
-        //public Vector3 TexCoord;
+        public Vector2 TexCoord;
 
-        public Vertex(Vector3 pos) : this(pos, Vector3.One, Vector3.Zero){}
+        public Vertex(Vector3 pos) : this(pos, Vector3.One, Vector3.Zero, Vector2.Zero){}
 
-		public Vertex(Vector3 pos, Vector3 col) : this(pos, col, Vector3.Zero){}
+		public Vertex(Vector3 pos, Vector3 col) : this(pos, col, Vector3.Zero, Vector2.Zero) {}
 
-		public Vertex(Vector3 pos, Vector3 col, Vector3 normal)
+		public Vertex(Vector3 pos, Vector3 col, Vector3 normal) : this(pos, col, normal, Vector2.Zero) { }
+
+		public Vertex(Vector3 pos, Vector3 col, Vector3 normal, Vector2 texcoord)
 		{
 			Position = pos;
 			Color = col;
 			Normal = normal;
+			TexCoord = texcoord;
 		}
 	}
 
     public class Mesh
     {
-        public int VertexArrayObject;
+		
+        private int mVertexArrayObject;
+		public int VertexArrayObject
+		{
+			get { return mVertexArrayObject; }
+		}
+		//private int mElemen
 
         public List<Vertex> Vertices = new List<Vertex>();
-        public List<int> Indices = new List<int>();
-        
-        public void GenerateVAO()
-        {
-            Vertex[] vertices = Vertices.ToArray();
+        public uint[] Indices;
 
-            GL.GenVertexArrays(1, out VertexArrayObject);
+		public void GenerateVAO()
+		{
+			Vertex[] vertices = Vertices.ToArray();
 
-            int vbo;
-            GL.GenBuffers(1, out vbo);
 
-            GL.BindVertexArray(VertexArrayObject);
-            GL.BindBuffer(BufferTarget.ArrayBuffer, vbo);
+			GL.GenVertexArrays(1, out mVertexArrayObject);
 
-            int sizeOfVertex = Marshal.SizeOf(vertices[0]);
-            GL.BufferData(BufferTarget.ArrayBuffer, vertices.Length * sizeOfVertex, vertices, BufferUsageHint.StaticDraw);
+			int vbo;
+			GL.GenBuffers(1, out vbo);
+
+			GL.BindVertexArray(mVertexArrayObject);
+			GL.BindBuffer(BufferTarget.ArrayBuffer, vbo);
+
+			int sizeOfVertex = Marshal.SizeOf(vertices[0]);
+			GL.BufferData(BufferTarget.ArrayBuffer, vertices.Length * sizeOfVertex, vertices, BufferUsageHint.StaticDraw);
 
 			//Position
-            GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, sizeOfVertex, 0);
-            GL.EnableVertexAttribArray(0);
+			GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, sizeOfVertex, 0);
+			GL.EnableVertexAttribArray(0);
 			//Color
-            GL.VertexAttribPointer(1, 3, VertexAttribPointerType.Float, false, sizeOfVertex, Marshal.SizeOf(vertices[0].Position));
-            GL.EnableVertexAttribArray(1);
+			GL.VertexAttribPointer(1, 3, VertexAttribPointerType.Float, false, sizeOfVertex, Marshal.SizeOf(vertices[0].Position));
+			GL.EnableVertexAttribArray(1);
 			//Normal
 			GL.VertexAttribPointer(2, 3, VertexAttribPointerType.Float, false, sizeOfVertex, Marshal.SizeOf(vertices[0].Position) + Marshal.SizeOf(vertices[0].Color));
 			GL.EnableVertexAttribArray(2);
+			//TexCoord
+			GL.VertexAttribPointer(3, 4, VertexAttribPointerType.Float, false, sizeOfVertex, Marshal.SizeOf(vertices[0].Position) + Marshal.SizeOf(vertices[0].Color) + Marshal.SizeOf(vertices[0].Normal));
+			GL.EnableVertexAttribArray(3);
 
+
+			int ebo = 0;
+			if (Indices != null) {
+				uint[] indices = Indices.ToArray();
+				GL.GenBuffers(1, out ebo);
+				GL.BindBuffer(BufferTarget.ElementArrayBuffer, ebo);
+				GL.BufferData(BufferTarget.ElementArrayBuffer, indices.Count() * sizeof(uint), indices, BufferUsageHint.StaticDraw);
+				
+			}
+
+			
 			GL.BindVertexArray(0);
-            GL.DeleteBuffer(vbo);
-        }
+			GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
+			GL.DeleteBuffer(vbo);
+			if (Indices != null)
+			{
+				GL.BindBuffer(BufferTarget.ElementArrayBuffer, 0);
+				GL.DeleteBuffer(ebo);
+			}
+		}
 
+
+		// TODO Delete Vertex Array
+
+		protected void AddFace(Vertex v1, Vertex v2, Vertex v3, Vertex v4)
+		{
+			AddFace(v1, v2, v3, v4, Vector3.Zero);
+		}
 
 		protected void AddFace(Vertex v1, Vertex v2, Vertex v3, Vertex v4, Vector3 n)
 		{
-
+			if (n == Vector3.Zero)
+				n = Vector3.Cross((v1.Position - v2.Position), (v2.Position - v3.Position));
+			
 			v1.Normal = n;
 			v2.Normal = n;
 			v3.Normal = n;

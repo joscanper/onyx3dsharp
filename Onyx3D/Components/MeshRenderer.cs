@@ -29,8 +29,13 @@ namespace Onyx3D
 			//GL.UniformMatrix4(GL.GetUniformLocation(program, "MVP"), false, ref MVP);
 
 			GL.BindVertexArray(Mesh.VertexArrayObject);
-            GL.DrawArrays(PrimitiveType.Triangles, 0, Mesh.Vertices.Count);
+			if (Mesh.Indices != null)
+				GL.DrawElements(PrimitiveType.Triangles, Mesh.Indices.Length, DrawElementsType.UnsignedInt, 0);
+			else
+				GL.DrawArrays(PrimitiveType.Triangles, 0, Mesh.Vertices.Count);
             GL.BindVertexArray(0);
+
+			
         }
     }
 }

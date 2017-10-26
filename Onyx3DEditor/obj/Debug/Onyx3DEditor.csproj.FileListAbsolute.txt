@@ -48,3 +48,5 @@ C:\Users\MiriamYJosue\Documents\Projects\Onyx3DSharp\Onyx3DEditor\obj\Debug\Onyx
 C:\Users\MiriamYJosue\Documents\Projects\Onyx3DSharp\Onyx3DEditor\obj\Debug\Onyx3DEditor.Properties.Resources.resources
 C:\Users\MiriamYJosue\Documents\Projects\Onyx3DSharp\Onyx3DEditor\obj\Debug\Onyx3DEditor.exe
 C:\Users\MiriamYJosue\Documents\Projects\Onyx3DSharp\Onyx3DEditor\obj\Debug\Onyx3DEditor.pdb
+C:\Users\Josue\Desktop\Onyx3DSharp\Onyx3DEditor\bin\Debug\Models\teapot.obj
+C:\Users\Josue\Desktop\Onyx3DSharp\Onyx3DEditor\bin\Debug\Models\cube.obj

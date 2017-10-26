@@ -35,15 +35,15 @@ namespace Onyx3D
 					{
 
 						if (i < segments - 1)
-							AddFace(previousRing[i], previousRing[i + 1], currentRing[i], currentRing[i + 1], Vector3.Zero);
+							AddFace(previousRing[i], previousRing[i + 1], currentRing[i], currentRing[i + 1]);
 						else
-							AddFace(previousRing[i], previousRing[0], currentRing[i], currentRing[0], Vector3.Zero);
+							AddFace(previousRing[i], previousRing[0], currentRing[i], currentRing[0]);
 					}
 				}
 				else
 				{
 					// Top cap
-					Vertex top = new Vertex(new Vector3(0, 0.5f, 0), Vector3.Zero);
+					Vertex top = new Vertex(new Vector3(0, 0.5f, 0), Vector3.Zero, new Vector3(0,1,0));
 					for (int i = 0; i < segments; i++)
 					{
 						Vertices.Add(top);
@@ -61,7 +61,7 @@ namespace Onyx3D
 			}
 
 			// Bottom cap
-			Vertex bottom = new Vertex(new Vector3(0, -0.5f, 0), Vector3.Zero);
+			Vertex bottom = new Vertex(new Vector3(0, -0.5f, 0), Vector3.One, new Vector3(0, -1, 0));
 			for (int i = 0; i < segments; i++)
 			{
 				Vertices.Add(bottom);
