@@ -22,14 +22,45 @@ namespace Onyx3DEditor
         {
             InitializeComponent();
 			InitializeCanvas();
-			InitializeGL();
 		}
 
-		private void InitializeGL()
+		private void InitGL()
 		{
 			GL.Enable(EnableCap.CullFace);
 			GL.Enable(EnableCap.DepthTest);
+
+			GL.Enable(EnableCap.Multisample);
+			GL.Hint(HintTarget.MultisampleFilterHintNv, HintMode.Nicest);
+
+			GL.Enable(EnableCap.LineSmooth);
+			GL.Hint(HintTarget.LineSmoothHint, HintMode.Nicest);
+
+			GL.Enable(EnableCap.Blend);
+			GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
+
 			GL.ClearColor(Color.DarkBlue);
+		}
+
+		private void InitScene()
+		{
+			RebuildShader();
+
+			myCamera = new Camera("MainCamera");
+			myCamera.Transform.LocalPosition = new Vector3(0, 0.85f, 2);
+			myCamera.Transform.LocalRotation = Quaternion.FromAxisAngle(new Vector3(1, 0, 0), -0.45f);
+
+			myObject = new SceneObject("BaseObject");
+
+			myRenderer = myObject.AddComponent<MeshRenderer>();
+			myRenderer.Mesh = ObjLoader.Load("./Models/teapot.obj");
+			myRenderer.Material = new Material();
+			myRenderer.Material.Shader = myShader;
+		}
+
+		private void InitUI()
+		{
+			textBoxVertexCode.Text = myShader.VertexCode;
+			textBoxFragmentCode.Text = myShader.FragmentCode;
 		}
 
 		private void RebuildShader()
@@ -46,24 +77,11 @@ namespace Onyx3DEditor
 
 		private void renderCanvas_Load(object sender, EventArgs e)
         {
-			RebuildShader();
-
-			myCamera = new Camera("MainCamera");
-			myCamera.Transform.LocalPosition = new Vector3(0, 0.85f, 2);
-			myCamera.Transform.LocalRotation = Quaternion.FromAxisAngle(new Vector3(1,0,0), -0.45f);
-			
-			myObject = new SceneObject("BaseObject");
-			
-			myRenderer = myObject.AddComponent<MeshRenderer>();
-			myRenderer.Mesh = ObjLoader.Load("./Models/teapot.obj");
-			myRenderer.Material = new Material();
-            myRenderer.Material.Shader = myShader;
-			
-			textBoxVertexCode.Text = myShader.VertexCode;
-			textBoxFragmentCode.Text = myShader.FragmentCode;
-
+			InitGL();
+			InitScene();
+			InitUI();
 			canDraw = true;
-        }
+		}
 
 		private void renderCanvas_Paint(object sender, PaintEventArgs e)
         {

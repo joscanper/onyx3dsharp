@@ -16,8 +16,14 @@ layout(std140) uniform CameraData {
 	vec3 cameraPos; 
 };
 
+
 void main()
-{
-    float nDotL = dot(normalize(o_normal), normalize(lightdir));
-    fragColor = vec4(vec3(nDotL),1);
+{ 
+	vec3 dirToCam = cameraPos - o_fragpos;
+	vec3 N = normalize(o_normal);
+
+	float nDotL = dot(N, normalize(lightdir));
+	float fresnel = abs(pow(1-dot(N, dirToCam),2));
+	float col = clamp(nDotL + fresnel,0,1);
+	fragColor = vec4(vec3(o_color*col),1);
 }

@@ -1,4 +1,6 @@
-﻿namespace Onyx3DEditor
+﻿using OpenTK.Graphics;
+
+namespace Onyx3DEditor
 {
 	partial class MaterialEditor
 	{
