@@ -21,7 +21,7 @@
 		}
 
 
-		private void InitializeGL()
+		private void InitializeCanvas()
 		{
 			// 
 			// renderCanvas
@@ -35,7 +35,7 @@
 			this.renderCanvas.VSync = false;
 			this.renderCanvas.Load += new System.EventHandler(this.renderCanvas_Load);
 			this.renderCanvas.Paint += new System.Windows.Forms.PaintEventHandler(this.renderCanvas_Paint);
-
+		
 		}
 
 		#region Windows Form Designer generated code

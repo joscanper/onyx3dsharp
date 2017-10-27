@@ -7,10 +7,22 @@ using OpenTK;
 
 namespace Onyx3D
 {
+
+	public struct CameraUBufferData
+	{
+		public Matrix4 View;
+		public Matrix4 Projection;
+		public Vector3 Position;
+	}
+
+
 	public class Camera : SceneObject
 	{
 		Matrix4 mProjection;
 
+		UBO<CameraUBufferData> mCameraUBO;
+		CameraUBufferData mUBufferData;
+		
 		public Matrix4 ViewMatrix
 		{
 			get {
@@ -26,7 +38,8 @@ namespace Onyx3D
 
 		public Camera(string id) : base(id)
 		{
-			
+			mUBufferData = new CameraUBufferData();
+			mCameraUBO = new UBO<CameraUBufferData>(mUBufferData, "CameraData");
 		}
 
 		public void InitPerspective(float fov, float aspect, float near = 0.1f, float far = 1000)
@@ -39,6 +52,17 @@ namespace Onyx3D
 			mProjection = Matrix4.CreateOrthographic(w, h, near, far);
 		}
 
+		public void UpdateUBO()
+		{
+			mUBufferData.View = ViewMatrix;
+			mUBufferData.Projection = ProjectionMatrix;
+			mUBufferData.Position = Transform.LocalPosition;
+			mCameraUBO.Update(mUBufferData);
+		}
 
+		public void BindUBO(Shader s)
+		{
+			mCameraUBO.Bind(s);
+		}
 	}
 }

@@ -6,12 +6,20 @@ layout (location = 2) in vec3 normal;
 
 //uniform mat4 MVP;
 uniform mat4 M;
-uniform mat4 V;
-uniform mat4 P;
 
 out vec3 o_color;
 out vec3 o_normal;
 out vec3 o_fragpos;
+
+//#include OnyxShaderCamera
+//#include OnyxShaderLighting
+//#include OnyxShaderUtils
+
+layout(std140) uniform CameraData { 
+	mat4 V; 
+	mat4 P; 
+	vec3 cameraPos; 
+};
 
 void main()
 {

@@ -16,36 +16,21 @@ namespace Onyx3DEditor
         private SceneObject myObject;
 		private Shader myShader;
         private MeshRenderer myRenderer;
-
 		private Camera myCamera;
 		
         public MaterialEditor()
         {
             InitializeComponent();
+			InitializeCanvas();
 			InitializeGL();
 		}
 
-        private void renderCanvas_Load(object sender, EventArgs e)
-        {
-			RebuildShader();
-
-			myCamera = new Camera("MainCamera");
-			myCamera.Transform.LocalPosition = new Vector3(0, 0.85f, 2);
-			myCamera.Transform.LocalRotation = Quaternion.FromAxisAngle(new Vector3(1,0,0), -0.45f);
-
-			myObject = new SceneObject("BaseObject");
-			
-			myRenderer = myObject.AddComponent<MeshRenderer>();
-			//myRenderer.Mesh = new CubeMesh();
-			myRenderer.Mesh = ObjLoader.Load("./Models/teapot.obj");//new CylinderMesh();
-			myRenderer.Material = new Material();
-            myRenderer.Material.Shader = myShader;
-			
-			textBoxVertexCode.Text = myShader.VertexCode;
-			textBoxFragmentCode.Text = myShader.FragmentCode;
-
-			canDraw = true;
-        }
+		private void InitializeGL()
+		{
+			GL.Enable(EnableCap.CullFace);
+			GL.Enable(EnableCap.DepthTest);
+			GL.ClearColor(Color.DarkBlue);
+		}
 
 		private void RebuildShader()
 		{
@@ -56,27 +41,52 @@ namespace Onyx3DEditor
 				myShader.InitProgram(textBoxVertexCode.Text, textBoxFragmentCode.Text);
 			textBoxLog.Text = Logger.Instance.Content;
 		}
-     
 
-        private void renderCanvas_Paint(object sender, PaintEventArgs e)
+		#region RenderCanvas callbacks
+
+		private void renderCanvas_Load(object sender, EventArgs e)
+        {
+			RebuildShader();
+
+			myCamera = new Camera("MainCamera");
+			myCamera.Transform.LocalPosition = new Vector3(0, 0.85f, 2);
+			myCamera.Transform.LocalRotation = Quaternion.FromAxisAngle(new Vector3(1,0,0), -0.45f);
+			
+			myObject = new SceneObject("BaseObject");
+			
+			myRenderer = myObject.AddComponent<MeshRenderer>();
+			myRenderer.Mesh = ObjLoader.Load("./Models/teapot.obj");
+			myRenderer.Material = new Material();
+            myRenderer.Material.Shader = myShader;
+			
+			textBoxVertexCode.Text = myShader.VertexCode;
+			textBoxFragmentCode.Text = myShader.FragmentCode;
+
+			canDraw = true;
+        }
+
+		private void renderCanvas_Paint(object sender, PaintEventArgs e)
         {
 			if (!canDraw)
 				return;
 
 			myCamera.InitPerspective(1.5f, renderCanvas.Width / renderCanvas.Height);
-			//myCamera.InitOrtho(3, 3); ;
-
-			GL.Enable(EnableCap.CullFace);
-			GL.Enable(EnableCap.DepthTest);
-			GL.ClearColor(Color.DarkBlue);
+			myCamera.UpdateUBO();
+			myCamera.BindUBO(myRenderer.Material.Shader);
+			
+			
             GL.Viewport(0, 0, renderCanvas.Width, renderCanvas.Height);
 			GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
-            
+
             myRenderer.Render(myCamera);
             
 			GL.Flush();
 			renderCanvas.SwapBuffers();
         }
+
+		#endregion
+
+		#region UI callbacks
 
 		private void toolStripNewMaterialButton_Click(object sender, EventArgs e)
 		{
@@ -115,5 +125,8 @@ namespace Onyx3DEditor
 			myRenderer.Mesh = ObjLoader.Load("./Models/teapot.obj");
 			renderCanvas.Refresh();
 		}
+
+		#endregion
+
 	}
 }
