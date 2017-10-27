@@ -37,6 +37,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data" />
@@ -44,11 +45,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Components\Component.cs" />
+    <Compile Include="Core\ContentManager.cs" />
+    <Compile Include="Graphics\PrimitiveMeshes.cs" />
     <Compile Include="Graphics\Meshes\CubeMesh.cs" />
     <Compile Include="Graphics\Meshes\CylinderMesh.cs" />
     <Compile Include="Graphics\Meshes\Mesh.cs" />
     <Compile Include="Components\MeshRenderer.cs" />
     <Compile Include="Graphics\ObjLoader.cs" />
+    <Compile Include="Graphics\Texture.cs" />
     <Compile Include="Graphics\UBO.cs" />
     <Compile Include="Scene\Camera.cs" />
     <Compile Include="Scene\SceneObject.cs" />
@@ -59,6 +63,20 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Core\Singleton.cs" />
     <Compile Include="Scene\Transform.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Models\cube.obj">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Models\teapot.obj">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Shaders\FragmentShader.glsl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Shaders\VertexShader.glsl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -30,13 +30,19 @@ namespace Onyx3D
 			get { return mFragmentCode; }
 		}
 
+		public Shader(){}
+
 		public Shader(string vFileName, string fFileName)
+		{
+			Load(vFileName, fFileName);
+		}
+
+		public void Load(string vFileName, string fFileName)
 		{
 			mVertexCode = LoadShader(vFileName);
 			mFragmentCode = LoadShader(fFileName);
 			InitProgram(mVertexCode, mFragmentCode);
 		}
-		
 
 		
 		public bool InitProgram(string vShaderSource, string fShaderSource)
@@ -134,5 +140,6 @@ namespace Onyx3D
 
 			return shader;
 		}
+		
 	}
 }

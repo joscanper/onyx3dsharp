@@ -43,6 +43,9 @@ namespace Onyx3DEditor
 
 		private void InitScene()
 		{
+			// TODO - Move this to Core
+			ContentManager.Instance.Init();
+
 			RebuildShader();
 
 			myCamera = new Camera("MainCamera");
@@ -52,9 +55,8 @@ namespace Onyx3DEditor
 			myObject = new SceneObject("BaseObject");
 
 			myRenderer = myObject.AddComponent<MeshRenderer>();
-			myRenderer.Mesh = ObjLoader.Load("./Models/teapot.obj");
-			myRenderer.Material = new Material();
-			myRenderer.Material.Shader = myShader;
+			myRenderer.Mesh = PrimitiveMeshes.Teapot;
+			myRenderer.Material = ContentManager.Instance.DefaultMaterial;
 		}
 
 		private void InitUI()
@@ -66,10 +68,18 @@ namespace Onyx3DEditor
 		private void RebuildShader()
 		{
 			Logger.Instance.Clear();
+
 			if (myShader == null)
-				myShader = new Shader("./Shaders/VertexShader.glsl", "./Shaders/FragmentShader.glsl");
+			{
+				myShader = ContentManager.Instance.DefaultShader;
+			}
 			else
+			{
+				myShader = new Shader();
 				myShader.InitProgram(textBoxVertexCode.Text, textBoxFragmentCode.Text);
+				myRenderer.Material.Shader = myShader;
+			}
+
 			textBoxLog.Text = Logger.Instance.Content;
 		}
 
@@ -140,7 +150,7 @@ namespace Onyx3DEditor
 
 		private void toolStripButtonTeapot_Click(object sender, EventArgs e)
 		{
-			myRenderer.Mesh = ObjLoader.Load("./Models/teapot.obj");
+			myRenderer.Mesh = PrimitiveMeshes.Teapot;
 			renderCanvas.Refresh();
 		}
 
