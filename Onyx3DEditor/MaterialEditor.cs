@@ -156,5 +156,10 @@ namespace Onyx3DEditor
 
 		#endregion
 
+		private void buttonTextures_Click(object sender, EventArgs e)
+		{
+			TextureManager tm = new TextureManager();
+			tm.Show();
+		}
 	}
 }

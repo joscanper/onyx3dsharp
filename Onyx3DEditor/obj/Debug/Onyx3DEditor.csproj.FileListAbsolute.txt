@@ -50,3 +50,4 @@ C:\Users\Josue\Desktop\Onyx3DSharp\Onyx3DEditor\bin\Debug\Resources\Models\cube.
 C:\Users\Josue\Desktop\Onyx3DSharp\Onyx3DEditor\bin\Debug\Resources\Models\teapot.obj
 C:\Users\Josue\Desktop\Onyx3DSharp\Onyx3DEditor\bin\Debug\Resources\Shaders\FragmentShader.glsl
 C:\Users\Josue\Desktop\Onyx3DSharp\Onyx3DEditor\bin\Debug\Resources\Shaders\VertexShader.glsl
+C:\Users\Josue\Desktop\Onyx3DSharp\Onyx3DEditor\obj\Debug\Onyx3DEditor.TextureManager.resources

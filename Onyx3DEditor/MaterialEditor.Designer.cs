@@ -67,6 +67,7 @@ namespace Onyx3DEditor
 			this.textBoxVertexCode = new System.Windows.Forms.TextBox();
 			this.tabFragment = new System.Windows.Forms.TabPage();
 			this.textBoxFragmentCode = new System.Windows.Forms.TextBox();
+			this.buttonTextures = new System.Windows.Forms.Button();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
 			this.splitContainer1.Panel1.SuspendLayout();
 			this.splitContainer1.Panel2.SuspendLayout();
@@ -101,6 +102,7 @@ namespace Onyx3DEditor
 			// 
 			// panel1
 			// 
+			this.panel1.Controls.Add(this.buttonTextures);
 			this.panel1.Controls.Add(this.trackBarRotation);
 			this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.panel1.Location = new System.Drawing.Point(0, 25);
@@ -286,6 +288,16 @@ namespace Onyx3DEditor
 			this.textBoxFragmentCode.Size = new System.Drawing.Size(609, 540);
 			this.textBoxFragmentCode.TabIndex = 1;
 			// 
+			// buttonTextures
+			// 
+			this.buttonTextures.Location = new System.Drawing.Point(12, 54);
+			this.buttonTextures.Name = "buttonTextures";
+			this.buttonTextures.Size = new System.Drawing.Size(75, 23);
+			this.buttonTextures.TabIndex = 1;
+			this.buttonTextures.Text = "Textures";
+			this.buttonTextures.UseVisualStyleBackColor = true;
+			this.buttonTextures.Click += new System.EventHandler(this.buttonTextures_Click);
+			// 
 			// MaterialEditor
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -339,6 +351,7 @@ namespace Onyx3DEditor
 		private System.Windows.Forms.ToolStripButton toolStripButtonCube;
 		private System.Windows.Forms.ToolStripButton toolStripButtonSphere;
 		private System.Windows.Forms.ToolStripButton toolStripButtonTeapot;
+		private System.Windows.Forms.Button buttonTextures;
 	}
 }
 
