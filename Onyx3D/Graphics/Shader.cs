@@ -63,6 +63,11 @@ namespace Onyx3D
 		{
 			string shaderSource = null;
 
+			if (!File.Exists(shaderFileName))
+			{
+				throw new FileNotFoundException("Unable to open \"" + shaderFileName + "\", does not exist.");
+			}
+
 			using (StreamReader sr = new StreamReader(shaderFileName))
 			{
 				shaderSource = sr.ReadToEnd();

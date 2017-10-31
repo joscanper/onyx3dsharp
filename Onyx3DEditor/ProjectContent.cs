@@ -6,14 +6,16 @@ using System.Text;
 namespace Onyx3DEditor
 {
 
+	[Serializable]
 	class TextureDBEntry
 	{
 		public string path;
 		public string id;
 	}
 
-	class ContentDatabase
+	[Serializable]
+	class ProjectContent
 	{
-		public static List<TextureDBEntry> Textures = new List<TextureDBEntry>();
+		public List<TextureDBEntry> Textures = new List<TextureDBEntry>();
 	}
 }

@@ -28,15 +28,14 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TextureManager));
 			this.pictureBoxPreview = new System.Windows.Forms.PictureBox();
 			this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+			this.toolStripComboBoxTextures = new System.Windows.Forms.ToolStripComboBox();
 			this.toolStripButtonOpen = new System.Windows.Forms.ToolStripButton();
 			this.textBoxFilePath = new System.Windows.Forms.TextBox();
 			this.textBoxId = new System.Windows.Forms.TextBox();
 			this.label1 = new System.Windows.Forms.Label();
 			this.label2 = new System.Windows.Forms.Label();
-			this.toolStripComboBoxTextures = new System.Windows.Forms.ToolStripComboBox();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBoxPreview)).BeginInit();
 			this.toolStrip1.SuspendLayout();
 			this.SuspendLayout();
@@ -62,10 +61,16 @@
 			this.toolStrip1.TabIndex = 1;
 			this.toolStrip1.Text = "toolStrip1";
 			// 
+			// toolStripComboBoxTextures
+			// 
+			this.toolStripComboBoxTextures.Name = "toolStripComboBoxTextures";
+			this.toolStripComboBoxTextures.Size = new System.Drawing.Size(121, 25);
+			this.toolStripComboBoxTextures.SelectedIndexChanged += new System.EventHandler(this.toolStripComboBoxTextures_SelectedIndexChanged);
+			// 
 			// toolStripButtonOpen
 			// 
 			this.toolStripButtonOpen.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.toolStripButtonOpen.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonOpen.Image")));
+			this.toolStripButtonOpen.Image = global::Onyx3DEditor.Properties.Resources.if_folder_open_21164;
 			this.toolStripButtonOpen.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.toolStripButtonOpen.Name = "toolStripButtonOpen";
 			this.toolStripButtonOpen.Size = new System.Drawing.Size(23, 22);
@@ -105,12 +110,6 @@
 			this.label2.Size = new System.Drawing.Size(16, 13);
 			this.label2.TabIndex = 5;
 			this.label2.Text = "Id";
-			// 
-			// toolStripComboBoxTextures
-			// 
-			this.toolStripComboBoxTextures.Name = "toolStripComboBoxTextures";
-			this.toolStripComboBoxTextures.Size = new System.Drawing.Size(121, 25);
-			this.toolStripComboBoxTextures.SelectedIndexChanged += new System.EventHandler(this.toolStripComboBoxTextures_SelectedIndexChanged);
 			// 
 			// TextureManager
 			// 

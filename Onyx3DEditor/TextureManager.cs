@@ -22,7 +22,7 @@ namespace Onyx3DEditor
 		private void FillTexturesList()
 		{
 			toolStripComboBoxTextures.Items.Clear();
-			foreach (TextureDBEntry t in ContentDatabase.Textures)
+			foreach (TextureDBEntry t in ProjectManager.Instance.Content.Textures)
 			{
 				toolStripComboBoxTextures.Items.Add(t.id);
 			}
@@ -41,13 +41,11 @@ namespace Onyx3DEditor
 			{
 				try
 				{
-					Bitmap bmp = new Bitmap(openFileDialog1.FileName);
-					pictureBoxPreview.Image = bmp.GetThumbnailImage(256,256, null, IntPtr.Zero);
 					
 					mCurrentTexture = new TextureDBEntry();
 					mCurrentTexture.path = openFileDialog1.FileName;
 					mCurrentTexture.id = "NONE";
-					ContentDatabase.Textures.Add(mCurrentTexture);
+					ProjectManager.Instance.Content.Textures.Add(mCurrentTexture);
 
 					UpdateTextureInfo();
 				}
@@ -62,6 +60,8 @@ namespace Onyx3DEditor
 		{
 			textBoxFilePath.Text = mCurrentTexture.path;
 			textBoxId.Text = mCurrentTexture.id;
+			Bitmap bmp = new Bitmap(mCurrentTexture.path);
+			pictureBoxPreview.Image = bmp.GetThumbnailImage(256, 256, null, IntPtr.Zero);
 		}
 
 		private void textBoxId_TextChanged(object sender, EventArgs e)
@@ -74,7 +74,7 @@ namespace Onyx3DEditor
 
 		private void toolStripComboBoxTextures_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			mCurrentTexture = ContentDatabase.Textures[toolStripComboBoxTextures.SelectedIndex];
+			mCurrentTexture = ProjectManager.Instance.Content.Textures[toolStripComboBoxTextures.SelectedIndex];
 			UpdateTextureInfo();
 		}
 	}

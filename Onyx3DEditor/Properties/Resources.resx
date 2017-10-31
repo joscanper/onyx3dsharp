@@ -118,13 +118,31 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="if_stock_draw-cylinder_21550" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\if_stock_draw-cylinder_21550.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="stock_3d-material" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\stock_3d-material.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="if_stock_draw-cube_21540" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\if_stock_draw-cube_21540.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="if_stock_save_20659" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\if_stock_save_20659.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="if_stock_draw-cylinder_21550" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\if_stock_draw-cylinder_21550.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="if_folder-open_21164" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\if_folder-open_21164.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="if_gtk-new_20536" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\if_gtk-new_20536.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="if_teapot_93284" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\if_teapot_93284.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="stock_3d-texture" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\stock_3d-texture.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="stock_3d-texture-and-shading" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\stock_3d-texture-and-shading.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

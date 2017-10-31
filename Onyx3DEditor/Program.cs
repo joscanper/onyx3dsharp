@@ -11,9 +11,13 @@ namespace Onyx3DEditor
         [STAThread]
         static void Main()
         {
+
+			ProjectManager.Instance.Load("../../../test.o3dproj");
+
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MaterialEditor());
+            Application.Run(new MainWindow());
         }
     }
 }

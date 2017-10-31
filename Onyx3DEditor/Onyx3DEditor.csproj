@@ -62,7 +62,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ContentDatabase.cs" />
+    <Compile Include="MainWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainWindow.Designer.cs">
+      <DependentUpon>MainWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ProjectContent.cs" />
     <Compile Include="MaterialEditor.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -70,6 +76,7 @@
       <DependentUpon>MaterialEditor.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
+    <Compile Include="ProjectLoader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TextureManager.cs">
       <SubType>Form</SubType>
@@ -78,6 +85,9 @@
       <DependentUpon>TextureManager.cs</DependentUpon>
     </Compile>
     <Compile Include="Utils.cs" />
+    <EmbeddedResource Include="MainWindow.resx">
+      <DependentUpon>MainWindow.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MaterialEditor.resx">
       <DependentUpon>MaterialEditor.cs</DependentUpon>
     </EmbeddedResource>
@@ -126,6 +136,24 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\if_teapot_93284.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\if_folder-open_21164.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\if_gtk-new_20536.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\if_stock_save_20659.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\stock_3d-material.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\stock_3d-texture.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\stock_3d-texture-and-shading.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

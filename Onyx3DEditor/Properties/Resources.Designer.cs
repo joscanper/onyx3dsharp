@@ -63,6 +63,26 @@ namespace Onyx3DEditor.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap if_folder_open_21164 {
+            get {
+                object obj = ResourceManager.GetObject("if_folder-open_21164", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap if_gtk_new_20536 {
+            get {
+                object obj = ResourceManager.GetObject("if_gtk-new_20536", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap if_stock_draw_cube_21540 {
             get {
                 object obj = ResourceManager.GetObject("if_stock_draw-cube_21540", resourceCulture);
@@ -83,9 +103,49 @@ namespace Onyx3DEditor.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap if_stock_save_20659 {
+            get {
+                object obj = ResourceManager.GetObject("if_stock_save_20659", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap if_teapot_93284 {
             get {
                 object obj = ResourceManager.GetObject("if_teapot_93284", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap stock_3d_material {
+            get {
+                object obj = ResourceManager.GetObject("stock_3d-material", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap stock_3d_texture {
+            get {
+                object obj = ResourceManager.GetObject("stock_3d-texture", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap stock_3d_texture_and_shading {
+            get {
+                object obj = ResourceManager.GetObject("stock_3d-texture-and-shading", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
