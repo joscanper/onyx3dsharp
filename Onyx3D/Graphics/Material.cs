@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+using OpenTK;
+using OpenTK.Graphics.OpenGL;
+
 namespace Onyx3D
 {
-	enum MaterialPropertyType
+	public enum MaterialPropertyType
 	{
 		Int,
 		Float,
@@ -16,14 +19,37 @@ namespace Onyx3D
 		Cubemap
 	};
 
-	class MaterialProperty {
-		MaterialPropertyType Type;
-		object Data;
+	public class MaterialProperty {
+		public MaterialPropertyType Type;
+		public object Data;
+		public int DataIndex;
+
+		public MaterialProperty(MaterialPropertyType type, object data, int index = -1)
+		{
+			Type = type;
+			Data = data;
+			DataIndex = index;
+		}
 	}
 
 	public class Material
 	{
 		public Shader Shader;
-		private Dictionary<string, MaterialProperty> Properties;
+		public Dictionary<string, MaterialProperty> Properties = new Dictionary<string, MaterialProperty>();
+
+		public void ApplyProperties()
+		{
+			foreach (KeyValuePair<string, MaterialProperty> mp in Properties)
+			{
+				switch (mp.Value.Type)
+				{
+					case MaterialPropertyType.Sampler2D:
+						GL.ActiveTexture(TextureUnit.Texture0 + mp.Value.DataIndex);
+						GL.BindTexture(TextureTarget.Texture2D, (int)mp.Value.Data);
+						GL.Uniform1(GL.GetUniformLocation(Shader.Program, mp.Key), mp.Value.DataIndex);
+						break;
+				}
+			}
+		}
 	}
 }

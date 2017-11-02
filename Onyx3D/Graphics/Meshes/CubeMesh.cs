@@ -11,15 +11,16 @@ namespace Onyx3D
     {
         public CubeMesh()
         {
-            Vertex v1 = new Vertex(new Vector3(-0.5f, 0.5f, -0.5f));
-            Vertex v2 = new Vertex(new Vector3(0.5f, 0.5f, -0.5f));
-            Vertex v3 = new Vertex(new Vector3(-0.5f, -0.5f, -0.5f));
-            Vertex v4 = new Vertex(new Vector3(0.5f, -0.5f, -0.5f));
+			
+            Vertex v1 = new Vertex(new Vector3(-0.5f, 0.5f, -0.5f), Vector3.One, Vector3.Zero, new Vector2(0, 0));
+            Vertex v2 = new Vertex(new Vector3(0.5f, 0.5f, -0.5f), Vector3.One, Vector3.Zero, new Vector2(1, 0));
+            Vertex v3 = new Vertex(new Vector3(-0.5f, -0.5f, -0.5f), Vector3.One, Vector3.Zero, new Vector2(0, 1));
+            Vertex v4 = new Vertex(new Vector3(0.5f, -0.5f, -0.5f), Vector3.One, Vector3.Zero, new Vector2(1, 1));
 
-            Vertex v5 = new Vertex(new Vector3(-0.5f, 0.5f, 0.5f));
-            Vertex v6 = new Vertex(new Vector3(0.5f, 0.5f, 0.5f));
-            Vertex v7 = new Vertex(new Vector3(-0.5f, -0.5f, 0.5f));
-            Vertex v8 = new Vertex(new Vector3(0.5f, -0.5f, 0.5f));
+            Vertex v5 = new Vertex(new Vector3(-0.5f, 0.5f, 0.5f), Vector3.One, Vector3.Zero, new Vector2(0, 0));
+            Vertex v6 = new Vertex(new Vector3(0.5f, 0.5f, 0.5f), Vector3.One, Vector3.Zero, new Vector2(1, 0));
+            Vertex v7 = new Vertex(new Vector3(-0.5f, -0.5f, 0.5f), Vector3.One, Vector3.Zero, new Vector2(0, 1));
+            Vertex v8 = new Vertex(new Vector3(0.5f, -0.5f, 0.5f), Vector3.One, Vector3.Zero, new Vector2(1, 1));
 
             v1.Color = new Vector3(1, 0, 0);
             v2.Color = new Vector3(0, 1, 0);

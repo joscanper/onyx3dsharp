@@ -8,5 +8,7 @@ namespace Onyx3D
 	public class PrimitiveMeshes
 	{
 		public static Mesh Teapot;
+		public static Mesh Sphere;
+		public static Mesh Torus;
 	}
 }

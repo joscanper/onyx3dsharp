@@ -138,11 +138,23 @@ namespace Onyx3DEditor
 
 		private void toolStripButtonCube_Click(object sender, EventArgs e)
 		{
-			myRenderer.Mesh = new CubeMesh();
+			myRenderer.Mesh = new CubeMesh(); // ObjLoader.Load("./Resources/Models/roundcube.obj");
 			renderCanvas.Refresh();
 		}
 
 		private void toolStripButtonSphere_Click(object sender, EventArgs e)
+		{
+			myRenderer.Mesh = PrimitiveMeshes.Sphere;
+			renderCanvas.Refresh();
+		}
+		
+		private void toolStripButtonTorus_Click(object sender, EventArgs e)
+		{
+			myRenderer.Mesh = PrimitiveMeshes.Torus;
+			renderCanvas.Refresh();
+		}
+
+		private void toolStripButtonCylinder_Click(object sender, EventArgs e)
 		{
 			myRenderer.Mesh = new CylinderMesh();
 			renderCanvas.Refresh();
@@ -156,10 +168,5 @@ namespace Onyx3DEditor
 
 		#endregion
 
-		private void buttonTextures_Click(object sender, EventArgs e)
-		{
-			TextureManager tm = new TextureManager();
-			tm.Show();
-		}
 	}
 }

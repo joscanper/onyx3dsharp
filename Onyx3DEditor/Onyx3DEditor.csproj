@@ -155,6 +155,15 @@
   <ItemGroup>
     <None Include="Resources\stock_3d-texture-and-shading.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\stock_draw-torus.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\stock_draw-sphere.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\stock_draw-sphere %281%29.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

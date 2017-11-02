@@ -54,20 +54,21 @@ namespace Onyx3DEditor
 			this.trackBarRotation = new System.Windows.Forms.TrackBar();
 			this.toolStrip1 = new System.Windows.Forms.ToolStrip();
 			this.toolStripMaterialsComboBox = new System.Windows.Forms.ToolStripComboBox();
-			this.toolStripNewMaterialButton = new System.Windows.Forms.ToolStripButton();
 			this.tabControlMain = new System.Windows.Forms.TabControl();
 			this.tabPreview = new System.Windows.Forms.TabPage();
 			this.toolStrip2 = new System.Windows.Forms.ToolStrip();
-			this.toolStripButtonCube = new System.Windows.Forms.ToolStripButton();
-			this.toolStripButtonSphere = new System.Windows.Forms.ToolStripButton();
-			this.toolStripButtonTeapot = new System.Windows.Forms.ToolStripButton();
 			this.textBoxLog = new System.Windows.Forms.TextBox();
 			this.renderCanvas = new OpenTK.GLControl();
 			this.tabVertex = new System.Windows.Forms.TabPage();
 			this.textBoxVertexCode = new System.Windows.Forms.TextBox();
 			this.tabFragment = new System.Windows.Forms.TabPage();
 			this.textBoxFragmentCode = new System.Windows.Forms.TextBox();
-			this.buttonTextures = new System.Windows.Forms.Button();
+			this.toolStripNewMaterialButton = new System.Windows.Forms.ToolStripButton();
+			this.toolStripButtonCube = new System.Windows.Forms.ToolStripButton();
+			this.toolStripButtonSphere = new System.Windows.Forms.ToolStripButton();
+			this.toolStripButtonCylinder = new System.Windows.Forms.ToolStripButton();
+			this.toolStripButtonTorus = new System.Windows.Forms.ToolStripButton();
+			this.toolStripButtonTeapot = new System.Windows.Forms.ToolStripButton();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
 			this.splitContainer1.Panel1.SuspendLayout();
 			this.splitContainer1.Panel2.SuspendLayout();
@@ -102,7 +103,6 @@ namespace Onyx3DEditor
 			// 
 			// panel1
 			// 
-			this.panel1.Controls.Add(this.buttonTextures);
 			this.panel1.Controls.Add(this.trackBarRotation);
 			this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.panel1.Location = new System.Drawing.Point(0, 25);
@@ -139,16 +139,6 @@ namespace Onyx3DEditor
 			this.toolStripMaterialsComboBox.Size = new System.Drawing.Size(121, 25);
 			this.toolStripMaterialsComboBox.Text = "Material1Test";
 			// 
-			// toolStripNewMaterialButton
-			// 
-			this.toolStripNewMaterialButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.toolStripNewMaterialButton.Image = ((System.Drawing.Image)(resources.GetObject("toolStripNewMaterialButton.Image")));
-			this.toolStripNewMaterialButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.toolStripNewMaterialButton.Name = "toolStripNewMaterialButton";
-			this.toolStripNewMaterialButton.Size = new System.Drawing.Size(23, 22);
-			this.toolStripNewMaterialButton.Text = "toolStripButton1";
-			this.toolStripNewMaterialButton.Click += new System.EventHandler(this.toolStripNewMaterialButton_Click);
-			// 
 			// tabControlMain
 			// 
 			this.tabControlMain.Controls.Add(this.tabPreview);
@@ -179,42 +169,14 @@ namespace Onyx3DEditor
 			this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripButtonCube,
             this.toolStripButtonSphere,
+            this.toolStripButtonCylinder,
+            this.toolStripButtonTorus,
             this.toolStripButtonTeapot});
 			this.toolStrip2.Location = new System.Drawing.Point(0, 0);
 			this.toolStrip2.Name = "toolStrip2";
 			this.toolStrip2.Size = new System.Drawing.Size(615, 25);
 			this.toolStrip2.TabIndex = 2;
 			this.toolStrip2.Text = "toolStrip2";
-			// 
-			// toolStripButtonCube
-			// 
-			this.toolStripButtonCube.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.toolStripButtonCube.Image = global::Onyx3DEditor.Properties.Resources.if_stock_draw_cube_21540;
-			this.toolStripButtonCube.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.toolStripButtonCube.Name = "toolStripButtonCube";
-			this.toolStripButtonCube.Size = new System.Drawing.Size(23, 22);
-			this.toolStripButtonCube.Text = "toolStripButton1";
-			this.toolStripButtonCube.Click += new System.EventHandler(this.toolStripButtonCube_Click);
-			// 
-			// toolStripButtonSphere
-			// 
-			this.toolStripButtonSphere.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.toolStripButtonSphere.Image = global::Onyx3DEditor.Properties.Resources.if_stock_draw_cylinder_21550;
-			this.toolStripButtonSphere.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.toolStripButtonSphere.Name = "toolStripButtonSphere";
-			this.toolStripButtonSphere.Size = new System.Drawing.Size(23, 22);
-			this.toolStripButtonSphere.Text = "toolStripButton2";
-			this.toolStripButtonSphere.Click += new System.EventHandler(this.toolStripButtonSphere_Click);
-			// 
-			// toolStripButtonTeapot
-			// 
-			this.toolStripButtonTeapot.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.toolStripButtonTeapot.Image = global::Onyx3DEditor.Properties.Resources.if_teapot_93284;
-			this.toolStripButtonTeapot.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.toolStripButtonTeapot.Name = "toolStripButtonTeapot";
-			this.toolStripButtonTeapot.Size = new System.Drawing.Size(23, 22);
-			this.toolStripButtonTeapot.Text = "toolStripButton3";
-			this.toolStripButtonTeapot.Click += new System.EventHandler(this.toolStripButtonTeapot_Click);
 			// 
 			// textBoxLog
 			// 
@@ -288,15 +250,65 @@ namespace Onyx3DEditor
 			this.textBoxFragmentCode.Size = new System.Drawing.Size(609, 540);
 			this.textBoxFragmentCode.TabIndex = 1;
 			// 
-			// buttonTextures
+			// toolStripNewMaterialButton
 			// 
-			this.buttonTextures.Location = new System.Drawing.Point(12, 54);
-			this.buttonTextures.Name = "buttonTextures";
-			this.buttonTextures.Size = new System.Drawing.Size(75, 23);
-			this.buttonTextures.TabIndex = 1;
-			this.buttonTextures.Text = "Textures";
-			this.buttonTextures.UseVisualStyleBackColor = true;
-			this.buttonTextures.Click += new System.EventHandler(this.buttonTextures_Click);
+			this.toolStripNewMaterialButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.toolStripNewMaterialButton.Image = ((System.Drawing.Image)(resources.GetObject("toolStripNewMaterialButton.Image")));
+			this.toolStripNewMaterialButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.toolStripNewMaterialButton.Name = "toolStripNewMaterialButton";
+			this.toolStripNewMaterialButton.Size = new System.Drawing.Size(23, 22);
+			this.toolStripNewMaterialButton.Text = "toolStripButton1";
+			this.toolStripNewMaterialButton.Click += new System.EventHandler(this.toolStripNewMaterialButton_Click);
+			// 
+			// toolStripButtonCube
+			// 
+			this.toolStripButtonCube.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.toolStripButtonCube.Image = global::Onyx3DEditor.Properties.Resources.if_stock_draw_cube_21540;
+			this.toolStripButtonCube.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.toolStripButtonCube.Name = "toolStripButtonCube";
+			this.toolStripButtonCube.Size = new System.Drawing.Size(23, 22);
+			this.toolStripButtonCube.Text = "toolStripButton1";
+			this.toolStripButtonCube.Click += new System.EventHandler(this.toolStripButtonCube_Click);
+			// 
+			// toolStripButtonSphere
+			// 
+			this.toolStripButtonSphere.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.toolStripButtonSphere.Image = global::Onyx3DEditor.Properties.Resources.stock_draw_sphere__1_;
+			this.toolStripButtonSphere.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.toolStripButtonSphere.Name = "toolStripButtonSphere";
+			this.toolStripButtonSphere.Size = new System.Drawing.Size(23, 22);
+			this.toolStripButtonSphere.Text = "toolStripButton2";
+			this.toolStripButtonSphere.Click += new System.EventHandler(this.toolStripButtonSphere_Click);
+			// 
+			// toolStripButtonCylinder
+			// 
+			this.toolStripButtonCylinder.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.toolStripButtonCylinder.Image = global::Onyx3DEditor.Properties.Resources.if_stock_draw_cylinder_21550;
+			this.toolStripButtonCylinder.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.toolStripButtonCylinder.Name = "toolStripButtonCylinder";
+			this.toolStripButtonCylinder.Size = new System.Drawing.Size(23, 22);
+			this.toolStripButtonCylinder.Text = "toolStripButton1";
+			this.toolStripButtonCylinder.Click += new System.EventHandler(this.toolStripButtonCylinder_Click);
+			// 
+			// toolStripButtonTorus
+			// 
+			this.toolStripButtonTorus.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.toolStripButtonTorus.Image = global::Onyx3DEditor.Properties.Resources.stock_draw_torus;
+			this.toolStripButtonTorus.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.toolStripButtonTorus.Name = "toolStripButtonTorus";
+			this.toolStripButtonTorus.Size = new System.Drawing.Size(23, 22);
+			this.toolStripButtonTorus.Text = "toolStripButton1";
+			this.toolStripButtonTorus.Click += new System.EventHandler(this.toolStripButtonTorus_Click);
+			// 
+			// toolStripButtonTeapot
+			// 
+			this.toolStripButtonTeapot.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.toolStripButtonTeapot.Image = global::Onyx3DEditor.Properties.Resources.if_teapot_93284;
+			this.toolStripButtonTeapot.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.toolStripButtonTeapot.Name = "toolStripButtonTeapot";
+			this.toolStripButtonTeapot.Size = new System.Drawing.Size(23, 22);
+			this.toolStripButtonTeapot.Text = "toolStripButton3";
+			this.toolStripButtonTeapot.Click += new System.EventHandler(this.toolStripButtonTeapot_Click);
 			// 
 			// MaterialEditor
 			// 
@@ -351,7 +363,8 @@ namespace Onyx3DEditor
 		private System.Windows.Forms.ToolStripButton toolStripButtonCube;
 		private System.Windows.Forms.ToolStripButton toolStripButtonSphere;
 		private System.Windows.Forms.ToolStripButton toolStripButtonTeapot;
-		private System.Windows.Forms.Button buttonTextures;
+		private System.Windows.Forms.ToolStripButton toolStripButtonTorus;
+		private System.Windows.Forms.ToolStripButton toolStripButtonCylinder;
 	}
 }
 

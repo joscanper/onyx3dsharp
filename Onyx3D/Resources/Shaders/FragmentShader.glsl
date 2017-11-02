@@ -3,10 +3,13 @@
 in vec3 o_color;
 in vec3 o_normal;
 in vec3 o_fragpos;
+in vec2 o_uv;
 
 out vec4 fragColor;
 
 vec3 lightdir = vec3(0,1,2);
+
+uniform sampler2D t_base;
 
 //#include OnyxShaderCamera
 
@@ -22,8 +25,10 @@ void main()
 	vec3 dirToCam = cameraPos - o_fragpos;
 	vec3 N = normalize(o_normal);
 
+	vec4 t = texture(t_base, o_uv);
+
 	float nDotL = dot(N, normalize(lightdir));
 	float fresnel = abs(pow(1-dot(N, dirToCam),2));
 	float col = clamp(nDotL + fresnel,0,1);
-	fragColor = vec4(vec3(o_color*col),1);
+	fragColor = vec4(vec3(t*col),1);
 }

@@ -15,7 +15,7 @@ namespace Onyx3D
 
 		public int Id
 		{
-			get { return Id; } 
+			get { return mId; } 
 		}
 
 		public Texture(string file)
