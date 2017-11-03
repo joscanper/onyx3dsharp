@@ -10,5 +10,7 @@ namespace Onyx3D
 		public static Mesh Teapot;
 		public static Mesh Sphere;
 		public static Mesh Torus;
+		public static Mesh Cube;
+		public static Mesh Cylinder;
 	}
 }

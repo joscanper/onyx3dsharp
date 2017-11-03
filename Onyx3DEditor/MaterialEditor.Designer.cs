@@ -69,6 +69,8 @@ namespace Onyx3DEditor
 			this.toolStripButtonCylinder = new System.Windows.Forms.ToolStripButton();
 			this.toolStripButtonTorus = new System.Windows.Forms.ToolStripButton();
 			this.toolStripButtonTeapot = new System.Windows.Forms.ToolStripButton();
+			this.groupBoxProperties = new System.Windows.Forms.GroupBox();
+			this.materialPropertiesControl = new Onyx3DEditor.MaterialPropertiesControl();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
 			this.splitContainer1.Panel1.SuspendLayout();
 			this.splitContainer1.Panel2.SuspendLayout();
@@ -81,6 +83,7 @@ namespace Onyx3DEditor
 			this.toolStrip2.SuspendLayout();
 			this.tabVertex.SuspendLayout();
 			this.tabFragment.SuspendLayout();
+			this.groupBoxProperties.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// splitContainer1
@@ -103,6 +106,7 @@ namespace Onyx3DEditor
 			// 
 			// panel1
 			// 
+			this.panel1.Controls.Add(this.groupBoxProperties);
 			this.panel1.Controls.Add(this.trackBarRotation);
 			this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.panel1.Location = new System.Drawing.Point(0, 25);
@@ -112,10 +116,11 @@ namespace Onyx3DEditor
 			// 
 			// trackBarRotation
 			// 
-			this.trackBarRotation.Location = new System.Drawing.Point(3, 3);
+			this.trackBarRotation.Dock = System.Windows.Forms.DockStyle.Bottom;
+			this.trackBarRotation.Location = new System.Drawing.Point(0, 502);
 			this.trackBarRotation.Maximum = 360;
 			this.trackBarRotation.Name = "trackBarRotation";
-			this.trackBarRotation.Size = new System.Drawing.Size(244, 45);
+			this.trackBarRotation.Size = new System.Drawing.Size(250, 45);
 			this.trackBarRotation.TabIndex = 0;
 			this.trackBarRotation.ValueChanged += new System.EventHandler(this.trackBarRotation_ValueChanged);
 			// 
@@ -310,6 +315,25 @@ namespace Onyx3DEditor
 			this.toolStripButtonTeapot.Text = "toolStripButton3";
 			this.toolStripButtonTeapot.Click += new System.EventHandler(this.toolStripButtonTeapot_Click);
 			// 
+			// groupBoxProperties
+			// 
+			this.groupBoxProperties.Controls.Add(this.materialPropertiesControl);
+			this.groupBoxProperties.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.groupBoxProperties.Location = new System.Drawing.Point(0, 0);
+			this.groupBoxProperties.Name = "groupBoxProperties";
+			this.groupBoxProperties.Size = new System.Drawing.Size(250, 502);
+			this.groupBoxProperties.TabIndex = 1;
+			this.groupBoxProperties.TabStop = false;
+			this.groupBoxProperties.Text = "Material Properties";
+			// 
+			// materialPropertiesControl
+			// 
+			this.materialPropertiesControl.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.materialPropertiesControl.Location = new System.Drawing.Point(3, 16);
+			this.materialPropertiesControl.Name = "materialPropertiesControl";
+			this.materialPropertiesControl.Size = new System.Drawing.Size(244, 483);
+			this.materialPropertiesControl.TabIndex = 2;
+			// 
 			// MaterialEditor
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -339,6 +363,7 @@ namespace Onyx3DEditor
 			this.tabVertex.PerformLayout();
 			this.tabFragment.ResumeLayout(false);
 			this.tabFragment.PerformLayout();
+			this.groupBoxProperties.ResumeLayout(false);
 			this.ResumeLayout(false);
 
 		}
@@ -365,6 +390,8 @@ namespace Onyx3DEditor
 		private System.Windows.Forms.ToolStripButton toolStripButtonTeapot;
 		private System.Windows.Forms.ToolStripButton toolStripButtonTorus;
 		private System.Windows.Forms.ToolStripButton toolStripButtonCylinder;
+		private System.Windows.Forms.GroupBox groupBoxProperties;
+		private MaterialPropertiesControl materialPropertiesControl;
 	}
 }
 

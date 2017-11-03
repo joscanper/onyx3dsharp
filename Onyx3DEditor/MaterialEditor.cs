@@ -13,6 +13,7 @@ namespace Onyx3DEditor
     {
         private bool canDraw = false;
 
+		private Material mMaterial;
         private SceneObject myObject;
 		private Shader myShader;
         private MeshRenderer myRenderer;
@@ -54,15 +55,19 @@ namespace Onyx3DEditor
 
 			myObject = new SceneObject("BaseObject");
 
+			mMaterial = ContentManager.Instance.DefaultMaterial; // TODO = Copy this shit instead
+
 			myRenderer = myObject.AddComponent<MeshRenderer>();
 			myRenderer.Mesh = PrimitiveMeshes.Teapot;
-			myRenderer.Material = ContentManager.Instance.DefaultMaterial;
+			myRenderer.Material = mMaterial;
 		}
 
 		private void InitUI()
 		{
 			textBoxVertexCode.Text = myShader.VertexCode;
 			textBoxFragmentCode.Text = myShader.FragmentCode;
+
+			materialPropertiesControl.Fill(mMaterial);
 		}
 
 		private void RebuildShader()
@@ -138,7 +143,7 @@ namespace Onyx3DEditor
 
 		private void toolStripButtonCube_Click(object sender, EventArgs e)
 		{
-			myRenderer.Mesh = new CubeMesh(); // ObjLoader.Load("./Resources/Models/roundcube.obj");
+			myRenderer.Mesh = PrimitiveMeshes.Cube;
 			renderCanvas.Refresh();
 		}
 
@@ -156,7 +161,7 @@ namespace Onyx3DEditor
 
 		private void toolStripButtonCylinder_Click(object sender, EventArgs e)
 		{
-			myRenderer.Mesh = new CylinderMesh();
+			myRenderer.Mesh = PrimitiveMeshes.Cylinder;
 			renderCanvas.Refresh();
 		}
 

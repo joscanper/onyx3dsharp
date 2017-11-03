@@ -22,6 +22,8 @@ namespace Onyx3D
 			PrimitiveMeshes.Teapot = ObjLoader.Load("./Resources/Models/teapot.obj");
 			PrimitiveMeshes.Torus = ObjLoader.Load("./Resources/Models/torus.obj");
 			PrimitiveMeshes.Sphere = ObjLoader.Load("./Resources/Models/sphere.obj");
+			PrimitiveMeshes.Cube = ObjLoader.Load("./Resources/Models/cube.obj");
+			PrimitiveMeshes.Cylinder = ObjLoader.Load("./Resources/Models/cylinder.obj");
 
 			// Textures
 			DefaultTexture = new Texture("./Resources/Textures/checker.png");
@@ -32,8 +34,8 @@ namespace Onyx3D
 			// Materials
 			DefaultMaterial = new Material();
 			DefaultMaterial.Shader = DefaultShader;
-			DefaultMaterial.Properties.Add("base", new MaterialProperty(MaterialPropertyType.Sampler2D, DefaultTexture.Id, 0));
-
+			DefaultMaterial.Properties.Add("base", new TextureMaterialProperty(MaterialPropertyType.Sampler2D, DefaultTexture, 0));
+			DefaultMaterial.Properties.Add("fresnel", new MaterialProperty(MaterialPropertyType.Float, 2.0f));
 		}
 	}
 }

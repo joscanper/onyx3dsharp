@@ -11,6 +11,7 @@ namespace Onyx3D
 {
 	public class Texture
 	{
+		private string mPath;
 		private int mId;
 
 		public int Id
@@ -18,8 +19,15 @@ namespace Onyx3D
 			get { return mId; } 
 		}
 
+		public string Path
+		{
+			get { return mPath; }
+		}
+
 		public Texture(string file)
 		{
+			mPath = file;
+
 			Bitmap bitmap = new Bitmap(file);
 
 			GL.Hint(HintTarget.PerspectiveCorrectionHint, HintMode.Nicest);

@@ -22,12 +22,22 @@ namespace Onyx3D
 	public class MaterialProperty {
 		public MaterialPropertyType Type;
 		public object Data;
-		public int DataIndex;
 
-		public MaterialProperty(MaterialPropertyType type, object data, int index = -1)
+		public MaterialProperty(MaterialPropertyType type, object data)
 		{
 			Type = type;
 			Data = data;
+		}
+	}
+
+	public class TextureMaterialProperty : MaterialProperty
+	{
+		public Texture Texture;
+		public int DataIndex;
+
+		public TextureMaterialProperty(MaterialPropertyType type, Texture t, int index) : base(type, t.Id)
+		{
+			Texture = t;
 			DataIndex = index;
 		}
 	}
@@ -44,9 +54,10 @@ namespace Onyx3D
 				switch (mp.Value.Type)
 				{
 					case MaterialPropertyType.Sampler2D:
-						GL.ActiveTexture(TextureUnit.Texture0 + mp.Value.DataIndex);
+						TextureMaterialProperty tmp = (TextureMaterialProperty)mp.Value;
+						GL.ActiveTexture(TextureUnit.Texture0 + tmp.DataIndex);
 						GL.BindTexture(TextureTarget.Texture2D, (int)mp.Value.Data);
-						GL.Uniform1(GL.GetUniformLocation(Shader.Program, mp.Key), mp.Value.DataIndex);
+						GL.Uniform1(GL.GetUniformLocation(Shader.Program, mp.Key), tmp.DataIndex);
 						break;
 				}
 			}
