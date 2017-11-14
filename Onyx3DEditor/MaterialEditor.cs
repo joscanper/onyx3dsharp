@@ -171,6 +171,13 @@ namespace Onyx3DEditor
 			renderCanvas.Refresh();
 		}
 
+		private void materialProperties_Changed(object sender, EventArgs e)
+		{
+			renderCanvas.Refresh();
+			materialPropertiesControl.Fill(mMaterial);
+		}
+
+
 		#endregion
 
 	}

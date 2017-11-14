@@ -96,6 +96,12 @@
     <Compile Include="TextureManager.Designer.cs">
       <DependentUpon>TextureManager.cs</DependentUpon>
     </Compile>
+    <Compile Include="TextureSelector.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TextureSelector.Designer.cs">
+      <DependentUpon>TextureSelector.cs</DependentUpon>
+    </Compile>
     <Compile Include="Utils.cs" />
     <EmbeddedResource Include="MainWindow.resx">
       <DependentUpon>MainWindow.cs</DependentUpon>
@@ -121,6 +127,9 @@
     </Compile>
     <EmbeddedResource Include="TextureManager.resx">
       <DependentUpon>TextureManager.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TextureSelector.resx">
+      <DependentUpon>TextureSelector.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="app.config" />
     <None Include="Properties\Settings.settings">

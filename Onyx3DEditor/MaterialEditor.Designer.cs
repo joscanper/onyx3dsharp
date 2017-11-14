@@ -1,4 +1,5 @@
-﻿using OpenTK.Graphics;
+﻿using System;
+using OpenTK.Graphics;
 
 namespace Onyx3DEditor
 {
@@ -333,6 +334,7 @@ namespace Onyx3DEditor
 			this.materialPropertiesControl.Name = "materialPropertiesControl";
 			this.materialPropertiesControl.Size = new System.Drawing.Size(244, 483);
 			this.materialPropertiesControl.TabIndex = 2;
+			this.materialPropertiesControl.PropertyChanged += new System.EventHandler(this.materialProperties_Changed); 
 			// 
 			// MaterialEditor
 			// 

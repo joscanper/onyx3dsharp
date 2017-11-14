@@ -10,6 +10,7 @@ out vec4 fragColor;
 vec3 lightdir = vec3(0,1,2);
 
 uniform sampler2D t_base;
+uniform float fresnel;
 
 //#include OnyxShaderCamera
 
@@ -28,7 +29,7 @@ void main()
 	vec4 t = texture(t_base, o_uv);
 
 	float nDotL = dot(N, normalize(lightdir));
-	float fresnel = abs(pow(1-dot(N, dirToCam),2));
-	float col = clamp(nDotL + fresnel,0,1);
+	float rim = clamp(abs(pow(1-dot(N, dirToCam), fresnel)),0,1);
+	float col = clamp(nDotL + rim,0,1);
 	fragColor = vec4(vec3(t*col),1);
 }

@@ -59,6 +59,9 @@ namespace Onyx3D
 						GL.BindTexture(TextureTarget.Texture2D, (int)mp.Value.Data);
 						GL.Uniform1(GL.GetUniformLocation(Shader.Program, mp.Key), tmp.DataIndex);
 						break;
+					case MaterialPropertyType.Float:
+						GL.Uniform1(GL.GetUniformLocation(Shader.Program, mp.Key), (float)mp.Value.Data);
+						break;
 				}
 			}
 		}

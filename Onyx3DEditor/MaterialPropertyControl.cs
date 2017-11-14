@@ -14,6 +14,10 @@ namespace Onyx3DEditor
 {
 	public partial class MaterialPropertyControl : UserControl
 	{
+		public Action OnPropertyChanged;
+		private MaterialProperty mProperty;
+		private TextureSelector mTextureSelector;
+
 		public MaterialPropertyControl()
 		{
 			InitializeComponent();
@@ -21,6 +25,8 @@ namespace Onyx3DEditor
 
 		public void Fill(string key, MaterialProperty prop)
 		{
+			mProperty = prop;
+
 			labelPropertyName.Text = key;
 
 			switch (prop.Type)
@@ -45,6 +51,7 @@ namespace Onyx3DEditor
 			panelPropertyValue.Controls.Add(pic);
 			panelPropertyValue.Size = new Size(panelPropertyValue.Size.Width, 70);
 			this.Size = new Size(this.Size.Width, 70);
+			pic.Click += OnPictureBoxClicked;
 		}
 
 		private void SetTextBoxLayout(MaterialProperty prop, string data)
@@ -52,7 +59,46 @@ namespace Onyx3DEditor
 			TextBox tb = new TextBox();
 			tb.Text = data + "";
 			tb.Dock = DockStyle.Fill;
+			tb.TextChanged += OnTextBoxChanged;
 			panelPropertyValue.Controls.Add(tb);
+
+		}
+
+		private void OnPictureBoxClicked(object sender, EventArgs e)
+		{
+			mTextureSelector = new TextureSelector();
+			mTextureSelector.TextureSelected += OnTextureSelected;
+			mTextureSelector.Show();
+		}
+
+		private void OnTextureSelected(object sender, EventArgs e)
+		{
+			
+			TextureMaterialProperty tmp = (TextureMaterialProperty)mProperty;
+			tmp.Texture = mTextureSelector.SelectedTexture;
+			tmp.Data = tmp.Texture.Id;
+			OnPropertyChanged();
+		}
+
+		private void OnTextBoxChanged(object sender, EventArgs e)
+		{
+			TextBox tb = sender as TextBox;
+			
+			try
+			{
+				switch (mProperty.Type)
+				{
+					case MaterialPropertyType.Float:
+						mProperty.Data = (float)Convert.ToDouble(tb.Text);
+						break;
+				}
+				tb.BackColor = Color.WhiteSmoke;
+				OnPropertyChanged();
+			}
+			catch (Exception exc)
+			{
+				tb.BackColor = Color.IndianRed;
+			}
 		}
 	}
 }

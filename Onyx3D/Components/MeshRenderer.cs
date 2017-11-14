@@ -17,6 +17,7 @@ namespace Onyx3D
         {
 
             int program = Material.Shader.Program;
+			Material.ApplyProperties();
             GL.UseProgram(program);
 
 			Matrix4 M = Transform.GetModelMatrix();

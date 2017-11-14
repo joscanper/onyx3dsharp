@@ -13,6 +13,8 @@ namespace Onyx3DEditor
 {
 	public partial class MaterialPropertiesControl : UserControl
 	{
+		public event EventHandler PropertyChanged;
+
 		public MaterialPropertiesControl()
 		{
 			InitializeComponent();
@@ -20,6 +22,8 @@ namespace Onyx3DEditor
 
 		public void Fill(Material mat)
 		{
+			tableLayoutPanelProperties.Controls.Clear();
+
 			tableLayoutPanelProperties.RowCount = mat.Properties.Count;
 			tableLayoutPanelProperties.RowStyles.Clear();
 			int currentRow = 0;
@@ -30,10 +34,16 @@ namespace Onyx3DEditor
 				MaterialPropertyControl propControl = new MaterialPropertyControl();
 				propControl.Fill(prop.Key, prop.Value);
 				propControl.Dock = DockStyle.Fill;
+				propControl.OnPropertyChanged += OnPropertyChangedListener;
 				tableLayoutPanelProperties.Controls.Add(propControl, 0, currentRow);
 				tableLayoutPanelProperties.RowStyles.Add(new RowStyle(SizeType.Absolute, propControl.Size.Height));
 				currentRow++;
 			}
+		}
+
+		private void OnPropertyChangedListener()
+		{
+			PropertyChanged.Invoke(this, null);
 		}
 	}
 }

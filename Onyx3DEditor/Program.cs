@@ -13,7 +13,7 @@ namespace Onyx3DEditor
         {
 
 			ProjectManager.Instance.Load("../../../test.o3dproj");
-
+			
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
