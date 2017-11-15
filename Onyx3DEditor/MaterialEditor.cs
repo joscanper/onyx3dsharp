@@ -174,7 +174,6 @@ namespace Onyx3DEditor
 		private void materialProperties_Changed(object sender, EventArgs e)
 		{
 			renderCanvas.Refresh();
-			materialPropertiesControl.Fill(mMaterial);
 		}
 
 

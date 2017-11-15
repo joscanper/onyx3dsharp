@@ -15,6 +15,8 @@ namespace Onyx3DEditor
 	public partial class MaterialPropertyControl : UserControl
 	{
 		public Action OnPropertyChanged;
+
+		private Control mPropertyControl;
 		private MaterialProperty mProperty;
 		private TextureSelector mTextureSelector;
 
@@ -52,6 +54,8 @@ namespace Onyx3DEditor
 			panelPropertyValue.Size = new Size(panelPropertyValue.Size.Width, 70);
 			this.Size = new Size(this.Size.Width, 70);
 			pic.Click += OnPictureBoxClicked;
+
+			mPropertyControl = pic;
 		}
 
 		private void SetTextBoxLayout(MaterialProperty prop, string data)
@@ -62,6 +66,7 @@ namespace Onyx3DEditor
 			tb.TextChanged += OnTextBoxChanged;
 			panelPropertyValue.Controls.Add(tb);
 
+			mPropertyControl = tb;
 		}
 
 		private void OnPictureBoxClicked(object sender, EventArgs e)
@@ -73,10 +78,13 @@ namespace Onyx3DEditor
 
 		private void OnTextureSelected(object sender, EventArgs e)
 		{
-			
 			TextureMaterialProperty tmp = (TextureMaterialProperty)mProperty;
 			tmp.Texture = mTextureSelector.SelectedTexture;
 			tmp.Data = tmp.Texture.Id;
+
+			PictureBox pb = (PictureBox)mPropertyControl;
+			pb.Image = new Bitmap(tmp.Texture.Path).GetThumbnailImage(64, 64, null, IntPtr.Zero);
+
 			OnPropertyChanged();
 		}
 
