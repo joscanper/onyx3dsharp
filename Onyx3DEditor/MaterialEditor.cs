@@ -18,6 +18,8 @@ namespace Onyx3DEditor
 		private Shader myShader;
         private MeshRenderer myRenderer;
 		private Camera myCamera;
+
+		private float mAngle = 0;
 		
         public MaterialEditor()
         {
@@ -54,6 +56,7 @@ namespace Onyx3DEditor
 			myCamera.Transform.LocalRotation = Quaternion.FromAxisAngle(new Vector3(1, 0, 0), -0.45f);
 
 			myObject = new SceneObject("BaseObject");
+			//myObject.Transform.LocalRotation = Quaternion.FromEulerAngles(0, 0, -90);
 
 			mMaterial = ContentManager.Instance.DefaultMaterial; // TODO = Copy this shit instead
 
@@ -135,11 +138,6 @@ namespace Onyx3DEditor
 			}
 		}
 		
-		private void trackBarRotation_ValueChanged(object sender, EventArgs e)
-		{
-			myObject.Transform.LocalRotation = Quaternion.FromAxisAngle(new Vector3(1, 1, 0), (float)(trackBarRotation.Value * Math.PI / 180.0f));
-			renderCanvas.Refresh();
-		}
 
 		private void toolStripButtonCube_Click(object sender, EventArgs e)
 		{
@@ -176,6 +174,13 @@ namespace Onyx3DEditor
 			renderCanvas.Refresh();
 		}
 
+
+		private void timer1_Tick(object sender, EventArgs e)
+		{
+			mAngle+= 0.05f;
+			myObject.Transform.LocalRotation = Quaternion.FromEulerAngles(mAngle, mAngle, mAngle);
+			renderCanvas.Refresh();
+		}
 
 		#endregion
 

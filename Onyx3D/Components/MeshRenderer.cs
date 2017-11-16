@@ -25,14 +25,16 @@ namespace Onyx3D
 			Matrix4 P = cam.ProjectionMatrix;
 			//Matrix4 MVP = P * V * M;
 			
+
 			GL.UniformMatrix4(GL.GetUniformLocation(program, "V"), false, ref V);
 			GL.UniformMatrix4(GL.GetUniformLocation(program, "P"), false, ref P);
 			GL.UniformMatrix4(GL.GetUniformLocation(program, "M"), false, ref M);
 			//GL.UniformMatrix4(GL.GetUniformLocation(program, "MVP"), false, ref MVP);
 
+
 			GL.BindVertexArray(Mesh.VertexArrayObject);
 			if (Mesh.Indices != null)
-				GL.DrawElements(PrimitiveType.Triangles, Mesh.Indices.Length, DrawElementsType.UnsignedInt, 0);
+				GL.DrawElements(PrimitiveType.Triangles, Mesh.Indices.Length, DrawElementsType.UnsignedInt, IntPtr.Zero);
 			else
 				GL.DrawArrays(PrimitiveType.Triangles, 0, Mesh.Vertices.Count);
             GL.BindVertexArray(0);

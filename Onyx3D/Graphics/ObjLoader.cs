@@ -109,8 +109,8 @@ namespace Onyx3D
 				else
 				{
 					v = new Vertex(vertices[fi.VertexIndex].Xyz);
-					if (fi.NormalIndex > 0) v.Normal = normals[fi.NormalIndex];
-					if (fi.TextureCoordIndex > 0) v.TexCoord = textureVertices[fi.TextureCoordIndex].Xy;
+					if (fi.NormalIndex >= 0) v.Normal = normals[fi.NormalIndex];
+					if (fi.TextureCoordIndex >= 0) v.TexCoord = textureVertices[fi.TextureCoordIndex].Xy;
 					m.Vertices.Add(v);
 					vertmap.Add(fi.VertexId, index);
 					meshIndices.Add(index);

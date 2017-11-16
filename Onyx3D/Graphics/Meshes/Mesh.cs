@@ -60,10 +60,10 @@ namespace Onyx3D
 			GL.BindBuffer(BufferTarget.ArrayBuffer, vbo);
 
 			int sizeOfVertex = Marshal.SizeOf(vertices[0]);
-			GL.BufferData(BufferTarget.ArrayBuffer, vertices.Length * sizeOfVertex, vertices, BufferUsageHint.StaticDraw);
+			GL.BufferData(BufferTarget.ArrayBuffer, (IntPtr)(vertices.Length * sizeOfVertex), vertices, BufferUsageHint.StaticDraw);
 
 			//Position
-			GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, sizeOfVertex, 0);
+			GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, sizeOfVertex, IntPtr.Zero);
 			GL.EnableVertexAttribArray(0);
 			//Color
 			GL.VertexAttribPointer(1, 3, VertexAttribPointerType.Float, false, sizeOfVertex, Marshal.SizeOf(vertices[0].Position));
@@ -72,17 +72,17 @@ namespace Onyx3D
 			GL.VertexAttribPointer(2, 3, VertexAttribPointerType.Float, false, sizeOfVertex, Marshal.SizeOf(vertices[0].Position) + Marshal.SizeOf(vertices[0].Color));
 			GL.EnableVertexAttribArray(2);
 			//TexCoord
-			GL.VertexAttribPointer(3, 3, VertexAttribPointerType.Float, false, sizeOfVertex, Marshal.SizeOf(vertices[0].Position) + Marshal.SizeOf(vertices[0].Color) + Marshal.SizeOf(vertices[0].Normal));
+			GL.VertexAttribPointer(3, 2, VertexAttribPointerType.Float, false, sizeOfVertex, Marshal.SizeOf(vertices[0].Position) + Marshal.SizeOf(vertices[0].Color) + Marshal.SizeOf(vertices[0].Normal));
 			GL.EnableVertexAttribArray(3);
 
 
 			int ebo = 0;
-			if (Indices != null) {
+			if (Indices != null)
+			{
 				uint[] indices = Indices.ToArray();
 				GL.GenBuffers(1, out ebo);
 				GL.BindBuffer(BufferTarget.ElementArrayBuffer, ebo);
-				GL.BufferData(BufferTarget.ElementArrayBuffer, indices.Count() * sizeof(uint), indices, BufferUsageHint.StaticDraw);
-				
+				GL.BufferData(BufferTarget.ElementArrayBuffer, (IntPtr)(indices.Count() * sizeof(uint)), indices, BufferUsageHint.StaticDraw);
 			}
 
 			
@@ -94,6 +94,7 @@ namespace Onyx3D
 				GL.BindBuffer(BufferTarget.ElementArrayBuffer, 0);
 				GL.DeleteBuffer(ebo);
 			}
+			
 		}
 
 
