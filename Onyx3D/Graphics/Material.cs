@@ -60,7 +60,20 @@ namespace Onyx3D
 						GL.Uniform1(GL.GetUniformLocation(Shader.Program, mp.Key), tmp.DataIndex);
 						break;
 					case MaterialPropertyType.Float:
-						GL.Uniform1(GL.GetUniformLocation(Shader.Program, mp.Key), (float)mp.Value.Data);
+						int loc = GL.GetUniformLocation(Shader.Program, mp.Key);
+						GL.Uniform1(loc, (float)mp.Value.Data);
+						break;
+					case MaterialPropertyType.Vector2:
+						Vector2 v2 = (Vector2)mp.Value.Data;
+						GL.Uniform2(GL.GetUniformLocation(Shader.Program, mp.Key), v2);
+						break;
+					case MaterialPropertyType.Vector3:
+						Vector3 v3 = (Vector3)mp.Value.Data;
+						GL.Uniform3(GL.GetUniformLocation(Shader.Program, mp.Key), v3);
+						break;
+					case MaterialPropertyType.Vector4:
+						Vector4 v4 = (Vector4)mp.Value.Data;
+						GL.Uniform4(GL.GetUniformLocation(Shader.Program, mp.Key), v4);
 						break;
 				}
 			}

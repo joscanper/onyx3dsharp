@@ -118,11 +118,11 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="stock_draw-sphere" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\stock_draw-sphere.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="stock_3d-material" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\stock_3d-material.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="stock_draw-sphere (1)" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\stock_draw-sphere (1).png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="if_stock_draw-cube_21540" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\if_stock_draw-cube_21540.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -130,14 +130,17 @@
   <data name="stock_draw-torus" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\stock_draw-torus.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="if_stock_draw-cylinder_21550" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\if_stock_draw-cylinder_21550.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="stock_3d-texture-and-shading" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\stock_3d-texture-and-shading.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="if_stock_save_20659" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\if_stock_save_20659.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="if_stock_draw-cylinder_21550" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\if_stock_draw-cylinder_21550.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="stock_draw-sphere" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\stock_draw-sphere.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="stock_3d-texture" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\stock_3d-texture.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -151,7 +154,7 @@
   <data name="if_teapot_93284" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\if_teapot_93284.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="stock_draw-sphere (1)" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\stock_draw-sphere (1).png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="apps-16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\apps-16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

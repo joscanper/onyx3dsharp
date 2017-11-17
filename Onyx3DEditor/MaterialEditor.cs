@@ -19,6 +19,8 @@ namespace Onyx3DEditor
         private MeshRenderer myRenderer;
 		private Camera myCamera;
 
+		private GridRenderer gridRenderer;
+
 		private float mAngle = 0;
 		
         public MaterialEditor()
@@ -27,22 +29,6 @@ namespace Onyx3DEditor
 			InitializeCanvas();
 		}
 
-		private void InitGL()
-		{
-			GL.Enable(EnableCap.CullFace);
-			GL.Enable(EnableCap.DepthTest);
-
-			GL.Enable(EnableCap.Multisample);
-			GL.Hint(HintTarget.MultisampleFilterHintNv, HintMode.Nicest);
-
-			GL.Enable(EnableCap.LineSmooth);
-			GL.Hint(HintTarget.LineSmoothHint, HintMode.Nicest);
-
-			GL.Enable(EnableCap.Blend);
-			GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
-
-			GL.ClearColor(Color.DarkBlue);
-		}
 
 		private void InitScene()
 		{
@@ -54,15 +40,22 @@ namespace Onyx3DEditor
 			myCamera = new Camera("MainCamera");
 			myCamera.Transform.LocalPosition = new Vector3(0, 0.85f, 2);
 			myCamera.Transform.LocalRotation = Quaternion.FromAxisAngle(new Vector3(1, 0, 0), -0.45f);
+			myCamera.InitPerspective(1.5f, renderCanvas.Width / renderCanvas.Height);
 
 			myObject = new SceneObject("BaseObject");
 			//myObject.Transform.LocalRotation = Quaternion.FromEulerAngles(0, 0, -90);
 
-			mMaterial = ContentManager.Instance.DefaultMaterial; // TODO = Copy this shit instead
+			mMaterial = ContentManager.BuiltInMaterials.Default; // TODO = Copy this shit instead
 
 			myRenderer = myObject.AddComponent<MeshRenderer>();
-			myRenderer.Mesh = PrimitiveMeshes.Teapot;
+			myRenderer.Mesh = ContentManager.BuiltInMeshes.Teapot;
 			myRenderer.Material = mMaterial;
+
+
+			gridRenderer = new SceneObject("Grid").AddComponent<GridRenderer>();
+			gridRenderer.GenerateGridMesh(10, 10, 0.25f, 0.25f);
+			//gridRenderer.Mesh = PrimitiveMeshes.Cube;
+			gridRenderer.Material = ContentManager.BuiltInMaterials.Unlit;
 		}
 
 		private void InitUI()
@@ -79,7 +72,7 @@ namespace Onyx3DEditor
 
 			if (myShader == null)
 			{
-				myShader = ContentManager.Instance.DefaultShader;
+				myShader = ContentManager.BuiltInShaders.Default;
 			}
 			else
 			{
@@ -95,7 +88,8 @@ namespace Onyx3DEditor
 
 		private void renderCanvas_Load(object sender, EventArgs e)
         {
-			InitGL();
+			RenderManager.Instance.Init();
+
 			InitScene();
 			InitUI();
 			canDraw = true;
@@ -106,16 +100,19 @@ namespace Onyx3DEditor
 			if (!canDraw)
 				return;
 
-			myCamera.InitPerspective(1.5f, renderCanvas.Width / renderCanvas.Height);
+			
 			myCamera.UpdateUBO();
 			myCamera.BindUBO(myRenderer.Material.Shader);
-			
-			
-            GL.Viewport(0, 0, renderCanvas.Width, renderCanvas.Height);
+			myCamera.BindUBO(gridRenderer.Material.Shader);
+
+
+			GL.Viewport(0, 0, renderCanvas.Width, renderCanvas.Height);
 			GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
-            myRenderer.Render(myCamera);
-            
+			if (toolStripButtonGrid.CheckState == CheckState.Checked)
+				gridRenderer.Render(myCamera);
+			myRenderer.Render(myCamera);
+			
 			GL.Flush();
 			renderCanvas.SwapBuffers();
         }
@@ -141,31 +138,31 @@ namespace Onyx3DEditor
 
 		private void toolStripButtonCube_Click(object sender, EventArgs e)
 		{
-			myRenderer.Mesh = PrimitiveMeshes.Cube;
+			myRenderer.Mesh = ContentManager.BuiltInMeshes.Cube;
 			renderCanvas.Refresh();
 		}
 
 		private void toolStripButtonSphere_Click(object sender, EventArgs e)
 		{
-			myRenderer.Mesh = PrimitiveMeshes.Sphere;
+			myRenderer.Mesh = ContentManager.BuiltInMeshes.Sphere;
 			renderCanvas.Refresh();
 		}
 		
 		private void toolStripButtonTorus_Click(object sender, EventArgs e)
 		{
-			myRenderer.Mesh = PrimitiveMeshes.Torus;
+			myRenderer.Mesh = ContentManager.BuiltInMeshes.Torus;
 			renderCanvas.Refresh();
 		}
 
 		private void toolStripButtonCylinder_Click(object sender, EventArgs e)
 		{
-			myRenderer.Mesh = PrimitiveMeshes.Cylinder;
+			myRenderer.Mesh = ContentManager.BuiltInMeshes.Cylinder;
 			renderCanvas.Refresh();
 		}
 
 		private void toolStripButtonTeapot_Click(object sender, EventArgs e)
 		{
-			myRenderer.Mesh = PrimitiveMeshes.Teapot;
+			myRenderer.Mesh = ContentManager.BuiltInMeshes.Teapot;
 			renderCanvas.Refresh();
 		}
 
@@ -184,5 +181,9 @@ namespace Onyx3DEditor
 
 		#endregion
 
+		private void toolStripButtonGrid_Click(object sender, EventArgs e)
+		{
+			//mDrawGrid = false;
+		}
 	}
 }

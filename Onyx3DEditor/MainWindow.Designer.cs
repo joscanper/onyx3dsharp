@@ -20,6 +20,20 @@
 			base.Dispose(disposing);
 		}
 
+
+		private void InitializeCanvas()
+		{
+			// 
+			// renderCanvas
+			// 
+			this.renderCanvas.BackColor = System.Drawing.Color.Black;
+			this.renderCanvas.Name = "renderCanvas";;
+			this.renderCanvas.VSync = false;
+			this.renderCanvas.Load += new System.EventHandler(this.renderCanvas_Load);
+			this.renderCanvas.Paint += new System.Windows.Forms.PaintEventHandler(this.renderCanvas_Paint);
+
+		}
+
 		#region Windows Form Designer generated code
 
 		/// <summary>
@@ -28,6 +42,7 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+			this.renderCanvas = new OpenTK.GLControl();
 			this.toolStrip1 = new System.Windows.Forms.ToolStrip();
 			this.toolStripButtonNewProject = new System.Windows.Forms.ToolStripButton();
 			this.toolStripButtonOpenProject = new System.Windows.Forms.ToolStripButton();
@@ -43,6 +58,15 @@
 			this.splitContainer1.SuspendLayout();
 			this.toolStrip3.SuspendLayout();
 			this.SuspendLayout();
+			// 
+			// renderCanvas
+			// 
+			this.renderCanvas.BackColor = System.Drawing.Color.Black;
+			this.renderCanvas.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.renderCanvas.Location = new System.Drawing.Point(0, 0);
+			this.renderCanvas.Name = "renderCanvas";
+			this.renderCanvas.TabIndex = 0;
+			this.renderCanvas.VSync = false;
 			// 
 			// toolStrip1
 			// 
@@ -101,6 +125,7 @@
 			this.splitContainer1.Size = new System.Drawing.Size(979, 520);
 			this.splitContainer1.SplitterDistance = 218;
 			this.splitContainer1.TabIndex = 2;
+			this.splitContainer1.Panel2.Controls.Add(renderCanvas);
 			// 
 			// toolStrip3
 			// 
@@ -175,5 +200,6 @@
 		private System.Windows.Forms.ToolStripButton toolStripButton1;
 		private System.Windows.Forms.TreeView treeView1;
 		private System.Windows.Forms.ToolStripButton toolStripButton2;
+		private OpenTK.GLControl renderCanvas;
 	}
 }

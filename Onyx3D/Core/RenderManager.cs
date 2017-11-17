@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Drawing;
 
 using OpenTK.Graphics.OpenGL4;
 
@@ -10,6 +7,23 @@ namespace Onyx3D
 	public class RenderManager : Singleton<RenderManager>
 	{
 		private SceneObject mRoot;
+
+		public void Init()
+		{
+			GL.Enable(EnableCap.CullFace);
+			GL.Enable(EnableCap.DepthTest);
+
+			GL.Enable(EnableCap.Multisample);
+			GL.Hint(HintTarget.MultisampleFilterHintNv, HintMode.Nicest);
+
+			GL.Enable(EnableCap.LineSmooth);
+			GL.Hint(HintTarget.LineSmoothHint, HintMode.Nicest);
+
+			GL.Enable(EnableCap.Blend);
+			GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
+
+			GL.ClearColor(Color.DarkBlue);
+		}
 
 		public void Render()
 		{
