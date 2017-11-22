@@ -13,7 +13,9 @@ namespace Onyx3DEditor
     {
         private bool canDraw = false;
 
-		private Material mMaterial;
+		private Onyx3DInstance myOnyxInstance;
+
+		//private Material mMaterial;
         private SceneObject myObject;
 		private Shader myShader;
         private MeshRenderer myRenderer;
@@ -32,11 +34,11 @@ namespace Onyx3DEditor
 
 		private void InitScene()
 		{
-			// TODO - Move this to Core
-			ContentManager.Instance.Init();
+			myOnyxInstance = new Onyx3DInstance();
+			myOnyxInstance.Init();
 
 			RebuildShader();
-
+			
 			myCamera = new Camera("MainCamera");
 			myCamera.Transform.LocalPosition = new Vector3(0, 0.85f, 2);
 			myCamera.Transform.LocalRotation = Quaternion.FromAxisAngle(new Vector3(1, 0, 0), -0.45f);
@@ -45,17 +47,18 @@ namespace Onyx3DEditor
 			myObject = new SceneObject("BaseObject");
 			//myObject.Transform.LocalRotation = Quaternion.FromEulerAngles(0, 0, -90);
 
-			mMaterial = ContentManager.BuiltInMaterials.Default; // TODO = Copy this shit instead
+			//mMaterial = myOnyxInstance.Content.BuiltInMaterials.Default; // TODO = Copy this shit instead
+			
 
 			myRenderer = myObject.AddComponent<MeshRenderer>();
-			myRenderer.Mesh = ContentManager.BuiltInMeshes.Teapot;
-			myRenderer.Material = mMaterial;
+			myRenderer.Mesh = myOnyxInstance.Content.BuiltInMeshes.Teapot;
+			myRenderer.Material = myOnyxInstance.Content.BuiltInMaterials.Default;
+			myShader = myRenderer.Material.Shader;
 
-
+			
 			gridRenderer = new SceneObject("Grid").AddComponent<GridRenderer>();
 			gridRenderer.GenerateGridMesh(10, 10, 0.25f, 0.25f);
-			//gridRenderer.Mesh = PrimitiveMeshes.Cube;
-			gridRenderer.Material = ContentManager.BuiltInMaterials.Unlit;
+			gridRenderer.Material = myOnyxInstance.Content.BuiltInMaterials.Unlit;
 		}
 
 		private void InitUI()
@@ -63,7 +66,7 @@ namespace Onyx3DEditor
 			textBoxVertexCode.Text = myShader.VertexCode;
 			textBoxFragmentCode.Text = myShader.FragmentCode;
 
-			materialPropertiesControl.Fill(mMaterial);
+			materialPropertiesControl.Fill(myRenderer.Material);
 		}
 
 		private void RebuildShader()
@@ -72,7 +75,7 @@ namespace Onyx3DEditor
 
 			if (myShader == null)
 			{
-				myShader = ContentManager.BuiltInShaders.Default;
+				myShader = myOnyxInstance.Content.BuiltInShaders.Default;
 			}
 			else
 			{
@@ -88,7 +91,6 @@ namespace Onyx3DEditor
 
 		private void renderCanvas_Load(object sender, EventArgs e)
         {
-			RenderManager.Instance.Init();
 
 			InitScene();
 			InitUI();
@@ -138,31 +140,31 @@ namespace Onyx3DEditor
 
 		private void toolStripButtonCube_Click(object sender, EventArgs e)
 		{
-			myRenderer.Mesh = ContentManager.BuiltInMeshes.Cube;
+			myRenderer.Mesh = myOnyxInstance.Content.BuiltInMeshes.Cube;
 			renderCanvas.Refresh();
 		}
 
 		private void toolStripButtonSphere_Click(object sender, EventArgs e)
 		{
-			myRenderer.Mesh = ContentManager.BuiltInMeshes.Sphere;
+			myRenderer.Mesh = myOnyxInstance.Content.BuiltInMeshes.Sphere;
 			renderCanvas.Refresh();
 		}
 		
 		private void toolStripButtonTorus_Click(object sender, EventArgs e)
 		{
-			myRenderer.Mesh = ContentManager.BuiltInMeshes.Torus;
+			myRenderer.Mesh = myOnyxInstance.Content.BuiltInMeshes.Torus;
 			renderCanvas.Refresh();
 		}
 
 		private void toolStripButtonCylinder_Click(object sender, EventArgs e)
 		{
-			myRenderer.Mesh = ContentManager.BuiltInMeshes.Cylinder;
+			myRenderer.Mesh = myOnyxInstance.Content.BuiltInMeshes.Cylinder;
 			renderCanvas.Refresh();
 		}
 
 		private void toolStripButtonTeapot_Click(object sender, EventArgs e)
 		{
-			myRenderer.Mesh = ContentManager.BuiltInMeshes.Teapot;
+			myRenderer.Mesh = myOnyxInstance.Content.BuiltInMeshes.Teapot;
 			renderCanvas.Refresh();
 		}
 

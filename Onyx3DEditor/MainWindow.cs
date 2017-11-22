@@ -1,13 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 using Onyx3D;
+using OpenTK;
 using OpenTK.Graphics.OpenGL;
 
 namespace Onyx3DEditor
@@ -15,6 +10,9 @@ namespace Onyx3DEditor
 	public partial class MainWindow : Form
 	{
 		bool canDraw = false;
+
+		Onyx3DInstance myOnyxInstance;
+
 		Camera myCamera;
 		GridRenderer myGridRenderer;
 
@@ -26,17 +24,23 @@ namespace Onyx3DEditor
 		
 		private void InitScene()
 		{
+			
+			myOnyxInstance = new Onyx3DInstance();
+			myOnyxInstance.Init();
+
 			myCamera = new Camera("MainCamera");
+			myCamera.Transform.LocalPosition = new Vector3(0, 1, 3);
 
 			myGridRenderer = new SceneObject("Grid").AddComponent<GridRenderer>();
 			myGridRenderer.GenerateGridMesh(10, 10, 0.25f, 0.25f);
+			myGridRenderer.Material = myOnyxInstance.Content.BuiltInMaterials.Unlit;
 		}
 
 		#region RenderCanvas callbacks
 
 		private void renderCanvas_Load(object sender, EventArgs e)
 		{
-			RenderManager.Instance.Init();
+			
 			InitScene();
 			canDraw = true;
 		}
@@ -45,10 +49,9 @@ namespace Onyx3DEditor
 		{
 			if (!canDraw)
 				return;
-
+			
 			myCamera.InitPerspective(1.5f, renderCanvas.Width / renderCanvas.Height);
 			myCamera.UpdateUBO();
-			
 			myCamera.BindUBO(myGridRenderer.Material.Shader);
 
 

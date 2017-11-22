@@ -7,43 +7,44 @@ using OpenTK;
 
 namespace Onyx3D
 {
-	
-	public class ContentManager : Singleton<ContentManager>
+
+	public class BuiltInTextures
+	{
+		public Texture Checker;
+	}
+
+	public class BuiltInShaders
+	{
+		public Shader Default;
+		public Shader Unlit;
+	}
+
+	public class BuiltInMaterials
+	{
+		public Material Default;
+		public Material Unlit;
+	}
+
+	public class BuiltInMeshes
+	{
+		public Mesh Teapot;
+		public Mesh Sphere;
+		public Mesh Torus;
+		public Mesh Cube;
+		public Mesh Cylinder;
+	}
+
+
+	public class ContentManager
 	{
 		public Dictionary<string, Material> Materials;
 		public Dictionary<string, Shader> Shaders;
 		public Dictionary<string, Texture> Textures;
-
-		//public Texture DefaultTexture;
-		//public Material DefaultMaterial;
-		//public Shader DefaultShader;
-
-		public class BuiltInTextures
-		{
-			public static Texture Checker;
-		}
-
-		public class BuiltInShaders
-		{
-			public static Shader Default;
-			public static Shader Unlit;
-		}
-
-		public class BuiltInMaterials
-		{
-			public static Material Default;
-			public static Material Unlit;
-		}
-
-		public class BuiltInMeshes
-		{
-			public static Mesh Teapot;
-			public static Mesh Sphere;
-			public static Mesh Torus;
-			public static Mesh Cube;
-			public static Mesh Cylinder;
-		}
-
+		
+		public BuiltInMaterials BuiltInMaterials = new BuiltInMaterials();
+		public BuiltInMeshes BuiltInMeshes = new BuiltInMeshes();
+		public BuiltInShaders BuiltInShaders = new BuiltInShaders();
+		public BuiltInTextures BuiltInTextures = new BuiltInTextures();
 
 		public void Init()
 		{
@@ -60,17 +61,19 @@ namespace Onyx3D
 			//Shaders
 			BuiltInShaders.Default = new Shader("./Resources/Shaders/VertexShader.glsl", "./Resources/Shaders/FragmentShader.glsl");
 			BuiltInShaders.Unlit = new Shader("./Resources/Shaders/VertexShader.glsl", "./Resources/Shaders/UnlitFragmentShader.glsl");
+			
 
 			// Materials
 			BuiltInMaterials.Default = new Material();
 			BuiltInMaterials.Default.Shader = BuiltInShaders.Default;
 			BuiltInMaterials.Default.Properties.Add("base", new TextureMaterialProperty(MaterialPropertyType.Sampler2D, BuiltInTextures.Checker, 0));
-			BuiltInMaterials.Default.Properties.Add("fresnel", new MaterialProperty(MaterialPropertyType.Float, 2.0f));
-
+			BuiltInMaterials.Default.Properties.Add("fresnel", new MaterialProperty(MaterialPropertyType.Float, 1.0f));
+			
 			BuiltInMaterials.Unlit = new Material();
 			BuiltInMaterials.Unlit.Shader = BuiltInShaders.Unlit;
 			BuiltInMaterials.Unlit.Properties.Add("color", new MaterialProperty(MaterialPropertyType.Vector4, Vector4.One));
-
 		}
 	}
+	
 }
+

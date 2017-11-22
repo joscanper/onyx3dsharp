@@ -39,8 +39,8 @@ namespace Onyx3D
 
 		public void Load(string vFileName, string fFileName)
 		{
-			mVertexCode = LoadShader(vFileName);
-			mFragmentCode = LoadShader(fFileName);
+			mVertexCode = LoadShaderCode(vFileName);
+			mFragmentCode = LoadShaderCode(fFileName);
 			InitProgram(mVertexCode, mFragmentCode);
 		}
 
@@ -54,12 +54,12 @@ namespace Onyx3D
 				return false;
 			}
 
-			GL.UseProgram(mProgram);
+			//GL.UseProgram(mProgram);
 
 			return true;
 		}
 		
-		public string LoadShader(string shaderFileName)
+		public string LoadShaderCode(string shaderFileName)
 		{
 			string shaderSource = null;
 
@@ -112,6 +112,10 @@ namespace Onyx3D
 				GL.DeleteShader(fragmentShader);
 				return 0;
 			}
+
+			GL.DeleteShader(vertexShader);
+			GL.DeleteShader(fragmentShader);
+
 
 			return program;
 		}

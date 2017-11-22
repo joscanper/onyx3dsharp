@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="Components\Component.cs" />
     <Compile Include="Components\GridRenderer.cs" />
+    <Compile Include="Core\Onyx3D.cs" />
     <Compile Include="Core\ContentManager.cs" />
     <Compile Include="Graphics\Meshes\CubeMesh.cs" />
     <Compile Include="Graphics\Meshes\CylinderMesh.cs" />

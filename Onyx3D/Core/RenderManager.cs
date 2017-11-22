@@ -4,7 +4,7 @@ using OpenTK.Graphics.OpenGL4;
 
 namespace Onyx3D
 {
-	public class RenderManager : Singleton<RenderManager>
+	public class RenderManager
 	{
 		private SceneObject mRoot;
 
@@ -22,7 +22,7 @@ namespace Onyx3D
 			GL.Enable(EnableCap.Blend);
 			GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
 
-			GL.ClearColor(Color.DarkBlue);
+			GL.ClearColor(Color.SlateGray);
 		}
 
 		public void Render()
