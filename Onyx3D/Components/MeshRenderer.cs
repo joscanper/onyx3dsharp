@@ -30,8 +30,8 @@ namespace Onyx3D
 
 		protected void SetUpMaterial()
 		{
-			Material.ApplyProperties();
 			GL.UseProgram(Material.Shader.Program);
+			Material.ApplyProperties();
 		}
 
 		protected void SetUpMVP(int program, Camera cam)
