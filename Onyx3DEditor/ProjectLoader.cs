@@ -27,6 +27,12 @@ namespace Onyx3DEditor
 			get { return mCurrentProjectPath; }
 		}
 
+		public void New()
+		{
+			Content = new ProjectContent();
+			mCurrentProjectPath = "";
+		}
+
 		public bool Load(string path)
 		{
 
@@ -38,11 +44,8 @@ namespace Onyx3DEditor
 			mCurrentProjectPath = path;
 			Stream stream = null;
 			try {
-				IFormatter formatter = new BinaryFormatter();
 				stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.None);
-				int version = (int)formatter.Deserialize(stream);
-				Debug.Assert(version == VERSION);
-				Content = (ProjectContent)formatter.Deserialize(stream);
+				Load(stream);
 			} catch {
 				return false;
 			} finally {
@@ -53,6 +56,14 @@ namespace Onyx3DEditor
 			return true;
 		}
 
+		public void Load(Stream stream)
+		{
+			IFormatter formatter = new BinaryFormatter();
+			int version = (int)formatter.Deserialize(stream);
+			Debug.Assert(version == VERSION);
+			Content = (ProjectContent)formatter.Deserialize(stream);
+		}
+
 		public void Save()
 		{
 			Save(CurrentProjectPath);
@@ -60,6 +71,7 @@ namespace Onyx3DEditor
 
 		public void Save(string fileName)
 		{
+			mCurrentProjectPath = fileName;
 			Stream stream = null;
 			try
 			{

@@ -55,6 +55,7 @@
 			this.toolStrip1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
 			this.splitContainer1.Panel1.SuspendLayout();
+			this.splitContainer1.Panel2.SuspendLayout();
 			this.splitContainer1.SuspendLayout();
 			this.toolStrip3.SuspendLayout();
 			this.SuspendLayout();
@@ -65,6 +66,7 @@
 			this.renderCanvas.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.renderCanvas.Location = new System.Drawing.Point(0, 0);
 			this.renderCanvas.Name = "renderCanvas";
+			this.renderCanvas.Size = new System.Drawing.Size(757, 520);
 			this.renderCanvas.TabIndex = 0;
 			this.renderCanvas.VSync = false;
 			// 
@@ -88,6 +90,7 @@
 			this.toolStripButtonNewProject.Name = "toolStripButtonNewProject";
 			this.toolStripButtonNewProject.Size = new System.Drawing.Size(23, 22);
 			this.toolStripButtonNewProject.Text = "New Project";
+			this.toolStripButtonNewProject.Click += new System.EventHandler(this.toolStripButtonNewProject_Click);
 			// 
 			// toolStripButtonOpenProject
 			// 
@@ -97,6 +100,7 @@
 			this.toolStripButtonOpenProject.Name = "toolStripButtonOpenProject";
 			this.toolStripButtonOpenProject.Size = new System.Drawing.Size(23, 22);
 			this.toolStripButtonOpenProject.Text = "Open Project";
+			this.toolStripButtonOpenProject.Click += new System.EventHandler(this.toolStripButtonOpenProject_Click);
 			// 
 			// toolStripButtonSaveProject
 			// 
@@ -122,10 +126,10 @@
 			// splitContainer1.Panel2
 			// 
 			this.splitContainer1.Panel2.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
+			this.splitContainer1.Panel2.Controls.Add(this.renderCanvas);
 			this.splitContainer1.Size = new System.Drawing.Size(979, 520);
 			this.splitContainer1.SplitterDistance = 218;
 			this.splitContainer1.TabIndex = 2;
-			this.splitContainer1.Panel2.Controls.Add(renderCanvas);
 			// 
 			// toolStrip3
 			// 
@@ -180,6 +184,7 @@
 			this.toolStrip1.PerformLayout();
 			this.splitContainer1.Panel1.ResumeLayout(false);
 			this.splitContainer1.Panel1.PerformLayout();
+			this.splitContainer1.Panel2.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
 			this.splitContainer1.ResumeLayout(false);
 			this.toolStrip3.ResumeLayout(false);

@@ -4,6 +4,7 @@ using System.Windows.Forms;
 using Onyx3D;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
+using System.IO;
 
 namespace Onyx3DEditor
 {
@@ -70,7 +71,24 @@ namespace Onyx3DEditor
 
 		private void toolStripButtonSaveProject_Click(object sender, EventArgs e)
 		{
-			ProjectManager.Instance.Save();
+			if (ProjectManager.Instance.CurrentProjectPath.Length == 0)
+			{
+				SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+				saveFileDialog1.Filter = "Onyx3d project files (*.o3dproj)|*.o3dproj";
+				saveFileDialog1.FilterIndex = 2;
+				saveFileDialog1.RestoreDirectory = true;
+
+				if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+				{
+					ProjectManager.Instance.Save(saveFileDialog1.FileName);
+				}
+			}
+			else
+			{
+				ProjectManager.Instance.Save();
+			}
+
+			
 		}
 
 		private void toolStripButtonMaterials_Click(object sender, EventArgs e)
@@ -81,6 +99,43 @@ namespace Onyx3DEditor
 		private void toolStripButtonTextures_Click(object sender, EventArgs e)
 		{
 			new TextureManager().Show();
+		}
+
+
+		private void toolStripButtonNewProject_Click(object sender, EventArgs e)
+		{
+			var confirmResult = MessageBox.Show("Are you sure to start a new project?", "New Project", MessageBoxButtons.YesNo);
+			if (confirmResult == DialogResult.Yes)
+			{
+				ProjectManager.Instance.New();
+			}
+		}
+
+		private void toolStripButtonOpenProject_Click(object sender, EventArgs e)
+		{
+
+			Stream myStream;
+			OpenFileDialog openFileDialog1 = new OpenFileDialog();
+
+			openFileDialog1.InitialDirectory = "c:\\";
+			openFileDialog1.Filter = "Onyx3d project files (*.o3dproj)|*.o3dproj";
+			openFileDialog1.FilterIndex = 2;
+			openFileDialog1.RestoreDirectory = true;
+
+			if (openFileDialog1.ShowDialog() == DialogResult.OK)
+			{
+				try
+				{
+					if ((myStream = openFileDialog1.OpenFile()) != null)
+					{
+						ProjectManager.Instance.Load(myStream);
+					}
+				}
+				catch (Exception ex)
+				{
+					MessageBox.Show("Error: Could not read file from disk. Original error: " + ex.Message);
+				}
+			}
 		}
 
 		#endregion
