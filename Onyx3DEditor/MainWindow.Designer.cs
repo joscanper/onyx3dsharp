@@ -48,10 +48,10 @@
 			this.toolStripButtonOpenProject = new System.Windows.Forms.ToolStripButton();
 			this.toolStripButtonSaveProject = new System.Windows.Forms.ToolStripButton();
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+			this.treeViewSceneHierarchy = new System.Windows.Forms.TreeView();
 			this.toolStrip3 = new System.Windows.Forms.ToolStrip();
 			this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
 			this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
-			this.treeView1 = new System.Windows.Forms.TreeView();
 			this.toolStrip1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
 			this.splitContainer1.Panel1.SuspendLayout();
@@ -69,6 +69,10 @@
 			this.renderCanvas.Size = new System.Drawing.Size(757, 520);
 			this.renderCanvas.TabIndex = 0;
 			this.renderCanvas.VSync = false;
+			this.renderCanvas.MouseDown  += new System.Windows.Forms.MouseEventHandler(this.mNavigation.OnMouseDown);
+			this.renderCanvas.MouseMove  += new System.Windows.Forms.MouseEventHandler(this.mNavigation.OnMouseMove);
+			this.renderCanvas.MouseUp    += new System.Windows.Forms.MouseEventHandler(this.mNavigation.OnMouseUp);
+			this.renderCanvas.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.mNavigation.OnMouseWheel);
 			// 
 			// toolStrip1
 			// 
@@ -120,27 +124,37 @@
 			// 
 			// splitContainer1.Panel1
 			// 
-			this.splitContainer1.Panel1.Controls.Add(this.toolStrip3);
-			this.splitContainer1.Panel1.Controls.Add(this.treeView1);
+			this.splitContainer1.Panel1.Controls.Add(this.treeViewSceneHierarchy);
 			// 
 			// splitContainer1.Panel2
 			// 
 			this.splitContainer1.Panel2.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
+			this.splitContainer1.Panel2.Controls.Add(this.toolStrip3);
 			this.splitContainer1.Panel2.Controls.Add(this.renderCanvas);
 			this.splitContainer1.Size = new System.Drawing.Size(979, 520);
 			this.splitContainer1.SplitterDistance = 218;
 			this.splitContainer1.TabIndex = 2;
 			// 
+			// treeViewSceneHierarchy
+			// 
+			this.treeViewSceneHierarchy.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.treeViewSceneHierarchy.Location = new System.Drawing.Point(0, 0);
+			this.treeViewSceneHierarchy.Name = "treeViewSceneHierarchy";
+			this.treeViewSceneHierarchy.Size = new System.Drawing.Size(218, 520);
+			this.treeViewSceneHierarchy.TabIndex = 0;
+			// 
 			// toolStrip3
 			// 
+			this.toolStrip3.Dock = System.Windows.Forms.DockStyle.None;
 			this.toolStrip3.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripButton2,
             this.toolStripButton1});
+			this.toolStrip3.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.VerticalStackWithOverflow;
 			this.toolStrip3.Location = new System.Drawing.Point(0, 0);
 			this.toolStrip3.Name = "toolStrip3";
-			this.toolStrip3.Size = new System.Drawing.Size(218, 25);
+			this.toolStrip3.Size = new System.Drawing.Size(24, 57);
 			this.toolStrip3.TabIndex = 2;
-			this.toolStrip3.Text = "toolStrip3";
+			this.toolStrip3.Text = "toolStripContent";
 			// 
 			// toolStripButton2
 			// 
@@ -148,7 +162,7 @@
 			this.toolStripButton2.Image = global::Onyx3DEditor.Properties.Resources.stock_3d_texture;
 			this.toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.toolStripButton2.Name = "toolStripButton2";
-			this.toolStripButton2.Size = new System.Drawing.Size(23, 22);
+			this.toolStripButton2.Size = new System.Drawing.Size(22, 20);
 			this.toolStripButton2.Text = "toolStripButtonTextures";
 			this.toolStripButton2.Click += new System.EventHandler(this.toolStripButtonTextures_Click);
 			// 
@@ -158,17 +172,9 @@
 			this.toolStripButton1.Image = global::Onyx3DEditor.Properties.Resources.stock_3d_texture_and_shading;
 			this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.toolStripButton1.Name = "toolStripButton1";
-			this.toolStripButton1.Size = new System.Drawing.Size(23, 22);
+			this.toolStripButton1.Size = new System.Drawing.Size(22, 20);
 			this.toolStripButton1.Text = "toolStripButtonMaterials";
 			this.toolStripButton1.Click += new System.EventHandler(this.toolStripButtonMaterials_Click);
-			// 
-			// treeView1
-			// 
-			this.treeView1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.treeView1.Location = new System.Drawing.Point(0, 0);
-			this.treeView1.Name = "treeView1";
-			this.treeView1.Size = new System.Drawing.Size(218, 520);
-			this.treeView1.TabIndex = 0;
 			// 
 			// MainWindow
 			// 
@@ -183,8 +189,8 @@
 			this.toolStrip1.ResumeLayout(false);
 			this.toolStrip1.PerformLayout();
 			this.splitContainer1.Panel1.ResumeLayout(false);
-			this.splitContainer1.Panel1.PerformLayout();
 			this.splitContainer1.Panel2.ResumeLayout(false);
+			this.splitContainer1.Panel2.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
 			this.splitContainer1.ResumeLayout(false);
 			this.toolStrip3.ResumeLayout(false);
@@ -203,7 +209,7 @@
 		private System.Windows.Forms.SplitContainer splitContainer1;
 		private System.Windows.Forms.ToolStrip toolStrip3;
 		private System.Windows.Forms.ToolStripButton toolStripButton1;
-		private System.Windows.Forms.TreeView treeView1;
+		private System.Windows.Forms.TreeView treeViewSceneHierarchy;
 		private System.Windows.Forms.ToolStripButton toolStripButton2;
 		private OpenTK.GLControl renderCanvas;
 	}

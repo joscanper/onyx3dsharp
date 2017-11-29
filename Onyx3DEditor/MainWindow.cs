@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Drawing;
 using System.Windows.Forms;
 
 using Onyx3D;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using System.IO;
+using System.Collections.Generic;
 
 namespace Onyx3DEditor
 {
@@ -14,34 +16,69 @@ namespace Onyx3DEditor
 
 		Onyx3DInstance myOnyxInstance;
 
+		Scene myScene;
 		Camera myCamera;
 		GridRenderer myGridRenderer;
+		SceneObject myTeapot;
+
+		OnyxViewerNavigation mNavigation = new OnyxViewerNavigation();
 
 		public MainWindow()
 		{
 			InitializeComponent();
 			InitializeCanvas();
 		}
-		
+
 		private void InitScene()
 		{
-			
+			myScene = new Scene();
+
 			myOnyxInstance = new Onyx3DInstance();
 			myOnyxInstance.Init();
 
-			myCamera = new Camera("MainCamera");
-			myCamera.Transform.LocalPosition = new Vector3(0, 1, 3);
-
-			myGridRenderer = new SceneObject("Grid").AddComponent<GridRenderer>();
+			
+			SceneObject grid = new SceneObject("Grid");
+			myGridRenderer = grid.AddComponent<GridRenderer>();
 			myGridRenderer.GenerateGridMesh(10, 10, 0.25f, 0.25f);
 			myGridRenderer.Material = myOnyxInstance.Content.BuiltInMaterials.Unlit;
+			grid.Parent = myScene.Root;
+
+			SceneObject teapot = new SceneObject("TEapot");
+			MeshRenderer teapotMesh = teapot.AddComponent<MeshRenderer>();
+			teapotMesh.Mesh = myOnyxInstance.Content.BuiltInMeshes.Teapot;
+			teapotMesh.Material = myOnyxInstance.Content.BuiltInMaterials.Default;
+			teapot.Parent = myScene.Root;
+			myTeapot = teapot;
+
+
+			mNavigation.CreateCamera();
+
+			UpdateTreeView();
+		}
+
+		private void UpdateTreeView()
+		{
+			treeViewSceneHierarchy.Nodes.Clear();
+			TreeNode root = new TreeNode("Scene Name");
+			if (myScene.Root.ChildCount > 0)
+				AddSceneObjectToTreeNode(root, myScene.Root, true);
+			treeViewSceneHierarchy.Nodes.Add(root);
+		}
+
+		private void AddSceneObjectToTreeNode(TreeNode node, SceneObject sceneObject, bool skipAdd)
+		{
+			TreeNode objectNode = new TreeNode(sceneObject.Id);
+			if (!skipAdd)
+				node.Nodes.Add(objectNode);
+			for (int i = 0; i < sceneObject.ChildCount; ++i)
+				AddSceneObjectToTreeNode(skipAdd ? node : objectNode, sceneObject.GetChild(i), false);
+
 		}
 
 		#region RenderCanvas callbacks
 
 		private void renderCanvas_Load(object sender, EventArgs e)
 		{
-			
 			InitScene();
 			canDraw = true;
 		}
@@ -50,18 +87,13 @@ namespace Onyx3DEditor
 		{
 			if (!canDraw)
 				return;
-			
-			myCamera.InitPerspective(1.5f, renderCanvas.Width / renderCanvas.Height);
-			myCamera.UpdateUBO();
-			myCamera.BindUBO(myGridRenderer.Material.Shader);
 
 
-			GL.Viewport(0, 0, renderCanvas.Width, renderCanvas.Height);
-			GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
+			mNavigation.NavigationCamera.InitPerspective(1.5f, (float)renderCanvas.Width / (float)renderCanvas.Height);
+			mNavigation.UpdateCamera();
 
-			myGridRenderer.Render(myCamera);
+			myOnyxInstance.RenderManager.Render(myScene, mNavigation.NavigationCamera, renderCanvas.Width, renderCanvas.Height);
 
-			GL.Flush();
 			renderCanvas.SwapBuffers();
 		}
 
@@ -87,8 +119,6 @@ namespace Onyx3DEditor
 			{
 				ProjectManager.Instance.Save();
 			}
-
-			
 		}
 
 		private void toolStripButtonMaterials_Click(object sender, EventArgs e)

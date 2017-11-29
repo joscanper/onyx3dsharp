@@ -81,6 +81,7 @@
       <DependentUpon>MaterialPropertyControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Onyx3DInstance.cs" />
+    <Compile Include="OnyxViewerNavigation.cs" />
     <Compile Include="ProjectContent.cs" />
     <Compile Include="MaterialEditor.cs">
       <SubType>Form</SubType>

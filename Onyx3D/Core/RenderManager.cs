@@ -1,5 +1,7 @@
 ﻿using System.Drawing;
+using System.Collections.Generic;
 
+using OpenTK;
 using OpenTK.Graphics.OpenGL4;
 
 namespace Onyx3D
@@ -7,6 +9,8 @@ namespace Onyx3D
 	public class RenderManager
 	{
 		private SceneObject mRoot;
+
+		public Vector2 ScreenSize = new Vector2(800,600);
 
 		public void Init()
 		{
@@ -25,21 +29,71 @@ namespace Onyx3D
 			GL.ClearColor(Color.SlateGray);
 		}
 
-		public void Render()
+		public void Render(Scene scene)
 		{
+			Render(scene, scene.ActiveCamera, (int)ScreenSize.X, (int)ScreenSize.Y);
+		}
+
+		public void Render(Scene scene, Camera cam, int w, int h)
+		{
+			cam.UpdateUBO();
 			
-			GL.Viewport(0, 0, 800, 600);
+			GL.Viewport(0, 0, w, h);
+			GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
-			// Clear the render canvas with the current color
-			GL.Clear(ClearBufferMask.ColorBufferBit);
-
-			//if (canDraw)
-			//{
-				// Draw a triangle
-			//	GL.DrawArrays(PrimitiveType.Triangles, 0, nVertices);
-			//}
-
+			List<MeshRenderer> renderers = GetSceneRenderers(scene);
+			PrepareMaterials(renderers, cam);
+			Render(renderers);
+			
 			GL.Flush();
+			
+		}
+		
+		private List<MeshRenderer> GetSceneRenderers(Scene scene)
+		{
+			List<MeshRenderer> rendereres = new List<MeshRenderer>();
+			Queue<SceneObject> objects = new Queue<SceneObject>();
+
+			objects.Enqueue(scene.Root);
+			SceneObject s;
+			do
+			{
+				s = objects.Dequeue();
+				MeshRenderer r = s.GetComponent<MeshRenderer>();
+				if (r != null)
+					rendereres.Add(r);
+
+				for (int i = 0; i < s.ChildCount; i++)
+				{
+					objects.Enqueue(s.GetChild(i));
+				}
+
+				
+			} while (objects.Count > 0);
+
+			return rendereres;
+		}
+
+		private HashSet<Material> GetMaterialsFromRenderers(List<MeshRenderer> renderers)
+		{
+			HashSet<Material> materials = new HashSet<Material>();
+			for(int i = 0; i < renderers.Count; ++i)
+				materials.Add(renderers[i].Material);
+			return materials;
+		}
+
+
+		private void PrepareMaterials(List<MeshRenderer> renderers, Camera cam)
+		{
+			HashSet<Material> materials = GetMaterialsFromRenderers(renderers);
+			foreach (Material m in materials)
+				m.Shader.BindUBO(cam.UBO);
+		}
+
+		private void Render(List<MeshRenderer> renderers)
+		{
+			for (int i = 0; i < renderers.Count; ++i)
+				renderers[i].Render();
 		}
 	}
 }

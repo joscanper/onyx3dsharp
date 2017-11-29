@@ -42,7 +42,7 @@ namespace Onyx3DEditor
 			myCamera = new Camera("MainCamera");
 			myCamera.Transform.LocalPosition = new Vector3(0, 0.85f, 2);
 			myCamera.Transform.LocalRotation = Quaternion.FromAxisAngle(new Vector3(1, 0, 0), -0.45f);
-			myCamera.InitPerspective(1.5f, renderCanvas.Width / renderCanvas.Height);
+			myCamera.InitPerspective(1.5f, (float)renderCanvas.Width / (float)renderCanvas.Height);
 
 			myObject = new SceneObject("BaseObject");
 			//myObject.Transform.LocalRotation = Quaternion.FromEulerAngles(0, 0, -90);
@@ -104,16 +104,16 @@ namespace Onyx3DEditor
 
 			
 			myCamera.UpdateUBO();
-			myCamera.BindUBO(myRenderer.Material.Shader);
-			myCamera.BindUBO(gridRenderer.Material.Shader);
+			myRenderer.Material.Shader.BindUBO(myCamera.UBO);
+			gridRenderer.Material.Shader.BindUBO(myCamera.UBO);
 
 
 			GL.Viewport(0, 0, renderCanvas.Width, renderCanvas.Height);
 			GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
 			if (toolStripButtonGrid.CheckState == CheckState.Checked)
-				gridRenderer.Render(myCamera);
-			myRenderer.Render(myCamera);
+				gridRenderer.Render();
+			myRenderer.Render();
 			
 			GL.Flush();
 			renderCanvas.SwapBuffers();

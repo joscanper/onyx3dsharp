@@ -22,6 +22,8 @@ namespace Onyx3D
 
 		UBO<CameraUBufferData> mCameraUBO;
 		CameraUBufferData mUBufferData;
+
+		public UBO<CameraUBufferData> UBO { get { return mCameraUBO; } }
 		
 		public Matrix4 ViewMatrix
 		{
@@ -59,10 +61,6 @@ namespace Onyx3D
 			mUBufferData.Position = Transform.LocalPosition;
 			mCameraUBO.Update(mUBufferData);
 		}
-
-		public void BindUBO(Shader s)
-		{
-			mCameraUBO.Bind(s);
-		}
+		
 	}
 }

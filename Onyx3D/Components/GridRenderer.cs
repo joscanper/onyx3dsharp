@@ -26,10 +26,10 @@ namespace Onyx3D
 			Mesh.GenerateVAO();
 		}
 
-		public override void Render(Camera cam)
+		public override void Render()
 		{
 			SetUpMaterial();
-			SetUpMVP(Material.Shader.Program, cam);
+			SetUpMVP(Material.Shader.Program);
 
 			GL.BindVertexArray(Mesh.VertexArrayObject);
 			GL.DrawArrays(PrimitiveType.Lines, 0, Mesh.Vertices.Count);

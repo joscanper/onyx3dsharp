@@ -13,10 +13,10 @@ namespace Onyx3D
         public Mesh Mesh;
         public Material Material;
         
-        public virtual void Render(Camera cam)
+        public virtual void Render()
         {
 			SetUpMaterial();
-			SetUpMVP(Material.Shader.Program, cam);
+			SetUpMVP(Material.Shader.Program);
            
 			GL.BindVertexArray(Mesh.VertexArrayObject);
 			if (Mesh.Indices != null)
@@ -34,17 +34,17 @@ namespace Onyx3D
 			Material.ApplyProperties();
 		}
 
-		protected void SetUpMVP(int program, Camera cam)
+		protected void SetUpMVP(int program)
 		{
 
 			Matrix4 M = Transform.GetModelMatrix();
-			Matrix4 V = cam.ViewMatrix;
-			Matrix4 P = cam.ProjectionMatrix;
+			//Matrix4 V = cam.ViewMatrix;
+			//Matrix4 P = cam.ProjectionMatrix;
 			//Matrix4 MVP = P * V * M;
 
 
-			GL.UniformMatrix4(GL.GetUniformLocation(program, "V"), false, ref V);
-			GL.UniformMatrix4(GL.GetUniformLocation(program, "P"), false, ref P);
+			//GL.UniformMatrix4(GL.GetUniformLocation(program, "V"), false, ref V);
+			//GL.UniformMatrix4(GL.GetUniformLocation(program, "P"), false, ref P);
 			GL.UniformMatrix4(GL.GetUniformLocation(program, "M"), false, ref M);
 			//GL.UniformMatrix4(GL.GetUniformLocation(program, "MVP"), false, ref MVP);
 

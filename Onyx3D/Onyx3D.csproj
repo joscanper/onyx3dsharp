@@ -56,6 +56,7 @@
     <Compile Include="Graphics\Texture.cs" />
     <Compile Include="Graphics\UBO.cs" />
     <Compile Include="Scene\Camera.cs" />
+    <Compile Include="Scene\Scene.cs" />
     <Compile Include="Scene\SceneObject.cs" />
     <Compile Include="Core\Logger.cs" />
     <Compile Include="Graphics\Material.cs" />
