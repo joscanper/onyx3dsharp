@@ -150,5 +150,12 @@ namespace Onyx3D
 			return shader;
 		}
 		
+
+		public void BindUBO<T>(UBO<T> ubo)
+		{
+			int idx = GL.GetUniformBlockIndex(Program, ubo.BlockName);
+			GL.UniformBlockBinding(Program, idx, ubo.BindingPoint);
+		}
+
 	}
 }

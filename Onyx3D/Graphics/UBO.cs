@@ -17,6 +17,9 @@ namespace Onyx3D
 		private int mBindingPoint;
 		private string mBlockName;
 
+		public string BlockName { get { return mBlockName; } }
+		public int BindingPoint { get { return mBindingPoint; } } 
+
 		public UBO(T data, string blockName)
 		{
 			CurrentBindingPoint++;
@@ -47,11 +50,6 @@ namespace Onyx3D
 			Marshal.FreeHGlobal(pnt);
 			GL.UnmapBuffer(BufferTarget.UniformBuffer);
 		}
-
-		public void Bind(Shader s)
-		{
-			int idx = GL.GetUniformBlockIndex(s.Program, mBlockName);
-			GL.UniformBlockBinding(s.Program, idx, mBindingPoint);
-		}
+		
 	}
 }
