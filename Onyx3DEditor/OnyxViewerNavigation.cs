@@ -10,8 +10,13 @@ namespace Onyx3DEditor
 	public class OnyxViewerNavigation
 	{
 
-		const float DragFactor = 0.05f;
-		const float RotationFactor = 0.01f;
+		const char FORWARDS_CHAR = 'w';
+		const char LEFT_CHAR = 'a';
+		const char RIGHT_CHAR = 'd';
+		const char BACKWARDS_CHAR = 's';
+
+		const float DragFactor = 0.005f;
+		const float RotationFactor = 0.005f;
 		const float ZoomFactor = 0.005f;
 
 		public enum NavigationAction
@@ -32,6 +37,15 @@ namespace Onyx3DEditor
 		public OnyxViewerNavigation()
 		{
 			MouseOffset = new Vector2(0, 0);
+		}
+
+		public void Bind(GLControl rendercanvas)
+		{
+			rendercanvas.MouseDown += new MouseEventHandler(OnMouseDown);
+			rendercanvas.MouseUp += new MouseEventHandler(OnMouseUp);
+			rendercanvas.MouseMove += new MouseEventHandler(OnMouseMove);
+			rendercanvas.MouseWheel += new MouseEventHandler(OnMouseWheel);
+			rendercanvas.KeyPress += new KeyPressEventHandler(OnKeyPress);
 		}
 
 		public void CreateCamera()
@@ -66,13 +80,16 @@ namespace Onyx3DEditor
 
 		private void DragCamera()
 		{
-			Vector3 camPos = NavigationCamera.Parent.Transform.LocalPosition;
 			Vector3 translation = new Vector3(-MouseOffset.X * DragFactor, MouseOffset.Y * DragFactor, 0);
-			translation = Vector3.TransformVector(translation, NavigationCamera.Parent.Transform.GetRotationMatrix());
-			
-			
-			camPos += translation;
+			MoveCamera(translation);
+		}
 
+		private void MoveCamera(Vector3 translation)
+		{
+			Vector3 camPos = NavigationCamera.Parent.Transform.LocalPosition;
+			translation = Vector3.TransformVector(translation, NavigationCamera.Transform.GetRotationMatrix());
+			translation = Vector3.TransformVector(translation, NavigationCamera.Parent.Transform.GetRotationMatrix());
+			camPos += translation;
 			NavigationCamera.Parent.Transform.LocalPosition = camPos;
 		}
 
@@ -111,11 +128,25 @@ namespace Onyx3DEditor
 
 		public void OnMouseWheel(object sender, MouseEventArgs e)
 		{
-			float change = -e.Delta;
-			Vector3 forwardCam = Vector3.TransformVector(Vector3.UnitZ, NavigationCamera.Transform.GetRotationMatrix());
-			Vector3 forwardCamParent = Vector3.TransformVector(Vector3.UnitZ, NavigationCamera.Parent.Transform.GetRotationMatrix());
-			forwardCamParent.Y = forwardCam.Y;
-			NavigationCamera.Parent.Transform.Translate(forwardCamParent * change * ZoomFactor);
+			MoveCamera(Vector3.UnitZ * (-e.Delta) * ZoomFactor);
+			GLControl renderCanvas = sender as GLControl;
+			if (renderCanvas != null)
+				renderCanvas.Refresh();
+		}
+
+		public void OnKeyPress(object sender, System.Windows.Forms.KeyPressEventArgs e)
+		{
+			MouseOffset = Vector2.Zero;
+
+			if (e.KeyChar.Equals(RIGHT_CHAR))
+				MoveCamera(Vector3.UnitX * DragFactor * 10);
+			else if (e.KeyChar.Equals(BACKWARDS_CHAR))
+				MoveCamera(Vector3.UnitZ * DragFactor * 10);
+			else if (e.KeyChar.Equals(FORWARDS_CHAR))
+				MoveCamera(-Vector3.UnitZ * DragFactor * 10);
+			else if (e.KeyChar.Equals(LEFT_CHAR))
+				MoveCamera(-Vector3.UnitX * DragFactor * 10);
+
 			GLControl renderCanvas = sender as GLControl;
 			if (renderCanvas != null)
 				renderCanvas.Refresh();

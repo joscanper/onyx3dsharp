@@ -27,6 +27,8 @@ namespace Onyx3DEditor
 		{
 			InitializeComponent();
 			InitializeCanvas();
+
+			mNavigation.Bind(renderCanvas);
 		}
 
 		private void InitScene()
@@ -43,13 +45,24 @@ namespace Onyx3DEditor
 			myGridRenderer.Material = myOnyxInstance.Content.BuiltInMaterials.Unlit;
 			grid.Parent = myScene.Root;
 
-			SceneObject teapot = new SceneObject("TEapot");
+			SceneObject teapot = new SceneObject("Teapot");
 			MeshRenderer teapotMesh = teapot.AddComponent<MeshRenderer>();
 			teapotMesh.Mesh = myOnyxInstance.Content.BuiltInMeshes.Teapot;
+			teapot.Transform.LocalPosition = new Vector3(0, 0.5f, 0);
 			teapotMesh.Material = myOnyxInstance.Content.BuiltInMaterials.Default;
 			teapot.Parent = myScene.Root;
 			myTeapot = teapot;
 
+			SceneObject teapot2 = new SceneObject("Teapot2");
+			MeshRenderer teapot2Mesh = teapot2.AddComponent<MeshRenderer>();
+			teapot2Mesh.Mesh = myOnyxInstance.Content.BuiltInMeshes.Teapot;
+			teapot2Mesh.Material = myOnyxInstance.Content.BuiltInMaterials.Default;
+			teapot2.Transform.LocalScale = new Vector3(0.5f, 0.5f, 0.5f);
+			teapot2.Transform.LocalPosition = new Vector3(0, 1.75f, 0);
+			teapot2.Parent = myScene.Root;
+
+			Axis axis = new Axis("Axis", myOnyxInstance.Content);
+			axis.Parent = teapot;
 
 			mNavigation.CreateCamera();
 
@@ -63,6 +76,7 @@ namespace Onyx3DEditor
 			if (myScene.Root.ChildCount > 0)
 				AddSceneObjectToTreeNode(root, myScene.Root, true);
 			treeViewSceneHierarchy.Nodes.Add(root);
+			treeViewSceneHierarchy.ExpandAll();
 		}
 
 		private void AddSceneObjectToTreeNode(TreeNode node, SceneObject sceneObject, bool skipAdd)

@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Components\AxisRenderer.cs" />
     <Compile Include="Components\Component.cs" />
     <Compile Include="Components\GridRenderer.cs" />
     <Compile Include="Core\Onyx3D.cs" />
@@ -52,9 +53,11 @@
     <Compile Include="Graphics\Meshes\CylinderMesh.cs" />
     <Compile Include="Graphics\Meshes\Mesh.cs" />
     <Compile Include="Components\MeshRenderer.cs" />
+    <Compile Include="Graphics\Meshes\MeshUtils.cs" />
     <Compile Include="Graphics\ObjLoader.cs" />
     <Compile Include="Graphics\Texture.cs" />
     <Compile Include="Graphics\UBO.cs" />
+    <Compile Include="Scene\Axis.cs" />
     <Compile Include="Scene\Camera.cs" />
     <Compile Include="Scene\Scene.cs" />
     <Compile Include="Scene\SceneObject.cs" />
@@ -92,6 +95,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <Content Include="Resources\Shaders\UnlitFragmentShader.glsl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Shaders\UnlitVertexColorFragmentShader.glsl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
