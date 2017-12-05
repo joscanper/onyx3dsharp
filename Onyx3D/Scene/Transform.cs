@@ -84,5 +84,13 @@ namespace Onyx3D
 		{
 			LocalPosition += translation;
 		}
+
+		public Vector3 LocalToWorld(Vector3 point)
+		{
+			
+			Vector4 world = new Vector4(point,1);
+			world = world * GetModelMatrix();
+			return new Vector3(world);
+		}
 	}
 }

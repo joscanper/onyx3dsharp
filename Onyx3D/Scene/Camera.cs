@@ -58,7 +58,7 @@ namespace Onyx3D
 		{
 			mUBufferData.View = ViewMatrix;
 			mUBufferData.Projection = ProjectionMatrix;
-			mUBufferData.Position = Transform.LocalPosition;
+			mUBufferData.Position = Transform.LocalToWorld(Transform.LocalPosition);
 			mCameraUBO.Update(mUBufferData);
 		}
 		
