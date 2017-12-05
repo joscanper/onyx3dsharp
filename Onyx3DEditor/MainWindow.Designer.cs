@@ -49,18 +49,18 @@
 			this.toolStripButtonSaveProject = new System.Windows.Forms.ToolStripButton();
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
 			this.treeViewSceneHierarchy = new System.Windows.Forms.TreeView();
+			this.toolStrip2 = new System.Windows.Forms.ToolStrip();
+			this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
 			this.toolStrip3 = new System.Windows.Forms.ToolStrip();
 			this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
 			this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
-			this.toolStrip2 = new System.Windows.Forms.ToolStrip();
-			this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
 			this.toolStrip1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
 			this.splitContainer1.Panel1.SuspendLayout();
 			this.splitContainer1.Panel2.SuspendLayout();
 			this.splitContainer1.SuspendLayout();
-			this.toolStrip3.SuspendLayout();
 			this.toolStrip2.SuspendLayout();
+			this.toolStrip3.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// renderCanvas
@@ -128,6 +128,7 @@
 			// splitContainer1.Panel2
 			// 
 			this.splitContainer1.Panel2.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
+			this.splitContainer1.Panel2.Controls.Add(this.toolStrip2);
 			this.splitContainer1.Panel2.Controls.Add(this.toolStrip3);
 			this.splitContainer1.Panel2.Controls.Add(this.renderCanvas);
 			this.splitContainer1.Size = new System.Drawing.Size(979, 520);
@@ -141,6 +142,26 @@
 			this.treeViewSceneHierarchy.Name = "treeViewSceneHierarchy";
 			this.treeViewSceneHierarchy.Size = new System.Drawing.Size(218, 520);
 			this.treeViewSceneHierarchy.TabIndex = 0;
+			// 
+			// toolStrip2
+			// 
+			this.toolStrip2.Dock = System.Windows.Forms.DockStyle.None;
+			this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripButton3});
+			this.toolStrip2.Location = new System.Drawing.Point(0, 0);
+			this.toolStrip2.Name = "toolStrip2";
+			this.toolStrip2.Size = new System.Drawing.Size(35, 25);
+			this.toolStrip2.TabIndex = 3;
+			this.toolStrip2.Text = "toolStrip2";
+			// 
+			// toolStripButton3
+			// 
+			this.toolStripButton3.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.toolStripButton3.Image = global::Onyx3DEditor.Properties.Resources.if_stock_draw_cube_21540;
+			this.toolStripButton3.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.toolStripButton3.Name = "toolStripButton3";
+			this.toolStripButton3.Size = new System.Drawing.Size(23, 22);
+			this.toolStripButton3.Text = "toolStripButtonNewEmptySceneNode";
 			// 
 			// toolStrip3
 			// 
@@ -175,37 +196,17 @@
 			this.toolStripButton1.Text = "toolStripButtonMaterials";
 			this.toolStripButton1.Click += new System.EventHandler(this.toolStripButtonMaterials_Click);
 			// 
-			// toolStrip2
-			// 
-			this.toolStrip2.Dock = System.Windows.Forms.DockStyle.None;
-			this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripButton3});
-			this.toolStrip2.Location = new System.Drawing.Point(222, 25);
-			this.toolStrip2.Name = "toolStrip2";
-			this.toolStrip2.Size = new System.Drawing.Size(66, 25);
-			this.toolStrip2.TabIndex = 3;
-			this.toolStrip2.Text = "toolStrip2";
-			// 
-			// toolStripButton3
-			// 
-			this.toolStripButton3.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.toolStripButton3.Image = global::Onyx3DEditor.Properties.Resources.if_stock_draw_cube_21540;
-			this.toolStripButton3.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.toolStripButton3.Name = "toolStripButton3";
-			this.toolStripButton3.Size = new System.Drawing.Size(23, 22);
-			this.toolStripButton3.Text = "toolStripButtonNewEmptySceneNode";
-			// 
 			// MainWindow
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(979, 545);
-			this.Controls.Add(this.toolStrip2);
 			this.Controls.Add(this.splitContainer1);
 			this.Controls.Add(this.toolStrip1);
 			this.Name = "MainWindow";
 			this.Text = "MainWindow";
 			this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+			this.Activated += new System.EventHandler(this.MainWindow_Activated);
 			this.toolStrip1.ResumeLayout(false);
 			this.toolStrip1.PerformLayout();
 			this.splitContainer1.Panel1.ResumeLayout(false);
@@ -213,10 +214,10 @@
 			this.splitContainer1.Panel2.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
 			this.splitContainer1.ResumeLayout(false);
-			this.toolStrip3.ResumeLayout(false);
-			this.toolStrip3.PerformLayout();
 			this.toolStrip2.ResumeLayout(false);
 			this.toolStrip2.PerformLayout();
+			this.toolStrip3.ResumeLayout(false);
+			this.toolStrip3.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 

@@ -62,7 +62,7 @@ namespace Onyx3DEditor
 			teapot2.Parent = myScene.Root;
 
 			Axis axis = new Axis("Axis", myOnyxInstance.Content);
-			axis.Parent = teapot;
+			axis.Parent = teapot2;
 
 			mNavigation.CreateCamera();
 
@@ -114,6 +114,12 @@ namespace Onyx3DEditor
 		#endregion
 
 		#region UI callbacks
+
+		private void MainWindow_Activated(object sender, EventArgs e)
+		{
+			if (renderCanvas.Context != null)
+				renderCanvas.MakeCurrent();
+		}
 
 		private void toolStripButtonSaveProject_Click(object sender, EventArgs e)
 		{
