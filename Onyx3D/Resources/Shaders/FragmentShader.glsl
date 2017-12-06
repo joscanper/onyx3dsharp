@@ -11,6 +11,7 @@ vec3 lightdir = vec3(0,1,2);
 
 uniform sampler2D t_base;
 uniform float fresnel;
+uniform float fresnel_strength;
 
 //#include OnyxShaderCamera
 
@@ -23,13 +24,14 @@ layout(std140) uniform CameraData {
 
 void main()
 { 
-	vec3 dirToCam = cameraPos - o_fragpos;
+	
+	vec3 dirToCam = normalize(cameraPos - o_fragpos);
 	vec3 N = normalize(o_normal);
 
 	vec4 t = texture(t_base, o_uv);
 
 	float nDotL = dot(N, normalize(lightdir));
-	float rim = clamp(abs(pow(1-dot(N, dirToCam), fresnel)),0,1);
+	float rim = clamp(abs(pow(1-dot(N, dirToCam), fresnel)) * fresnel_strength,0,1);
 	float col = clamp(nDotL + rim,0,1);
 	fragColor = vec4(vec3(t*col),1);
 }

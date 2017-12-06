@@ -38,6 +38,7 @@ namespace Onyx3D
 		{
 
 			Matrix4 M = Transform.GetModelMatrix();
+			Matrix4 R = Transform.GetRotationMatrix();
 			//Matrix4 V = cam.ViewMatrix;
 			//Matrix4 P = cam.ProjectionMatrix;
 			//Matrix4 MVP = P * V * M;
@@ -46,6 +47,7 @@ namespace Onyx3D
 			//GL.UniformMatrix4(GL.GetUniformLocation(program, "V"), false, ref V);
 			//GL.UniformMatrix4(GL.GetUniformLocation(program, "P"), false, ref P);
 			GL.UniformMatrix4(GL.GetUniformLocation(program, "M"), false, ref M);
+			GL.UniformMatrix4(GL.GetUniformLocation(program, "R"), false, ref R);
 			//GL.UniformMatrix4(GL.GetUniformLocation(program, "MVP"), false, ref MVP);
 
 		}

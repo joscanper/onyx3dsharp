@@ -7,6 +7,7 @@ layout (location = 3) in vec2 texcoord;
 
 //uniform mat4 MVP;
 uniform mat4 M;
+uniform mat4 R;
 
 out vec3 o_color;
 out vec3 o_normal;
@@ -28,7 +29,7 @@ void main()
 	o_color = color;
 	o_uv = vec2(texcoord.x, 1.0 - texcoord.y);
 	
-	o_normal = (M * vec4(normal,1)).xyz;
+	o_normal = (R * vec4(normal,1)).xyz;
 	vec4 worldPos = M * vec4(position, 1);
 	o_fragpos = worldPos.xyz;
 	gl_Position = P * V * worldPos;
