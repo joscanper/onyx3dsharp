@@ -69,9 +69,11 @@ namespace Onyx3D
 			// Materials
 			BuiltInMaterials.Default = new Material();
 			BuiltInMaterials.Default.Shader = BuiltInShaders.Default;
-			BuiltInMaterials.Default.Properties.Add("t_base", new TextureMaterialProperty(MaterialPropertyType.Sampler2D, BuiltInTextures.Checker, 0));
-			BuiltInMaterials.Default.Properties.Add("fresnel", new MaterialProperty(MaterialPropertyType.Float, 5.0f));
-			BuiltInMaterials.Default.Properties.Add("fresnel_strength", new MaterialProperty(MaterialPropertyType.Float, 2.0f));
+			BuiltInMaterials.Default.Properties.Add("base_color", new MaterialProperty(MaterialPropertyType.Color, new Vector4(1,1,1, 1)));
+			BuiltInMaterials.Default.Properties.Add("base_texture", new TextureMaterialProperty(MaterialPropertyType.Sampler2D, BuiltInTextures.Checker, 0));
+			BuiltInMaterials.Default.Properties.Add("fresnel", new MaterialProperty(MaterialPropertyType.Float, 2.5f));
+			BuiltInMaterials.Default.Properties.Add("fresnel_strength", new MaterialProperty(MaterialPropertyType.Float, 0.5f));
+			
 
 			BuiltInMaterials.Unlit = new Material();
 			BuiltInMaterials.Unlit.Shader = BuiltInShaders.Unlit;

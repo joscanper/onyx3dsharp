@@ -15,6 +15,7 @@ namespace Onyx3D
 		Vector2,
 		Vector3,
 		Vector4,
+		Color,
 		Sampler2D,
 		Cubemap
 	};
@@ -72,9 +73,11 @@ namespace Onyx3D
 						GL.Uniform3(GL.GetUniformLocation(Shader.Program, mp.Key), v3);
 						break;
 					case MaterialPropertyType.Vector4:
+					case MaterialPropertyType.Color:
 						Vector4 v4 = (Vector4)mp.Value.Data;
 						GL.Uniform4(GL.GetUniformLocation(Shader.Program, mp.Key), v4);
 						break;
+
 				}
 			}
 		}

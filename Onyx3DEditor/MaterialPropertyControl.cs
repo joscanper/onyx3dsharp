@@ -9,6 +9,7 @@ using System.Windows.Forms;
 
 
 using Onyx3D;
+using OpenTK;
 
 namespace Onyx3DEditor
 {
@@ -33,6 +34,9 @@ namespace Onyx3DEditor
 
 			switch (prop.Type)
 			{
+				case MaterialPropertyType.Color:
+					SetColorLayout(prop);
+					break;
 				case MaterialPropertyType.Sampler2D:
 					SetTextureLayout(prop);
 					break;
@@ -42,6 +46,23 @@ namespace Onyx3DEditor
 			}
 		}
 
+		private void SetColorLayout(MaterialProperty prop)
+		{
+			Vector4 color = (Vector4)prop.Data;
+			Color systemColor = Color.FromArgb((int)(color.X * 255), (int)(color.Y * 255), (int)(color.Z * 255));
+			
+			
+			PictureBox colorBox = new PictureBox();
+			colorBox.Size = new Size(64, 20);
+			colorBox.BackColor = systemColor;
+			colorBox.BorderStyle = BorderStyle.FixedSingle;
+			panelPropertyValue.Controls.Add(colorBox);
+			panelPropertyValue.Size = new Size(panelPropertyValue.Size.Width, 70);
+			//this.Size = new Size(this.Size.Width, 70);
+			colorBox.Click += OnColorBoxClicked;
+
+			mPropertyControl = colorBox;
+		}
 
 		private void SetTextureLayout(MaterialProperty prop)
 		{
@@ -68,6 +89,24 @@ namespace Onyx3DEditor
 
 			mPropertyControl = tb;
 		}
+
+
+		private void OnColorBoxClicked(object sender, EventArgs e)
+		{
+			ColorDialog colorPicker = new ColorDialog();
+			colorPicker.SolidColorOnly = false;
+			if (colorPicker.ShowDialog() == DialogResult.OK)
+			{
+				Color c = colorPicker.Color;
+				mProperty.Data = new Vector4(c.R / 255.0f, c.G / 255.0f, c.B / 255.0f, c.A / 255.0f);
+
+				PictureBox cb = (PictureBox)mPropertyControl;
+				cb.BackColor = c;
+
+				OnPropertyChanged();
+			}
+		}
+
 
 		private void OnPictureBoxClicked(object sender, EventArgs e)
 		{
