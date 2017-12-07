@@ -10,6 +10,8 @@ using System.Collections.Generic;
 
 namespace Onyx3DEditor
 {
+	
+
 	public partial class MainWindow : Form
 	{
 		bool canDraw = false;
@@ -20,6 +22,11 @@ namespace Onyx3DEditor
 		Camera myCamera;
 		GridRenderer myGridRenderer;
 		SceneObject myTeapot;
+
+
+		AxisRenderer myAxis;
+		BoxRenderer myBox;
+
 
 		OnyxViewerNavigation mNavigation = new OnyxViewerNavigation();
 
@@ -38,7 +45,6 @@ namespace Onyx3DEditor
 			myOnyxInstance = new Onyx3DInstance();
 			myOnyxInstance.Init();
 
-			
 			SceneObject grid = new SceneObject("Grid");
 			myGridRenderer = grid.AddComponent<GridRenderer>();
 			myGridRenderer.GenerateGridMesh(10, 10, 0.25f, 0.25f);
@@ -61,8 +67,11 @@ namespace Onyx3DEditor
 			teapot2.Transform.LocalPosition = new Vector3(0, 1.75f, 0);
 			teapot2.Parent = myScene.Root;
 
-			Axis axis = new Axis("Axis", myOnyxInstance.Content);
-			axis.Parent = teapot2;
+			myAxis = teapot2.AddComponent<AxisRenderer>();
+			myAxis.Material = myOnyxInstance.Content.BuiltInMaterials.UnlitVertexColor;
+
+			myBox = teapot2.AddComponent<BoxRenderer>();
+			myBox.Material = myOnyxInstance.Content.BuiltInMaterials.UnlitVertexColor;
 
 			mNavigation.CreateCamera();
 
@@ -81,13 +90,29 @@ namespace Onyx3DEditor
 
 		private void AddSceneObjectToTreeNode(TreeNode node, SceneObject sceneObject, bool skipAdd)
 		{
-			TreeNode objectNode = new TreeNode(sceneObject.Id);
+			SceneTreeNode objectNode = new SceneTreeNode(sceneObject);
 			if (!skipAdd)
 				node.Nodes.Add(objectNode);
 			for (int i = 0; i < sceneObject.ChildCount; ++i)
 				AddSceneObjectToTreeNode(skipAdd ? node : objectNode, sceneObject.GetChild(i), false);
 
 		}
+
+		private void SelectObject(SceneObject node)
+		{
+			if (node == null)
+			{
+				myAxis.SceneObject.RemoveComponent(myAxis);
+				myBox.SceneObject.RemoveComponent(myBox);
+			}
+			else
+			{
+				node.AddComponent(myAxis);
+				node.AddComponent(myBox);
+			}
+			renderCanvas.Refresh();
+		}
+
 
 		#region RenderCanvas callbacks
 
@@ -188,7 +213,25 @@ namespace Onyx3DEditor
 			}
 		}
 
+
+		private void treeViewSceneHierarchy_NodeSelected(object sender, TreeViewEventArgs e)
+		{
+			if (e.Node.GetType() != typeof(SceneTreeNode))
+			{
+				SelectObject(null);
+				return;
+			}
+
+			SceneTreeNode sceneTreeeNode = (SceneTreeNode)e.Node;
+			if (sceneTreeeNode != null)
+			{
+				SelectObject(sceneTreeeNode.BoundSceneObject);
+			}
+		}
+
 		#endregion
+
+
 
 	}
 }

@@ -49,7 +49,6 @@ C:\Users\Josue\Desktop\Onyx3DSharp\Onyx3DEditor\bin\Debug\OpenTK.GLControl.dll
 C:\Users\Josue\Desktop\Onyx3DSharp\Onyx3DEditor\bin\Debug\Onyx3D.pdb
 C:\Users\Josue\Desktop\Onyx3DSharp\Onyx3DEditor\bin\Debug\OpenTK.pdb
 C:\Users\Josue\Desktop\Onyx3DSharp\Onyx3DEditor\obj\Debug\Onyx3DEditor.csprojResolveAssemblyReference.cache
-C:\Users\Josue\Desktop\Onyx3DSharp\Onyx3DEditor\obj\Debug\Onyx3DEditor.MainWindow.resources
 C:\Users\Josue\Desktop\Onyx3DSharp\Onyx3DEditor\obj\Debug\Onyx3DEditor.MaterialEditor.resources
 C:\Users\Josue\Desktop\Onyx3DSharp\Onyx3DEditor\obj\Debug\Onyx3DEditor.MaterialPropertiesControl.resources
 C:\Users\Josue\Desktop\Onyx3DSharp\Onyx3DEditor\obj\Debug\Onyx3DEditor.Properties.Resources.resources
@@ -62,3 +61,4 @@ C:\Users\Josue\Desktop\Onyx3DSharp\Onyx3DEditor\obj\Debug\Onyx3DEditor.MaterialP
 C:\Users\Josue\Desktop\Onyx3DSharp\Onyx3DEditor\obj\Debug\Onyx3DEditor.TextureSelector.resources
 C:\Users\Josue\Desktop\Onyx3DSharp\Onyx3DEditor\bin\Debug\Resources\Shaders\UnlitFragmentShader.glsl
 C:\Users\Josue\Desktop\Onyx3DSharp\Onyx3DEditor\bin\Debug\Resources\Shaders\UnlitVertexColorFragmentShader.glsl
+C:\Users\Josue\Desktop\Onyx3DSharp\Onyx3DEditor\obj\Debug\Onyx3DEditor.MainWindow.resources

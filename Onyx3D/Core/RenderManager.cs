@@ -59,9 +59,9 @@ namespace Onyx3D
 			do
 			{
 				s = objects.Dequeue();
-				MeshRenderer r = s.GetComponent<MeshRenderer>();
-				if (r != null)
-					rendereres.Add(r);
+				List<MeshRenderer> objRenderers = s.GetComponents<MeshRenderer>();
+				if (objRenderers.Count > 0)
+					rendereres.AddRange(objRenderers);
 
 				for (int i = 0; i < s.ChildCount; i++)
 				{

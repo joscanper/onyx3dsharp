@@ -92,6 +92,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="ProjectLoader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SceneTreeNode.cs" />
     <Compile Include="TextureManager.cs">
       <SubType>Form</SubType>
     </Compile>

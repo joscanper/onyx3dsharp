@@ -61,6 +61,17 @@ namespace Onyx3D
 			Transform = new Transform(this);
 		}
 
+		public bool RemoveComponent(Component c)
+		{
+			return mComponents.Remove(c);
+		}
+
+		public void AddComponent(Component comp)
+		{
+			comp.Attach(this);
+			mComponents.Add(comp);
+		}
+
 		public T AddComponent<T>() where T : Component, new()
 		{
 			T newComp = new T();
@@ -80,8 +91,20 @@ namespace Onyx3D
 			return null;
 		}
 
+		public List<T> GetComponents<T>() where T : Component
+		{
+			List<T> components = new List<T>();
+			for (int i = 0; i < mComponents.Count; ++i)
+			{
+				T comp = (T)mComponents[i];
+				if (comp != null)
+					components.Add(comp);
+			}
+			return components;
+		}
 
 
-		
+
+
 	}
 }

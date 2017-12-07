@@ -1,4 +1,7 @@
-﻿namespace Onyx3DEditor
+﻿using System;
+using System.Windows.Forms;
+
+namespace Onyx3DEditor
 {
 	partial class MainWindow
 	{
@@ -123,12 +126,12 @@
 			// 
 			// splitContainer1.Panel1
 			// 
+			this.splitContainer1.Panel1.Controls.Add(this.toolStrip2);
 			this.splitContainer1.Panel1.Controls.Add(this.treeViewSceneHierarchy);
 			// 
 			// splitContainer1.Panel2
 			// 
 			this.splitContainer1.Panel2.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
-			this.splitContainer1.Panel2.Controls.Add(this.toolStrip2);
 			this.splitContainer1.Panel2.Controls.Add(this.toolStrip3);
 			this.splitContainer1.Panel2.Controls.Add(this.renderCanvas);
 			this.splitContainer1.Size = new System.Drawing.Size(979, 520);
@@ -142,15 +145,16 @@
 			this.treeViewSceneHierarchy.Name = "treeViewSceneHierarchy";
 			this.treeViewSceneHierarchy.Size = new System.Drawing.Size(218, 520);
 			this.treeViewSceneHierarchy.TabIndex = 0;
+			this.treeViewSceneHierarchy.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeViewSceneHierarchy_NodeSelected);
 			// 
 			// toolStrip2
 			// 
-			this.toolStrip2.Dock = System.Windows.Forms.DockStyle.None;
+			this.toolStrip2.Dock = System.Windows.Forms.DockStyle.Bottom;
 			this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripButton3});
-			this.toolStrip2.Location = new System.Drawing.Point(0, 0);
+			this.toolStrip2.Location = new System.Drawing.Point(0, 495);
 			this.toolStrip2.Name = "toolStrip2";
-			this.toolStrip2.Size = new System.Drawing.Size(35, 25);
+			this.toolStrip2.Size = new System.Drawing.Size(218, 25);
 			this.toolStrip2.TabIndex = 3;
 			this.toolStrip2.Text = "toolStrip2";
 			// 
@@ -165,12 +169,12 @@
 			// 
 			// toolStrip3
 			// 
-			this.toolStrip3.Dock = System.Windows.Forms.DockStyle.Right;
+			this.toolStrip3.Dock = System.Windows.Forms.DockStyle.Left;
 			this.toolStrip3.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripButton2,
             this.toolStripButton1});
 			this.toolStrip3.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.VerticalStackWithOverflow;
-			this.toolStrip3.Location = new System.Drawing.Point(733, 0);
+			this.toolStrip3.Location = new System.Drawing.Point(0, 0);
 			this.toolStrip3.Name = "toolStrip3";
 			this.toolStrip3.Size = new System.Drawing.Size(24, 520);
 			this.toolStrip3.TabIndex = 2;
@@ -210,6 +214,7 @@
 			this.toolStrip1.ResumeLayout(false);
 			this.toolStrip1.PerformLayout();
 			this.splitContainer1.Panel1.ResumeLayout(false);
+			this.splitContainer1.Panel1.PerformLayout();
 			this.splitContainer1.Panel2.ResumeLayout(false);
 			this.splitContainer1.Panel2.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
@@ -222,6 +227,7 @@
 			this.PerformLayout();
 
 		}
+
 
 		#endregion
 

@@ -12,7 +12,10 @@ namespace Onyx3D
 
         public void Attach(SceneObject obj)
         {
-            mObject = obj;
+			if (mObject != null)
+				mObject.RemoveComponent(this);
+				
+			mObject = obj;
             mTransform = obj.Transform;
         }
 
