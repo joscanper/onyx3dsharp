@@ -1,12 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
+using System.Security.Permissions;
 using System.Text;
 
 namespace Onyx3D
 {
-	public class SceneObject
+	
+	public class SceneObject : Object
 	{
+	
 		private List<Component> mComponents = new List<Component>();
 		private SceneObject mParent;
 		private List<SceneObject> mChildren = new List<SceneObject>();
@@ -53,8 +57,9 @@ namespace Onyx3D
 		{
 			return mChildren[index];
 		}
+		
 
-        public SceneObject(string id, Scene scene = null)
+		public SceneObject(string id, Scene scene = null, int instanceId = 0) : base(instanceId)
         {
             Id = id;
 			mScene = scene;
@@ -102,9 +107,6 @@ namespace Onyx3D
 			}
 			return components;
 		}
-
-
-
 
 	}
 }

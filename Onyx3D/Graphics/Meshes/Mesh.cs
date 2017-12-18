@@ -33,7 +33,8 @@ namespace Onyx3D
 		}
 	}
 
-    public class Mesh
+	[Serializable]
+	public class Mesh
     {
 		
         private int mVertexArrayObject;
@@ -122,6 +123,33 @@ namespace Onyx3D
 			Vertices.Add(v4);
 			Vertices.Add(v3);
 
+		}
+
+
+		public Box3d GetBoundingBox()
+		{
+			Box3d bbox = new Box3d();
+			
+			foreach (Vertex v in Vertices)
+			{
+				Vector3 vp = v.Position;
+				if (vp.X < bbox.MinX)
+					bbox.MinX = vp.X;
+				else if (vp.X > bbox.MaxX)
+					bbox.MaxX = vp.X;
+
+				if (vp.Y < bbox.MinY)
+					bbox.MinY = vp.Y;
+				else if (vp.Y > bbox.MaxY)
+					bbox.MaxY = vp.Y;
+
+				if (vp.Z < bbox.MinZ)
+					bbox.MinZ = vp.Z;
+				else if (vp.Z > bbox.MaxZ)
+					bbox.MaxZ = vp.Z;
+			}
+
+			return bbox;
 		}
 	}
 

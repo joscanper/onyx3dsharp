@@ -19,13 +19,14 @@ namespace Onyx3DEditor
 		Onyx3DInstance myOnyxInstance;
 
 		Scene myScene;
-		Camera myCamera;
 		GridRenderer myGridRenderer;
 		SceneObject myTeapot;
 
 
 		AxisRenderer myAxis;
 		BoxRenderer myBox;
+
+		string mScenePath;
 
 
 		OnyxViewerNavigation mNavigation = new OnyxViewerNavigation();
@@ -40,16 +41,11 @@ namespace Onyx3DEditor
 
 		private void InitScene()
 		{
+
 			myScene = new Scene();
 
 			myOnyxInstance = new Onyx3DInstance();
 			myOnyxInstance.Init();
-
-			SceneObject grid = new SceneObject("Grid");
-			myGridRenderer = grid.AddComponent<GridRenderer>();
-			myGridRenderer.GenerateGridMesh(10, 10, 0.25f, 0.25f);
-			myGridRenderer.Material = myOnyxInstance.Content.BuiltInMaterials.Unlit;
-			grid.Parent = myScene.Root;
 
 			SceneObject teapot = new SceneObject("Teapot");
 			MeshRenderer teapotMesh = teapot.AddComponent<MeshRenderer>();
@@ -66,6 +62,14 @@ namespace Onyx3DEditor
 			teapot2.Transform.LocalScale = new Vector3(0.5f, 0.5f, 0.5f);
 			teapot2.Transform.LocalPosition = new Vector3(0, 1.75f, 0);
 			teapot2.Parent = myScene.Root;
+
+			// Editor objects --------------------------------------
+
+			SceneObject grid = new SceneObject("Grid");
+			myGridRenderer = grid.AddComponent<GridRenderer>();
+			myGridRenderer.GenerateGridMesh(100, 100, 0.25f, 0.25f);
+			myGridRenderer.Material = myOnyxInstance.Content.BuiltInMaterials.Unlit;
+			myGridRenderer.Material.Properties["color"].Data = new Vector4(1, 1, 1, 0.1f);
 
 			myAxis = teapot2.AddComponent<AxisRenderer>();
 			myAxis.Material = myOnyxInstance.Content.BuiltInMaterials.UnlitVertexColor;
@@ -108,6 +112,11 @@ namespace Onyx3DEditor
 			else
 			{
 				node.AddComponent(myAxis);
+				MeshRenderer meshR = node.GetComponent<MeshRenderer>();
+				if (meshR != null)
+					myBox.GenerateBox(meshR.Mesh.GetBoundingBox());
+				else
+					myBox.GenerateDefaultBox();
 				node.AddComponent(myBox);
 			}
 			renderCanvas.Refresh();
@@ -128,10 +137,13 @@ namespace Onyx3DEditor
 				return;
 
 
-			mNavigation.NavigationCamera.InitPerspective(1.5f, (float)renderCanvas.Width / (float)renderCanvas.Height);
+			mNavigation.NavigationCamera.Aspect = (float)renderCanvas.Width / (float)renderCanvas.Height;
 			mNavigation.UpdateCamera();
 
 			myOnyxInstance.RenderManager.Render(myScene, mNavigation.NavigationCamera, renderCanvas.Width, renderCanvas.Height);
+
+			myOnyxInstance.RenderManager.Render(myGridRenderer, mNavigation.NavigationCamera);
+			
 
 			renderCanvas.SwapBuffers();
 		}
@@ -229,8 +241,61 @@ namespace Onyx3DEditor
 			}
 		}
 
-		#endregion
+		private void toolStripButtonSaveScene_Click(object sender, EventArgs e)
+		{
+			//ProjectManager.Instance.Content.Scenes.Add(myScene);
 
+			if (mScenePath == null || mScenePath.Length == 0)
+			{
+				SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+				saveFileDialog1.Filter = "Onyx3d scene files (*.o3dscene)|*.o3dscene";
+				saveFileDialog1.FilterIndex = 2;
+				saveFileDialog1.RestoreDirectory = true;
+
+				if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+				{
+					SceneLoader.Save(myScene, saveFileDialog1.FileName);
+					mScenePath = saveFileDialog1.FileName;
+					ProjectManager.Instance.Content.Scenes.Add(new OnyxProjectAsset(mScenePath));
+				}
+			}
+			else
+			{
+				SceneLoader.Save(myScene, mScenePath);
+			}
+		}
+
+		private void toolStripButtonOpenScene_Click(object sender, EventArgs e)
+		{
+
+			Stream myStream;
+			OpenFileDialog openFileDialog1 = new OpenFileDialog();
+
+			openFileDialog1.InitialDirectory = "c:\\";
+			openFileDialog1.Filter = "Onyx3d project files (*.o3dscene)|*.o3dscene";
+			openFileDialog1.FilterIndex = 2;
+			openFileDialog1.RestoreDirectory = true;
+
+			if (openFileDialog1.ShowDialog() == DialogResult.OK)
+			{
+				try
+				{
+					if ((myStream = openFileDialog1.OpenFile()) != null)
+					{
+						myScene = SceneLoader.Load(openFileDialog1.FileName);
+						UpdateTreeView();
+						renderCanvas.Refresh();
+					}
+				}
+				catch (Exception ex)
+				{
+					MessageBox.Show("Error: Could not read file from disk. Original error: " + ex.Message);
+				}
+			}
+			
+		}
+
+		#endregion
 
 
 	}

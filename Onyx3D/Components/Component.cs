@@ -5,10 +5,13 @@ using System.Text;
 
 namespace Onyx3D
 {
-	public abstract class Component
+	[Serializable]
+	public abstract class Component : Object
 	{
         private SceneObject mObject;
         private Transform mTransform;
+
+		public Component(int instanceId = 0) : base(instanceId) { }
 
         public void Attach(SceneObject obj)
         {

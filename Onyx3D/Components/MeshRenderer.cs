@@ -8,6 +8,7 @@ using OpenTK.Graphics.OpenGL;
 
 namespace Onyx3D
 {
+	
     public class MeshRenderer : Component
     {
         public Mesh Mesh;

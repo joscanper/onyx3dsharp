@@ -15,10 +15,13 @@ namespace Onyx3D
 		public Vector3 Position;
 	}
 
-
+	[Serializable]
 	public class Camera : SceneObject
 	{
-		Matrix4 mProjection;
+		public float Near;
+		public float Far;
+
+		protected Matrix4 mProjection;
 
 		UBO<CameraUBufferData> mCameraUBO;
 		CameraUBufferData mUBufferData;
@@ -38,22 +41,15 @@ namespace Onyx3D
 		}
 
 
-		public Camera(string id) : base(id)
+		public Camera(string id, float near = 0.1f, float far = 1000) : base(id)
 		{
+			Near = near;
+			Far = far;
 			mUBufferData = new CameraUBufferData();
 			mCameraUBO = new UBO<CameraUBufferData>(mUBufferData, "CameraData");
 		}
 
-		public void InitPerspective(float fov, float aspect, float near = 0.1f, float far = 1000)
-		{
-			mProjection = Matrix4.CreatePerspectiveFieldOfView(fov, aspect, near, far);
-		}
-
-		public void InitOrtho(float w, float h, float near = 0.1f, float far = 1000)
-		{
-			mProjection = Matrix4.CreateOrthographic(w, h, near, far);
-		}
-
+		
 		public void UpdateUBO()
 		{
 			mUBufferData.View = ViewMatrix;
@@ -61,6 +57,52 @@ namespace Onyx3D
 			mUBufferData.Position = Transform.LocalToWorld(Transform.LocalPosition);
 			mCameraUBO.Update(mUBufferData);
 		}
+
+		public virtual void Update()
+		{
+			UpdateUBO();
+		}
 		
+	}
+
+
+	[Serializable]
+	public class PerspectiveCamera : Camera
+	{
+		public float FOV;
+		public float Aspect;
+
+		public PerspectiveCamera(string id, float fov, float aspect, float near = 0.1f, float far = 1000) : base(id, near, far)
+		{
+			FOV = fov;
+			Aspect = aspect;
+			Update();
+		}
+
+		public override void Update()
+		{
+			base.Update();
+			mProjection = Matrix4.CreatePerspectiveFieldOfView(FOV, Aspect, Near, Far);
+		}
+	}
+
+	[Serializable]
+	public class OrthoCamera : Camera
+	{
+		public float W;
+		public float H;
+		
+		public OrthoCamera(string id, float w, float h, float near = 0.1f, float far = 1000) : base(id, near, far)
+		{
+			W = w;
+			H = h;
+			Update();
+		}
+
+		public override void Update()
+		{
+			base.Update();
+			mProjection = Matrix4.CreateOrthographic(W, H, Near, Far);
+		}
 	}
 }

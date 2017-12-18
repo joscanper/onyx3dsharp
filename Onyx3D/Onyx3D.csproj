@@ -48,6 +48,8 @@
     <Compile Include="Components\BoxRenderer.cs" />
     <Compile Include="Components\Component.cs" />
     <Compile Include="Components\GridRenderer.cs" />
+    <Compile Include="Core\Types\Box3d.cs" />
+    <Compile Include="Core\Types\Object.cs" />
     <Compile Include="Core\Onyx3D.cs" />
     <Compile Include="Core\ContentManager.cs" />
     <Compile Include="Graphics\Meshes\CubeMesh.cs" />
@@ -61,6 +63,7 @@
     <Compile Include="Scene\Axis.cs" />
     <Compile Include="Scene\Camera.cs" />
     <Compile Include="Scene\Scene.cs" />
+    <Compile Include="Scene\SceneLoader.cs" />
     <Compile Include="Scene\SceneObject.cs" />
     <Compile Include="Core\Logger.cs" />
     <Compile Include="Graphics\Material.cs" />

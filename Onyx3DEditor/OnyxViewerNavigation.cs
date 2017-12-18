@@ -31,7 +31,7 @@ namespace Onyx3DEditor
 		public Vector2 MouseOffset { get; private set; }
 
 		private Vector2 mCurrentMousePos;
-		public Camera NavigationCamera;
+		public PerspectiveCamera NavigationCamera;
 		//private GLControl mRenderCanvas;
 
 		public OnyxViewerNavigation()
@@ -53,7 +53,7 @@ namespace Onyx3DEditor
 			SceneObject mCameraPivot = new SceneObject("CameraPivot");
 			mCameraPivot.Transform.LocalPosition = new Vector3(0, 0.5f, 3);
 
-			NavigationCamera = new Camera("MainCamera");
+			NavigationCamera = new PerspectiveCamera("MainCamera", 1.5f, 1.5f);
 			NavigationCamera.Parent = mCameraPivot;
 		}
 
@@ -66,6 +66,7 @@ namespace Onyx3DEditor
 
 		public void UpdateCamera()
 		{
+			
 			switch (CurrentAction)
 			{
 				case NavigationAction.Dragging:
@@ -75,7 +76,8 @@ namespace Onyx3DEditor
 					RotateCamera();
 					break;
 			}
-			
+			NavigationCamera.Update();
+
 		}
 
 		private void DragCamera()

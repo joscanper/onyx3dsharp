@@ -54,6 +54,9 @@ namespace Onyx3D
 			List<MeshRenderer> rendereres = new List<MeshRenderer>();
 			Queue<SceneObject> objects = new Queue<SceneObject>();
 
+			if (scene.Root == null)
+				return rendereres;
+
 			objects.Enqueue(scene.Root);
 			SceneObject s;
 			do
@@ -94,6 +97,12 @@ namespace Onyx3D
 		{
 			for (int i = 0; i < renderers.Count; ++i)
 				renderers[i].Render();
+		}
+
+		public void Render(MeshRenderer r, Camera cam)
+		{
+			r.Material.Shader.BindUBO(cam.UBO);
+			r.Render();
 		}
 	}
 }

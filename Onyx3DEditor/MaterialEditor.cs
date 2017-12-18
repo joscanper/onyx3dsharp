@@ -39,10 +39,9 @@ namespace Onyx3DEditor
 
 			RebuildShader();
 			
-			myCamera = new Camera("MainCamera");
+			myCamera = new PerspectiveCamera("MainCamera", 1.5f, (float)renderCanvas.Width / (float)renderCanvas.Height);
 			myCamera.Transform.LocalPosition = new Vector3(0, 0.85f, 2);
 			myCamera.Transform.LocalRotation = Quaternion.FromAxisAngle(new Vector3(1, 0, 0), -0.45f);
-			myCamera.InitPerspective(1.5f, (float)renderCanvas.Width / (float)renderCanvas.Height);
 
 			myObject = new SceneObject("BaseObject");
 			//myObject.Transform.LocalRotation = Quaternion.FromEulerAngles(0, 0, -90);
@@ -102,8 +101,9 @@ namespace Onyx3DEditor
 			if (!canDraw)
 				return;
 
-			
-			myCamera.UpdateUBO();
+
+			myCamera.Update();
+
 			myRenderer.Material.Shader.BindUBO(myCamera.UBO);
 			gridRenderer.Material.Shader.BindUBO(myCamera.UBO);
 

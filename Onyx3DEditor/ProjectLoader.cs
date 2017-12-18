@@ -58,10 +58,12 @@ namespace Onyx3DEditor
 
 		public void Load(Stream stream)
 		{
+
 			IFormatter formatter = new BinaryFormatter();
 			int version = (int)formatter.Deserialize(stream);
 			Debug.Assert(version == VERSION);
 			Content = (ProjectContent)formatter.Deserialize(stream);
+			
 		}
 
 		public void Save()

@@ -12,17 +12,37 @@ namespace Onyx3D
 		public BoxRenderer()
 		{
 			Mesh = new Mesh();
+			
+			//TODO - Generate default box
 
-		
-			Vector3 frontTL = new Vector3(-0.5f, -0.5f, 0.5f);
-			Vector3 frontBL = new Vector3(-0.5f, 0.5f, 0.5f);
-			Vector3 frontTR = new Vector3(0.5f, -0.5f, 0.5f);
-			Vector3 frontBR = new Vector3(0.5f, 0.5f, 0.5f);
+			
+		}
 
-			Vector3 backTL = new Vector3(-0.5f, -0.5f, -0.5f);
-			Vector3 backBL = new Vector3(-0.5f, 0.5f, -0.5f);
-			Vector3 backTR = new Vector3(0.5f, -0.5f, -0.5f);
-			Vector3 backBR = new Vector3(0.5f, 0.5f, -0.5f);
+		public void GenerateDefaultBox()
+		{
+			Box3d defaultBox = new Box3d();
+			defaultBox.MinX = -0.5f;
+			defaultBox.MaxX = 0.5f;
+			defaultBox.MinY = -0.5f;
+			defaultBox.MaxY = 0.5f;
+			defaultBox.MinZ = -0.5f;
+			defaultBox.MaxZ = 0.5f;
+			GenerateBox(defaultBox);
+		}
+
+		public void GenerateBox(Box3d box)
+		{
+			Mesh = new Mesh();
+			
+			Vector3 frontTL = new Vector3(box.MinX, box.MinY, box.MaxZ);
+			Vector3 frontBL = new Vector3(box.MinX, box.MaxY, box.MaxZ);
+			Vector3 frontTR = new Vector3(box.MaxX, box.MinY, box.MaxZ);
+			Vector3 frontBR = new Vector3(box.MaxX, box.MaxY, box.MaxZ);
+
+			Vector3 backTL = new Vector3(box.MinX, box.MinY, box.MinZ);
+			Vector3 backBL = new Vector3(box.MinX, box.MaxY, box.MinZ);
+			Vector3 backTR = new Vector3(box.MaxX, box.MinY, box.MinZ);
+			Vector3 backBR = new Vector3(box.MaxX, box.MaxY, box.MinZ);
 
 			// Front rect
 			MeshUtils.CreateLine(ref Mesh, frontTL, frontTR, Vector3.One);
@@ -42,7 +62,6 @@ namespace Onyx3D
 
 			Mesh.GenerateVAO();
 		}
-
 
 		public override void Render()
 		{

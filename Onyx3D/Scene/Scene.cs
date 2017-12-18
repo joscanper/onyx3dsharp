@@ -7,6 +7,7 @@ namespace Onyx3D
 {
 	public class Scene
 	{
+	
 		public SceneObject Root;
 		public Camera ActiveCamera;
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
@@ -11,7 +12,7 @@ namespace Onyx3DEditor
 {
 	public partial class TextureManager : Form
 	{
-		private TextureDBEntry mCurrentTexture;
+		private OnyxProjectAsset mCurrentTexture;
 		//private TextureDBEntry mChangedTexture;
 
 
@@ -31,14 +32,14 @@ namespace Onyx3DEditor
 			//listViewTextures.LargeImageList.ImageSize = new Size(128, 128);
 			listViewTextures.SmallImageList = new ImageList();
 			listViewTextures.SmallImageList.ImageSize = new Size(64,64);
-			foreach (TextureDBEntry t in ProjectManager.Instance.Content.Textures)
+			foreach (OnyxProjectAsset t in ProjectManager.Instance.Content.Textures)
 			{
-				Bitmap bmp = new Bitmap(t.path);
+				Bitmap bmp = new Bitmap(t.Path);
 				Image small_img = bmp.GetThumbnailImage(64, 64, null, IntPtr.Zero);
 				//Image big_img = bmp.GetThumbnailImage(256, 256, null, IntPtr.Zero);
 				listViewTextures.SmallImageList.Images.Add(small_img);
 				//listViewTextures.LargeImageList.Images.Add(big_img);
-				listViewTextures.Items.Add(new ListViewItem(t.id, i));
+				listViewTextures.Items.Add(new ListViewItem(Path.GetFileName(t.Path), i));
 				i++;
 			}
 		}
@@ -66,9 +67,7 @@ namespace Onyx3DEditor
 
 		private void CreateNewTexture(string path)
 		{
-			mCurrentTexture = new TextureDBEntry();
-			mCurrentTexture.path = path;
-			mCurrentTexture.id = "NONE";
+			mCurrentTexture = new OnyxProjectAsset(path);
 			ProjectManager.Instance.Content.Textures.Add(mCurrentTexture);
 
 			UpdateTextureInfo();
@@ -79,8 +78,8 @@ namespace Onyx3DEditor
 		{
 			textBoxFilePath.Show();
 			textBoxId.Show();
-			textBoxFilePath.Text = mCurrentTexture.path;
-			textBoxId.Text = mCurrentTexture.id;
+			textBoxFilePath.Text = mCurrentTexture.Path;
+			textBoxId.Text = mCurrentTexture.Id.ToString();
 			LoadTexturePreview();
 		}
 
@@ -114,8 +113,8 @@ namespace Onyx3DEditor
 		{
 			if (mCurrentTexture != null)
 			{
-				mCurrentTexture.id = textBoxId.Text;
-				mCurrentTexture.path = textBoxFilePath.Text;
+				//mCurrentTexture.Id = textBoxId.Text;
+				mCurrentTexture.Path = textBoxFilePath.Text;
 				FillTexturesList();
 			}
 		}

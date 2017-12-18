@@ -3,19 +3,30 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+using Onyx3D;
+
 namespace Onyx3DEditor
 {
-
 	[Serializable]
-	class TextureDBEntry
+	class OnyxProjectAsset
 	{
-		public string path;
-		public string id;
+		public string Path;
+		public Guid Id;
+
+		public OnyxProjectAsset(string path)
+		{
+			Path = path;
+			Id = Guid.NewGuid();
+		}
 	}
+
 
 	[Serializable]
 	class ProjectContent
 	{
-		public List<TextureDBEntry> Textures = new List<TextureDBEntry>();
+		public List<OnyxProjectAsset> Scenes = new List<OnyxProjectAsset>();
+		public List<OnyxProjectAsset> Textures = new List<OnyxProjectAsset>();
+		public List<OnyxProjectAsset> Materials = new List<OnyxProjectAsset>();
+		public List<OnyxProjectAsset> Meshes = new List<OnyxProjectAsset>();
 	}
 }
