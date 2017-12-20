@@ -4,9 +4,8 @@ namespace Onyx3D
 
 	public class Onyx3DEngine : Singleton<Onyx3DEngine>
 	{
-		
 		public RenderManager Render = new RenderManager();
-		public ContentManager Content = new ContentManager();
+		public ResourceManager Content = new ResourceManager();
 
 		public void Init()
 		{

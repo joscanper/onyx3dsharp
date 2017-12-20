@@ -18,7 +18,6 @@ namespace Onyx3D
 
 		public string Id;
 		public Transform Transform;
-		
 
 		public SceneObject Parent
 		{

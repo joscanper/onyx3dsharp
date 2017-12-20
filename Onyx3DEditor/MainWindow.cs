@@ -49,16 +49,16 @@ namespace Onyx3DEditor
 
 			SceneObject teapot = new SceneObject("Teapot");
 			MeshRenderer teapotMesh = teapot.AddComponent<MeshRenderer>();
-			teapotMesh.Mesh = myOnyxInstance.Content.BuiltInMeshes.Teapot;
+			teapotMesh.Mesh = myOnyxInstance.Resources.GetMesh(BuiltInMesh.Teapot);
 			teapot.Transform.LocalPosition = new Vector3(0, 0.5f, 0);
-			teapotMesh.Material = myOnyxInstance.Content.BuiltInMaterials.Default;
+			teapotMesh.Material = myOnyxInstance.Resources.BuiltInMaterials.Default;
 			teapot.Parent = myScene.Root;
 			myTeapot = teapot;
 
 			SceneObject teapot2 = new SceneObject("Teapot2");
 			MeshRenderer teapot2Mesh = teapot2.AddComponent<MeshRenderer>();
-			teapot2Mesh.Mesh = myOnyxInstance.Content.BuiltInMeshes.Teapot;
-			teapot2Mesh.Material = myOnyxInstance.Content.BuiltInMaterials.Default;
+			teapot2Mesh.Mesh = myOnyxInstance.Resources.GetMesh(BuiltInMesh.Teapot);
+			teapot2Mesh.Material = myOnyxInstance.Resources.BuiltInMaterials.Default;
 			teapot2.Transform.LocalScale = new Vector3(0.5f, 0.5f, 0.5f);
 			teapot2.Transform.LocalPosition = new Vector3(0, 1.75f, 0);
 			teapot2.Parent = myScene.Root;
@@ -68,14 +68,14 @@ namespace Onyx3DEditor
 			SceneObject grid = new SceneObject("Grid");
 			myGridRenderer = grid.AddComponent<GridRenderer>();
 			myGridRenderer.GenerateGridMesh(100, 100, 0.25f, 0.25f);
-			myGridRenderer.Material = myOnyxInstance.Content.BuiltInMaterials.Unlit;
+			myGridRenderer.Material = myOnyxInstance.Resources.BuiltInMaterials.Unlit;
 			myGridRenderer.Material.Properties["color"].Data = new Vector4(1, 1, 1, 0.1f);
 
 			myAxis = teapot2.AddComponent<AxisRenderer>();
-			myAxis.Material = myOnyxInstance.Content.BuiltInMaterials.UnlitVertexColor;
+			myAxis.Material = myOnyxInstance.Resources.BuiltInMaterials.UnlitVertexColor;
 
 			myBox = teapot2.AddComponent<BoxRenderer>();
-			myBox.Material = myOnyxInstance.Content.BuiltInMaterials.UnlitVertexColor;
+			myBox.Material = myOnyxInstance.Resources.BuiltInMaterials.UnlitVertexColor;
 
 			mNavigation.CreateCamera();
 
@@ -169,7 +169,14 @@ namespace Onyx3DEditor
 
 				if (saveFileDialog1.ShowDialog() == DialogResult.OK)
 				{
-					ProjectManager.Instance.Save(saveFileDialog1.FileName);
+					try
+					{
+						ProjectManager.Instance.Save(saveFileDialog1.FileName);
+					}
+					catch (Exception ex)
+					{
+						MessageBox.Show("Error: Could not save the project: " + ex.StackTrace);
+					}
 				}
 			}
 			else
@@ -213,10 +220,7 @@ namespace Onyx3DEditor
 			{
 				try
 				{
-					if ((myStream = openFileDialog1.OpenFile()) != null)
-					{
-						ProjectManager.Instance.Load(myStream);
-					}
+					ProjectManager.Instance.Load(openFileDialog1.FileName);
 				}
 				catch (Exception ex)
 				{
@@ -254,9 +258,18 @@ namespace Onyx3DEditor
 
 				if (saveFileDialog1.ShowDialog() == DialogResult.OK)
 				{
-					SceneLoader.Save(myScene, saveFileDialog1.FileName);
-					mScenePath = saveFileDialog1.FileName;
-					ProjectManager.Instance.Content.Scenes.Add(new OnyxProjectAsset(mScenePath));
+					try
+					{
+						SceneLoader.Save(myScene, saveFileDialog1.FileName);
+						mScenePath = saveFileDialog1.FileName;
+						ProjectManager.Instance.Content.Scenes.Add(new OnyxProjectAsset(mScenePath));
+					}
+					catch(Exception ex)
+					{
+						MessageBox.Show("Error saving the scene : " + ex.Message);
+					}
+
+					
 				}
 			}
 			else

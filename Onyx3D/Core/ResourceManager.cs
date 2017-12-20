@@ -27,36 +27,21 @@ namespace Onyx3D
 		public Material UnlitVertexColor;
 	}
 
-	public class BuiltInMeshes
-	{
-		public Mesh Teapot;
-		public Mesh Sphere;
-		public Mesh Torus;
-		public Mesh Cube;
-		public Mesh Cylinder;
-	}
 
-
-	public class ContentManager
+	public class ResourceManager
 	{
-		public Dictionary<string, Material> Materials;
-		public Dictionary<string, Shader> Shaders;
-		public Dictionary<string, Texture> Textures;
-		
+		private Dictionary<string, Mesh> mMeshes;
+		private Dictionary<string, Material> mMaterials;
+		private Dictionary<string, Shader> mShaders;
+		private Dictionary<string, Texture> mTextures;
+
 		public BuiltInMaterials BuiltInMaterials = new BuiltInMaterials();
-		public BuiltInMeshes BuiltInMeshes = new BuiltInMeshes();
 		public BuiltInShaders BuiltInShaders = new BuiltInShaders();
 		public BuiltInTextures BuiltInTextures = new BuiltInTextures();
-
+		
 		public void Init()
 		{
-			// Meshes
-			BuiltInMeshes.Teapot	= ObjLoader.Load("./Resources/Models/teapot.obj");
-			BuiltInMeshes.Torus		= ObjLoader.Load("./Resources/Models/torus.obj");
-			BuiltInMeshes.Sphere	= ObjLoader.Load("./Resources/Models/sphere.obj");
-			BuiltInMeshes.Cube		= ObjLoader.Load("./Resources/Models/cube.obj");
-			BuiltInMeshes.Cylinder	= ObjLoader.Load("./Resources/Models/cylinder.obj");
-
+			
 			// Textures
 			BuiltInTextures.Checker = new Texture("./Resources/Textures/checker.png");
 
@@ -81,6 +66,25 @@ namespace Onyx3D
 
 			BuiltInMaterials.UnlitVertexColor = new Material();
 			BuiltInMaterials.UnlitVertexColor.Shader = BuiltInShaders.UnlitVertexColor;
+		}
+
+		public Mesh GetMesh(BuiltInMesh mesh)
+		{
+			/*
+			OnyxProjectAsset asset = ProjectLoader.Instance.Content.BuiltInMeshes[mesh];
+			string id = "#BUILTIN#" + asset.Guid;
+			Mesh m = mMeshes[id];
+			if (m == null)
+				m = LoadMesh(asset, id);
+				*/
+			return (new Mesh());
+		}
+
+		public Mesh LoadMesh(OnyxProjectAsset asset, string id)
+		{
+			Mesh m = ObjLoader.Load(asset.Path);
+			mMeshes[id] = m;
+			return m;
 		}
 	}
 	

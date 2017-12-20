@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Windows.Forms;
 
+using Onyx3D;
+
 namespace Onyx3DEditor
 {
     static class Program
@@ -12,10 +14,20 @@ namespace Onyx3DEditor
         static void Main()
         {
 
-			ProjectManager.Instance.Load("../../../test.o3dproj");
+			//try
+			//{
+				ProjectManager.Instance.Load("../../../test.o3dproj");
+			/*}
+			catch (Exception e)
+			{
+				MessageBox.Show("Error loading the project : " + e.Message);
+				ProjectManager.Instance.New();
+			}*/
+
+
 			
 
-            Application.EnableVisualStyles();
+			Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new MainWindow());
         }

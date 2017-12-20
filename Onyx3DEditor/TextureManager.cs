@@ -8,6 +8,8 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
+using Onyx3D;
+
 namespace Onyx3DEditor
 {
 	public partial class TextureManager : Form
@@ -79,7 +81,7 @@ namespace Onyx3DEditor
 			textBoxFilePath.Show();
 			textBoxId.Show();
 			textBoxFilePath.Text = mCurrentTexture.Path;
-			textBoxId.Text = mCurrentTexture.Id.ToString();
+			textBoxId.Text = mCurrentTexture.Guid.ToString();
 			LoadTexturePreview();
 		}
 

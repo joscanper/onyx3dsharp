@@ -50,14 +50,14 @@ namespace Onyx3DEditor
 			
 
 			myRenderer = myObject.AddComponent<MeshRenderer>();
-			myRenderer.Mesh = myOnyxInstance.Content.BuiltInMeshes.Teapot;
-			myRenderer.Material = myOnyxInstance.Content.BuiltInMaterials.Default;
+			myRenderer.Mesh = myOnyxInstance.Resources.GetMesh(BuiltInMesh.Teapot);
+			myRenderer.Material = myOnyxInstance.Resources.BuiltInMaterials.Default;
 			myShader = myRenderer.Material.Shader;
 
 			
 			gridRenderer = new SceneObject("Grid").AddComponent<GridRenderer>();
 			gridRenderer.GenerateGridMesh(10, 10, 0.25f, 0.25f);
-			gridRenderer.Material = myOnyxInstance.Content.BuiltInMaterials.Unlit;
+			gridRenderer.Material = myOnyxInstance.Resources.BuiltInMaterials.Unlit;
 		}
 
 		private void InitUI()
@@ -74,7 +74,7 @@ namespace Onyx3DEditor
 
 			if (myShader == null)
 			{
-				myShader = myOnyxInstance.Content.BuiltInShaders.Default;
+				myShader = myOnyxInstance.Resources.BuiltInShaders.Default;
 			}
 			else
 			{
@@ -140,31 +140,31 @@ namespace Onyx3DEditor
 
 		private void toolStripButtonCube_Click(object sender, EventArgs e)
 		{
-			myRenderer.Mesh = myOnyxInstance.Content.BuiltInMeshes.Cube;
+			myRenderer.Mesh = myOnyxInstance.Resources.GetMesh(BuiltInMesh.Cube);
 			renderCanvas.Refresh();
 		}
 
 		private void toolStripButtonSphere_Click(object sender, EventArgs e)
 		{
-			myRenderer.Mesh = myOnyxInstance.Content.BuiltInMeshes.Sphere;
+			myRenderer.Mesh = myOnyxInstance.Resources.GetMesh(BuiltInMesh.Sphere);
 			renderCanvas.Refresh();
 		}
 		
 		private void toolStripButtonTorus_Click(object sender, EventArgs e)
 		{
-			myRenderer.Mesh = myOnyxInstance.Content.BuiltInMeshes.Torus;
+			myRenderer.Mesh = myOnyxInstance.Resources.GetMesh(BuiltInMesh.Torus);
 			renderCanvas.Refresh();
 		}
 
 		private void toolStripButtonCylinder_Click(object sender, EventArgs e)
 		{
-			myRenderer.Mesh = myOnyxInstance.Content.BuiltInMeshes.Cylinder;
+			myRenderer.Mesh = myOnyxInstance.Resources.GetMesh(BuiltInMesh.Cylinder);
 			renderCanvas.Refresh();
 		}
 
 		private void toolStripButtonTeapot_Click(object sender, EventArgs e)
 		{
-			myRenderer.Mesh = myOnyxInstance.Content.BuiltInMeshes.Teapot;
+			myRenderer.Mesh = myOnyxInstance.Resources.GetMesh(BuiltInMesh.Teapot);
 			renderCanvas.Refresh();
 		}
 

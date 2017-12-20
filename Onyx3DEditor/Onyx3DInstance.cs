@@ -10,15 +10,15 @@ namespace Onyx3DEditor
 	class Onyx3DInstance
 	{
 		public RenderManager RenderManager;
-		public ContentManager Content;
+		public ResourceManager Resources;
 
 		public void Init()
 		{
 			RenderManager = new RenderManager();
 			RenderManager.Init();
 
-			Content = new ContentManager();
-			Content.Init();
+			Resources = new ResourceManager();
+			Resources.Init();
 		}
 	}
 }

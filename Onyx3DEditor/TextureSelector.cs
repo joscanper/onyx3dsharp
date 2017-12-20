@@ -38,7 +38,7 @@ namespace Onyx3DEditor
 				Bitmap bmp = new Bitmap(t.Path);
 				Image small_img = bmp.GetThumbnailImage(64, 64, null, IntPtr.Zero);
 				listViewTextures.SmallImageList.Images.Add(small_img);
-				listViewTextures.Items.Add(new ListViewItem(t.Id.ToString(), i));
+				listViewTextures.Items.Add(new ListViewItem(t.Guid.ToString(), i));
 				mTextureIds[i] = t;
 				i++;
 			}

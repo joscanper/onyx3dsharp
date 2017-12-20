@@ -51,7 +51,7 @@
     <Compile Include="Core\Types\Box3d.cs" />
     <Compile Include="Core\Types\Object.cs" />
     <Compile Include="Core\Onyx3D.cs" />
-    <Compile Include="Core\ContentManager.cs" />
+    <Compile Include="Core\ResourceManager.cs" />
     <Compile Include="Graphics\Meshes\CubeMesh.cs" />
     <Compile Include="Graphics\Meshes\CylinderMesh.cs" />
     <Compile Include="Graphics\Meshes\Mesh.cs" />
@@ -60,6 +60,9 @@
     <Compile Include="Graphics\ObjLoader.cs" />
     <Compile Include="Graphics\Texture.cs" />
     <Compile Include="Graphics\UBO.cs" />
+    <Compile Include="Project\ProjectContent.cs" />
+    <Compile Include="Project\ProjectData.cs" />
+    <Compile Include="Project\ProjectManager.cs" />
     <Compile Include="Scene\Axis.cs" />
     <Compile Include="Scene\Camera.cs" />
     <Compile Include="Scene\Scene.cs" />
