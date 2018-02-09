@@ -49,9 +49,11 @@
     <Compile Include="Components\Component.cs" />
     <Compile Include="Components\GridRenderer.cs" />
     <Compile Include="Core\Types\Box3d.cs" />
+    <Compile Include="Core\Types\GameAsset.cs" />
+    <Compile Include="Core\Types\ISerializer.cs" />
     <Compile Include="Core\Types\Object.cs" />
     <Compile Include="Core\Onyx3D.cs" />
-    <Compile Include="Core\ResourceManager.cs" />
+    <Compile Include="Core\ResourcesManager.cs" />
     <Compile Include="Graphics\Meshes\CubeMesh.cs" />
     <Compile Include="Graphics\Meshes\CylinderMesh.cs" />
     <Compile Include="Graphics\Meshes\Mesh.cs" />
@@ -77,6 +79,17 @@
     <Compile Include="Scene\Transform.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\Materials\Default.o3dmat">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Materials\Unlit.o3dmat">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\Materials\UnlitVertexColor.o3dmat">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Resources\Models\cube.obj">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

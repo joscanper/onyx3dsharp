@@ -4,7 +4,6 @@ using OpenTK.Graphics.OpenGL;
 
 namespace Onyx3D
 { 
-
 	public class AxisRenderer : MeshRenderer
 	{
 

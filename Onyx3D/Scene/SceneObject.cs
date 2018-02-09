@@ -1,14 +1,15 @@
-﻿using System;
+﻿
+using OpenTK;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Serialization;
-using System.Security.Permissions;
-using System.Text;
+using System.Xml;
+using System.Xml.Schema;
+using System.Xml.Serialization;
 
 namespace Onyx3D
 {
 	
-	public class SceneObject : Object
+	public class SceneObject : Object, IXmlSerializable
 	{
 	
 		private List<Component> mComponents = new List<Component>();
@@ -18,6 +19,8 @@ namespace Onyx3D
 
 		public string Id;
 		public Transform Transform;
+
+		public List<Component> Components { get { return mComponents; } }
 
 		public SceneObject Parent
 		{
@@ -107,5 +110,81 @@ namespace Onyx3D
 			return components;
 		}
 
+		// ----------- Serialization ------------
+
+		public XmlSchema GetSchema()
+		{
+			throw new System.NotImplementedException();
+		}
+
+		public void ReadXml(XmlReader reader)
+		{
+
+			Id = reader.GetAttribute("id");
+			InstanceId = Convert.ToInt32(reader.GetAttribute("instanceId"));
+			
+			if (reader.IsEmptyElement)
+				return;
+
+			while (reader.Read())
+			{
+				switch (reader.NodeType)
+				{
+					case XmlNodeType.Element:
+						if (reader.Name.Equals("SceneObject"))
+						{ 
+							SceneObject obj = new SceneObject("", Scene);
+							obj.ReadXml(reader);
+							obj.Parent = this;
+						}
+
+						if (reader.Name.Equals("Transform"))
+						{ 
+							Transform.LocalPosition = XmlUtils.StringToVector3(reader.GetAttribute("position"));
+							Vector4 rotation = XmlUtils.StringToVector4(reader.GetAttribute("rotation"));
+							Transform.LocalRotation = Quaternion.FromAxisAngle(rotation.Xyz, rotation.W);
+							Transform.LocalScale = XmlUtils.StringToVector3(reader.GetAttribute("scale"));
+						}
+
+						if (reader.Name.Equals("Component"))
+						{
+							Component c = Component.GetComponent(reader);
+							Components.Add(c);
+						}
+							//ComponentLoader.Load(obj, reader);
+						break;
+					case XmlNodeType.EndElement:
+						if (reader.Name.Equals("SceneObject"))
+							return;
+						break;
+				}
+
+			}
+
+		}
+
+		public void WriteXml(XmlWriter writer)
+		{
+
+			writer.WriteStartElement("SceneObject");
+			writer.WriteAttributeString("id", Id);
+			writer.WriteAttributeString("instanceId", InstanceId.ToString());
+
+			writer.WriteStartElement("Transform");
+			writer.WriteAttributeString("position", XmlUtils.Vector3ToString(Transform.LocalPosition));
+			writer.WriteAttributeString("rotation", XmlUtils.Vector4ToString(Transform.LocalRotation.ToAxisAngle()));
+			writer.WriteAttributeString("scale", XmlUtils.Vector3ToString(Transform.LocalScale));
+			writer.WriteEndElement();
+
+
+			foreach (Component c in Components)
+				c.WriteXml(writer);
+
+			for (int i = 0; i < ChildCount; ++i)
+				GetChild(i).WriteXml(writer);
+
+
+			writer.WriteEndElement();
+		}
 	}
 }

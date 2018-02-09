@@ -51,13 +51,13 @@ namespace Onyx3DEditor
 
 			myRenderer = myObject.AddComponent<MeshRenderer>();
 			myRenderer.Mesh = myOnyxInstance.Resources.GetMesh(BuiltInMesh.Teapot);
-			myRenderer.Material = myOnyxInstance.Resources.BuiltInMaterials.Default;
+			myRenderer.Material = myOnyxInstance.Resources.GetMaterial(BuiltInMaterial.Default);
 			myShader = myRenderer.Material.Shader;
 
 			
 			gridRenderer = new SceneObject("Grid").AddComponent<GridRenderer>();
 			gridRenderer.GenerateGridMesh(10, 10, 0.25f, 0.25f);
-			gridRenderer.Material = myOnyxInstance.Resources.BuiltInMaterials.Unlit;
+			gridRenderer.Material = myOnyxInstance.Resources.GetMaterial(BuiltInMaterial.Default);
 		}
 
 		private void InitUI()
@@ -74,7 +74,7 @@ namespace Onyx3DEditor
 
 			if (myShader == null)
 			{
-				myShader = myOnyxInstance.Resources.BuiltInShaders.Default;
+				myShader = myOnyxInstance.Resources.GetShader(BuiltInShader.Default);
 			}
 			else
 			{
@@ -94,6 +94,7 @@ namespace Onyx3DEditor
 			InitScene();
 			InitUI();
 			canDraw = true;
+
 		}
 
 		private void renderCanvas_Paint(object sender, PaintEventArgs e)

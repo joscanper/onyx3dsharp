@@ -9,7 +9,7 @@ using System.Drawing.Imaging;
 
 namespace Onyx3D
 {
-	public class Texture
+	public class Texture : GameAsset
 	{
 		private string mPath;
 		private int mId;

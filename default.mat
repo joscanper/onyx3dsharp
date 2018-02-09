@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Material>
+	<Id>Default</Id>
+	<Shader>Default</Shader>
+
+	<Properties>
+		<Property id="base_color" type="color" value="1,1,1,1">
+		<Property id="base_texture" type="sampler2d" value="">
+		<Property id="fresnel" type="float" value="2.5">
+		<Property id="fresnel_strength" type="float" value="0.5">
+	</Properties>
+</Material>

@@ -34,7 +34,7 @@ namespace Onyx3D
 	}
 
 	[Serializable]
-	public class Mesh
+	public class Mesh : GameAsset
     {
 		
         private int mVertexArrayObject;

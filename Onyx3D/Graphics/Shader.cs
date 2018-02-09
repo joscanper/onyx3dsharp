@@ -8,7 +8,7 @@ using OpenTK.Graphics.OpenGL;
 
 namespace Onyx3D
 {
-    public class Shader
+    public class Shader : GameAsset
     {
 		private int mProgram;
 

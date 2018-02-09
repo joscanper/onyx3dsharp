@@ -5,12 +5,12 @@ namespace Onyx3D
 	public class Onyx3DEngine : Singleton<Onyx3DEngine>
 	{
 		public RenderManager Render = new RenderManager();
-		public ResourceManager Content = new ResourceManager();
+		public ResourcesManager Resources = new ResourcesManager();
 
 		public void Init()
 		{
 			Render.Init();
-			Content.Init();
+			Resources.Init();
 		}
 		
 	}

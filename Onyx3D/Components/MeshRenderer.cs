@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
+using System.Xml;
+using System.Xml.Schema;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 
@@ -13,8 +14,9 @@ namespace Onyx3D
     {
         public Mesh Mesh;
         public Material Material;
-        
-        public virtual void Render()
+
+
+		public virtual void Render()
         {
 			SetUpMaterial();
 			SetUpMVP(Material.Shader.Program);
@@ -28,6 +30,7 @@ namespace Onyx3D
 
 			GL.UseProgram(0);
 		}
+
 
 		protected void SetUpMaterial()
 		{
@@ -52,5 +55,22 @@ namespace Onyx3D
 			//GL.UniformMatrix4(GL.GetUniformLocation(program, "MVP"), false, ref MVP);
 
 		}
+
+		// ------ Serialization ------
+
+		public override void ReadComponentXmlNode(XmlReader reader)
+		{
+			if (reader.Name.Equals("Mesh"))
+				Mesh = Onyx3DEngine.Instance.Resources.GetMesh(reader.ReadElementContentAsInt());
+			else if (reader.Name.Equals("Material"))
+				Material = Onyx3DEngine.Instance.Resources.GetMaterial(reader.ReadElementContentAsInt());
+		}
+
+		public override void WriteComponentXml(XmlWriter writer)
+		{
+			writer.WriteElementString("Mesh", Mesh.LinkedProjectAsset.Guid.ToString());
+			writer.WriteElementString("Material", Material.LinkedProjectAsset.Guid.ToString());
+		}
+
 	}
 }

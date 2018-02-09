@@ -5,6 +5,9 @@ using System.Text;
 
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
+using System.Xml.Serialization;
+using System.Xml;
+using System.Xml.Schema;
 
 namespace Onyx3D
 {
@@ -43,7 +46,7 @@ namespace Onyx3D
 		}
 	}
 
-	public class Material
+	public class Material : GameAsset, IXmlSerializable
 	{
 		public Shader Shader;
 		public Dictionary<string, MaterialProperty> Properties = new Dictionary<string, MaterialProperty>();
@@ -80,6 +83,58 @@ namespace Onyx3D
 
 				}
 			}
+		}
+
+		// ------ Serialization ------
+
+		public XmlSchema GetSchema()
+		{
+			throw new NotImplementedException();
+		}
+
+		public void ReadXml(XmlReader reader)
+		{
+			
+			Shader = Onyx3DEngine.Instance.Resources.GetShader(BuiltInShader.Default); // todo
+			while (reader.Read())
+			{
+				switch (reader.NodeType)
+				{
+					case XmlNodeType.Element:
+						if (reader.Name == "Shader")
+						{
+							Onyx3DEngine.Instance.Resources.GetShader(reader.ReadElementContentAsInt());
+						}
+						if (reader.Name == "Property")
+						{
+							string id = reader.GetAttribute("id");
+							string type = reader.GetAttribute("type");
+							string value = reader.GetAttribute("value");
+							if (type == "float")
+								Properties.Add(id, new MaterialProperty(MaterialPropertyType.Float, (float)Convert.ToDecimal(value)));
+							else if (type == "float2")
+								Properties.Add(id, new MaterialProperty(MaterialPropertyType.Vector2, XmlUtils.StringToVector2(value)));
+							else if (type == "float3")
+								Properties.Add(id, new MaterialProperty(MaterialPropertyType.Vector3, XmlUtils.StringToVector3(value)));
+							else if (type == "float4")
+								Properties.Add(id, new MaterialProperty(MaterialPropertyType.Vector4, XmlUtils.StringToVector4(value)));
+							else if (type == "color")
+								Properties.Add(id, new MaterialProperty(MaterialPropertyType.Color, XmlUtils.StringToVector4(value)));
+							else if (type == "sampler2d")
+								Properties.Add(id, new TextureMaterialProperty(MaterialPropertyType.Sampler2D, Onyx3DEngine.Instance.Resources.GetTexture(BuiltInTexture.Checker), 0));
+							//else if (type == "samplerCube")
+								//Properties.Add(id, new TextureMaterialProperty(MaterialPropertyType.Sampler2D, Onyx3DEngine.Instance.Resources.GetTexture(BuiltInTexture.Checker), 0));
+							// TODO - More things
+						}
+						break;
+				}
+			}
+			
+		}
+
+		public void WriteXml(XmlWriter writer)
+		{
+			
 		}
 	}
 }

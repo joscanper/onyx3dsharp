@@ -1,0 +1,12 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+
+public interface ISerializer<T>
+{
+	string Serialize();
+	T Deserialize(); 
+}
+

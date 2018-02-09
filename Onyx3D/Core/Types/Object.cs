@@ -37,7 +37,12 @@ namespace Onyx3D
 				CheckInstanceId();
 				return mInstanceId;
 			}
+			protected set
+			{
+				mInstanceId = value;
+			}
 		}
 
+		
 	}
 }

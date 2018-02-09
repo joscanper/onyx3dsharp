@@ -14,9 +14,10 @@ namespace Onyx3DEditor
         static void Main()
         {
 
+			ProjectManager.Instance.New();
 			//try
 			//{
-				ProjectManager.Instance.Load("../../../test.o3dproj");
+//				ProjectManager.Instance.Load("../../../test.o3dproj");
 			/*}
 			catch (Exception e)
 			{

@@ -1,27 +1,27 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Root>
   <SceneObject
-    id="Grid"
-    instanceId="774885754">
-    <Transform
-      position="0, 0, 0"
-      rotation="1, 0, 0, 0"
-      scale="1, 1, 1" />
-  </SceneObject>
-  <SceneObject
     id="Teapot"
-    instanceId="774885756">
+    instanceId="769525526">
     <Transform
       position="0, 0.5, 0"
       rotation="1, 0, 0, 0"
       scale="1, 1, 1" />
+    <Component
+      className="MeshRenderer">
+      <Mesh>100000001</Mesh>
+    </Component>
   </SceneObject>
   <SceneObject
     id="Teapot2"
-    instanceId="774885758">
+    instanceId="769525528">
     <Transform
       position="0, 1.75, 0"
       rotation="1, 0, 0, 0"
       scale="0.5, 0.5, 0.5" />
+    <Component
+      className="MeshRenderer">
+      <Mesh>100000001</Mesh>
+    </Component>
   </SceneObject>
 </Root>

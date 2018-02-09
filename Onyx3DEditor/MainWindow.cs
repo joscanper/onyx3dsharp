@@ -16,7 +16,7 @@ namespace Onyx3DEditor
 	{
 		bool canDraw = false;
 
-		Onyx3DInstance myOnyxInstance;
+		Onyx3DEngine myOnyxInstance;
 
 		Scene myScene;
 		GridRenderer myGridRenderer;
@@ -41,41 +41,40 @@ namespace Onyx3DEditor
 
 		private void InitScene()
 		{
-
 			myScene = new Scene();
 
-			myOnyxInstance = new Onyx3DInstance();
+			myOnyxInstance = Onyx3DEngine.Instance;
 			myOnyxInstance.Init();
-
+			
 			SceneObject teapot = new SceneObject("Teapot");
 			MeshRenderer teapotMesh = teapot.AddComponent<MeshRenderer>();
 			teapotMesh.Mesh = myOnyxInstance.Resources.GetMesh(BuiltInMesh.Teapot);
 			teapot.Transform.LocalPosition = new Vector3(0, 0.5f, 0);
-			teapotMesh.Material = myOnyxInstance.Resources.BuiltInMaterials.Default;
+			teapotMesh.Material = myOnyxInstance.Resources.GetMaterial(BuiltInMaterial.Default);
 			teapot.Parent = myScene.Root;
 			myTeapot = teapot;
 
 			SceneObject teapot2 = new SceneObject("Teapot2");
 			MeshRenderer teapot2Mesh = teapot2.AddComponent<MeshRenderer>();
 			teapot2Mesh.Mesh = myOnyxInstance.Resources.GetMesh(BuiltInMesh.Teapot);
-			teapot2Mesh.Material = myOnyxInstance.Resources.BuiltInMaterials.Default;
+			teapot2Mesh.Material = myOnyxInstance.Resources.GetMaterial(BuiltInMaterial.Default);
 			teapot2.Transform.LocalScale = new Vector3(0.5f, 0.5f, 0.5f);
 			teapot2.Transform.LocalPosition = new Vector3(0, 1.75f, 0);
 			teapot2.Parent = myScene.Root;
-
+			
 			// Editor objects --------------------------------------
 
 			SceneObject grid = new SceneObject("Grid");
 			myGridRenderer = grid.AddComponent<GridRenderer>();
 			myGridRenderer.GenerateGridMesh(100, 100, 0.25f, 0.25f);
-			myGridRenderer.Material = myOnyxInstance.Resources.BuiltInMaterials.Unlit;
+			myGridRenderer.Material = myOnyxInstance.Resources.GetMaterial(BuiltInMaterial.Unlit);
 			myGridRenderer.Material.Properties["color"].Data = new Vector4(1, 1, 1, 0.1f);
 
 			myAxis = teapot2.AddComponent<AxisRenderer>();
-			myAxis.Material = myOnyxInstance.Resources.BuiltInMaterials.UnlitVertexColor;
+			myAxis.Material = myOnyxInstance.Resources.GetMaterial(BuiltInMaterial.UnlitVertexColor);
 
 			myBox = teapot2.AddComponent<BoxRenderer>();
-			myBox.Material = myOnyxInstance.Resources.BuiltInMaterials.UnlitVertexColor;
+			myBox.Material = myOnyxInstance.Resources.GetMaterial(BuiltInMaterial.UnlitVertexColor);
 
 			mNavigation.CreateCamera();
 
@@ -136,14 +135,11 @@ namespace Onyx3DEditor
 			if (!canDraw)
 				return;
 
-
 			mNavigation.NavigationCamera.Aspect = (float)renderCanvas.Width / (float)renderCanvas.Height;
 			mNavigation.UpdateCamera();
 
-			myOnyxInstance.RenderManager.Render(myScene, mNavigation.NavigationCamera, renderCanvas.Width, renderCanvas.Height);
-
-			myOnyxInstance.RenderManager.Render(myGridRenderer, mNavigation.NavigationCamera);
-			
+			myOnyxInstance.Render.Render(myScene, mNavigation.NavigationCamera, renderCanvas.Width, renderCanvas.Height);
+			myOnyxInstance.Render.Render(myGridRenderer, mNavigation.NavigationCamera);
 
 			renderCanvas.SwapBuffers();
 		}
@@ -258,9 +254,10 @@ namespace Onyx3DEditor
 
 				if (saveFileDialog1.ShowDialog() == DialogResult.OK)
 				{
+					SceneLoader.Save(myScene, saveFileDialog1.FileName);
 					try
 					{
-						SceneLoader.Save(myScene, saveFileDialog1.FileName);
+						
 						mScenePath = saveFileDialog1.FileName;
 						ProjectManager.Instance.Content.Scenes.Add(new OnyxProjectAsset(mScenePath));
 					}
