@@ -95,7 +95,6 @@ namespace Onyx3D
 		public void ReadXml(XmlReader reader)
 		{
 			
-			Shader = Onyx3DEngine.Instance.Resources.GetShader(BuiltInShader.Default); // todo
 			while (reader.Read())
 			{
 				switch (reader.NodeType)
@@ -103,7 +102,7 @@ namespace Onyx3D
 					case XmlNodeType.Element:
 						if (reader.Name == "Shader")
 						{
-							Onyx3DEngine.Instance.Resources.GetShader(reader.ReadElementContentAsInt());
+							Shader = Onyx3DEngine.Instance.Resources.GetShader(reader.ReadElementContentAsInt());
 						}
 						if (reader.Name == "Property")
 						{
@@ -130,6 +129,8 @@ namespace Onyx3D
 				}
 			}
 			
+			if (Shader == null)
+				Shader = Onyx3DEngine.Instance.Resources.GetShader(BuiltInShader.Default);
 		}
 
 		public void WriteXml(XmlWriter writer)

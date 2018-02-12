@@ -25,6 +25,11 @@ C:\Users\Josue\Desktop\Onyx3DSharp\Onyx3D\bin\Debug\Resources\Models\teapot.obj
 C:\Users\Josue\Desktop\Onyx3DSharp\Onyx3D\bin\Debug\Resources\Models\torus.obj
 C:\Users\Josue\Desktop\Onyx3DSharp\Onyx3D\bin\Debug\Resources\Shaders\FragmentShader.glsl
 C:\Users\Josue\Desktop\Onyx3DSharp\Onyx3D\bin\Debug\Resources\Shaders\VertexShader.glsl
+C:\Users\Josue\Desktop\Onyx3DSharp\Onyx3D\bin\Debug\Resources\Shaders\UnlitFragmentShader.glsl
+C:\Users\Josue\Desktop\Onyx3DSharp\Onyx3D\bin\Debug\Resources\Shaders\UnlitVertexColorFragmentShader.glsl
+C:\Users\Josue\Desktop\Onyx3DSharp\Onyx3D\bin\Debug\Resources\Materials\Default.o3dmat
+C:\Users\Josue\Desktop\Onyx3DSharp\Onyx3D\bin\Debug\Resources\Materials\Unlit.o3dmat
+C:\Users\Josue\Desktop\Onyx3DSharp\Onyx3D\bin\Debug\Resources\Materials\UnlitVertexColor.o3dmat
 C:\Users\Josue\Desktop\Onyx3DSharp\Onyx3D\bin\Debug\Onyx3D.dll
 C:\Users\Josue\Desktop\Onyx3DSharp\Onyx3D\bin\Debug\Onyx3D.pdb
 C:\Users\Josue\Desktop\Onyx3DSharp\Onyx3D\bin\Debug\OpenTK.dll
@@ -34,9 +39,3 @@ C:\Users\Josue\Desktop\Onyx3DSharp\Onyx3D\bin\Debug\OpenTK.dll.config
 C:\Users\Josue\Desktop\Onyx3DSharp\Onyx3D\obj\Debug\Onyx3D.csproj.CoreCompileInputs.cache
 C:\Users\Josue\Desktop\Onyx3DSharp\Onyx3D\obj\Debug\Onyx3D.dll
 C:\Users\Josue\Desktop\Onyx3DSharp\Onyx3D\obj\Debug\Onyx3D.pdb
-C:\Users\Josue\Desktop\Onyx3DSharp\Onyx3D\bin\Debug\Resources\Shaders\UnlitFragmentShader.glsl
-C:\Users\Josue\Desktop\Onyx3DSharp\Onyx3D\bin\Debug\Resources\Shaders\UnlitVertexColorFragmentShader.glsl
-C:\Users\Josue\Desktop\Onyx3DSharp\Onyx3D\bin\Debug\Resources\Materials\Default.o3dmat
-C:\Users\Josue\Desktop\Onyx3DSharp\Onyx3D\bin\Debug\Resources\Materials\Unlit.o3dmat
-C:\Users\Josue\Desktop\Onyx3DSharp\Onyx3D\bin\Debug\Resources\Materials\UnlitVertexColor.o3dmat
-C:\Users\Josue\Desktop\Onyx3DSharp\Onyx3D\obj\Debug\Onyx3D.csprojResolveAssemblyReference.cache
