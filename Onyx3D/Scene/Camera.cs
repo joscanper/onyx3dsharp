@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 using OpenTK;
 
@@ -31,7 +28,7 @@ namespace Onyx3D
 		public Matrix4 ViewMatrix
 		{
 			get {
-				return Transform.GetModelMatrix().Inverted();
+				return Transform.ModelMatrix.Inverted();
 			}
 		}
 
@@ -63,6 +60,13 @@ namespace Onyx3D
 			UpdateUBO();
 		}
 		
+		public Ray ViewportPointToRay(Vector2 viewportPoint)
+		{
+			Ray r = new Ray();
+			r.Origin = Transform.Position;
+			r.Direction = new Vector3( -Vector4.UnitZ * Transform.ModelMatrix);
+			return r;
+		}
 	}
 
 

@@ -48,12 +48,14 @@
     <Compile Include="Components\BoxRenderer.cs" />
     <Compile Include="Components\Component.cs" />
     <Compile Include="Components\GridRenderer.cs" />
+    <Compile Include="Components\LineRenderer.cs" />
     <Compile Include="Core\Types\Box3d.cs" />
     <Compile Include="Core\Types\GameAsset.cs" />
     <Compile Include="Core\Types\ISerializer.cs" />
     <Compile Include="Core\Types\Object.cs" />
     <Compile Include="Core\Onyx3D.cs" />
     <Compile Include="Core\ResourcesManager.cs" />
+    <Compile Include="Core\Types\Ray.cs" />
     <Compile Include="Graphics\Meshes\CubeMesh.cs" />
     <Compile Include="Graphics\Meshes\CylinderMesh.cs" />
     <Compile Include="Graphics\Meshes\Mesh.cs" />

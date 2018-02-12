@@ -42,6 +42,8 @@ namespace Onyx3D
 					if (mScene != null)
 						Parent = mScene.Root;
 				}
+
+				Transform.SetDirty();
 			}
 		}
 

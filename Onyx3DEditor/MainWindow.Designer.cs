@@ -52,14 +52,14 @@ namespace Onyx3DEditor
 			this.toolStripButtonSaveProject = new System.Windows.Forms.ToolStripButton();
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
 			this.toolStripScene = new System.Windows.Forms.ToolStrip();
+			this.toolStripButtonSaveScene = new System.Windows.Forms.ToolStripButton();
+			this.toolStripButtonOpenScene = new System.Windows.Forms.ToolStripButton();
+			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
 			this.treeViewSceneHierarchy = new System.Windows.Forms.TreeView();
 			this.toolStrip3 = new System.Windows.Forms.ToolStrip();
 			this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
 			this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
-			this.toolStripButtonSaveScene = new System.Windows.Forms.ToolStripButton();
-			this.toolStripButtonOpenScene = new System.Windows.Forms.ToolStripButton();
-			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this.toolStrip1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
 			this.splitContainer1.Panel1.SuspendLayout();
@@ -78,6 +78,7 @@ namespace Onyx3DEditor
 			this.renderCanvas.Size = new System.Drawing.Size(757, 520);
 			this.renderCanvas.TabIndex = 0;
 			this.renderCanvas.VSync = false;
+			this.renderCanvas.Click += new System.EventHandler(this.renderCanvas_Click);
 			// 
 			// toolStrip1
 			// 
@@ -155,6 +156,31 @@ namespace Onyx3DEditor
 			this.toolStripScene.TabIndex = 3;
 			this.toolStripScene.Text = "toolStrip2";
 			// 
+			// toolStripButtonSaveScene
+			// 
+			this.toolStripButtonSaveScene.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.toolStripButtonSaveScene.Image = global::Onyx3DEditor.Properties.Resources.if_stock_save_20659;
+			this.toolStripButtonSaveScene.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.toolStripButtonSaveScene.Name = "toolStripButtonSaveScene";
+			this.toolStripButtonSaveScene.Size = new System.Drawing.Size(23, 22);
+			this.toolStripButtonSaveScene.Text = "toolStripButton4";
+			this.toolStripButtonSaveScene.Click += new System.EventHandler(this.toolStripButtonSaveScene_Click);
+			// 
+			// toolStripButtonOpenScene
+			// 
+			this.toolStripButtonOpenScene.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.toolStripButtonOpenScene.Image = global::Onyx3DEditor.Properties.Resources.if_folder_open_21164;
+			this.toolStripButtonOpenScene.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.toolStripButtonOpenScene.Name = "toolStripButtonOpenScene";
+			this.toolStripButtonOpenScene.Size = new System.Drawing.Size(23, 22);
+			this.toolStripButtonOpenScene.Text = "toolStripButton5";
+			this.toolStripButtonOpenScene.Click += new System.EventHandler(this.toolStripButtonOpenScene_Click);
+			// 
+			// toolStripSeparator1
+			// 
+			this.toolStripSeparator1.Name = "toolStripSeparator1";
+			this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+			// 
 			// toolStripButton3
 			// 
 			this.toolStripButton3.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -205,31 +231,6 @@ namespace Onyx3DEditor
 			this.toolStripButton1.Size = new System.Drawing.Size(21, 20);
 			this.toolStripButton1.Text = "toolStripButtonMaterials";
 			this.toolStripButton1.Click += new System.EventHandler(this.toolStripButtonMaterials_Click);
-			// 
-			// toolStripButtonSaveScene
-			// 
-			this.toolStripButtonSaveScene.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.toolStripButtonSaveScene.Image = global::Onyx3DEditor.Properties.Resources.if_stock_save_20659;
-			this.toolStripButtonSaveScene.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.toolStripButtonSaveScene.Name = "toolStripButtonSaveScene";
-			this.toolStripButtonSaveScene.Size = new System.Drawing.Size(23, 22);
-			this.toolStripButtonSaveScene.Text = "toolStripButton4";
-			this.toolStripButtonSaveScene.Click += new System.EventHandler(this.toolStripButtonSaveScene_Click);
-			// 
-			// toolStripButtonOpenScene
-			// 
-			this.toolStripButtonOpenScene.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.toolStripButtonOpenScene.Image = global::Onyx3DEditor.Properties.Resources.if_folder_open_21164;
-			this.toolStripButtonOpenScene.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.toolStripButtonOpenScene.Name = "toolStripButtonOpenScene";
-			this.toolStripButtonOpenScene.Size = new System.Drawing.Size(23, 22);
-			this.toolStripButtonOpenScene.Text = "toolStripButton5";
-			this.toolStripButtonOpenScene.Click += new System.EventHandler(this.toolStripButtonOpenScene_Click);
-			// 
-			// toolStripSeparator1
-			// 
-			this.toolStripSeparator1.Name = "toolStripSeparator1";
-			this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
 			// 
 			// MainWindow
 			// 

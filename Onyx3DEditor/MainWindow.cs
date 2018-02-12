@@ -25,6 +25,7 @@ namespace Onyx3DEditor
 
 		AxisRenderer myAxis;
 		BoxRenderer myBox;
+		LineRenderer myLine;
 
 		string mScenePath;
 
@@ -75,6 +76,12 @@ namespace Onyx3DEditor
 
 			myBox = teapot2.AddComponent<BoxRenderer>();
 			myBox.Material = myOnyxInstance.Resources.GetMaterial(BuiltInMaterial.UnlitVertexColor);
+
+
+			SceneObject line = new SceneObject("Line");
+			myLine = line.AddComponent<LineRenderer>();
+			myLine.Material = myOnyxInstance.Resources.GetMaterial(BuiltInMaterial.UnlitVertexColor);
+			myLine.Set(new Vector3(0, 0, 0), new Vector3(10, 10, 10), new Vector3(1,0,0));
 
 			mNavigation.CreateCamera();
 
@@ -140,6 +147,7 @@ namespace Onyx3DEditor
 
 			myOnyxInstance.Render.Render(myScene, mNavigation.NavigationCamera, renderCanvas.Width, renderCanvas.Height);
 			myOnyxInstance.Render.Render(myGridRenderer, mNavigation.NavigationCamera);
+			myOnyxInstance.Render.Render(myLine, mNavigation.NavigationCamera);
 
 			renderCanvas.SwapBuffers();
 		}
@@ -147,6 +155,18 @@ namespace Onyx3DEditor
 		#endregion
 
 		#region UI callbacks
+		
+		private void renderCanvas_Click(object sender, EventArgs e)
+		{
+			MouseEventArgs mouseEvent = e as MouseEventArgs;
+			if (mouseEvent.Button == MouseButtons.Left)
+			{ 
+				Ray r = mNavigation.NavigationCamera.ViewportPointToRay(new Vector2(mouseEvent.Location.X, mouseEvent.Location.Y));
+				myLine.Set(r.Origin, r.Origin + r.Direction, Vector3.UnitX);
+				renderCanvas.Refresh();
+			}
+		}
+
 
 		private void MainWindow_Activated(object sender, EventArgs e)
 		{
@@ -305,8 +325,8 @@ namespace Onyx3DEditor
 			
 		}
 
-		#endregion
 
+		#endregion
 
 	}
 }

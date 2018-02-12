@@ -41,7 +41,7 @@ namespace Onyx3D
 		protected void SetUpMVP(int program)
 		{
 
-			Matrix4 M = Transform.GetModelMatrix();
+			Matrix4 M = Transform.ModelMatrix;
 			Matrix4 R = Transform.GetRotationMatrix();
 			//Matrix4 V = cam.ViewMatrix;
 			//Matrix4 P = cam.ProjectionMatrix;
