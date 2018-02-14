@@ -65,3 +65,4 @@ C:\Users\Josue\Desktop\Onyx3DSharp\Onyx3DEditor\obj\Debug\Onyx3DEditor.csproj.Ge
 C:\Users\Josue\Desktop\Onyx3DSharp\Onyx3DEditor\obj\Debug\Onyx3DEditor.csproj.CoreCompileInputs.cache
 C:\Users\Josue\Desktop\Onyx3DSharp\Onyx3DEditor\obj\Debug\Onyx3DEditor.exe
 C:\Users\Josue\Desktop\Onyx3DSharp\Onyx3DEditor\obj\Debug\Onyx3DEditor.pdb
+C:\Users\Josue\Desktop\Onyx3DSharp\Onyx3DEditor\obj\Debug\Onyx3DEditor.SceneSelector.resources

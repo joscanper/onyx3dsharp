@@ -10,6 +10,7 @@
     <Component
       className="MeshRenderer">
       <Mesh>100000001</Mesh>
+      <Material>400000001</Material>
     </Component>
   </SceneObject>
   <SceneObject
@@ -22,6 +23,7 @@
     <Component
       className="MeshRenderer">
       <Mesh>100000001</Mesh>
+      <Material>400000001</Material>
     </Component>
   </SceneObject>
 </Root>

@@ -64,6 +64,7 @@
     <Compile Include="Graphics\ObjLoader.cs" />
     <Compile Include="Graphics\Texture.cs" />
     <Compile Include="Graphics\UBO.cs" />
+    <Compile Include="Project\ProjectAssets.cs" />
     <Compile Include="Project\ProjectContent.cs" />
     <Compile Include="Project\ProjectData.cs" />
     <Compile Include="Project\ProjectManager.cs" />

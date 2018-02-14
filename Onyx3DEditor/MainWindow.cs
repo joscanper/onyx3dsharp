@@ -129,6 +129,48 @@ namespace Onyx3DEditor
 		}
 
 
+		private void OnSceneSelected(Scene s)
+		{
+			myScene = s;
+			UpdateTreeView();
+			renderCanvas.Refresh();
+		}
+
+		private void SaveScene()
+		{
+			//ProjectManager.Instance.Content.Scenes.Add(myScene);
+
+			if (mScenePath == null || mScenePath.Length == 0)
+			{
+				SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+				saveFileDialog1.Filter = "Onyx3d scene files (*.o3dscene)|*.o3dscene";
+				saveFileDialog1.FilterIndex = 2;
+				saveFileDialog1.RestoreDirectory = true;
+
+				if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+				{
+					SceneLoader.Save(myScene, saveFileDialog1.FileName);
+					try
+					{
+
+						mScenePath = saveFileDialog1.FileName;
+						ProjectManager.Instance.Content.Scenes.Add(new OnyxProjectAsset(mScenePath));
+					}
+					catch (Exception ex)
+					{
+						MessageBox.Show("Error saving the scene : " + ex.Message);
+					}
+
+
+				}
+			}
+			else
+			{
+				SceneLoader.Save(myScene, mScenePath);
+			}
+		}
+
+
 		#region RenderCanvas callbacks
 
 		private void renderCanvas_Load(object sender, EventArgs e)
@@ -245,7 +287,6 @@ namespace Onyx3DEditor
 			}
 		}
 
-
 		private void treeViewSceneHierarchy_NodeSelected(object sender, TreeViewEventArgs e)
 		{
 			if (e.Node.GetType() != typeof(SceneTreeNode))
@@ -261,70 +302,12 @@ namespace Onyx3DEditor
 			}
 		}
 
-		private void toolStripButtonSaveScene_Click(object sender, EventArgs e)
+		private void toolStripButtonChangeScene_Click(object sender, EventArgs e)
 		{
-			//ProjectManager.Instance.Content.Scenes.Add(myScene);
-
-			if (mScenePath == null || mScenePath.Length == 0)
-			{
-				SaveFileDialog saveFileDialog1 = new SaveFileDialog();
-				saveFileDialog1.Filter = "Onyx3d scene files (*.o3dscene)|*.o3dscene";
-				saveFileDialog1.FilterIndex = 2;
-				saveFileDialog1.RestoreDirectory = true;
-
-				if (saveFileDialog1.ShowDialog() == DialogResult.OK)
-				{
-					SceneLoader.Save(myScene, saveFileDialog1.FileName);
-					try
-					{
-						
-						mScenePath = saveFileDialog1.FileName;
-						ProjectManager.Instance.Content.Scenes.Add(new OnyxProjectAsset(mScenePath));
-					}
-					catch(Exception ex)
-					{
-						MessageBox.Show("Error saving the scene : " + ex.Message);
-					}
-
-					
-				}
-			}
-			else
-			{
-				SceneLoader.Save(myScene, mScenePath);
-			}
+			SceneSelector ss = new SceneSelector();
+			ss.OnSceneSelected += OnSceneSelected;
+			ss.Show();
 		}
-
-		private void toolStripButtonOpenScene_Click(object sender, EventArgs e)
-		{
-
-			Stream myStream;
-			OpenFileDialog openFileDialog1 = new OpenFileDialog();
-
-			openFileDialog1.InitialDirectory = "c:\\";
-			openFileDialog1.Filter = "Onyx3d project files (*.o3dscene)|*.o3dscene";
-			openFileDialog1.FilterIndex = 2;
-			openFileDialog1.RestoreDirectory = true;
-
-			if (openFileDialog1.ShowDialog() == DialogResult.OK)
-			{
-				try
-				{
-					if ((myStream = openFileDialog1.OpenFile()) != null)
-					{
-						myScene = SceneLoader.Load(openFileDialog1.FileName);
-						UpdateTreeView();
-						renderCanvas.Refresh();
-					}
-				}
-				catch (Exception ex)
-				{
-					MessageBox.Show("Error: Could not read file from disk. Original error: " + ex.Message);
-				}
-			}
-			
-		}
-
 
 		#endregion
 
