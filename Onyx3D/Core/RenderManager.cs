@@ -52,12 +52,12 @@ namespace Onyx3D
 		private List<MeshRenderer> GetSceneRenderers(Scene scene)
 		{
 			List<MeshRenderer> rendereres = new List<MeshRenderer>();
-			Queue<SceneObject> objects = new Queue<SceneObject>();
-
+			
 			if (scene.Root == null)
 				return rendereres;
 
-			objects.Enqueue(scene.Root);
+            Queue<SceneObject> objects = new Queue<SceneObject>();
+            objects.Enqueue(scene.Root);
 			SceneObject s;
 			do
 			{

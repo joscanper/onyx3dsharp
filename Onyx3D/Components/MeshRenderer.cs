@@ -9,16 +9,24 @@ using OpenTK.Graphics.OpenGL;
 
 namespace Onyx3D
 {
-	
+
     public class MeshRenderer : Component
     {
         public Mesh Mesh;
         public Material Material;
-
+        public Bounds Bounds {
+            get
+            {
+                Bounds b = Mesh.Bounds;
+               // b.Transform(Transform);
+                
+                return b;
+            }
+        }
 
 		public virtual void Render()
         {
-			SetUpMaterial();
+            SetUpMaterial();
 			SetUpMVP(Material.Shader.Program);
            
 			GL.BindVertexArray(Mesh.VertexArrayObject);

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows;
 
 using OpenTK;
 
@@ -13,11 +14,12 @@ namespace Onyx3D
 	}
 
 	[Serializable]
-	public class Camera : SceneObject
+	public abstract class Camera : SceneObject
 	{
 		public float Near;
 		public float Far;
-
+        public Rect Viewport = new Rect(0,0,1,1);
+            
 		protected Matrix4 mProjection;
 
 		UBO<CameraUBufferData> mCameraUBO;
@@ -45,7 +47,6 @@ namespace Onyx3D
 			mUBufferData = new CameraUBufferData();
 			mCameraUBO = new UBO<CameraUBufferData>(mUBufferData, "CameraData");
 		}
-
 		
 		public void UpdateUBO()
 		{
@@ -59,15 +60,19 @@ namespace Onyx3D
 		{
 			UpdateUBO();
 		}
-		
-		public Ray ViewportPointToRay(Vector2 viewportPoint)
-		{
-			Ray r = new Ray();
-			r.Origin = Transform.Position;
-			r.Direction = new Vector3( -Vector4.UnitZ * Transform.ModelMatrix);
-			return r;
-		}
-	}
+
+        public Ray ScreenPointToRay(float x, float y, float screenW, float screenH)
+        {
+            Vector2 viewportPoint = new Vector2(x / screenW, y / screenH);
+            viewportPoint.X = (viewportPoint.X - 0.5f) * 2;
+            viewportPoint.Y = -(viewportPoint.Y - 0.5f) * 2;
+            return ViewportPointToRay(viewportPoint);
+        }
+
+
+        public abstract Ray ViewportPointToRay(Vector2 viewportPoint);
+
+    }
 
 
 	[Serializable]
@@ -76,7 +81,7 @@ namespace Onyx3D
 		public float FOV;
 		public float Aspect;
 
-		public PerspectiveCamera(string id, float fov, float aspect, float near = 0.1f, float far = 1000) : base(id, near, far)
+		public PerspectiveCamera(string id, float fov, float aspect, float near = 0.01f, float far = 1000) : base(id, near, far)
 		{
 			FOV = fov;
 			Aspect = aspect;
@@ -88,7 +93,27 @@ namespace Onyx3D
 			base.Update();
 			mProjection = Matrix4.CreatePerspectiveFieldOfView(FOV, Aspect, Near, Far);
 		}
-	}
+
+
+        public override Ray ViewportPointToRay(Vector2 viewportPoint)
+        {
+            Vector3 nearPlanePoint = new Vector3();
+            float nearPlaneHalfH = Near * (float)Math.Tan(FOV / 2.0f);
+            nearPlanePoint.X = nearPlaneHalfH * Aspect * viewportPoint.X;
+            nearPlanePoint.Y = nearPlaneHalfH * viewportPoint.Y;
+            nearPlanePoint.Z = -Near;
+
+            nearPlanePoint = Transform.LocalToWorld(nearPlanePoint);
+
+            Ray r = new Ray()
+            {
+                Origin = nearPlanePoint,
+                Direction = (nearPlanePoint - Transform.Position).Normalized()
+            };
+
+            return r;
+        }
+    }
 
 	[Serializable]
 	public class OrthoCamera : Camera
@@ -108,5 +133,24 @@ namespace Onyx3D
 			base.Update();
 			mProjection = Matrix4.CreateOrthographic(W, H, Near, Far);
 		}
-	}
+
+        public override Ray ViewportPointToRay(Vector2 viewportPoint)
+        {
+            Vector3 nearPlanePoint = new Vector3();
+            
+            nearPlanePoint.X = W / 2.0f * viewportPoint.X;
+            nearPlanePoint.Y = H / 2.0f * viewportPoint.Y;
+            nearPlanePoint.Z = -Near;
+
+            nearPlanePoint = Transform.LocalToWorld(nearPlanePoint);
+
+            Ray r = new Ray()
+            {
+                Origin = nearPlanePoint,
+                Direction = -Transform.Forward
+            };
+
+            return r;
+        }
+    }
 }

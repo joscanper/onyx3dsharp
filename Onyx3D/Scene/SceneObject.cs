@@ -75,6 +75,11 @@ namespace Onyx3D
 			return mComponents.Remove(c);
 		}
 
+        public void RemoveAllComponents()
+        {
+            mComponents.Clear();
+        }
+
 		public void AddComponent(Component comp)
 		{
 			comp.Attach(this);

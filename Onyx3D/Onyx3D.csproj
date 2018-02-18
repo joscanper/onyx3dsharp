@@ -42,6 +42,10 @@
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase">
+      <HintPath>..\packages\WindowsBase.4.6.1055.0\lib\WindowsBase.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Components\AxisRenderer.cs" />
@@ -49,13 +53,15 @@
     <Compile Include="Components\Component.cs" />
     <Compile Include="Components\GridRenderer.cs" />
     <Compile Include="Components\LineRenderer.cs" />
-    <Compile Include="Core\Types\Box3d.cs" />
+    <Compile Include="Core\SceneManager.cs" />
+    <Compile Include="Graphics\Bounds.cs" />
     <Compile Include="Core\Types\GameAsset.cs" />
     <Compile Include="Core\Types\ISerializer.cs" />
     <Compile Include="Core\Types\Object.cs" />
     <Compile Include="Core\Onyx3D.cs" />
     <Compile Include="Core\ResourcesManager.cs" />
     <Compile Include="Core\Types\Ray.cs" />
+    <Compile Include="Graphics\Gizmos.cs" />
     <Compile Include="Graphics\Meshes\CubeMesh.cs" />
     <Compile Include="Graphics\Meshes\CylinderMesh.cs" />
     <Compile Include="Graphics\Meshes\Mesh.cs" />
@@ -64,6 +70,8 @@
     <Compile Include="Graphics\ObjLoader.cs" />
     <Compile Include="Graphics\Texture.cs" />
     <Compile Include="Graphics\UBO.cs" />
+    <Compile Include="Physics\Physics.cs" />
+    <Compile Include="Physics\RaycastHit.cs" />
     <Compile Include="Project\ProjectContent.cs" />
     <Compile Include="Project\ProjectData.cs" />
     <Compile Include="Project\ProjectManager.cs" />
@@ -81,6 +89,7 @@
     <Compile Include="Scene\Transform.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="packages.config" />
     <None Include="Resources\Materials\Default.o3dmat">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

@@ -7,14 +7,18 @@ namespace Onyx3D
 		public SceneObject SceneObject;
 		
 		private Vector4 mLocalScale = Vector4.One;
-		private Vector4 mLocalPosition = Vector4.Zero;
+		private Vector4 mLocalPosition = Vector4.UnitW;
 		private Quaternion mLocalRotation = Quaternion.Identity;
 
 		private Matrix4 mBakedModel;
 		private Vector4 mBakedPosition;
-		//private Vector4 mBakedRotation;
+        
+        public Vector3 Forward { get; private set; }
+        public Vector3 Right { get; private set; }
+        public Vector3 Up { get; private set; }
+        //private Vector4 mBakedRotation;
 
-		public Vector3 LocalScale
+        public Vector3 LocalScale
 		{
 			get { return mLocalScale.Xyz; }
 			set { mLocalScale = new Vector4(value, 1); }
@@ -129,9 +133,14 @@ namespace Onyx3D
 		{
 			mBakedModel = CalculateModelMatrix();
 			mBakedPosition = mLocalPosition * mBakedModel;
-			//mBakedRotation = GetModelMatrix() * mLocalRotation;
+            //mBakedRotation = GetModelMatrix() * mLocalRotation;
 
-			for (int i=0; i < SceneObject.ChildCount; ++i)
+            Right = new Vector3(Vector4.UnitX * mBakedModel);
+            Up = new Vector3(Vector4.UnitY * mBakedModel);
+            Forward = new Vector3(Vector4.UnitZ * mBakedModel);
+
+
+            for (int i=0; i < SceneObject.ChildCount; ++i)
 			{
 				SceneObject.GetChild(i).Transform.SetDirty();
 			}

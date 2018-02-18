@@ -22,7 +22,7 @@ namespace Onyx3DEditor
 		GridRenderer myGridRenderer;
 		SceneObject myTeapot;
 
-
+        
 		AxisRenderer myAxis;
 		BoxRenderer myBox;
 		LineRenderer myLine;
@@ -46,44 +46,40 @@ namespace Onyx3DEditor
 
 			myOnyxInstance = Onyx3DEngine.Instance;
 			myOnyxInstance.Init();
-			
+		
 			SceneObject teapot = new SceneObject("Teapot");
 			MeshRenderer teapotMesh = teapot.AddComponent<MeshRenderer>();
 			teapotMesh.Mesh = myOnyxInstance.Resources.GetMesh(BuiltInMesh.Teapot);
-			teapot.Transform.LocalPosition = new Vector3(0, 0.5f, 0);
+			//teapot.Transform.LocalPosition = new Vector3(0, 0.5f, 0);
 			teapotMesh.Material = myOnyxInstance.Resources.GetMaterial(BuiltInMaterial.Default);
 			teapot.Parent = myScene.Root;
-			myTeapot = teapot;
+            myTeapot = teapot;
 
-			SceneObject teapot2 = new SceneObject("Teapot2");
+            /*
+            SceneObject teapot2 = new SceneObject("Teapot2");
 			MeshRenderer teapot2Mesh = teapot2.AddComponent<MeshRenderer>();
 			teapot2Mesh.Mesh = myOnyxInstance.Resources.GetMesh(BuiltInMesh.Teapot);
 			teapot2Mesh.Material = myOnyxInstance.Resources.GetMaterial(BuiltInMaterial.Default);
 			teapot2.Transform.LocalScale = new Vector3(0.5f, 0.5f, 0.5f);
-			teapot2.Transform.LocalPosition = new Vector3(0, 1.75f, 0);
-			teapot2.Parent = myScene.Root;
-			
-			// Editor objects --------------------------------------
+			teapot2.Transform.LocalPosition = new Vector3(2, 0, 2);
+            teapot2.Transform.LocalRotation = Quaternion.FromEulerAngles(new Vector3(0, 90, 0));
+            teapot2.Parent = myScene.Root;
+            */
+            // Editor objects --------------------------------------
 
-			SceneObject grid = new SceneObject("Grid");
+            SceneObject grid = new SceneObject("Grid");
 			myGridRenderer = grid.AddComponent<GridRenderer>();
 			myGridRenderer.GenerateGridMesh(100, 100, 0.25f, 0.25f);
 			myGridRenderer.Material = myOnyxInstance.Resources.GetMaterial(BuiltInMaterial.Unlit);
 			myGridRenderer.Material.Properties["color"].Data = new Vector4(1, 1, 1, 0.1f);
 
-			myAxis = teapot2.AddComponent<AxisRenderer>();
+			myAxis = teapot.AddComponent<AxisRenderer>();
 			myAxis.Material = myOnyxInstance.Resources.GetMaterial(BuiltInMaterial.UnlitVertexColor);
 
-			myBox = teapot2.AddComponent<BoxRenderer>();
-			myBox.Material = myOnyxInstance.Resources.GetMaterial(BuiltInMaterial.UnlitVertexColor);
+			//myBox = teapot.AddComponent<BoxRenderer>();
+			//myBox.Material = myOnyxInstance.Resources.GetMaterial(BuiltInMaterial.UnlitVertexColor);
 
-
-			SceneObject line = new SceneObject("Line");
-			myLine = line.AddComponent<LineRenderer>();
-			myLine.Material = myOnyxInstance.Resources.GetMaterial(BuiltInMaterial.UnlitVertexColor);
-			myLine.Set(new Vector3(0, 0, 0), new Vector3(10, 10, 10), new Vector3(1,0,0));
-
-			mNavigation.CreateCamera();
+            mNavigation.CreateCamera();
 
 			UpdateTreeView();
 		}
@@ -113,17 +109,11 @@ namespace Onyx3DEditor
 			if (node == null)
 			{
 				myAxis.SceneObject.RemoveComponent(myAxis);
-				myBox.SceneObject.RemoveComponent(myBox);
+				//myBox.SceneObject.RemoveComponent(myBox);
 			}
 			else
 			{
 				node.AddComponent(myAxis);
-				MeshRenderer meshR = node.GetComponent<MeshRenderer>();
-				if (meshR != null)
-					myBox.GenerateBox(meshR.Mesh.GetBoundingBox());
-				else
-					myBox.GenerateDefaultBox();
-				node.AddComponent(myBox);
 			}
 			renderCanvas.Refresh();
 		}
@@ -142,13 +132,12 @@ namespace Onyx3DEditor
 			if (!canDraw)
 				return;
 
-			mNavigation.NavigationCamera.Aspect = (float)renderCanvas.Width / (float)renderCanvas.Height;
 			mNavigation.UpdateCamera();
 
 			myOnyxInstance.Render.Render(myScene, mNavigation.NavigationCamera, renderCanvas.Width, renderCanvas.Height);
-			myOnyxInstance.Render.Render(myGridRenderer, mNavigation.NavigationCamera);
-			myOnyxInstance.Render.Render(myLine, mNavigation.NavigationCamera);
-
+            myOnyxInstance.Render.Render(myGridRenderer, mNavigation.NavigationCamera);
+            myOnyxInstance.Render.RenderGizmos();
+			
 			renderCanvas.SwapBuffers();
 		}
 
@@ -160,10 +149,22 @@ namespace Onyx3DEditor
 		{
 			MouseEventArgs mouseEvent = e as MouseEventArgs;
 			if (mouseEvent.Button == MouseButtons.Left)
-			{ 
-				Ray r = mNavigation.NavigationCamera.ViewportPointToRay(new Vector2(mouseEvent.Location.X, mouseEvent.Location.Y));
-				myLine.Set(r.Origin, r.Origin + r.Direction, Vector3.UnitX);
-				renderCanvas.Refresh();
+			{
+                Ray ray = mNavigation.NavigationCamera.ScreenPointToRay(mouseEvent.X, mouseEvent.Y, renderCanvas.Width, renderCanvas.Height);
+				myLine.Set(ray.Origin, ray.Origin + ray.Direction * 100, Vector3.UnitX);
+                //RaycastHit hit = new RaycastHit();
+                if (myBox.Bounds.IntersectsRay(ray))
+                {
+                    debugOutput.Text += "\r\nYAYH :" + ray.Direction;
+                    //SelectObject(hit.Object);
+                }
+                else
+                {
+                    debugOutput.Text += "\r\nNOPE : " + ray.Direction;
+                    //SelectObject(null);
+                }
+
+                renderCanvas.Refresh();
 			}
 		}
 
@@ -325,8 +326,14 @@ namespace Onyx3DEditor
 			
 		}
 
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            //myTeapot.Transform.Rotate(new Vector3(0, 0.1f, 0));
+            //renderCanvas.Refresh();
+        }
 
-		#endregion
+        #endregion
 
-	}
+
+    }
 }

@@ -46,8 +46,9 @@ namespace Onyx3D
 
         public List<Vertex> Vertices = new List<Vertex>();
         public uint[] Indices;
+        public Bounds Bounds { get; private set; }
 
-		public void GenerateVAO()
+        public void GenerateVAO()
 		{
 			Vertex[] vertices = Vertices.ToArray();
 
@@ -95,8 +96,9 @@ namespace Onyx3D
 				GL.BindBuffer(BufferTarget.ElementArrayBuffer, 0);
 				GL.DeleteBuffer(ebo);
 			}
-			
-		}
+
+            Bounds = GenerateAABB();
+        }
 
 
 		// TODO Delete Vertex Array
@@ -126,27 +128,27 @@ namespace Onyx3D
 		}
 
 
-		public Box3d GetBoundingBox()
+		private Bounds GenerateAABB()
 		{
-			Box3d bbox = new Box3d();
-			
+            Bounds bbox = new Bounds();
+
 			foreach (Vertex v in Vertices)
 			{
 				Vector3 vp = v.Position;
-				if (vp.X < bbox.MinX)
-					bbox.MinX = vp.X;
-				else if (vp.X > bbox.MaxX)
-					bbox.MaxX = vp.X;
+				if (vp.X < bbox.Min.X)
+                    bbox.Min.X = vp.X;
+				else if (vp.X > bbox.Max.X)
+                    bbox.Max.X = vp.X;
 
-				if (vp.Y < bbox.MinY)
-					bbox.MinY = vp.Y;
-				else if (vp.Y > bbox.MaxY)
-					bbox.MaxY = vp.Y;
+				if (vp.Y < bbox.Min.Y)
+					bbox.Min.Y = vp.Y;
+				else if (vp.Y > bbox.Max.Y)
+					bbox.Max.Y = vp.Y;
 
-				if (vp.Z < bbox.MinZ)
-					bbox.MinZ = vp.Z;
-				else if (vp.Z > bbox.MaxZ)
-					bbox.MaxZ = vp.Z;
+				if (vp.Z < bbox.Min.Z)
+					bbox.Min.Z = vp.Z;
+				else if (vp.Z > bbox.Max.Z)
+					bbox.Max.Z = vp.Z;
 			}
 
 			return bbox;

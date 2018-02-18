@@ -10,6 +10,8 @@ namespace Onyx3DEditor
 	public class OnyxViewerNavigation
 	{
 
+        GLControl mBoundControl;
+
 		const char FORWARDS_CHAR = 'w';
 		const char LEFT_CHAR = 'a';
 		const char RIGHT_CHAR = 'd';
@@ -32,20 +34,20 @@ namespace Onyx3DEditor
 
 		private Vector2 mCurrentMousePos;
 		public PerspectiveCamera NavigationCamera;
-		//private GLControl mRenderCanvas;
 
 		public OnyxViewerNavigation()
 		{
 			MouseOffset = new Vector2(0, 0);
 		}
 
-		public void Bind(GLControl rendercanvas)
+		public void Bind(GLControl renderCanvas)
 		{
-			rendercanvas.MouseDown += new MouseEventHandler(OnMouseDown);
-			rendercanvas.MouseUp += new MouseEventHandler(OnMouseUp);
-			rendercanvas.MouseMove += new MouseEventHandler(OnMouseMove);
-			rendercanvas.MouseWheel += new MouseEventHandler(OnMouseWheel);
-			rendercanvas.KeyPress += new KeyPressEventHandler(OnKeyPress);
+            mBoundControl = renderCanvas;
+            renderCanvas.MouseDown += new MouseEventHandler(OnMouseDown);
+			renderCanvas.MouseUp += new MouseEventHandler(OnMouseUp);
+			renderCanvas.MouseMove += new MouseEventHandler(OnMouseMove);
+			renderCanvas.MouseWheel += new MouseEventHandler(OnMouseWheel);
+			renderCanvas.KeyPress += new KeyPressEventHandler(OnKeyPress);
 		}
 
 		public void CreateCamera()
@@ -53,7 +55,7 @@ namespace Onyx3DEditor
 			SceneObject mCameraPivot = new SceneObject("CameraPivot");
 			mCameraPivot.Transform.LocalPosition = new Vector3(0, 0.5f, 3);
 
-			NavigationCamera = new PerspectiveCamera("MainCamera", 1.5f, 1.5f);
+            NavigationCamera = new PerspectiveCamera("MainCamera", MathHelper.DegreesToRadians(60), 1.5f);
 			NavigationCamera.Parent = mCameraPivot;
 		}
 
@@ -66,8 +68,9 @@ namespace Onyx3DEditor
 
 		public void UpdateCamera()
 		{
-			
-			switch (CurrentAction)
+            NavigationCamera.Aspect = (float)mBoundControl.Width / (float)mBoundControl.Height;
+
+            switch (CurrentAction)
 			{
 				case NavigationAction.Dragging:
 					DragCamera();

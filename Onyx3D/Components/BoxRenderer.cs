@@ -20,29 +20,38 @@ namespace Onyx3D
 
 		public void GenerateDefaultBox()
 		{
-			Box3d defaultBox = new Box3d();
-			defaultBox.MinX = -0.5f;
-			defaultBox.MaxX = 0.5f;
-			defaultBox.MinY = -0.5f;
-			defaultBox.MaxY = 0.5f;
-			defaultBox.MinZ = -0.5f;
-			defaultBox.MaxZ = 0.5f;
+			Bounds defaultBox = new Bounds();
+			defaultBox.Min.X = -0.5f;
+			defaultBox.Max.X = 0.5f;
+			defaultBox.Min.Y = -0.5f;
+			defaultBox.Max.Y = 0.5f;
+			defaultBox.Min.Z = -0.5f;
+			defaultBox.Max.Z = 0.5f;
 			GenerateBox(defaultBox);
 		}
 
-		public void GenerateBox(Box3d box)
+		public void GenerateBox(Bounds box)
 		{
 			Mesh = new Mesh();
-			
-			Vector3 frontTL = new Vector3(box.MinX, box.MinY, box.MaxZ);
-			Vector3 frontBL = new Vector3(box.MinX, box.MaxY, box.MaxZ);
-			Vector3 frontTR = new Vector3(box.MaxX, box.MinY, box.MaxZ);
-			Vector3 frontBR = new Vector3(box.MaxX, box.MaxY, box.MaxZ);
 
-			Vector3 backTL = new Vector3(box.MinX, box.MinY, box.MinZ);
-			Vector3 backBL = new Vector3(box.MinX, box.MaxY, box.MinZ);
-			Vector3 backTR = new Vector3(box.MaxX, box.MinY, box.MinZ);
-			Vector3 backBR = new Vector3(box.MaxX, box.MaxY, box.MinZ);
+            MeshUtils.CreateLine(ref Mesh, box.Min, box.Min + Vector3.UnitX, Vector3.UnitX);
+            MeshUtils.CreateLine(ref Mesh, box.Min, box.Min + Vector3.UnitY, Vector3.UnitX);
+            MeshUtils.CreateLine(ref Mesh, box.Min, box.Min + Vector3.UnitZ, Vector3.UnitX);
+
+            MeshUtils.CreateLine(ref Mesh, box.Max, box.Max - Vector3.UnitX, Vector3.UnitY);
+            MeshUtils.CreateLine(ref Mesh, box.Max, box.Max - Vector3.UnitY, Vector3.UnitY);
+            MeshUtils.CreateLine(ref Mesh, box.Max, box.Max - Vector3.UnitZ, Vector3.UnitY);
+
+            
+			Vector3 frontTL = new Vector3(box.Min.X, box.Min.Y, box.Max.Z);
+			Vector3 frontBL = new Vector3(box.Min.X, box.Max.Y, box.Max.Z);
+			Vector3 frontTR = new Vector3(box.Max.X, box.Min.Y, box.Max.Z);
+			Vector3 frontBR = new Vector3(box.Max.X, box.Max.Y, box.Max.Z);
+
+			Vector3 backTL = new Vector3(box.Min.X, box.Min.Y, box.Min.Z);
+			Vector3 backBL = new Vector3(box.Min.X, box.Max.Y, box.Min.Z);
+			Vector3 backTR = new Vector3(box.Max.X, box.Min.Y, box.Min.Z);
+			Vector3 backBR = new Vector3(box.Max.X, box.Max.Y, box.Min.Z);
 
 			// Front rect
 			MeshUtils.CreateLine(ref Mesh, frontTL, frontTR, Vector3.One);
@@ -59,18 +68,22 @@ namespace Onyx3D
 			MeshUtils.CreateLine(ref Mesh, backTR, backBR, Vector3.One);
 			MeshUtils.CreateLine(ref Mesh, backBR, backBL, Vector3.One);
 			MeshUtils.CreateLine(ref Mesh, backBL, backTL, Vector3.One);
+           
 
-			Mesh.GenerateVAO();
+            Mesh.GenerateVAO();
 		}
 
 		public override void Render()
 		{
 			SetUpMaterial();
-			SetUpMVP(Material.Shader.Program);
+            Matrix4 M = Transform.GetTranslationMatrix();
+            Matrix4 R = Matrix4.Identity;
+            GL.UniformMatrix4(GL.GetUniformLocation(Material.Shader.Program, "M"), false, ref M);
+            GL.UniformMatrix4(GL.GetUniformLocation(Material.Shader.Program, "R"), false, ref R);
 
-			//GL.Disable(EnableCap.DepthTest);
+            //GL.Disable(EnableCap.DepthTest);
 
-			GL.BindVertexArray(Mesh.VertexArrayObject);
+            GL.BindVertexArray(Mesh.VertexArrayObject);
 			GL.DrawArrays(PrimitiveType.Lines, 0, Mesh.Vertices.Count);
 			GL.BindVertexArray(0);
 
