@@ -157,6 +157,7 @@ namespace Onyx3D
 						{
 							Component c = Component.GetComponent(reader);
 							Components.Add(c);
+							c.Attach(this);
 						}
 							//ComponentLoader.Load(obj, reader);
 						break;

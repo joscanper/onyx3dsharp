@@ -38,7 +38,6 @@ namespace Onyx3D
 			xmlWriter.Close();
 		}
 	}
-	
 }
 
 

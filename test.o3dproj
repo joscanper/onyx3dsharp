@@ -2,30 +2,4 @@
 <ProjectData xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Version>0</Version>
   <Content>
-    <Scenes />
-    <Textures />
-    <Materials />
-    <Meshes>
-      <OnyxProjectAsset>
-        <Path>./Resources/Models/teapot.obj</Path>
-        <Guid>100000001</Guid>
-      </OnyxProjectAsset>
-      <OnyxProjectAsset>
-        <Path>./Resources/Models/cube.obj</Path>
-        <Guid>100000002</Guid>
-      </OnyxProjectAsset>
-      <OnyxProjectAsset>
-        <Path>./Resources/Models/cylinder.obj</Path>
-        <Guid>100000003</Guid>
-      </OnyxProjectAsset>
-      <OnyxProjectAsset>
-        <Path>./Resources/Models/torus.obj</Path>
-        <Guid>100000004</Guid>
-      </OnyxProjectAsset>
-      <OnyxProjectAsset>
-        <Path>./Resources/Models/sphere.obj</Path>
-        <Guid>100000005</Guid>
-      </OnyxProjectAsset>
-    </Meshes>
-  </Content>
-</ProjectData>
+    <Scenes
