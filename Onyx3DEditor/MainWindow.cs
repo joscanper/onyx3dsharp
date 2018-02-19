@@ -178,7 +178,7 @@ namespace Onyx3DEditor
 
 			myOnyxInstance.Render.Render(myScene, mNavigation.NavigationCamera, renderCanvas.Width, renderCanvas.Height);
             myOnyxInstance.Render.Render(myGridRenderer, mNavigation.NavigationCamera);
-            myOnyxInstance.Render.RenderGizmos();
+            //myOnyxInstance.Render.RenderGizmos();
 			
 			renderCanvas.SwapBuffers();
 		}
@@ -197,12 +197,12 @@ namespace Onyx3DEditor
                 //RaycastHit hit = new RaycastHit();
                 if (myBox.Bounds.IntersectsRay(ray))
                 {
-                    debugOutput.Text += "\r\nYAYH :" + ray.Direction;
+                    //debugOutput.Text += "\r\nYAYH :" + ray.Direction;
                     //SelectObject(hit.Object);
                 }
                 else
                 {
-                    debugOutput.Text += "\r\nNOPE : " + ray.Direction;
+                    //debugOutput.Text += "\r\nNOPE : " + ray.Direction;
                     //SelectObject(null);
                 }
 

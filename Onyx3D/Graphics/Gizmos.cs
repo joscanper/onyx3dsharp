@@ -17,7 +17,7 @@ namespace Onyx3D
         public void DrawLine(Vector3 from, Vector3 to, Vector3 color)
         {
             LineRenderer myLine = mRoot.AddComponent<LineRenderer>();
-            myLine.Material = myOnyxInstance.Resources.GetMaterial(BuiltInMaterial.UnlitVertexColor);
+           // myLine.Material = myOnyxInstance.Resources.GetMaterial(BuiltInMaterial.UnlitVertexColor);
             myLine.Set(new Vector3(0, 0, 0), new Vector3(10, 10, 10), new Vector3(1, 0, 0));
         }
 
