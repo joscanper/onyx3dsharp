@@ -6,14 +6,19 @@ using OpenTK.Graphics.OpenGL4;
 
 namespace Onyx3D
 {
-	public class RenderManager
+	public class RenderManager : EngineComponent
 	{
+		
 		private SceneObject mRoot;
+
+		public GizmosManager Gizmos { get; private set; }
 
 		public Vector2 ScreenSize = new Vector2(800,600);
 
-		public void Init()
+		public override void Init(Onyx3DInstance onyx3d)
 		{
+			base.Init(onyx3d);
+
 			GL.Enable(EnableCap.CullFace);
 			GL.Enable(EnableCap.DepthTest);
 
@@ -27,6 +32,9 @@ namespace Onyx3D
 			GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
 
 			GL.ClearColor(Color.SlateGray);
+
+			Gizmos = new GizmosManager();
+			Gizmos.Init(onyx3d);
 		}
 
 		public void Render(Scene scene)

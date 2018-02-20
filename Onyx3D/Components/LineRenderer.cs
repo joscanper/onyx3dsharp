@@ -8,7 +8,10 @@ namespace Onyx3D
 	{
 		public void Set(Vector3 from, Vector3 to, Vector3 col)
 		{
-			Mesh = new Mesh();
+			if (Mesh == null)
+				Mesh = new Mesh();
+			else
+				Mesh.Clear();
 
 			Mesh.Vertices.Add(new Vertex(from, col));
 			Mesh.Vertices.Add(new Vertex(to, col));

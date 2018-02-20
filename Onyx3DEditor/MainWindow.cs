@@ -16,7 +16,7 @@ namespace Onyx3DEditor
 	{
 		bool canDraw = false;
 
-		Onyx3DEngine myOnyxInstance;
+		Onyx3DInstance myOnyxInstance;
 
 		Scene myScene;
 		GridRenderer myGridRenderer;
@@ -24,8 +24,11 @@ namespace Onyx3DEditor
 
         
 		AxisRenderer myAxis;
-		BoxRenderer myBox;
-		LineRenderer myLine;
+
+		Ray myClickRay;
+
+		//BoxRenderer myBox;
+		//LineRenderer myLine;
 
 		string mScenePath;
 
@@ -176,9 +179,12 @@ namespace Onyx3DEditor
 
 			mNavigation.UpdateCamera();
 
-			myOnyxInstance.Render.Render(myScene, mNavigation.NavigationCamera, renderCanvas.Width, renderCanvas.Height);
-            myOnyxInstance.Render.Render(myGridRenderer, mNavigation.NavigationCamera);
-            //myOnyxInstance.Render.RenderGizmos();
+			myOnyxInstance.Renderer.Render(myScene, mNavigation.NavigationCamera, renderCanvas.Width, renderCanvas.Height);
+            myOnyxInstance.Renderer.Render(myGridRenderer, mNavigation.NavigationCamera);
+			
+			myOnyxInstance.Gizmos.DrawLine(myClickRay.Origin, myClickRay.Origin + myClickRay.Direction * 10, Vector3.One);
+			//myOnyxInstance.Gizmos.DrawBox(SelectedO);
+			myOnyxInstance.Gizmos.Render(mNavigation.NavigationCamera);
 			
 			renderCanvas.SwapBuffers();
 		}
@@ -192,10 +198,10 @@ namespace Onyx3DEditor
 			MouseEventArgs mouseEvent = e as MouseEventArgs;
 			if (mouseEvent.Button == MouseButtons.Left)
 			{
-                Ray ray = mNavigation.NavigationCamera.ScreenPointToRay(mouseEvent.X, mouseEvent.Y, renderCanvas.Width, renderCanvas.Height);
-				myLine.Set(ray.Origin, ray.Origin + ray.Direction * 100, Vector3.UnitX);
-                //RaycastHit hit = new RaycastHit();
-                if (myBox.Bounds.IntersectsRay(ray))
+				myClickRay = mNavigation.NavigationCamera.ScreenPointToRay(mouseEvent.X, mouseEvent.Y, renderCanvas.Width, renderCanvas.Height);
+				
+				//RaycastHit hit = new RaycastHit();
+				/*if (myBox.Bounds.IntersectsRay(ray))
                 {
                     //debugOutput.Text += "\r\nYAYH :" + ray.Direction;
                     //SelectObject(hit.Object);
@@ -204,9 +210,9 @@ namespace Onyx3DEditor
                 {
                     //debugOutput.Text += "\r\nNOPE : " + ray.Direction;
                     //SelectObject(null);
-                }
+                }*/
 
-                renderCanvas.Refresh();
+				renderCanvas.Refresh();
 			}
 		}
 

@@ -53,6 +53,8 @@
     <Compile Include="Components\Component.cs" />
     <Compile Include="Components\GridRenderer.cs" />
     <Compile Include="Components\LineRenderer.cs" />
+    <Compile Include="Core\EngineComponent.cs" />
+    <Compile Include="Core\Onyx3DInstance.cs" />
     <Compile Include="Core\SceneManager.cs" />
     <Compile Include="Graphics\Bounds.cs" />
     <Compile Include="Core\Types\GameAsset.cs" />
@@ -61,7 +63,7 @@
     <Compile Include="Core\Onyx3D.cs" />
     <Compile Include="Core\ResourcesManager.cs" />
     <Compile Include="Core\Types\Ray.cs" />
-    <Compile Include="Graphics\Gizmos.cs" />
+    <Compile Include="Core\GizmosManager.cs" />
     <Compile Include="Graphics\Meshes\CubeMesh.cs" />
     <Compile Include="Graphics\Meshes\CylinderMesh.cs" />
     <Compile Include="Graphics\Meshes\Mesh.cs" />

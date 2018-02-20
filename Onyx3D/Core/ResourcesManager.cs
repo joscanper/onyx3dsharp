@@ -5,16 +5,12 @@ using System.Xml;
 namespace Onyx3D
 {
 
-	public class ResourcesManager
+	public class ResourcesManager : EngineComponent
 	{
 		private Dictionary<int, Mesh> mMeshes = new Dictionary<int, Mesh>();
 		private Dictionary<int, Texture> mTextures = new Dictionary<int, Texture>();
 		private Dictionary<int, Material> mMaterials = new Dictionary<int, Material>();
 		private Dictionary<int, Shader> mShaders = new Dictionary<int, Shader>();
-		
-		public void Init()
-		{
-		}
 
 		// ----------------------------------------------------------------  Getters
 

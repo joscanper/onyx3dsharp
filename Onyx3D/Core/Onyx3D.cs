@@ -2,16 +2,18 @@
 namespace Onyx3D
 {
 
-	public class Onyx3DEngine : Singleton<Onyx3DEngine>
+	public class Onyx3DEngine
 	{
-        public SceneManager Scenes = new SceneManager();
-		public RenderManager Render = new RenderManager();
-		public ResourcesManager Resources = new ResourcesManager();
+        private static Onyx3DInstance mMainInstance;
 
-		public void Init()
+		public static Onyx3DInstance Instance
 		{
-			Render.Init();
-			Resources.Init();
+			get
+			{
+				if (mMainInstance == null)
+					mMainInstance = new Onyx3DInstance();
+				return mMainInstance;
+			}
 		}
 		
 	}

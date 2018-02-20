@@ -35,7 +35,7 @@ namespace Onyx3D
 
 	[Serializable]
 	public class Mesh : GameAsset
-    {
+	{
 		
         private int mVertexArrayObject;
 		public int VertexArrayObject
@@ -100,6 +100,15 @@ namespace Onyx3D
             Bounds = GenerateAABB();
         }
 
+
+		public void Clear()
+		{
+			Vertices.Clear();
+			Indices = null;
+
+			if (mVertexArrayObject>0)
+				GL.DeleteVertexArray(mVertexArrayObject);
+		}
 
 		// TODO Delete Vertex Array
 
