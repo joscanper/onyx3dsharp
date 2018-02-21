@@ -8,36 +8,56 @@ namespace Onyx3D
     {
         private List<MeshRenderer> mRenderers = new List<MeshRenderer>();
 		private List<MeshRenderer> mPooledRenderers = new List<MeshRenderer>();
-		private SceneObject mRoot;
+		//private SceneObject mRoot;
 
         public override void Init(Onyx3DInstance onyx3D)
         {
 			base.Init(onyx3D);
-            mRoot = new SceneObject("Gizmos");
         }
 
         public void DrawLine(Vector3 from, Vector3 to, Vector3 color)
         {
             LineRenderer myLine = GetComponent<LineRenderer>();
             myLine.Material = Onyx3D.Resources.GetMaterial(BuiltInMaterial.UnlitVertexColor);
-            myLine.Set(from, to, color);
+            myLine.GenerateLine(from, to, color);
 			mRenderers.Add(myLine);
 		}
+
+		public void DrawBox(Bounds box, Vector3 position)
+		{
+			BoxRenderer myBox = GetComponent<BoxRenderer>();
+			myBox.Material = Onyx3D.Resources.GetMaterial(BuiltInMaterial.UnlitVertexColor);
+			myBox.GenerateBox(box);
+			mRenderers.Add(myBox);
+
+			myBox.Transform.LocalPosition = position;
+		}
+
+		public void DrawAxis(Vector3 position)
+		{
+			AxisRenderer myAxis = GetComponent<AxisRenderer>();
+			myAxis.Material = Onyx3D.Resources.GetMaterial(BuiltInMaterial.UnlitVertexColor);
+			mRenderers.Add(myAxis);
+
+			myAxis.Transform.LocalPosition = position;
+		}
+
 
 		private T GetComponent<T>() where T : MeshRenderer, new()
 		{
 
 			for (int i = 0; i<mPooledRenderers.Count; ++i)
 			{
-				T component = (T)mPooledRenderers[i];
-				if (component != null)
+				if (mPooledRenderers[i].GetType() == typeof(T))
 				{
+					T component = (T)mPooledRenderers[i];
 					mPooledRenderers.Remove(component);
 					return component;
 				}
 			}
 
-			return mRoot.AddComponent<T>();
+			SceneObject obj = new SceneObject("Gizmo");
+			return obj.AddComponent<T>();
 		}
 
         public void Render(Camera cam)
@@ -51,7 +71,6 @@ namespace Onyx3D
 				--i;
             }
 
-			mRoot.RemoveAllComponents();
         }
     }
 }

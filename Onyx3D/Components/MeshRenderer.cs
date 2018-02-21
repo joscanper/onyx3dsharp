@@ -17,8 +17,10 @@ namespace Onyx3D
         public Bounds Bounds {
             get
             {
-                Bounds b = Mesh.Bounds;
-               // b.Transform(Transform);
+                Bounds b = new Bounds();
+				b.SetMinMax(Transform.Position, Transform.Position);
+				foreach (Vertex v in Mesh.Vertices)
+					b.Encapsulate((new Vector4(v.Position.X, v.Position.Y, v.Position.Z, 1) * Transform.ModelMatrix).Xyz);
                 
                 return b;
             }

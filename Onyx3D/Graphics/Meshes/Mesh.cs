@@ -142,24 +142,8 @@ namespace Onyx3D
             Bounds bbox = new Bounds();
 
 			foreach (Vertex v in Vertices)
-			{
-				Vector3 vp = v.Position;
-				if (vp.X < bbox.Min.X)
-                    bbox.Min.X = vp.X;
-				else if (vp.X > bbox.Max.X)
-                    bbox.Max.X = vp.X;
-
-				if (vp.Y < bbox.Min.Y)
-					bbox.Min.Y = vp.Y;
-				else if (vp.Y > bbox.Max.Y)
-					bbox.Max.Y = vp.Y;
-
-				if (vp.Z < bbox.Min.Z)
-					bbox.Min.Z = vp.Z;
-				else if (vp.Z > bbox.Max.Z)
-					bbox.Max.Z = vp.Z;
-			}
-
+				bbox.Encapsulate(v.Position);
+			
 			return bbox;
 		}
 	}

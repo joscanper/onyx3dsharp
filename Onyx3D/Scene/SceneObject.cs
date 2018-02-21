@@ -117,6 +117,14 @@ namespace Onyx3D
 			return components;
 		}
 
+		public void RemoveAllChildren()
+		{
+			for (int i = 0; i < ChildCount; ++i)
+				mChildren[i].Parent = null;
+
+			mChildren.Clear();
+		}
+
 		// ----------- Serialization ------------
 
 		public XmlSchema GetSchema()

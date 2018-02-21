@@ -21,9 +21,9 @@ namespace Onyx3DEditor
 		Scene myScene;
 		GridRenderer myGridRenderer;
 		SceneObject myTeapot;
-
+		SceneObject mSelected;
         
-		AxisRenderer myAxis;
+		
 
 		Ray myClickRay;
 
@@ -58,7 +58,7 @@ namespace Onyx3DEditor
 			teapot.Parent = myScene.Root;
             myTeapot = teapot;
 
-            /*
+            
             SceneObject teapot2 = new SceneObject("Teapot2");
 			MeshRenderer teapot2Mesh = teapot2.AddComponent<MeshRenderer>();
 			teapot2Mesh.Mesh = myOnyxInstance.Resources.GetMesh(BuiltInMesh.Teapot);
@@ -67,7 +67,7 @@ namespace Onyx3DEditor
 			teapot2.Transform.LocalPosition = new Vector3(2, 0, 2);
             teapot2.Transform.LocalRotation = Quaternion.FromEulerAngles(new Vector3(0, 90, 0));
             teapot2.Parent = myScene.Root;
-            */
+            
             // Editor objects --------------------------------------
 
             SceneObject grid = new SceneObject("Grid");
@@ -75,10 +75,7 @@ namespace Onyx3DEditor
 			myGridRenderer.GenerateGridMesh(100, 100, 0.25f, 0.25f);
 			myGridRenderer.Material = myOnyxInstance.Resources.GetMaterial(BuiltInMaterial.Unlit);
 			myGridRenderer.Material.Properties["color"].Data = new Vector4(1, 1, 1, 0.1f);
-
-			myAxis = teapot.AddComponent<AxisRenderer>();
-			myAxis.Material = myOnyxInstance.Resources.GetMaterial(BuiltInMaterial.UnlitVertexColor);
-
+			
 			//myBox = teapot.AddComponent<BoxRenderer>();
 			//myBox.Material = myOnyxInstance.Resources.GetMaterial(BuiltInMaterial.UnlitVertexColor);
 
@@ -109,15 +106,7 @@ namespace Onyx3DEditor
 
 		private void SelectObject(SceneObject node)
 		{
-			if (node == null)
-			{
-				myAxis.SceneObject.RemoveComponent(myAxis);
-				//myBox.SceneObject.RemoveComponent(myBox);
-			}
-			else
-			{
-				node.AddComponent(myAxis);
-			}
+			mSelected = node;
 			renderCanvas.Refresh();
 		}
 
@@ -183,7 +172,13 @@ namespace Onyx3DEditor
             myOnyxInstance.Renderer.Render(myGridRenderer, mNavigation.NavigationCamera);
 			
 			myOnyxInstance.Gizmos.DrawLine(myClickRay.Origin, myClickRay.Origin + myClickRay.Direction * 10, Vector3.One);
-			//myOnyxInstance.Gizmos.DrawBox(SelectedO);
+
+			if (mSelected != null)
+			{
+				myOnyxInstance.Gizmos.DrawBox(mSelected.GetComponent<MeshRenderer>().Bounds, Vector3.Zero);
+				myOnyxInstance.Gizmos.DrawAxis(mSelected.Transform.Position);
+			}
+
 			myOnyxInstance.Gizmos.Render(mNavigation.NavigationCamera);
 			
 			renderCanvas.SwapBuffers();
@@ -200,17 +195,15 @@ namespace Onyx3DEditor
 			{
 				myClickRay = mNavigation.NavigationCamera.ScreenPointToRay(mouseEvent.X, mouseEvent.Y, renderCanvas.Width, renderCanvas.Height);
 				
-				//RaycastHit hit = new RaycastHit();
-				/*if (myBox.Bounds.IntersectsRay(ray))
+				RaycastHit hit = new RaycastHit();
+				if (Physics.Raycast(myClickRay, out hit, myScene))
                 {
-                    //debugOutput.Text += "\r\nYAYH :" + ray.Direction;
-                    //SelectObject(hit.Object);
+                    SelectObject(hit.Object);
                 }
                 else
                 {
-                    //debugOutput.Text += "\r\nNOPE : " + ray.Direction;
-                    //SelectObject(null);
-                }*/
+                    SelectObject(null);
+                }
 
 				renderCanvas.Refresh();
 			}

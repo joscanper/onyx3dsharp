@@ -6,7 +6,7 @@ namespace Onyx3D
 {
 	public class LineRenderer : MeshRenderer
 	{
-		public void Set(Vector3 from, Vector3 to, Vector3 col)
+		public void GenerateLine(Vector3 from, Vector3 to, Vector3 col)
 		{
 			if (Mesh == null)
 				Mesh = new Mesh();

@@ -14,17 +14,27 @@ namespace Onyx3D
 			get { return new Vector3(Max.X - Min.X, Max.Y - Min.Y, Max.Z - Min.Z); }
 		}
 
-        public void Transform(Transform t)
-        {
-            Center += t.Position;
-            Min += t.Position;
-            Max += t.Position;
-            /*
-            Min *= t.LocalScale;
-            Max *= t.LocalScale;
-            */
-        }
+		public void SetMinMax(Vector3 min, Vector3 max)
+		{
+			Min = min;
+			Max = max;
+			Center = Max + Min / 2;
+		}
 
+
+		public void Encapsulate(Vector3 position)
+		{
+			if (position.X < Min.X) Min.X = position.X;
+			if (position.Y < Min.Y) Min.Y = position.Y;
+			if (position.Z < Min.Z) Min.Z = position.Z;
+
+			if (position.X > Max.X) Max.X = position.X;
+			if (position.Y > Max.Y) Max.Y = position.Y;
+			if (position.Z > Max.Z) Max.Z = position.Z;
+
+			Center = Max + Min / 2;
+		}
+		
         public bool IntersectsRay(Ray r)
         {
             // r.dir is unit direction vector of ray
