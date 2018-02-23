@@ -11,9 +11,7 @@ namespace Onyx3D
 
 		public BoxRenderer()
 		{
-			Mesh = new Mesh();
-			
-			//TODO - Generate default box
+			GenerateDefaultBox();
 
 			
 		}
@@ -32,16 +30,20 @@ namespace Onyx3D
 
 		public void GenerateBox(Bounds box)
 		{
-			Mesh = new Mesh();
+			if (Mesh != null)
+				Mesh.Clear();
 
-            MeshUtils.CreateLine(ref Mesh, box.Min, box.Min + Vector3.UnitX, Vector3.UnitX);
-            MeshUtils.CreateLine(ref Mesh, box.Min, box.Min + Vector3.UnitY, Vector3.UnitX);
-            MeshUtils.CreateLine(ref Mesh, box.Min, box.Min + Vector3.UnitZ, Vector3.UnitX);
+			Mesh myMesh = new Mesh();
 
-            MeshUtils.CreateLine(ref Mesh, box.Max, box.Max - Vector3.UnitX, Vector3.UnitY);
-            MeshUtils.CreateLine(ref Mesh, box.Max, box.Max - Vector3.UnitY, Vector3.UnitY);
-            MeshUtils.CreateLine(ref Mesh, box.Max, box.Max - Vector3.UnitZ, Vector3.UnitY);
+			/*
+            MeshUtils.CreateLine(ref myMesh, box.Min, box.Min + Vector3.UnitX, Vector3.UnitX);
+            MeshUtils.CreateLine(ref myMesh, box.Min, box.Min + Vector3.UnitY, Vector3.UnitX);
+            MeshUtils.CreateLine(ref myMesh, box.Min, box.Min + Vector3.UnitZ, Vector3.UnitX);
 
+            MeshUtils.CreateLine(ref myMesh, box.Max, box.Max - Vector3.UnitX, Vector3.UnitY);
+            MeshUtils.CreateLine(ref myMesh, box.Max, box.Max - Vector3.UnitY, Vector3.UnitY);
+            MeshUtils.CreateLine(ref myMesh, box.Max, box.Max - Vector3.UnitZ, Vector3.UnitY);
+			*/
             
 			Vector3 frontTL = new Vector3(box.Min.X, box.Min.Y, box.Max.Z);
 			Vector3 frontBL = new Vector3(box.Min.X, box.Max.Y, box.Max.Z);
@@ -54,23 +56,25 @@ namespace Onyx3D
 			Vector3 backBR = new Vector3(box.Max.X, box.Max.Y, box.Min.Z);
 
 			// Front rect
-			MeshUtils.CreateLine(ref Mesh, frontTL, frontTR, Vector3.One);
-			MeshUtils.CreateLine(ref Mesh, frontTR, frontBR, Vector3.One);
-			MeshUtils.CreateLine(ref Mesh, frontBR, frontBL, Vector3.One);
-			MeshUtils.CreateLine(ref Mesh, frontBL, frontTL, Vector3.One);
+			MeshUtils.CreateLine(ref myMesh, frontTL, frontTR, Vector3.One);
+			MeshUtils.CreateLine(ref myMesh, frontTR, frontBR, Vector3.One);
+			MeshUtils.CreateLine(ref myMesh, frontBR, frontBL, Vector3.One);
+			MeshUtils.CreateLine(ref myMesh, frontBL, frontTL, Vector3.One);
 
-			MeshUtils.CreateLine(ref Mesh, frontTL, backTL, Vector3.One);
-			MeshUtils.CreateLine(ref Mesh, frontTR, backTR, Vector3.One);
-			MeshUtils.CreateLine(ref Mesh, frontBR, backBR, Vector3.One);
-			MeshUtils.CreateLine(ref Mesh, frontBL, backBL, Vector3.One);
+			MeshUtils.CreateLine(ref myMesh, frontTL, backTL, Vector3.One);
+			MeshUtils.CreateLine(ref myMesh, frontTR, backTR, Vector3.One);
+			MeshUtils.CreateLine(ref myMesh, frontBR, backBR, Vector3.One);
+			MeshUtils.CreateLine(ref myMesh, frontBL, backBL, Vector3.One);
 
-			MeshUtils.CreateLine(ref Mesh, backTL, backTR, Vector3.One);
-			MeshUtils.CreateLine(ref Mesh, backTR, backBR, Vector3.One);
-			MeshUtils.CreateLine(ref Mesh, backBR, backBL, Vector3.One);
-			MeshUtils.CreateLine(ref Mesh, backBL, backTL, Vector3.One);
-           
+			MeshUtils.CreateLine(ref myMesh, backTL, backTR, Vector3.One);
+			MeshUtils.CreateLine(ref myMesh, backTR, backBR, Vector3.One);
+			MeshUtils.CreateLine(ref myMesh, backBR, backBL, Vector3.One);
+			MeshUtils.CreateLine(ref myMesh, backBL, backTL, Vector3.One);
 
-            Mesh.GenerateVAO();
+			
+			Mesh = myMesh;
+
+			Mesh.GenerateVAO();
 		}
 
 		public override void Render()

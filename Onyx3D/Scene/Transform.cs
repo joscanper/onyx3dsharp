@@ -21,7 +21,10 @@ namespace Onyx3D
         public Vector3 LocalScale
 		{
 			get { return mLocalScale.Xyz; }
-			set { mLocalScale = new Vector4(value, 1); }
+			set {
+				mLocalScale = new Vector4(value, 1);
+				SetDirty();
+			}
 		}
 
 		public Vector3 LocalPosition
@@ -61,8 +64,6 @@ namespace Onyx3D
 
 		public Matrix4 CalculateModelMatrix()
 		{
-			//TODO - Check if needs to be rebaked
-			
 			Matrix4 t = Matrix4.CreateTranslation(mLocalPosition.X, mLocalPosition.Y, mLocalPosition.Z);
 			Matrix4 r = Matrix4.CreateFromQuaternion(mLocalRotation);
 			Matrix4 s = Matrix4.CreateScale(mLocalScale.X, mLocalScale.Y, mLocalScale.Z);
@@ -124,23 +125,25 @@ namespace Onyx3D
 
 		public Vector3 LocalToWorld(Vector3 point)
 		{
-			Vector4 world = new Vector4(point,1);
-			world = world * mBakedModel;
-			return new Vector3(world);
+			return (new Vector4(point, 1)  * mBakedModel).Xyz;
 		}
 
 		public void SetDirty()
 		{
 			mBakedModel = CalculateModelMatrix();
-			mBakedPosition = mLocalPosition * mBakedModel;
+			mBakedPosition = Vector4.UnitW * mBakedModel;
             //mBakedRotation = GetModelMatrix() * mLocalRotation;
 
             Right = new Vector3(Vector4.UnitX * mBakedModel);
             Up = new Vector3(Vector4.UnitY * mBakedModel);
             Forward = new Vector3(Vector4.UnitZ * mBakedModel);
 
+			for (int c = 0; c < SceneObject.Components.Count; c++)
+			{
+				SceneObject.Components[c].OnDirtyTransform();
+			}
 
-            for (int i=0; i < SceneObject.ChildCount; ++i)
+            for (int i = 0; i < SceneObject.ChildCount; ++i)
 			{
 				SceneObject.GetChild(i).Transform.SetDirty();
 			}

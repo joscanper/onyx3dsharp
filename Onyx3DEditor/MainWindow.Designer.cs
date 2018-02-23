@@ -45,6 +45,7 @@ namespace Onyx3DEditor
 		/// </summary>
 		private void InitializeComponent()
 		{
+			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWindow));
 			this.renderCanvas = new OpenTK.GLControl();
 			this.toolStrip1 = new System.Windows.Forms.ToolStrip();
@@ -54,11 +55,12 @@ namespace Onyx3DEditor
 			this.toolStripButtonSaveProject = new System.Windows.Forms.ToolStripButton();
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
 			this.toolStripScene = new System.Windows.Forms.ToolStrip();
+			this.toolStripButtonChangeScene = new System.Windows.Forms.ToolStripButton();
 			this.treeViewSceneHierarchy = new System.Windows.Forms.TreeView();
 			this.toolStrip3 = new System.Windows.Forms.ToolStrip();
 			this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
 			this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
-			this.toolStripButtonChangeScene = new System.Windows.Forms.ToolStripButton();
+			this.timer1 = new System.Windows.Forms.Timer(this.components);
 			this.toolStrip1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
 			this.splitContainer1.Panel1.SuspendLayout();
@@ -159,6 +161,16 @@ namespace Onyx3DEditor
 			this.toolStripScene.TabIndex = 3;
 			this.toolStripScene.Text = "toolStrip2";
 			// 
+			// toolStripButtonChangeScene
+			// 
+			this.toolStripButtonChangeScene.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			this.toolStripButtonChangeScene.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonChangeScene.Image")));
+			this.toolStripButtonChangeScene.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.toolStripButtonChangeScene.Name = "toolStripButtonChangeScene";
+			this.toolStripButtonChangeScene.Size = new System.Drawing.Size(86, 22);
+			this.toolStripButtonChangeScene.Text = "Change Scene";
+			this.toolStripButtonChangeScene.Click += new System.EventHandler(this.toolStripButtonChangeScene_Click);
+			// 
 			// treeViewSceneHierarchy
 			// 
 			this.treeViewSceneHierarchy.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -201,15 +213,11 @@ namespace Onyx3DEditor
 			this.toolStripButton1.Text = "toolStripButtonMaterials";
 			this.toolStripButton1.Click += new System.EventHandler(this.toolStripButtonMaterials_Click);
 			// 
-			// toolStripButtonChangeScene
+			// timer1
 			// 
-			this.toolStripButtonChangeScene.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-			this.toolStripButtonChangeScene.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonChangeScene.Image")));
-			this.toolStripButtonChangeScene.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.toolStripButtonChangeScene.Name = "toolStripButtonChangeScene";
-			this.toolStripButtonChangeScene.Size = new System.Drawing.Size(86, 22);
-			this.toolStripButtonChangeScene.Text = "Change Scene";
-			this.toolStripButtonChangeScene.Click += new System.EventHandler(this.toolStripButtonChangeScene_Click);
+			this.timer1.Enabled = true;
+			this.timer1.Interval = 14;
+			this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
 			// 
 			// MainWindow
 			// 
@@ -255,5 +263,6 @@ namespace Onyx3DEditor
 		private System.Windows.Forms.ToolStrip toolStripScene;
 		private ToolStripLabel toolStripLabel2;
 		private ToolStripButton toolStripButtonChangeScene;
+		private Timer timer1;
 	}
 }

@@ -12,19 +12,19 @@ namespace Onyx3D
 
     public class MeshRenderer : Component
     {
-        public Mesh Mesh;
+		private Mesh mMesh;
+        public Mesh Mesh
+		{
+			set
+			{
+				mMesh = value;
+				UpdateBounds();
+			}
+			get { return mMesh; }
+		}
+
         public Material Material;
-        public Bounds Bounds {
-            get
-            {
-                Bounds b = new Bounds();
-				b.SetMinMax(Transform.Position, Transform.Position);
-				foreach (Vertex v in Mesh.Vertices)
-					b.Encapsulate((new Vector4(v.Position.X, v.Position.Y, v.Position.Z, 1) * Transform.ModelMatrix).Xyz);
-                
-                return b;
-            }
-        }
+        public Bounds Bounds { get; private set; }
 
 		public virtual void Render()
         {
@@ -64,6 +64,35 @@ namespace Onyx3D
 			GL.UniformMatrix4(GL.GetUniformLocation(program, "R"), false, ref R);
 			//GL.UniformMatrix4(GL.GetUniformLocation(program, "MVP"), false, ref MVP);
 
+		}
+
+		public override void OnDirtyTransform()
+		{
+			base.OnDirtyTransform();
+
+			UpdateBounds();
+		}
+
+		private void UpdateBounds()
+		{
+
+			if (Transform == null)
+			{
+				Bounds = Mesh.Bounds;
+				return;
+			}
+
+			Bounds bounds = new Bounds();
+			Vector3 initPos = Transform.LocalToWorld(Vector3.Zero);
+			bounds.SetMinMax(initPos, initPos);
+
+			if (Mesh.Vertices.Count > 0)
+			{ 
+				foreach (Vertex v in Mesh.Vertices)
+					bounds.Encapsulate(Transform.LocalToWorld(v.Position));
+			}
+
+			Bounds = bounds;
 		}
 
 		// ------ Serialization ------

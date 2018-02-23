@@ -18,7 +18,7 @@ namespace Onyx3D
 		{
 			Min = min;
 			Max = max;
-			Center = Max + Min / 2;
+			Center = Max + Min / 2.0f;
 		}
 
 

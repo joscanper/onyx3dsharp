@@ -23,13 +23,8 @@ namespace Onyx3DEditor
 		SceneObject myTeapot;
 		SceneObject mSelected;
         
-		
-
 		Ray myClickRay;
-
-		//BoxRenderer myBox;
-		//LineRenderer myLine;
-
+		
 		string mScenePath;
 
 
@@ -53,10 +48,10 @@ namespace Onyx3DEditor
 			SceneObject teapot = new SceneObject("Teapot");
 			MeshRenderer teapotMesh = teapot.AddComponent<MeshRenderer>();
 			teapotMesh.Mesh = myOnyxInstance.Resources.GetMesh(BuiltInMesh.Teapot);
-			//teapot.Transform.LocalPosition = new Vector3(0, 0.5f, 0);
+			teapot.Transform.LocalPosition = new Vector3(0, 0.5f, 0);
 			teapotMesh.Material = myOnyxInstance.Resources.GetMaterial(BuiltInMaterial.Default);
 			teapot.Parent = myScene.Root;
-            myTeapot = teapot;
+            
 
             
             SceneObject teapot2 = new SceneObject("Teapot2");
@@ -67,10 +62,12 @@ namespace Onyx3DEditor
 			teapot2.Transform.LocalPosition = new Vector3(2, 0, 2);
             teapot2.Transform.LocalRotation = Quaternion.FromEulerAngles(new Vector3(0, 90, 0));
             teapot2.Parent = myScene.Root;
-            
-            // Editor objects --------------------------------------
 
-            SceneObject grid = new SceneObject("Grid");
+			myTeapot = teapot2;
+
+			// Editor objects --------------------------------------
+
+			SceneObject grid = new SceneObject("Grid");
 			myGridRenderer = grid.AddComponent<GridRenderer>();
 			myGridRenderer.GenerateGridMesh(100, 100, 0.25f, 0.25f);
 			myGridRenderer.Material = myOnyxInstance.Resources.GetMaterial(BuiltInMaterial.Unlit);
@@ -341,8 +338,8 @@ namespace Onyx3DEditor
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            //myTeapot.Transform.Rotate(new Vector3(0, 0.1f, 0));
-            //renderCanvas.Refresh();
+            myTeapot.Transform.Rotate(new Vector3(0, 0.1f, 0));
+            renderCanvas.Refresh();
         }
 
         #endregion
