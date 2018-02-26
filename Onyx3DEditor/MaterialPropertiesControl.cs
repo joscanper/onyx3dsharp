@@ -29,8 +29,6 @@ namespace Onyx3DEditor
 			int currentRow = 0;
 			foreach (KeyValuePair<string,MaterialProperty> prop in mat.Properties)
 			{
-				
-
 				MaterialPropertyControl propControl = new MaterialPropertyControl();
 				propControl.Fill(prop.Key, prop.Value);
 				propControl.Dock = DockStyle.Fill;

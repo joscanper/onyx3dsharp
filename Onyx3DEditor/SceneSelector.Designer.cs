@@ -39,11 +39,15 @@
 			// 
 			this.tableLayoutPanelScenes.ColumnCount = 4;
 			this.tableLayoutPanelScenes.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 40F));
+			this.tableLayoutPanelScenes.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+			this.tableLayoutPanelScenes.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+			this.tableLayoutPanelScenes.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
 			this.tableLayoutPanelScenes.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tableLayoutPanelScenes.Location = new System.Drawing.Point(0, 0);
 			this.tableLayoutPanelScenes.Name = "tableLayoutPanelScenes";
 			this.tableLayoutPanelScenes.RowCount = 2;
 			this.tableLayoutPanelScenes.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.tableLayoutPanelScenes.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
 			this.tableLayoutPanelScenes.Size = new System.Drawing.Size(483, 261);
 			this.tableLayoutPanelScenes.TabIndex = 0;
 			// 
@@ -65,7 +69,7 @@
 			this.toolStripButtonNewScene.Image = global::Onyx3DEditor.Properties.Resources.if_gtk_new_20536;
 			this.toolStripButtonNewScene.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.toolStripButtonNewScene.Name = "toolStripButtonNewScene";
-			this.toolStripButtonNewScene.Size = new System.Drawing.Size(29, 20);
+			this.toolStripButtonNewScene.Size = new System.Drawing.Size(21, 20);
 			this.toolStripButtonNewScene.Text = "toolStripButton1";
 			this.toolStripButtonNewScene.Click += new System.EventHandler(this.toolStripButtonNewScene_Click);
 			// 
@@ -75,7 +79,7 @@
 			this.toolStripButtonImportScene.Image = global::Onyx3DEditor.Properties.Resources.if_folder_open_21164;
 			this.toolStripButtonImportScene.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.toolStripButtonImportScene.Name = "toolStripButtonImportScene";
-			this.toolStripButtonImportScene.Size = new System.Drawing.Size(29, 20);
+			this.toolStripButtonImportScene.Size = new System.Drawing.Size(21, 20);
 			this.toolStripButtonImportScene.Text = "toolStripButton2";
 			this.toolStripButtonImportScene.Click += new System.EventHandler(this.toolStripButtonImportScene_Click);
 			// 

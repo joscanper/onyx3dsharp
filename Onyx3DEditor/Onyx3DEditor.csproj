@@ -62,6 +62,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Inspectors\Converters\VectorConverter.cs" />
+    <Compile Include="Inspectors\Inspector.cs" />
+    <Compile Include="Inspectors\TransformInspector.cs" />
+    <Compile Include="Inspectors\Vector3Inspector.cs" />
     <Compile Include="MainWindow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -79,6 +83,12 @@
     </Compile>
     <Compile Include="MaterialPropertyControl.Designer.cs">
       <DependentUpon>MaterialPropertyControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SelectedInspectorPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="SelectedInspectorPanel.Designer.cs">
+      <DependentUpon>SelectedInspectorPanel.cs</DependentUpon>
     </Compile>
     <Compile Include="OnyxViewerNavigation.cs" />
     <Compile Include="MaterialEditor.cs">
@@ -133,6 +143,9 @@
     </Compile>
     <EmbeddedResource Include="SceneSelector.resx">
       <DependentUpon>SceneSelector.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SelectedInspectorPanel.resx">
+      <DependentUpon>SelectedInspectorPanel.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TextureManager.resx">
       <DependentUpon>TextureManager.cs</DependentUpon>

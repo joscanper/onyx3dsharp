@@ -85,3 +85,4 @@ C:\Users\MiriamYJosue\Documents\Projects\Onyx3DSharp\Onyx3DEditor\obj\Debug\Onyx
 C:\Users\MiriamYJosue\Documents\Projects\Onyx3DSharp\Onyx3DEditor\obj\Debug\Onyx3DEditor.TextureSelector.resources
 C:\Users\MiriamYJosue\Documents\Projects\Onyx3DSharp\Onyx3DEditor\obj\Debug\Onyx3DEditor.csproj.CoreCompileInputs.cache
 C:\Users\MiriamYJosue\Documents\Projects\Onyx3DSharp\Onyx3DEditor\obj\Debug\Onyx3DEditor.SceneSelector.resources
+C:\Users\Josue\Desktop\Onyx3DSharp\Onyx3DEditor\obj\Debug\Onyx3DEditor.SelectedInspectorPanel.resources

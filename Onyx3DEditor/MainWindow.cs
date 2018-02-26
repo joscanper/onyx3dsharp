@@ -11,7 +11,6 @@ using System.Collections.Generic;
 namespace Onyx3DEditor
 {
 	
-
 	public partial class MainWindow : Form
 	{
 		bool canDraw = false;
@@ -21,7 +20,7 @@ namespace Onyx3DEditor
 		Scene myScene;
 		GridRenderer myGridRenderer;
 		SceneObject myTeapot;
-		SceneObject mSelected;
+		SceneObject mSelectedSceneObject;
         
 		Ray myClickRay;
 		
@@ -65,6 +64,8 @@ namespace Onyx3DEditor
 
 			myTeapot = teapot2;
 
+			
+
 			// Editor objects --------------------------------------
 
 			SceneObject grid = new SceneObject("Grid");
@@ -103,8 +104,14 @@ namespace Onyx3DEditor
 
 		private void SelectObject(SceneObject node)
 		{
-			mSelected = node;
+			mSelectedSceneObject = node;
 			renderCanvas.Refresh();
+			
+			if (mSelectedSceneObject != null)
+				selectedObjectInspector.Fill(mSelectedSceneObject);
+			else
+				selectedObjectInspector.Clear();
+				
 		}
 
 
@@ -170,10 +177,10 @@ namespace Onyx3DEditor
 			
 			myOnyxInstance.Gizmos.DrawLine(myClickRay.Origin, myClickRay.Origin + myClickRay.Direction * 10, Vector3.One);
 
-			if (mSelected != null)
+			if (mSelectedSceneObject != null)
 			{
-				myOnyxInstance.Gizmos.DrawBox(mSelected.GetComponent<MeshRenderer>().Bounds, Vector3.Zero);
-				myOnyxInstance.Gizmos.DrawAxis(mSelected.Transform.Position);
+				myOnyxInstance.Gizmos.DrawBox(mSelectedSceneObject.GetComponent<MeshRenderer>().Bounds, Vector3.Zero);
+				myOnyxInstance.Gizmos.DrawAxis(mSelectedSceneObject.Transform.Position);
 			}
 
 			myOnyxInstance.Gizmos.Render(mNavigation.NavigationCamera);
@@ -342,8 +349,7 @@ namespace Onyx3DEditor
             renderCanvas.Refresh();
         }
 
-        #endregion
+		#endregion
 
-
-    }
+	}
 }
