@@ -16,15 +16,15 @@ namespace Onyx3DEditor
 		bool canDraw = false;
 
 		Onyx3DInstance myOnyxInstance;
-
+		OnyxProjectSceneAsset mSceneAsset;
 		Scene myScene;
 		GridRenderer myGridRenderer;
-		SceneObject myTeapot;
+		//SceneObject myTeapot;
 		SceneObject mSelectedSceneObject;
         
 		Ray myClickRay;
 		
-		string mScenePath;
+		
 
 
 		OnyxViewerNavigation mNavigation = new OnyxViewerNavigation();
@@ -39,11 +39,22 @@ namespace Onyx3DEditor
 
 		private void InitScene()
 		{
-			myScene = new Scene();
+			
 
 			myOnyxInstance = Onyx3DEngine.Instance;
 			myOnyxInstance.Init();
-		
+
+			mSceneAsset = ProjectManager.Instance.Content.GetInitScene();
+			if (mSceneAsset == null)
+			{
+				myScene = new Scene();
+			}
+			else
+			{
+				myScene = SceneLoader.Load(mSceneAsset.Path);
+			}
+
+			/*
 			SceneObject teapot = new SceneObject("Teapot");
 			MeshRenderer teapotMesh = teapot.AddComponent<MeshRenderer>();
 			teapotMesh.Mesh = myOnyxInstance.Resources.GetMesh(BuiltInMesh.Teapot);
@@ -63,8 +74,8 @@ namespace Onyx3DEditor
             teapot2.Parent = myScene.Root;
 
 			myTeapot = teapot2;
+			*/
 
-			
 
 			// Editor objects --------------------------------------
 
@@ -81,6 +92,7 @@ namespace Onyx3DEditor
 
 			UpdateTreeView();
 		}
+
 
 		private void UpdateTreeView()
 		{
@@ -108,10 +120,16 @@ namespace Onyx3DEditor
 			renderCanvas.Refresh();
 			
 			if (mSelectedSceneObject != null)
+			{
+				splitContainer2.Panel2Collapsed = false;
 				selectedObjectInspector.Fill(mSelectedSceneObject);
+			}
 			else
+			{
+				splitContainer2.Panel2Collapsed = true;
 				selectedObjectInspector.Clear();
-				
+			}
+
 		}
 
 
@@ -126,7 +144,7 @@ namespace Onyx3DEditor
 		{
 			//ProjectManager.Instance.Content.Scenes.Add(myScene);
 
-			if (mScenePath == null || mScenePath.Length == 0)
+			if (mSceneAsset == null)
 			{
 				SaveFileDialog saveFileDialog1 = new SaveFileDialog();
 				saveFileDialog1.Filter = "Onyx3d scene files (*.o3dscene)|*.o3dscene";
@@ -138,9 +156,8 @@ namespace Onyx3DEditor
 					SceneLoader.Save(myScene, saveFileDialog1.FileName);
 					try
 					{
-
-						mScenePath = saveFileDialog1.FileName;
-						ProjectManager.Instance.Content.Scenes.Add(new OnyxProjectAsset(mScenePath));
+						mSceneAsset = new OnyxProjectSceneAsset(saveFileDialog1.FileName);
+						ProjectManager.Instance.Content.Scenes.Add(mSceneAsset);
 					}
 					catch (Exception ex)
 					{
@@ -152,7 +169,7 @@ namespace Onyx3DEditor
 			}
 			else
 			{
-				SceneLoader.Save(myScene, mScenePath);
+				SceneLoader.Save(myScene, mSceneAsset.Path);
 			}
 		}
 
@@ -222,6 +239,9 @@ namespace Onyx3DEditor
 
 		private void toolStripButtonSaveProject_Click(object sender, EventArgs e)
 		{
+			SaveScene();
+				
+
 			if (ProjectManager.Instance.CurrentProjectPath.Length == 0)
 			{
 				SaveFileDialog saveFileDialog1 = new SaveFileDialog();
@@ -245,6 +265,7 @@ namespace Onyx3DEditor
 			{
 				ProjectManager.Instance.Save();
 			}
+
 		}
 
 		private void toolStripButtonMaterials_Click(object sender, EventArgs e)
@@ -280,14 +301,15 @@ namespace Onyx3DEditor
 
 			if (openFileDialog1.ShowDialog() == DialogResult.OK)
 			{
-				try
-				{
+				//try
+				//{
 					ProjectManager.Instance.Load(openFileDialog1.FileName);
-				}
-				catch (Exception ex)
-				{
-					MessageBox.Show("Error: Could not read file from disk. Original error: " + ex.Message);
-				}
+					InitScene();
+				//}
+				//catch (Exception ex)
+				//{
+				//	MessageBox.Show("Error: Could not read file from disk. Original error: " + ex.Message);
+				//}
 			}
 		}
 
@@ -345,11 +367,21 @@ namespace Onyx3DEditor
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            myTeapot.Transform.Rotate(new Vector3(0, 0.1f, 0));
+            //myTeapot.Transform.Rotate(new Vector3(0, 0.1f, 0));
             renderCanvas.Refresh();
         }
 
 		#endregion
 
+		private void toolStripCreateCube_Click(object sender, EventArgs e)
+		{
+			SceneObject cube = new SceneObject("Cube");
+			MeshRenderer mesh = cube.AddComponent<MeshRenderer>();
+			mesh.Mesh = myOnyxInstance.Resources.GetMesh(BuiltInMesh.Cube);
+			cube.Transform.LocalPosition = new Vector3(0, 0.0f, 0);
+			mesh.Material = myOnyxInstance.Resources.GetMaterial(BuiltInMaterial.Default);
+			cube.Parent = myScene.Root;
+			UpdateTreeView();
+		}
 	}
 }

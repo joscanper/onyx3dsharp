@@ -51,6 +51,8 @@ namespace Onyx3D
 
 			stream.Close();
 
+			Content.Init();
+
 			return true;
 		}
 		

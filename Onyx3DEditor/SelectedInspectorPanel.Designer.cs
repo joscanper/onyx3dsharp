@@ -51,6 +51,7 @@
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.AutoScroll = true;
+			this.AutoSize = true;
 			this.BackColor = System.Drawing.SystemColors.ActiveCaption;
 			this.Controls.Add(this.tableLayoutPanel);
 			this.Name = "SelectedInspectorPanel";

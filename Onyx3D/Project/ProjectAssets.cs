@@ -61,6 +61,8 @@ namespace Onyx3D
 		public string PathVertex;
 		public string PathFragment;
 
+		public OnyxProjectShaderAsset() { }
+
 		public OnyxProjectShaderAsset(string pathV, string pathF, int guid = 0) : base("", guid)
 		{
 			PathVertex = pathV;
@@ -73,6 +75,7 @@ namespace Onyx3D
 	{
 		public string Name;
 
+		public OnyxProjectSceneAsset() { }
 		public OnyxProjectSceneAsset(string path, string name = "", int guid = 0) : base(path, guid)
 		{
 			Name = name;

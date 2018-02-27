@@ -10,7 +10,7 @@ namespace Onyx3D
 	public class ProjectContent
 	{
 		
-		public List<OnyxProjectAsset> Scenes = new List<OnyxProjectAsset>();
+		public List<OnyxProjectSceneAsset> Scenes = new List<OnyxProjectSceneAsset>();
 		public List<OnyxProjectAsset> Textures = new List<OnyxProjectAsset>();
 		public List<OnyxProjectAsset> Materials = new List<OnyxProjectAsset>();
 		public List<OnyxProjectAsset> Meshes = new List<OnyxProjectAsset>();
@@ -40,8 +40,7 @@ namespace Onyx3D
 			AddAsset(new OnyxProjectAsset("./Resources/Materials/Default.o3dmat", BuiltInMaterial.Default));
 			AddAsset(new OnyxProjectAsset("./Resources/Materials/Unlit.o3dmat", BuiltInMaterial.Unlit));
 			AddAsset(new OnyxProjectAsset("./Resources/Materials/UnlitVertexColor.o3dmat", BuiltInMaterial.UnlitVertexColor));
-
-			// TODO - Read MY Project Assets ------
+			
 		}
 
 		public void AddAsset(OnyxProjectAsset asset)
@@ -52,6 +51,11 @@ namespace Onyx3D
 		public OnyxProjectAsset GetAsset(int id)
 		{
 			return mMappedResources[id];
+		}
+
+		public OnyxProjectSceneAsset GetInitScene()
+		{
+			return Scenes.Count == 0 ? null : Scenes[0];
 		}
 	}
 }

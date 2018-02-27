@@ -1,4 +1,6 @@
 ﻿
+using System.ComponentModel;
+
 public interface IInspector
 {
 	void Apply();
@@ -7,7 +9,8 @@ public interface IInspector
 public class Inspector<T> : IInspector
 {
 	protected T mObject;
-	
+
+	[Browsable(false)]
 	public T Object
 	{
 		get { return mObject; }

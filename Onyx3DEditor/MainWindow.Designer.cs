@@ -58,6 +58,9 @@ namespace Onyx3DEditor
 			this.toolStripButtonChangeScene = new System.Windows.Forms.ToolStripButton();
 			this.treeViewSceneHierarchy = new System.Windows.Forms.TreeView();
 			this.splitContainer2 = new System.Windows.Forms.SplitContainer();
+			this.toolStrip2 = new System.Windows.Forms.ToolStrip();
+			this.toolStripCreateCube = new System.Windows.Forms.ToolStripButton();
+			this.toolStripCreateTeapot = new System.Windows.Forms.ToolStripButton();
 			this.selectedObjectInspector = new Onyx3DEditor.SelectedInspectorPanel();
 			this.toolStrip3 = new System.Windows.Forms.ToolStrip();
 			this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
@@ -73,6 +76,7 @@ namespace Onyx3DEditor
 			this.splitContainer2.Panel1.SuspendLayout();
 			this.splitContainer2.Panel2.SuspendLayout();
 			this.splitContainer2.SuspendLayout();
+			this.toolStrip2.SuspendLayout();
 			this.toolStrip3.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -82,7 +86,7 @@ namespace Onyx3DEditor
 			this.renderCanvas.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.renderCanvas.Location = new System.Drawing.Point(0, 0);
 			this.renderCanvas.Name = "renderCanvas";
-			this.renderCanvas.Size = new System.Drawing.Size(600, 520);
+			this.renderCanvas.Size = new System.Drawing.Size(793, 520);
 			this.renderCanvas.TabIndex = 0;
 			this.renderCanvas.VSync = false;
 			this.renderCanvas.Click += new System.EventHandler(this.renderCanvas_Click);
@@ -189,31 +193,66 @@ namespace Onyx3DEditor
 			// splitContainer2
 			// 
 			this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.splitContainer2.IsSplitterFixed = true;
 			this.splitContainer2.Location = new System.Drawing.Point(24, 0);
 			this.splitContainer2.Name = "splitContainer2";
 			// 
 			// splitContainer2.Panel1
 			// 
+			this.splitContainer2.Panel1.Controls.Add(this.toolStrip2);
 			this.splitContainer2.Panel1.Controls.Add(this.renderCanvas);
+			this.splitContainer2.Panel1MinSize = 600;
 			// 
 			// splitContainer2.Panel2
 			// 
 			this.splitContainer2.Panel2.BackColor = System.Drawing.SystemColors.ControlLight;
 			this.splitContainer2.Panel2.Controls.Add(this.selectedObjectInspector);
+			this.splitContainer2.Panel2Collapsed = true;
 			this.splitContainer2.Panel2MinSize = 100;
 			this.splitContainer2.Size = new System.Drawing.Size(793, 520);
 			this.splitContainer2.SplitterDistance = 600;
 			this.splitContainer2.SplitterWidth = 1;
 			this.splitContainer2.TabIndex = 3;
 			// 
+			// toolStrip2
+			// 
+			this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripCreateCube,
+            this.toolStripCreateTeapot});
+			this.toolStrip2.Location = new System.Drawing.Point(0, 0);
+			this.toolStrip2.Name = "toolStrip2";
+			this.toolStrip2.Size = new System.Drawing.Size(793, 25);
+			this.toolStrip2.TabIndex = 1;
+			this.toolStrip2.Text = "toolStrip2";
+			// 
+			// toolStripCreateCube
+			// 
+			this.toolStripCreateCube.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.toolStripCreateCube.Image = global::Onyx3DEditor.Properties.Resources.if_stock_draw_cube_21540;
+			this.toolStripCreateCube.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.toolStripCreateCube.Name = "toolStripCreateCube";
+			this.toolStripCreateCube.Size = new System.Drawing.Size(23, 22);
+			this.toolStripCreateCube.Text = "toolStripButton3";
+			this.toolStripCreateCube.Click += new System.EventHandler(this.toolStripCreateCube_Click);
+			// 
+			// toolStripCreateTeapot
+			// 
+			this.toolStripCreateTeapot.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.toolStripCreateTeapot.Image = global::Onyx3DEditor.Properties.Resources.if_teapot_93284;
+			this.toolStripCreateTeapot.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.toolStripCreateTeapot.Name = "toolStripCreateTeapot";
+			this.toolStripCreateTeapot.Size = new System.Drawing.Size(23, 22);
+			this.toolStripCreateTeapot.Text = "toolStripButton3";
+			// 
 			// selectedObjectInspector
 			// 
+			this.selectedObjectInspector.AutoScroll = true;
 			this.selectedObjectInspector.AutoSize = true;
 			this.selectedObjectInspector.BackColor = System.Drawing.SystemColors.Control;
 			this.selectedObjectInspector.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.selectedObjectInspector.Location = new System.Drawing.Point(0, 0);
 			this.selectedObjectInspector.Name = "selectedObjectInspector";
-			this.selectedObjectInspector.Size = new System.Drawing.Size(192, 520);
+			this.selectedObjectInspector.Size = new System.Drawing.Size(96, 100);
 			this.selectedObjectInspector.TabIndex = 0;
 			// 
 			// toolStrip3
@@ -277,10 +316,13 @@ namespace Onyx3DEditor
 			this.toolStripScene.ResumeLayout(false);
 			this.toolStripScene.PerformLayout();
 			this.splitContainer2.Panel1.ResumeLayout(false);
+			this.splitContainer2.Panel1.PerformLayout();
 			this.splitContainer2.Panel2.ResumeLayout(false);
 			this.splitContainer2.Panel2.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
 			this.splitContainer2.ResumeLayout(false);
+			this.toolStrip2.ResumeLayout(false);
+			this.toolStrip2.PerformLayout();
 			this.toolStrip3.ResumeLayout(false);
 			this.toolStrip3.PerformLayout();
 			this.ResumeLayout(false);
@@ -307,5 +349,8 @@ namespace Onyx3DEditor
 		private Timer timer1;
 		private SplitContainer splitContainer2;
 		private SelectedInspectorPanel selectedObjectInspector;
+		private ToolStrip toolStrip2;
+		private ToolStripButton toolStripCreateCube;
+		private ToolStripButton toolStripCreateTeapot;
 	}
 }

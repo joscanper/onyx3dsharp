@@ -2,11 +2,11 @@
 <Root>
   <SceneObject
     id="Cube"
-    instanceId="464496875">
+    instanceId="1317158928">
     <Transform
-      position="1, 0, 0"
+      position="0, 0, 0"
       rotation="1, 0, 0, 0"
-      scale="2, 1, 1" />
+      scale="1, 1, 1" />
     <Component
       className="MeshRenderer">
       <Mesh>100000004</Mesh>

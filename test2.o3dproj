@@ -2,7 +2,13 @@
 <ProjectData xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Version>0</Version>
   <Content>
-    <Scenes />
+    <Scenes>
+      <OnyxProjectSceneAsset>
+        <Path>C:\Users\Josue\Desktop\Onyx3DSharp\test.o3dscene</Path>
+        <Guid>1</Guid>
+        <Name />
+      </OnyxProjectSceneAsset>
+    </Scenes>
     <Textures />
     <Materials />
     <Meshes />

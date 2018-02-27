@@ -37,15 +37,15 @@
 			// 
 			// tableLayoutPanelScenes
 			// 
-			this.tableLayoutPanelScenes.ColumnCount = 4;
+			this.tableLayoutPanelScenes.ColumnCount = 1;
 			this.tableLayoutPanelScenes.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 40F));
 			this.tableLayoutPanelScenes.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
 			this.tableLayoutPanelScenes.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-			this.tableLayoutPanelScenes.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+			this.tableLayoutPanelScenes.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 403F));
 			this.tableLayoutPanelScenes.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tableLayoutPanelScenes.Location = new System.Drawing.Point(0, 0);
 			this.tableLayoutPanelScenes.Name = "tableLayoutPanelScenes";
-			this.tableLayoutPanelScenes.RowCount = 2;
+			this.tableLayoutPanelScenes.RowCount = 1;
 			this.tableLayoutPanelScenes.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
 			this.tableLayoutPanelScenes.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
 			this.tableLayoutPanelScenes.Size = new System.Drawing.Size(483, 261);

@@ -57,3 +57,4 @@ C:\Users\MiriamYJosue\Documents\Projects\Onyx3DSharp\Onyx3D\bin\Debug\OpenTK.dll
 C:\Users\MiriamYJosue\Documents\Projects\Onyx3DSharp\Onyx3D\obj\Debug\Onyx3D.csproj.CoreCompileInputs.cache
 C:\Users\MiriamYJosue\Documents\Projects\Onyx3DSharp\Onyx3D\bin\Debug\WindowsBase.dll
 C:\Users\Josue\Desktop\Onyx3DSharp\Onyx3D\bin\Debug\WindowsBase.dll
+C:\Users\Josue\Desktop\Onyx3DSharp\Onyx3D\obj\Debug\Onyx3D.csprojResolveAssemblyReference.cache

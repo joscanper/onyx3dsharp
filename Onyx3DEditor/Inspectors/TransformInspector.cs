@@ -15,12 +15,14 @@ namespace Onyx3DEditor
 			scale = new Vector3Inspector(t.LocalScale);
 		}
 
+		[Category("Transform")]
 		[TypeConverter(typeof(Vector3Converter))]
 		public Vector3Inspector Position {
 			get { return position; }
 			set { mObject.LocalPosition = position.Object; }
 		}
 
+		[Category("Transform")]
 		[TypeConverter(typeof(Vector3Converter))]
 		public Vector3Inspector Scale
 		{
