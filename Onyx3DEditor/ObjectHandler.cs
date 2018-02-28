@@ -33,7 +33,6 @@ class ObjectHandler
 	private void OnMouseUp(object sender, MouseEventArgs e)
 	{
 		mSelectedAxis = 0;
-
 	}
 
 	private void OnMouseDown(object sender, MouseEventArgs e)

@@ -56,7 +56,8 @@
     <Compile Include="Core\EngineComponent.cs" />
     <Compile Include="Core\Onyx3DInstance.cs" />
     <Compile Include="Core\SceneManager.cs" />
-    <Compile Include="Graphics\Bounds.cs" />
+    <Compile Include="Core\Types\Plane.cs" />
+    <Compile Include="Core\Types\Bounds.cs" />
     <Compile Include="Core\Types\GameAsset.cs" />
     <Compile Include="Core\Types\ISerializer.cs" />
     <Compile Include="Core\Types\Object.cs" />
