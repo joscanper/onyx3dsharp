@@ -25,10 +25,10 @@ namespace Onyx3D
 			defaultBox.Max.Y = 0.5f;
 			defaultBox.Min.Z = -0.5f;
 			defaultBox.Max.Z = 0.5f;
-			GenerateBox(defaultBox);
+			GenerateBox(defaultBox, Vector3.One);
 		}
 
-		public void GenerateBox(Bounds box)
+		public void GenerateBox(Bounds box, Vector3 color)
 		{
 			if (Mesh != null)
 				Mesh.Clear();
@@ -56,20 +56,20 @@ namespace Onyx3D
 			Vector3 backBR = new Vector3(box.Max.X, box.Max.Y, box.Min.Z);
 
 			// Front rect
-			MeshUtils.CreateLine(ref myMesh, frontTL, frontTR, Vector3.One);
-			MeshUtils.CreateLine(ref myMesh, frontTR, frontBR, Vector3.One);
-			MeshUtils.CreateLine(ref myMesh, frontBR, frontBL, Vector3.One);
-			MeshUtils.CreateLine(ref myMesh, frontBL, frontTL, Vector3.One);
+			MeshUtils.CreateLine(ref myMesh, frontTL, frontTR, color);
+			MeshUtils.CreateLine(ref myMesh, frontTR, frontBR, color);
+			MeshUtils.CreateLine(ref myMesh, frontBR, frontBL, color);
+			MeshUtils.CreateLine(ref myMesh, frontBL, frontTL, color);
 
-			MeshUtils.CreateLine(ref myMesh, frontTL, backTL, Vector3.One);
-			MeshUtils.CreateLine(ref myMesh, frontTR, backTR, Vector3.One);
-			MeshUtils.CreateLine(ref myMesh, frontBR, backBR, Vector3.One);
-			MeshUtils.CreateLine(ref myMesh, frontBL, backBL, Vector3.One);
+			MeshUtils.CreateLine(ref myMesh, frontTL, backTL, color);
+			MeshUtils.CreateLine(ref myMesh, frontTR, backTR, color);
+			MeshUtils.CreateLine(ref myMesh, frontBR, backBR, color);
+			MeshUtils.CreateLine(ref myMesh, frontBL, backBL, color);
 
-			MeshUtils.CreateLine(ref myMesh, backTL, backTR, Vector3.One);
-			MeshUtils.CreateLine(ref myMesh, backTR, backBR, Vector3.One);
-			MeshUtils.CreateLine(ref myMesh, backBR, backBL, Vector3.One);
-			MeshUtils.CreateLine(ref myMesh, backBL, backTL, Vector3.One);
+			MeshUtils.CreateLine(ref myMesh, backTL, backTR, color);
+			MeshUtils.CreateLine(ref myMesh, backTR, backBR, color);
+			MeshUtils.CreateLine(ref myMesh, backBR, backBL, color);
+			MeshUtils.CreateLine(ref myMesh, backBL, backTL, color);
 
 			
 			Mesh = myMesh;

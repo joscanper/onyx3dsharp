@@ -18,12 +18,13 @@ namespace Onyx3D
 	{
 		public float Near;
 		public float Far;
-        public Rect Viewport = new Rect(0,0,1,1);
-            
+		public Rect Viewport = new Rect(0, 0, 1, 1);
+
 		protected Matrix4 mProjection;
 
 		UBO<CameraUBufferData> mCameraUBO;
 		CameraUBufferData mUBufferData;
+		
 
 		public UBO<CameraUBufferData> UBO { get { return mCameraUBO; } }
 		

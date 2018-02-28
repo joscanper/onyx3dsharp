@@ -23,12 +23,12 @@ namespace Onyx3D
 			mRenderers.Add(myLine);
 		}
 
-		public void DrawBox(Bounds box, Vector3 position)
+		public void DrawBox(Bounds box, Vector3 position, Vector3 color)
 		{
 			
 			BoxRenderer myBox = GetComponent<BoxRenderer>();
 			myBox.Material = Onyx3D.Resources.GetMaterial(BuiltInMaterial.UnlitVertexColor);
-			myBox.GenerateBox(box);
+			myBox.GenerateBox(box, color);
 			mRenderers.Add(myBox);
 
 			myBox.Transform.LocalPosition = position;

@@ -84,6 +84,7 @@
     <Compile Include="MaterialPropertyControl.Designer.cs">
       <DependentUpon>MaterialPropertyControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="ObjectHandler.cs" />
     <Compile Include="SelectedInspectorPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>

@@ -23,9 +23,9 @@ namespace Onyx3DEditor
 		SceneObject mSelectedSceneObject;
         
 		Ray myClickRay;
-		
-		
 
+		ObjectHandler myObjectHandler;
+		
 
 		OnyxViewerNavigation mNavigation = new OnyxViewerNavigation();
 
@@ -44,6 +44,7 @@ namespace Onyx3DEditor
 			myOnyxInstance = Onyx3DEngine.Instance;
 			myOnyxInstance.Init();
 
+			
 			mSceneAsset = ProjectManager.Instance.Content.GetInitScene();
 			if (mSceneAsset == null)
 			{
@@ -89,6 +90,8 @@ namespace Onyx3DEditor
 			//myBox.Material = myOnyxInstance.Resources.GetMaterial(BuiltInMaterial.UnlitVertexColor);
 
             mNavigation.CreateCamera();
+			myObjectHandler = new ObjectHandler(myOnyxInstance, renderCanvas, mNavigation.NavigationCamera);
+
 
 			UpdateTreeView();
 		}
@@ -193,15 +196,16 @@ namespace Onyx3DEditor
             myOnyxInstance.Renderer.Render(myGridRenderer, mNavigation.NavigationCamera);
 			
 			myOnyxInstance.Gizmos.DrawLine(myClickRay.Origin, myClickRay.Origin + myClickRay.Direction * 10, Vector3.One);
+			myOnyxInstance.Gizmos.Render(mNavigation.NavigationCamera);
 
 			if (mSelectedSceneObject != null)
 			{
-				myOnyxInstance.Gizmos.DrawBox(mSelectedSceneObject.GetComponent<MeshRenderer>().Bounds, Vector3.Zero);
-				myOnyxInstance.Gizmos.DrawAxis(mSelectedSceneObject.Transform.Position);
+				myObjectHandler.Update(mSelectedSceneObject.Transform.Position);
+				myObjectHandler.Render();
+				//myOnyxInstance.Gizmos.DrawBox(mSelectedSceneObject.GetComponent<MeshRenderer>().Bounds, Vector3.Zero);
+				//myOnyxInstance.Gizmos.DrawAxis(mSelectedSceneObject.Transform.Position);
 			}
 
-			myOnyxInstance.Gizmos.Render(mNavigation.NavigationCamera);
-			
 			renderCanvas.SwapBuffers();
 		}
 
@@ -212,6 +216,9 @@ namespace Onyx3DEditor
 		private void renderCanvas_Click(object sender, EventArgs e)
 		{
 			MouseEventArgs mouseEvent = e as MouseEventArgs;
+
+
+
 			if (mouseEvent.Button == MouseButtons.Left)
 			{
 				myClickRay = mNavigation.NavigationCamera.ScreenPointToRay(mouseEvent.X, mouseEvent.Y, renderCanvas.Width, renderCanvas.Height);
