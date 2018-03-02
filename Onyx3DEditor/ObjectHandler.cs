@@ -19,6 +19,7 @@ class ObjectHandler
 	private Camera mCamera;
 
 	private Vector3 mPosition;
+	private Vector3 mClosestPoint;
 
 	public ObjectHandler(Onyx3DInstance onyx3d, GLControl renderCanvas, Camera cam)
 	{
@@ -26,7 +27,7 @@ class ObjectHandler
 		mRenderCanvas = renderCanvas;
 		mCamera = cam;
 
-		mRenderCanvas.MouseDown += OnMouseDown;
+		mRenderCanvas.MouseMove += OnMouseMove;
 		mRenderCanvas.MouseUp += OnMouseUp;
 	}
 
@@ -35,19 +36,34 @@ class ObjectHandler
 		mSelectedAxis = 0;
 	}
 
-	private void OnMouseDown(object sender, MouseEventArgs e)
+	private void OnMouseMove(object sender, MouseEventArgs e)
 	{
-		
-		if (mSelectedAxis == 0)
-		{
+		if (e.Button == MouseButtons.Left)
+		{ 
 			Ray myClickRay = mCamera.ScreenPointToRay(e.X, e.Y, mRenderCanvas.Width, mRenderCanvas.Height);
 
-			if (mXAxisBound.IntersectsRay(myClickRay))
-				mSelectedAxis = 1;
-			else if (mYAxisBound.IntersectsRay(myClickRay))
-				mSelectedAxis = 2;
-			else if (mZAxisBound.IntersectsRay(myClickRay))
-				mSelectedAxis = 3;
+			if (mSelectedAxis == 0)
+			{
+			
+				if (mXAxisBound.IntersectsRay(myClickRay))
+					mSelectedAxis = 1;
+				else if (mYAxisBound.IntersectsRay(myClickRay))
+					mSelectedAxis = 2;
+				else if (mZAxisBound.IntersectsRay(myClickRay))
+					mSelectedAxis = 3;
+			}
+			else
+			{
+				
+				Plane p = new Plane();
+				switch (mSelectedAxis)
+				{
+					case 1:
+						mClosestPoint = myClickRay.ClosestPointTo(mPosition - Vector3.UnitX);
+						Console.WriteLine(mClosestPoint);
+						break;
+				}
+			}
 		}
 	}
 
@@ -65,6 +81,7 @@ class ObjectHandler
 		mOnyx3DInstance.Gizmos.DrawBox(mXAxisBound, Vector3.Zero, mSelectedAxis == 1 ? Vector3.UnitY : Vector3.Zero);
 		mOnyx3DInstance.Gizmos.DrawBox(mYAxisBound, Vector3.Zero, mSelectedAxis == 2 ? Vector3.UnitY : Vector3.Zero);
 		mOnyx3DInstance.Gizmos.DrawBox(mZAxisBound, Vector3.Zero, mSelectedAxis == 3 ? Vector3.UnitY : Vector3.Zero);
+		mOnyx3DInstance.Gizmos.DrawLine(mClosestPoint, mClosestPoint+Vector3.UnitY*0.5f, Vector3.UnitX);
 	}
 
 }

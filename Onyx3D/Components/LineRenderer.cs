@@ -25,7 +25,9 @@ namespace Onyx3D
 			SetUpMVP(Material.Shader.Program);
 
 			GL.BindVertexArray(Mesh.VertexArrayObject);
+			GL.Disable(EnableCap.DepthTest);
 			GL.DrawArrays(PrimitiveType.Lines, 0, Mesh.Vertices.Count);
+			GL.Enable(EnableCap.DepthTest);
 			GL.BindVertexArray(0);
 
 			GL.UseProgram(0);

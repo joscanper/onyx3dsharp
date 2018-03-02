@@ -85,13 +85,13 @@ namespace Onyx3D
             GL.UniformMatrix4(GL.GetUniformLocation(Material.Shader.Program, "M"), false, ref M);
             GL.UniformMatrix4(GL.GetUniformLocation(Material.Shader.Program, "R"), false, ref R);
 
-            //GL.Disable(EnableCap.DepthTest);
+            GL.Disable(EnableCap.DepthTest);
 
             GL.BindVertexArray(Mesh.VertexArrayObject);
 			GL.DrawArrays(PrimitiveType.Lines, 0, Mesh.Vertices.Count);
 			GL.BindVertexArray(0);
 
-			//GL.Enable(EnableCap.DepthTest);
+			GL.Enable(EnableCap.DepthTest);
 
 			GL.UseProgram(0);
 		}
