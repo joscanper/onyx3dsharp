@@ -50,6 +50,7 @@
   <ItemGroup>
     <Compile Include="Components\AxisRenderer.cs" />
     <Compile Include="Components\BoxRenderer.cs" />
+    <Compile Include="Components\CircleRenderer.cs" />
     <Compile Include="Components\Component.cs" />
     <Compile Include="Components\GridRenderer.cs" />
     <Compile Include="Components\LineRenderer.cs" />
@@ -136,7 +137,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Core\Events\" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\Textures\checker.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

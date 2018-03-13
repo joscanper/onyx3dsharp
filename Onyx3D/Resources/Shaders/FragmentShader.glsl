@@ -32,7 +32,7 @@ void main()
 	vec4 t = texture(base_texture, o_uv) * base_color;
 
 	float nDotL = dot(N, normalize(lightdir));
-	float rim = clamp(abs(pow(1-dot(N, dirToCam), fresnel)) * fresnel_strength,0,1);
-	float col = clamp(nDotL + rim,0,1);
-	fragColor = vec4(vec3(t*nDotL+rim),1);
+	//float rim = clamp(abs(pow(1-dot(N, dirToCam), fresnel)) * fresnel_strength,0,1);
+	//float col = clamp(nDotL + rim,0,1);
+	fragColor = vec4(vec3(t*nDotL),1);
 }

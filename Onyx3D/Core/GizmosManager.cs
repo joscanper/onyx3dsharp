@@ -34,7 +34,30 @@ namespace Onyx3D
 			myBox.Transform.LocalPosition = position;
 			
 		}
-		
+
+		public void DrawCircle(float radius, Vector3 position, Vector3 color)
+		{
+			DrawCircle(radius, position, color, Vector3.UnitY);
+		}
+
+		public void DrawCircle(float radius, Vector3 position, Vector3 color, Vector3 up, int segments = 100)
+		{
+
+			CircleRenderer myCircle = GetComponent<CircleRenderer>();
+			myCircle.Material = Onyx3D.Resources.GetMaterial(BuiltInMaterial.UnlitVertexColor);
+			myCircle.GenerateCircle(radius, color, up, segments);
+			mRenderers.Add(myCircle);
+
+			myCircle.Transform.LocalPosition = position;
+
+		}
+
+		public void DrawSphere(float radius, Vector3 position, Vector3 color, int segments = 100)
+		{
+			DrawCircle(radius, position, color, Vector3.UnitY, segments);
+			DrawCircle(radius, position, color, Vector3.UnitZ, segments);
+			DrawCircle(radius, position, color, Vector3.UnitX, segments);
+		}
 
 		public void DrawAxis(Vector3 position)
 		{

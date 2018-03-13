@@ -83,9 +83,49 @@ namespace Onyx3DEditor.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap if_fullscreen_118670 {
+            get {
+                object obj = ResourceManager.GetObject("if_fullscreen_118670", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap if_gtk_new_20536 {
             get {
                 object obj = ResourceManager.GetObject("if_gtk-new_20536", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap if_move_118639 {
+            get {
+                object obj = ResourceManager.GetObject("if_move_118639", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap if_object_rotate_right_23488 {
+            get {
+                object obj = ResourceManager.GetObject("if_object-rotate-right_23488", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap if_reload_alt_118612__1_ {
+            get {
+                object obj = ResourceManager.GetObject("if_reload_alt_118612 (1)", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

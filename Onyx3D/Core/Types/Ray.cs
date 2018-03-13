@@ -8,9 +8,25 @@ namespace Onyx3D
         public Vector3 Origin;
         public Vector3 Direction;
 
-		public Vector3 ClosestPointTo(Vector3 p)
+		public Ray(Vector3 origin, Vector3 dir)
 		{
-			return Origin + Vector3.Dot(Direction, p) * Direction;
+			Origin = origin;
+			Direction = dir;
+		}
+
+		public Vector3 ClosestPointTo(Ray b)
+		{
+			Vector3 c = b.Origin - Origin;
+			float aDotB = Vector3.Dot(Direction, b.Direction);
+			float bDotC = Vector3.Dot(b.Direction, c);
+			float aDotC = Vector3.Dot(Direction, c);
+			float bDotB = Vector3.Dot(b.Direction, b.Direction);
+			float aDotA = Vector3.Dot(Direction, Direction);
+
+			float up = -aDotB * bDotC + aDotC * bDotB;
+			float down = aDotA * bDotB - aDotB * aDotB;
+
+			return Origin + Direction * up / down;
 		}
 	}
 }

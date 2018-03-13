@@ -4,12 +4,51 @@
     id="Cube"
     instanceId="464496875">
     <Transform
-      position="1, 0, 0"
+      position="-0.914421, 0.03431559, 0"
       rotation="1, 0, 0, 0"
-      scale="2, 1, 1" />
+      scale="-10, -0.2475368, 10" />
     <Component
       className="MeshRenderer">
       <Mesh>100000004</Mesh>
+      <Material>400000001</Material>
+    </Component>
+  </SceneObject>
+  <SceneObject
+    id="Cube"
+    instanceId="270134201">
+    <Transform
+      position="-3.514342, 0.7068489, 0"
+      rotation="1, 0, 0, 0"
+      scale="0.9579886, 1.356577, 4.64709" />
+    <Component
+      className="MeshRenderer">
+      <Mesh>100000004</Mesh>
+      <Material>400000001</Material>
+    </Component>
+  </SceneObject>
+  <SceneObject
+    id="Cube"
+    instanceId="1800469603">
+    <Transform
+      position="1.560283, 0.3483553, 0"
+      rotation="1, 0, 0, 0"
+      scale="1.783289, 1.524654, 2.405456" />
+    <Component
+      className="MeshRenderer">
+      <Mesh>100000004</Mesh>
+      <Material>400000001</Material>
+    </Component>
+  </SceneObject>
+  <SceneObject
+    id="Teapot"
+    instanceId="876561996">
+    <Transform
+      position="1.671229, 1.514299, 0.09646928"
+      rotation="1, 0, 0, 0"
+      scale="1, 1, 1" />
+    <Component
+      className="MeshRenderer">
+      <Mesh>100000001</Mesh>
       <Material>400000001</Material>
     </Component>
   </SceneObject>

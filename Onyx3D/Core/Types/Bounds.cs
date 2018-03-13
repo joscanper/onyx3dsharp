@@ -34,8 +34,14 @@ namespace Onyx3D
 
 			Center = Max + Min / 2;
 		}
-		
-        public bool IntersectsRay(Ray r)
+
+		public bool IntersectsRay(Ray r)
+		{
+			return IntersectsRay(r, out float t);
+		}
+
+
+		public bool IntersectsRay(Ray r, out float t)
         {
             // r.dir is unit direction vector of ray
             
@@ -54,24 +60,22 @@ namespace Onyx3D
 
             double tmin = Math.Max(Math.Max(Math.Min(t1, t2), Math.Min(t3, t4)), Math.Min(t5, t6));
             double tmax = Math.Min(Math.Min(Math.Max(t1, t2), Math.Max(t3, t4)), Math.Max(t5, t6));
-
-            double t;
-            /*
+			
             // if tmax < 0, ray (line) is intersecting AABB, but the whole AABB is behind us
             if (tmax < 0)
             {
-                t = tmax;
+                t = (float)tmax;
                 return false;
-            }*/
+            }
 
             // if tmin > tmax, ray doesn't intersect AABB
             if (tmin > tmax)
             {
-                t = tmax;
+                t = (float)tmax;
                 return false;
             }
 
-            t = tmin;
+            t = (float)tmin;
             return true;
         }
 	}

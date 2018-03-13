@@ -85,11 +85,17 @@
       <DependentUpon>MaterialPropertyControl.cs</DependentUpon>
     </Compile>
     <Compile Include="ObjectHandler.cs" />
-    <Compile Include="SelectedInspectorPanel.cs">
+    <Compile Include="SceneHierarchyControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="SelectedInspectorPanel.Designer.cs">
-      <DependentUpon>SelectedInspectorPanel.cs</DependentUpon>
+    <Compile Include="SceneHierarchyControl.Designer.cs">
+      <DependentUpon>SceneHierarchyControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SelectedObjectInspector.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="SelectedObjectInspector.Designer.cs">
+      <DependentUpon>SelectedObjectInspector.cs</DependentUpon>
     </Compile>
     <Compile Include="OnyxViewerNavigation.cs" />
     <Compile Include="MaterialEditor.cs">
@@ -107,6 +113,7 @@
       <DependentUpon>SceneSelector.cs</DependentUpon>
     </Compile>
     <Compile Include="SceneTreeNode.cs" />
+    <Compile Include="Selection.cs" />
     <Compile Include="TextureManager.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -142,11 +149,14 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="SceneHierarchyControl.resx">
+      <DependentUpon>SceneHierarchyControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="SceneSelector.resx">
       <DependentUpon>SceneSelector.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="SelectedInspectorPanel.resx">
-      <DependentUpon>SelectedInspectorPanel.cs</DependentUpon>
+    <EmbeddedResource Include="SelectedObjectInspector.resx">
+      <DependentUpon>SelectedObjectInspector.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TextureManager.resx">
       <DependentUpon>TextureManager.cs</DependentUpon>
@@ -216,6 +226,18 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\apps-16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\if_move_118639.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\if_fullscreen_118670.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\if_reload_alt_118612 %281%29.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\if_object-rotate-right_23488.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

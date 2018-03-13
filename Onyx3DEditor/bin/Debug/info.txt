@@ -1,0 +1,4 @@
+Shader :: Failed to compile FragmentShader shader: ERROR: 0:36: 'rim' : undeclared identifier 
+
+
+Shader :: Failed to create program

@@ -1,6 +1,6 @@
 ﻿namespace Onyx3DEditor
 {
-	partial class SelectedInspectorPanel
+	partial class SelectedObjectInspector
 	{
 		/// <summary> 
 		/// Required designer variable.
@@ -29,6 +29,8 @@
 		private void InitializeComponent()
 		{
 			this.tableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
+			this.textBoxName = new System.Windows.Forms.TextBox();
+			this.tableLayoutPanel.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// tableLayoutPanel
@@ -37,6 +39,7 @@
 			this.tableLayoutPanel.ColumnCount = 1;
 			this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
 			this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+			this.tableLayoutPanel.Controls.Add(this.textBoxName, 0, 0);
 			this.tableLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tableLayoutPanel.Location = new System.Drawing.Point(0, 0);
 			this.tableLayoutPanel.Name = "tableLayoutPanel";
@@ -46,7 +49,17 @@
 			this.tableLayoutPanel.Size = new System.Drawing.Size(350, 150);
 			this.tableLayoutPanel.TabIndex = 0;
 			// 
-			// SelectedInspectorPanel
+			// textBoxName
+			// 
+			this.textBoxName.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.textBoxName.Location = new System.Drawing.Point(3, 3);
+			this.textBoxName.Name = "textBoxName";
+			this.textBoxName.Size = new System.Drawing.Size(344, 20);
+			this.textBoxName.TabIndex = 0;
+			this.textBoxName.Visible = false;
+			this.textBoxName.TextChanged += new System.EventHandler(this.textBoxName_TextChanged);
+			// 
+			// SelectedObjectInspector
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -54,8 +67,10 @@
 			this.AutoSize = true;
 			this.BackColor = System.Drawing.SystemColors.ActiveCaption;
 			this.Controls.Add(this.tableLayoutPanel);
-			this.Name = "SelectedInspectorPanel";
+			this.Name = "SelectedObjectInspector";
 			this.Size = new System.Drawing.Size(350, 150);
+			this.tableLayoutPanel.ResumeLayout(false);
+			this.tableLayoutPanel.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -64,5 +79,6 @@
 		#endregion
 
 		private System.Windows.Forms.TableLayoutPanel tableLayoutPanel;
+		private System.Windows.Forms.TextBox textBoxName;
 	}
 }

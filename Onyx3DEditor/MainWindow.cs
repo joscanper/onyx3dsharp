@@ -15,18 +15,13 @@ namespace Onyx3DEditor
 	{
 		bool canDraw = false;
 
-		Onyx3DInstance myOnyxInstance;
+		Onyx3DInstance mOnyxInstance;
 		OnyxProjectSceneAsset mSceneAsset;
-		Scene myScene;
-		GridRenderer myGridRenderer;
-		//SceneObject myTeapot;
+		Scene mScene;
+		GridRenderer mGridRenderer;
 		SceneObject mSelectedSceneObject;
-        
-		Ray myClickRay;
-
-		ObjectHandler myObjectHandler;
-		
-
+		Ray mClickRay;
+		ObjectHandler mObjectHandler;
 		OnyxViewerNavigation mNavigation = new OnyxViewerNavigation();
 
 		public MainWindow()
@@ -34,112 +29,88 @@ namespace Onyx3DEditor
 			InitializeComponent();
 			InitializeCanvas();
 
+			Selection.OnSelectionChanged += OnSelectionChanged;
 			mNavigation.Bind(renderCanvas);
 		}
 
 		private void InitScene()
 		{
-			
-
-			myOnyxInstance = Onyx3DEngine.Instance;
-			myOnyxInstance.Init();
+			mOnyxInstance = Onyx3DEngine.Instance;
+			mOnyxInstance.Init();
 
 			
 			mSceneAsset = ProjectManager.Instance.Content.GetInitScene();
 			if (mSceneAsset == null)
 			{
-				myScene = new Scene();
+				mScene = new Scene();
 			}
 			else
 			{
-				myScene = SceneLoader.Load(mSceneAsset.Path);
+				mScene = SceneLoader.Load(mSceneAsset.Path);
 			}
-
-			/*
-			SceneObject teapot = new SceneObject("Teapot");
-			MeshRenderer teapotMesh = teapot.AddComponent<MeshRenderer>();
-			teapotMesh.Mesh = myOnyxInstance.Resources.GetMesh(BuiltInMesh.Teapot);
-			teapot.Transform.LocalPosition = new Vector3(0, 0.5f, 0);
-			teapotMesh.Material = myOnyxInstance.Resources.GetMaterial(BuiltInMaterial.Default);
-			teapot.Parent = myScene.Root;
-            
-
-            
-            SceneObject teapot2 = new SceneObject("Teapot2");
-			MeshRenderer teapot2Mesh = teapot2.AddComponent<MeshRenderer>();
-			teapot2Mesh.Mesh = myOnyxInstance.Resources.GetMesh(BuiltInMesh.Teapot);
-			teapot2Mesh.Material = myOnyxInstance.Resources.GetMaterial(BuiltInMaterial.Default);
-			teapot2.Transform.LocalScale = new Vector3(0.5f, 0.5f, 0.5f);
-			teapot2.Transform.LocalPosition = new Vector3(2, 0, 2);
-            teapot2.Transform.LocalRotation = Quaternion.FromEulerAngles(new Vector3(0, 90, 0));
-            teapot2.Parent = myScene.Root;
-
-			myTeapot = teapot2;
-			*/
-
 
 			// Editor objects --------------------------------------
 
 			SceneObject grid = new SceneObject("Grid");
-			myGridRenderer = grid.AddComponent<GridRenderer>();
-			myGridRenderer.GenerateGridMesh(100, 100, 0.25f, 0.25f);
-			myGridRenderer.Material = myOnyxInstance.Resources.GetMaterial(BuiltInMaterial.Unlit);
-			myGridRenderer.Material.Properties["color"].Data = new Vector4(1, 1, 1, 0.1f);
-			
-			//myBox = teapot.AddComponent<BoxRenderer>();
-			//myBox.Material = myOnyxInstance.Resources.GetMaterial(BuiltInMaterial.UnlitVertexColor);
+			mGridRenderer = grid.AddComponent<GridRenderer>();
+			mGridRenderer.GenerateGridMesh(100, 100, 0.25f, 0.25f);
+			mGridRenderer.Material = mOnyxInstance.Resources.GetMaterial(BuiltInMaterial.Unlit);
+			mGridRenderer.Material.Properties["color"].Data = new Vector4(1, 1, 1, 0.1f);
 
-            mNavigation.CreateCamera();
-			myObjectHandler = new ObjectHandler(myOnyxInstance, renderCanvas, mNavigation.NavigationCamera);
+			mNavigation.CreateCamera();
 
+			mObjectHandler = new ObjectHandler(mOnyxInstance, renderCanvas, mNavigation.NavigationCamera);
+			// TODO - This could allocate several times
+			mObjectHandler.OnTransformModified += OnTransformModifiedFromObjectHandler;
 
-			UpdateTreeView();
+			sceneHierarchy.UpdateScene(mScene);
+			// TODO - This could allocate several times
+			selectedObjectInspector.OnInspectorChanged += OnInspectorChanged;
 		}
 
-
-		private void UpdateTreeView()
+		private void OnSelectionChanged(List<SceneObject> selected)
 		{
-			treeViewSceneHierarchy.Nodes.Clear();
-			TreeNode root = new TreeNode("Scene Name");
-			if (myScene.Root.ChildCount > 0)
-				AddSceneObjectToTreeNode(root, myScene.Root, true);
-			treeViewSceneHierarchy.Nodes.Add(root);
-			treeViewSceneHierarchy.ExpandAll();
-		}
-
-		private void AddSceneObjectToTreeNode(TreeNode node, SceneObject sceneObject, bool skipAdd)
-		{
-			SceneTreeNode objectNode = new SceneTreeNode(sceneObject);
-			if (!skipAdd)
-				node.Nodes.Add(objectNode);
-			for (int i = 0; i < sceneObject.ChildCount; ++i)
-				AddSceneObjectToTreeNode(skipAdd ? node : objectNode, sceneObject.GetChild(i), false);
-
-		}
-
-		private void SelectObject(SceneObject node)
-		{
-			mSelectedSceneObject = node;
+			mSelectedSceneObject = Selection.ActiveObject;
 			renderCanvas.Refresh();
-			
+
 			if (mSelectedSceneObject != null)
 			{
-				splitContainer2.Panel2Collapsed = false;
 				selectedObjectInspector.Fill(mSelectedSceneObject);
 			}
 			else
 			{
-				splitContainer2.Panel2Collapsed = true;
 				selectedObjectInspector.Clear();
 			}
 
+			mObjectHandler.HandleObject(mSelectedSceneObject);
 		}
 
+		private void OnInspectorChanged()
+		{
+			sceneHierarchy.UpdateScene(mScene);
+		}
+
+		private void OnTransformModifiedFromObjectHandler()
+		{
+			selectedObjectInspector.Fill(mSelectedSceneObject);
+		}
+
+		private void AddPrimitive(int meshType, string name)
+		{
+			SceneObject cube = new SceneObject(name);
+			MeshRenderer mesh = cube.AddComponent<MeshRenderer>();
+			mesh.Mesh = mOnyxInstance.Resources.GetMesh(meshType);
+			cube.Transform.LocalPosition = new Vector3(0, 0.0f, 0);
+			mesh.Material = mOnyxInstance.Resources.GetMaterial(BuiltInMaterial.Default);
+			cube.Parent = mScene.Root;
+
+			sceneHierarchy.UpdateScene(mScene);
+		}
 
 		private void OnSceneSelected(Scene s)
 		{
-			myScene = s;
-			UpdateTreeView();
+			mScene = s;
+			sceneHierarchy.UpdateScene(mScene);
 			renderCanvas.Refresh();
 		}
 
@@ -156,7 +127,7 @@ namespace Onyx3DEditor
 
 				if (saveFileDialog1.ShowDialog() == DialogResult.OK)
 				{
-					SceneLoader.Save(myScene, saveFileDialog1.FileName);
+					SceneLoader.Save(mScene, saveFileDialog1.FileName);
 					try
 					{
 						mSceneAsset = new OnyxProjectSceneAsset(saveFileDialog1.FileName);
@@ -172,10 +143,32 @@ namespace Onyx3DEditor
 			}
 			else
 			{
-				SceneLoader.Save(myScene, mSceneAsset.Path);
+				SceneLoader.Save(mScene, mSceneAsset.Path);
 			}
 		}
 
+		private void RenderScene()
+		{
+			if (!canDraw)
+				return;
+
+			mNavigation.UpdateCamera();
+
+			mOnyxInstance.Renderer.Render(mScene, mNavigation.NavigationCamera, renderCanvas.Width, renderCanvas.Height);
+			mOnyxInstance.Renderer.Render(mGridRenderer, mNavigation.NavigationCamera);
+
+			mOnyxInstance.Gizmos.DrawLine(mClickRay.Origin, mClickRay.Origin + mClickRay.Direction * 10, Vector3.One);
+			mOnyxInstance.Gizmos.Render(mNavigation.NavigationCamera);
+
+			if (mSelectedSceneObject != null)
+			{
+				mObjectHandler.Update();
+				//myOnyxInstance.Gizmos.DrawBox(mSelectedSceneObject.GetComponent<MeshRenderer>().Bounds, Vector3.Zero);
+//				mOnyxInstance.Gizmos.DrawCircle(1, mSelectedSceneObject.Transform.Position, Vector3.One, Vector3.UnitY);
+			}
+
+			renderCanvas.SwapBuffers();
+		}
 
 		#region RenderCanvas callbacks
 
@@ -187,55 +180,36 @@ namespace Onyx3DEditor
 
 		private void renderCanvas_Paint(object sender, PaintEventArgs e)
 		{
-			if (!canDraw)
-				return;
+			RenderScene();
+		}
 
-			mNavigation.UpdateCamera();
+		private void renderCanvas_Click(object sender, EventArgs e)
+		{
+			MouseEventArgs mouseEvent = e as MouseEventArgs;
 
-			myOnyxInstance.Renderer.Render(myScene, mNavigation.NavigationCamera, renderCanvas.Width, renderCanvas.Height);
-            myOnyxInstance.Renderer.Render(myGridRenderer, mNavigation.NavigationCamera);
-			
-			myOnyxInstance.Gizmos.DrawLine(myClickRay.Origin, myClickRay.Origin + myClickRay.Direction * 10, Vector3.One);
-			myOnyxInstance.Gizmos.Render(mNavigation.NavigationCamera);
-
-			if (mSelectedSceneObject != null)
+			if (mouseEvent.Button == MouseButtons.Left && !mObjectHandler.IsHandling)
 			{
-				myObjectHandler.Update(mSelectedSceneObject.Transform.Position);
-				myObjectHandler.Render();
-				//myOnyxInstance.Gizmos.DrawBox(mSelectedSceneObject.GetComponent<MeshRenderer>().Bounds, Vector3.Zero);
-				//myOnyxInstance.Gizmos.DrawAxis(mSelectedSceneObject.Transform.Position);
-			}
+				mClickRay = mNavigation.NavigationCamera.ScreenPointToRay(mouseEvent.X, mouseEvent.Y, renderCanvas.Width, renderCanvas.Height);
 
-			renderCanvas.SwapBuffers();
+				RaycastHit hit = new RaycastHit();
+				if (Physics.Raycast(mClickRay, out hit, mScene))
+				{
+					Selection.ActiveObject = hit.Object;
+				}
+				else
+				{
+					Selection.ActiveObject = null;
+				}
+
+				renderCanvas.Refresh();
+			}
 		}
 
 		#endregion
 
 		#region UI callbacks
-		
-		private void renderCanvas_Click(object sender, EventArgs e)
-		{
-			MouseEventArgs mouseEvent = e as MouseEventArgs;
 
 
-
-			if (mouseEvent.Button == MouseButtons.Left)
-			{
-				myClickRay = mNavigation.NavigationCamera.ScreenPointToRay(mouseEvent.X, mouseEvent.Y, renderCanvas.Width, renderCanvas.Height);
-				
-				RaycastHit hit = new RaycastHit();
-				if (Physics.Raycast(myClickRay, out hit, myScene))
-                {
-                    SelectObject(hit.Object);
-                }
-                else
-                {
-                    SelectObject(null);
-                }
-
-				renderCanvas.Refresh();
-			}
-		}
 
 
 		private void MainWindow_Activated(object sender, EventArgs e)
@@ -244,12 +218,18 @@ namespace Onyx3DEditor
 				renderCanvas.MakeCurrent();
 		}
 
+		private void timer1_Tick(object sender, EventArgs e)
+		{
+			//myTeapot.Transform.Rotate(new Vector3(0, 0.1f, 0));
+			renderCanvas.Refresh();
+		}
+
 		private void toolStripButtonSaveProject_Click(object sender, EventArgs e)
 		{
 			SaveScene();
 				
 
-			if (ProjectManager.Instance.CurrentProjectPath.Length == 0)
+			if (ProjectManager.Instance.CurrentProjectPath == null || ProjectManager.Instance.CurrentProjectPath.Length == 0)
 			{
 				SaveFileDialog saveFileDialog1 = new SaveFileDialog();
 				saveFileDialog1.Filter = "Onyx3d project files (*.o3dproj)|*.o3dproj";
@@ -285,7 +265,6 @@ namespace Onyx3DEditor
 			new TextureManager().Show();
 		}
 
-
 		private void toolStripButtonNewProject_Click(object sender, EventArgs e)
 		{
 			var confirmResult = MessageBox.Show("Are you sure to start a new project?", "New Project", MessageBoxButtons.YesNo);
@@ -320,21 +299,6 @@ namespace Onyx3DEditor
 			}
 		}
 
-		private void treeViewSceneHierarchy_NodeSelected(object sender, TreeViewEventArgs e)
-		{
-			if (e.Node.GetType() != typeof(SceneTreeNode))
-			{
-				SelectObject(null);
-				return;
-			}
-
-			SceneTreeNode sceneTreeeNode = (SceneTreeNode)e.Node;
-			if (sceneTreeeNode != null)
-			{
-				SelectObject(sceneTreeeNode.BoundSceneObject);
-			}
-		}
-
 		private void toolStripButtonChangeScene_Click(object sender, EventArgs e)
 		{
 			SceneSelector ss = new SceneSelector();
@@ -359,8 +323,8 @@ namespace Onyx3DEditor
 				{
 					if ((myStream = openFileDialog1.OpenFile()) != null)
 					{
-						myScene = SceneLoader.Load(openFileDialog1.FileName);
-						UpdateTreeView();
+						mScene = SceneLoader.Load(openFileDialog1.FileName);
+						sceneHierarchy.UpdateScene(mScene);
 						renderCanvas.Refresh();
 					}
 				}
@@ -372,23 +336,46 @@ namespace Onyx3DEditor
 			
 		}
 
-        private void timer1_Tick(object sender, EventArgs e)
-        {
-            //myTeapot.Transform.Rotate(new Vector3(0, 0.1f, 0));
-            renderCanvas.Refresh();
-        }
+		private void toolStripCreateCube_Click(object sender, EventArgs e)
+		{
+			AddPrimitive(BuiltInMesh.Cube, "Cube");
+		}
+
+		private void toolStripCreateCylinder_Click(object sender, EventArgs e)
+		{
+			AddPrimitive(BuiltInMesh.Cylinder, "Cylinder");
+		}
+
+		private void toolStripCreateTeapot_Click(object sender, EventArgs e)
+		{
+			AddPrimitive(BuiltInMesh.Teapot, "Teapot");
+		}
+
+		private void toolStripButtonMove_Click(object sender, EventArgs e)
+		{
+			toolStripButtonScale.Checked = false;
+			toolStripButtonMove.Checked = true;
+			toolStripButtonRotate.Checked = false;
+			mObjectHandler.SetAxisAction(ObjectHandler.HandlerAxisAction.Translate);
+		}
+
+		private void toolStripButtonScale_Click(object sender, EventArgs e)
+		{
+			toolStripButtonScale.Checked = true;
+			toolStripButtonMove.Checked = false;
+			toolStripButtonRotate.Checked = false;
+			mObjectHandler.SetAxisAction(ObjectHandler.HandlerAxisAction.Scale);
+		}
+
+		private void toolStripButtonRotate_Click(object sender, EventArgs e)
+		{
+			toolStripButtonScale.Checked = false;
+			toolStripButtonMove.Checked = false;
+			toolStripButtonRotate.Checked = true;
+			mObjectHandler.SetAxisAction(ObjectHandler.HandlerAxisAction.Rotate);
+		}
 
 		#endregion
 
-		private void toolStripCreateCube_Click(object sender, EventArgs e)
-		{
-			SceneObject cube = new SceneObject("Cube");
-			MeshRenderer mesh = cube.AddComponent<MeshRenderer>();
-			mesh.Mesh = myOnyxInstance.Resources.GetMesh(BuiltInMesh.Cube);
-			cube.Transform.LocalPosition = new Vector3(0, 0.0f, 0);
-			mesh.Material = myOnyxInstance.Resources.GetMaterial(BuiltInMaterial.Default);
-			cube.Parent = myScene.Root;
-			UpdateTreeView();
-		}
 	}
 }

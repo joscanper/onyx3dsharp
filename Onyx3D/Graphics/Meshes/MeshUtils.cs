@@ -13,7 +13,7 @@ namespace Onyx3D
 			mesh.Vertices.Add(new Vertex(point2, color));
 		}
 
-		public static void CreateArrow(ref Mesh mesh, Vector3 point, Vector3 up, Vector3 dir, float size1, float size2, Vector3 color)
+		public static void CreateArrowCap(ref Mesh mesh, Vector3 point, Vector3 up, Vector3 dir, float size1, float size2, Vector3 color)
 		{
 			dir.Normalize();
 			up.Normalize();

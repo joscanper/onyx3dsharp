@@ -11,12 +11,14 @@ namespace Onyx3D
         public static bool Raycast(Ray ray, out RaycastHit hit, Scene scene)
         {
             SceneObject obj = scene.Root;
-            hit = new RaycastHit();
 
+			hit = new RaycastHit();
+			hit.Distance = float.MaxValue;
             if (scene.Root == null)
                 return false;
 
-            Queue<SceneObject> objects = new Queue<SceneObject>();
+			bool didHit = false;
+			Queue<SceneObject> objects = new Queue<SceneObject>();
             objects.Enqueue(scene.Root);
             SceneObject s;
             do
@@ -26,12 +28,16 @@ namespace Onyx3D
                 if (objRenderers.Count > 0)
                 {
                     for (int i = 0; i < objRenderers.Count; ++i)
-                    { 
-                        if (objRenderers[i].Bounds.IntersectsRay(ray))
+                    {
+						float dist;
+                        if (objRenderers[i].Bounds.IntersectsRay(ray, out dist) && dist < hit.Distance)
                         {
-                            hit.Object = s;
-                            return true;
-                        }
+							hit.Object = s;
+							hit.Distance =dist;
+							hit.Point = ray.Origin + ray.Direction.Normalized() * dist;
+							didHit = true;
+
+						}
                     }
                 }
 
@@ -40,8 +46,8 @@ namespace Onyx3D
                     objects.Enqueue(s.GetChild(i));
                 }
             } while (objects.Count > 0);
-
-            return false;
+			
+            return didHit;
         }
 
 	}
