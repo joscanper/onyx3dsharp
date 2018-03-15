@@ -30,21 +30,15 @@ namespace Onyx3D
 
 		public void GenerateBox(Bounds box, Vector3 color)
 		{
+			GenerateBox(box.Center, box.Size, color);
+
+			/*
 			if (Mesh != null)
 				Mesh.Clear();
 
 			Mesh myMesh = new Mesh();
 
-			/*
-            MeshUtils.CreateLine(ref myMesh, box.Min, box.Min + Vector3.UnitX, Vector3.UnitX);
-            MeshUtils.CreateLine(ref myMesh, box.Min, box.Min + Vector3.UnitY, Vector3.UnitX);
-            MeshUtils.CreateLine(ref myMesh, box.Min, box.Min + Vector3.UnitZ, Vector3.UnitX);
-
-            MeshUtils.CreateLine(ref myMesh, box.Max, box.Max - Vector3.UnitX, Vector3.UnitY);
-            MeshUtils.CreateLine(ref myMesh, box.Max, box.Max - Vector3.UnitY, Vector3.UnitY);
-            MeshUtils.CreateLine(ref myMesh, box.Max, box.Max - Vector3.UnitZ, Vector3.UnitY);
-			*/
-            
+		
 			Vector3 frontTL = new Vector3(box.Min.X, box.Min.Y, box.Max.Z);
 			Vector3 frontBL = new Vector3(box.Min.X, box.Max.Y, box.Max.Z);
 			Vector3 frontTR = new Vector3(box.Max.X, box.Min.Y, box.Max.Z);
@@ -75,7 +69,49 @@ namespace Onyx3D
 			Mesh = myMesh;
 
 			Mesh.GenerateVAO();
+			*/
 		}
+
+		public void GenerateBox(Vector3 position, Vector3 size, Vector3 color)
+		{
+			if (Mesh != null)
+				Mesh.Clear();
+
+			Mesh myMesh = new Mesh();
+
+		
+			Vector3 frontTL = new Vector3(position.X - size.X / 2.0f, position.X - size.Y / 2.0f, position.X - size.Y / 2.0f);
+			Vector3 frontBL = new Vector3(position.X - size.X / 2.0f, position.X + size.Y / 2.0f, position.X - size.Y / 2.0f);
+			Vector3 frontTR = new Vector3(position.X + size.X / 2.0f, position.X - size.Y / 2.0f, position.X - size.Y / 2.0f);
+			Vector3 frontBR = new Vector3(position.X + size.X / 2.0f, position.X + size.Y / 2.0f, position.X - size.Y / 2.0f);
+
+			Vector3 backTL = new Vector3(position.X - size.X / 2.0f, position.X - size.Y / 2.0f, position.X + size.Y / 2.0f);
+			Vector3 backBL = new Vector3(position.X - size.X / 2.0f, position.X + size.Y / 2.0f, position.X + size.Y / 2.0f);
+			Vector3 backTR = new Vector3(position.X + size.X / 2.0f, position.X - size.Y / 2.0f, position.X + size.Y / 2.0f);
+			Vector3 backBR = new Vector3(position.X + size.X / 2.0f, position.X + size.Y / 2.0f, position.X + size.Y / 2.0f);
+
+			// Front rect
+			MeshUtils.CreateLine(ref myMesh, frontTL, frontTR, color);
+			MeshUtils.CreateLine(ref myMesh, frontTR, frontBR, color);
+			MeshUtils.CreateLine(ref myMesh, frontBR, frontBL, color);
+			MeshUtils.CreateLine(ref myMesh, frontBL, frontTL, color);
+
+			MeshUtils.CreateLine(ref myMesh, frontTL, backTL, color);
+			MeshUtils.CreateLine(ref myMesh, frontTR, backTR, color);
+			MeshUtils.CreateLine(ref myMesh, frontBR, backBR, color);
+			MeshUtils.CreateLine(ref myMesh, frontBL, backBL, color);
+
+			MeshUtils.CreateLine(ref myMesh, backTL, backTR, color);
+			MeshUtils.CreateLine(ref myMesh, backTR, backBR, color);
+			MeshUtils.CreateLine(ref myMesh, backBR, backBL, color);
+			MeshUtils.CreateLine(ref myMesh, backBL, backTL, color);
+
+
+			Mesh = myMesh;
+
+			Mesh.GenerateVAO();
+		}
+
 
 		public override void Render()
 		{

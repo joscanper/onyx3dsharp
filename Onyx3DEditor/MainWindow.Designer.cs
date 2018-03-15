@@ -49,13 +49,14 @@ namespace Onyx3DEditor
 		{
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWindow));
-			this.renderCanvas = new OpenTK.GLControl(new GraphicsMode(new ColorFormat(), 24));
+			this.renderCanvas = new OpenTK.GLControl();
 			this.toolStrip1 = new System.Windows.Forms.ToolStrip();
 			this.toolStripLabel2 = new System.Windows.Forms.ToolStripLabel();
 			this.toolStripButtonNewProject = new System.Windows.Forms.ToolStripButton();
 			this.toolStripButtonOpenProject = new System.Windows.Forms.ToolStripButton();
 			this.toolStripButtonSaveProject = new System.Windows.Forms.ToolStripButton();
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+			this.sceneHierarchy = new Onyx3DEditor.SceneHierarchyControl();
 			this.toolStripScene = new System.Windows.Forms.ToolStrip();
 			this.toolStripButtonChangeScene = new System.Windows.Forms.ToolStripButton();
 			this.splitContainer2 = new System.Windows.Forms.SplitContainer();
@@ -73,7 +74,6 @@ namespace Onyx3DEditor
 			this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
 			this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
 			this.timer1 = new System.Windows.Forms.Timer(this.components);
-			this.sceneHierarchy = new Onyx3DEditor.SceneHierarchyControl();
 			this.toolStrip1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
 			this.splitContainer1.Panel1.SuspendLayout();
@@ -167,6 +167,14 @@ namespace Onyx3DEditor
 			this.splitContainer1.Size = new System.Drawing.Size(979, 520);
 			this.splitContainer1.SplitterDistance = 158;
 			this.splitContainer1.TabIndex = 2;
+			// 
+			// sceneHierarchy
+			// 
+			this.sceneHierarchy.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.sceneHierarchy.Location = new System.Drawing.Point(0, 0);
+			this.sceneHierarchy.Name = "sceneHierarchy";
+			this.sceneHierarchy.Size = new System.Drawing.Size(158, 495);
+			this.sceneHierarchy.TabIndex = 4;
 			// 
 			// toolStripScene
 			// 
@@ -355,14 +363,6 @@ namespace Onyx3DEditor
 			this.timer1.Interval = 14;
 			this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
 			// 
-			// sceneInspector
-			// 
-			this.sceneHierarchy.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.sceneHierarchy.Location = new System.Drawing.Point(0, 0);
-			this.sceneHierarchy.Name = "sceneInspector";
-			this.sceneHierarchy.Size = new System.Drawing.Size(158, 495);
-			this.sceneHierarchy.TabIndex = 4;
-			// 
 			// MainWindow
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -374,6 +374,7 @@ namespace Onyx3DEditor
 			this.Text = "MainWindow";
 			this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
 			this.Activated += new System.EventHandler(this.MainWindow_Activated);
+			this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MainWindow_KeyDown);
 			this.toolStrip1.ResumeLayout(false);
 			this.toolStrip1.PerformLayout();
 			this.splitContainer1.Panel1.ResumeLayout(false);

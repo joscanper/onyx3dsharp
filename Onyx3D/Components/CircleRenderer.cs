@@ -22,7 +22,7 @@ namespace Onyx3D
 			Matrix3 m = new Matrix3(right, up, fwd);
 			
 			float angleStep = (float)Math.PI * 2.0f / segments;
-			for(int i = 0; i < segments; ++i)
+			for(int i = 0; i <= segments; ++i)
 			{
 				float x = (float)Math.Cos(angleStep * i) * radius;
 				float y = (float)Math.Sin(angleStep * i) * radius;

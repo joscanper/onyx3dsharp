@@ -95,6 +95,16 @@ namespace Onyx3DEditor
 			selectedObjectInspector.Fill(mSelectedSceneObject);
 		}
 
+		private void DeleteObject(SceneObject o)
+		{
+			if (o == null)
+				return;
+
+			o.Parent = null;
+			o = null;
+			Selection.ActiveObject = null;
+		}
+
 		private void AddPrimitive(int meshType, string name)
 		{
 			SceneObject cube = new SceneObject(name);
@@ -205,6 +215,7 @@ namespace Onyx3DEditor
 			}
 		}
 
+	
 		#endregion
 
 		#region UI callbacks
@@ -375,7 +386,14 @@ namespace Onyx3DEditor
 			mObjectHandler.SetAxisAction(ObjectHandler.HandlerAxisAction.Rotate);
 		}
 
+
 		#endregion
 
+		private void MainWindow_KeyDown(object sender, KeyEventArgs e)
+		{
+
+			if (e.KeyCode == Keys.Delete)
+				DeleteObject(mSelectedSceneObject);
+		}
 	}
 }
