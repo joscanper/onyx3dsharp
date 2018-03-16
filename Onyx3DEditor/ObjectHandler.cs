@@ -266,9 +266,9 @@ class ObjectHandlerRotate : HandlerOperator
 		gizmos.DrawCircle(obj.Transform.Position, 0.5f, Vector3.UnitZ, Vector3.UnitZ);		
 		gizmos.DrawCircle(obj.Transform.Position, 0.5f, Vector3.UnitX, Vector3.UnitX);
 
-		gizmos.DrawLine(obj.Transform.Position + Vector3.UnitX * 0.5f, obj.Transform.Position + Vector3.UnitX, Vector3.UnitZ);
-		gizmos.DrawLine(obj.Transform.Position + Vector3.UnitY * 0.5f, obj.Transform.Position + Vector3.UnitY, Vector3.UnitX);
-		gizmos.DrawLine(obj.Transform.Position + Vector3.UnitZ * 0.5f, obj.Transform.Position + Vector3.UnitZ, Vector3.UnitY);
+		gizmos.DrawLine(obj.Transform.Position + obj.Transform.Right * 0.5f, obj.Transform.Position + obj.Transform.Right, Vector3.UnitZ);
+		gizmos.DrawLine(obj.Transform.Position + obj.Transform.Up * 0.5f, obj.Transform.Position + obj.Transform.Up, Vector3.UnitX);
+		gizmos.DrawLine(obj.Transform.Position + obj.Transform.Forward * 0.5f, obj.Transform.Position + obj.Transform.Forward, Vector3.UnitY);
 
 		gizmos.DrawSphere(obj.Transform.Position + Vector3.UnitX, 0.05f, Vector3.UnitZ);
 		gizmos.DrawSphere(obj.Transform.Position + Vector3.UnitY, 0.05f, Vector3.UnitX);
@@ -277,15 +277,15 @@ class ObjectHandlerRotate : HandlerOperator
 
 	public override void Handle(SceneObject obj, Ray ray)
 	{
+		
 		Ray axisRay = new Ray(obj.Transform.Position, SelectedAxis);
-		Vector3 closestPointToAxis = axisRay.ClosestPointTo(ray);
+		Vector3 closestPointToRay = ray.ClosestPointTo(axisRay);
 		Vector3 axisPoint = (obj.Transform.Position + SelectedAxis);
-		Vector3 scale = new Vector3(
-			SelectedAxis == Vector3.UnitX ? closestPointToAxis.X / axisPoint.X : 1.0f,
-			SelectedAxis == Vector3.UnitY ? closestPointToAxis.Y / axisPoint.Y : 1.0f,
-			SelectedAxis == Vector3.UnitZ ? closestPointToAxis.Z / axisPoint.Z : 1.0f);
+		Quaternion prevAngle = obj.Transform.LocalRotation;
+		float angleOffset = Vector3.CalculateAngle(axisPoint, closestPointToRay);
+		
 
-		obj.Transform.LocalScale = mScale * scale;
+		obj.Transform.LocalRotation += Quaternion.FromEulerAngles(SelectedAxis * angleOffset);
 	}
 
 }
