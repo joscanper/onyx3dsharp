@@ -9,17 +9,21 @@ using OpenTK.Graphics.OpenGL;
 
 namespace Onyx3D
 {
-	public class UBO<T>
+	public class UBO
 	{
-		public static int CurrentBindingPoint;
-
-		private int mUniformBufferObject;
-		private int mBindingPoint;
-		private string mBlockName;
+		protected int mUniformBufferObject;
+		protected int mBindingPoint;
+		protected string mBlockName;
 
 		public string BlockName { get { return mBlockName; } }
-		public int BindingPoint { get { return mBindingPoint; } } 
+		public int BindingPoint { get { return mBindingPoint; } }
 
+		public static int CurrentBindingPoint;
+	}
+
+	public class UBO<T> : UBO
+	{
+	
 		public UBO(T data, string blockName)
 		{
 			CurrentBindingPoint++;

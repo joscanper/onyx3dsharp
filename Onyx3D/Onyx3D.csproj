@@ -53,8 +53,10 @@
     <Compile Include="Components\CircleRenderer.cs" />
     <Compile Include="Components\Component.cs" />
     <Compile Include="Components\GridRenderer.cs" />
+    <Compile Include="Components\Light.cs" />
     <Compile Include="Components\LineRenderer.cs" />
     <Compile Include="Core\EngineComponent.cs" />
+    <Compile Include="Core\Extensions\QuaterionExtension.cs" />
     <Compile Include="Core\Onyx3DInstance.cs" />
     <Compile Include="Core\SceneManager.cs" />
     <Compile Include="Core\Types\Plane.cs" />
@@ -66,6 +68,7 @@
     <Compile Include="Core\ResourcesManager.cs" />
     <Compile Include="Core\Types\Ray.cs" />
     <Compile Include="Core\GizmosManager.cs" />
+    <Compile Include="Graphics\Lighting.cs" />
     <Compile Include="Graphics\Meshes\CubeMesh.cs" />
     <Compile Include="Graphics\Meshes\CylinderMesh.cs" />
     <Compile Include="Graphics\Meshes\Mesh.cs" />

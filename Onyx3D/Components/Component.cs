@@ -38,6 +38,7 @@ namespace Onyx3D
 
 		public virtual void OnDirtyTransform() { }
 
+
 		// ---- Serialization ----
 
 		public XmlSchema GetSchema() { return null; }

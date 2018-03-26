@@ -2,10 +2,11 @@
 using System.Windows;
 
 using OpenTK;
+using System.Runtime.InteropServices;
 
 namespace Onyx3D
 {
-
+	[StructLayout(LayoutKind.Sequential)]
 	public struct CameraUBufferData
 	{
 		public Matrix4 View;
@@ -25,7 +26,6 @@ namespace Onyx3D
 		UBO<CameraUBufferData> mCameraUBO;
 		CameraUBufferData mUBufferData;
 		
-
 		public UBO<CameraUBufferData> UBO { get { return mCameraUBO; } }
 		
 		public Matrix4 ViewMatrix

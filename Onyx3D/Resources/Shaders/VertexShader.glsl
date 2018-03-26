@@ -1,5 +1,9 @@
 ﻿#version 330
 
+#define MAX_DIR_LIGHTS 2
+#define MAX_POINT_LIGHTS 8
+#define MAX_SPOT_LIGHTS 8
+
 layout (location = 0) in vec3 position;
 layout (location = 1) in vec3 color;
 layout (location = 2) in vec3 normal;
@@ -24,6 +28,33 @@ layout(std140) uniform CameraData {
 	vec3 cameraPos; 
 };
 
+
+// ------------------------------- Lighting UBO
+/*
+struct Light{
+    float range;
+    vec3 position;
+    vec3 direction;
+    vec3 color;
+    float angle;
+    vec3 specular;
+    float intensity;
+};
+
+layout(std140) uniform LightingData { 
+	vec3 ambient;
+    
+    int pointLightsNum;
+    Light pointLight[MAX_POINT_LIGHTS];
+    
+    int dirLightsNum;
+    Light dirLight[MAX_DIR_LIGHTS];
+    
+    int spotLightsNum;
+    Light spotLight[MAX_SPOT_LIGHTS];
+};
+
+*/
 void main()
 {
 	o_color = color;

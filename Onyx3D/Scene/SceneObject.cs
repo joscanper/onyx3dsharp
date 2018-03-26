@@ -98,6 +98,9 @@ namespace Onyx3D
 		{
 			for (int i=0; i<mComponents.Count; ++i)
 			{
+				if (mComponents[i].GetType() != typeof(T))
+					continue;
+
 				T comp = (T)mComponents[i];
 				if (comp != null)
 					return comp;
@@ -110,10 +113,31 @@ namespace Onyx3D
 			List<T> components = new List<T>();
 			for (int i = 0; i < mComponents.Count; ++i)
 			{
+				if (mComponents[i].GetType() != typeof(T))
+					continue;
+
 				T comp = (T)mComponents[i];
 				if (comp != null)
 					components.Add(comp);
 			}
+			return components;
+		}
+
+		public List<T> GetComponentInChildren<T>() where T:Component
+		{
+			List<T> components = new List<T>();
+
+			T myComponent = GetComponent<T>();
+			if (myComponent != null)
+				components.Add(myComponent);
+
+			for (int i = 0; i < mChildren.Count; ++i)
+			{
+				List<T> c = mChildren[i].GetComponentInChildren<T>();
+				if (c.Count > 0)
+					components.AddRange(c);
+			}
+
 			return components;
 		}
 

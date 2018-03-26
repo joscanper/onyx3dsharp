@@ -151,7 +151,7 @@ namespace Onyx3D
 		}
 		
 
-		public void BindUBO<T>(UBO<T> ubo)
+		public void BindUBO(UBO ubo)
 		{
 			int idx = GL.GetUniformBlockIndex(Program, ubo.BlockName);
 			GL.UniformBlockBinding(Program, idx, ubo.BindingPoint);

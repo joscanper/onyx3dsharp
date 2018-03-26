@@ -49,6 +49,14 @@ namespace Onyx3DEditor
 				mScene = SceneLoader.Load(mSceneAsset.Path);
 			}
 
+			// Test objects
+
+			SceneObject light = new SceneObject("Light");
+			light.AddComponent<Light>();
+			light.Parent = mScene.Root;
+			light.Transform.LocalPosition = new Vector3(0,1,2);
+
+
 			// Editor objects --------------------------------------
 
 			SceneObject grid = new SceneObject("Grid");
