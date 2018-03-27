@@ -4,6 +4,8 @@
 #define MAX_POINT_LIGHTS 8
 #define MAX_SPOT_LIGHTS 8
 
+const float PI = 3.14159265359f;
+
 in vec3 o_color;
 in vec3 o_normal;
 in vec3 o_fragpos;
@@ -18,7 +20,9 @@ uniform vec4 base_color;
 uniform float fresnel;
 uniform float fresnel_strength;
 
-//#include OnyxShaderCamera
+float metallic = 0.5f;
+float roughness = 0.5f;
+float ao = 0.0f;
 
 // ------------------------------- Camera UBO
 
@@ -54,30 +58,91 @@ layout(std140) uniform LightingData {
     Light spotLight[MAX_SPOT_LIGHTS];
 };
 
-// -------------------------------
+// ----------------------------------
 
-float calculateLighting(vec3 normal){
-	float ret = 1.0f;
-	/*for (int i = 0; i < pointLightsNum; ++i)
-	{
-		ret *= dot(normal, normalize(pointLight[i].position));
-	}*/
-	return dot(normal, normalize(pointLight[0].position.xyz));
+float DistributionGGX(vec3 N, vec3 H, float roughness)
+{
+    float a      = roughness*roughness;
+    float a2     = a*a;
+    float NdotH  = max(dot(N, H), 0.0);
+    float NdotH2 = NdotH*NdotH;
+	
+    float num   = a2;
+    float denom = (NdotH2 * (a2 - 1.0) + 1.0);
+    denom = PI * denom * denom;
+	
+    return num / denom;
 }
+
+float GeometrySchlickGGX(float NdotV, float roughness)
+{
+    float r = (roughness + 1.0);
+    float k = (r*r) / 8.0;
+
+    float num   = NdotV;
+    float denom = NdotV * (1.0 - k) + k;
+	
+    return num / denom;
+}
+float GeometrySmith(vec3 N, vec3 V, vec3 L, float roughness)
+{
+    float NdotV = max(dot(N, V), 0.0);
+    float NdotL = max(dot(N, L), 0.0);
+    float ggx2  = GeometrySchlickGGX(NdotV, roughness);
+    float ggx1  = GeometrySchlickGGX(NdotL, roughness);
+	
+    return ggx1 * ggx2;
+}
+
+vec3 fresnelSchlick(float cosTheta, vec3 F0)
+{
+    return F0 + (1.0 - F0) * pow(1.0 - cosTheta, 5.0);
+}  
 
 void main()
-{ 
+{		
+	vec3 albedo = (texture(base_texture, o_uv) * base_color).rgb;
+	vec3 WorldPos = o_fragpos;
+    vec3 N = normalize(o_normal);
+    vec3 V = normalize(cameraPos - WorldPos);
+
+    vec3 F0 = vec3(0.1); 
+    F0 = mix(F0, albedo, metallic);
+	           
+    // reflectance equation
+    vec3 Lo = vec3(0.0);
+    for(int i = 0; i < pointLightsNum; ++i) 
+    {
+        // calculate per-light radiance
+        vec3 L = normalize(pointLight[i].position.xyz - WorldPos);
+        vec3 H = normalize(V + L);
+        float distance    = length(pointLight[i].position.xyz - WorldPos);
+        float attenuation = 1.0 / (distance * distance);
+        vec3 radiance     = pointLight[i].color.rgb * attenuation;        
+        
+        // cook-torrance brdf
+        float NDF = DistributionGGX(N, H, roughness);        
+        float G   = GeometrySmith(N, V, L, roughness);      
+        vec3 F    = fresnelSchlick(max(dot(H, V), 0.0), F0);       
+        
+        vec3 kS = F;
+        vec3 kD = vec3(1.0) - kS;
+        kD *= 1.0 - metallic;	  
+        
+        vec3 numerator    = NDF * G * F;
+        float denominator = 4.0 * max(dot(N, V), 0.0) * max(dot(N, L), 0.0);
+        vec3 specular     = numerator / max(denominator, 0.001);  
+            
+        // add to outgoing radiance Lo
+        float NdotL = max(dot(N, L), 0.0);                
+        Lo += (kD * albedo / PI + specular) * radiance * NdotL; 
+    }   
+  
+    vec3 ambient = vec3(0.03) * albedo * ao;
+    vec3 color = ambient + Lo;
 	
-	vec3 dirToCam = normalize(cameraPos - o_fragpos);
-	vec3 N = normalize(o_normal);
-
-	vec4 t = texture(base_texture, o_uv) * base_color;
-
-	float nDotL = calculateLighting(N);
-	//float nDotL = 1;
-
-
-	//float rim = clamp(abs(pow(1-dot(N, dirToCam), fresnel)) * fresnel_strength,0,1);
-	//float col = clamp(nDotL + rim,0,1);
-	fragColor = vec4(vec3(t*nDotL),1);
-}
+    color = color / (color + vec3(1.0));
+    color = pow(color, vec3(1.0/2.2));  
+   
+    fragColor = vec4(color, 1.0);
+}  

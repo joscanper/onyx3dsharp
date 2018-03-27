@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 
+using OpenTK;
+
 namespace Onyx3D
 {
 
@@ -21,7 +23,7 @@ namespace Onyx3D
 	{
 
 		public LightType Type = LightType.Point;
-
+		public Vector4 Color;
 
 		// ---- Serialization ----
 

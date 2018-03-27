@@ -105,6 +105,9 @@ namespace Onyx3D
 		{
 			LightUBufferData data = new LightUBufferData();
 			data.Position = new Vector4(light.Transform.Position);
+			data.Color = light.Color;
+			data.Direction = new Vector4(light.Transform.Forward);
+			
 			// TODO - Add more things
 
 			return data;

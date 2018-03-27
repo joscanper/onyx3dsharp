@@ -52,10 +52,10 @@ namespace Onyx3DEditor
 			// Test objects
 
 			SceneObject light = new SceneObject("Light");
-			light.AddComponent<Light>();
+			Light lightC = light.AddComponent<Light>();
 			light.Parent = mScene.Root;
-			light.Transform.LocalPosition = new Vector3(0,1,2);
-
+			light.Transform.LocalPosition = new Vector3(1.25f,1.75f,1.25f);
+			lightC.Color = Vector4.UnitY;
 
 			// Editor objects --------------------------------------
 
