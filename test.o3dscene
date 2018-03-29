@@ -17,9 +17,9 @@
     id="Cube"
     instanceId="270134201">
     <Transform
-      position="-3.514342, 0.7068489, 0"
+      position="-3.454963, 0.788393, 0"
       rotation="1, 0, 0, 0"
-      scale="0.9579886, 1.356577, 4.64709" />
+      scale="0.5574796, 1.356577, 4.64709" />
     <Component
       className="MeshRenderer">
       <Mesh>100000004</Mesh>
@@ -56,7 +56,7 @@
     id="Light (Green)"
     instanceId="1725594512">
     <Transform
-      position="2.590404, 2.496063, 2.09084"
+      position="2.012708, 2.0166, 1.897814"
       rotation="1, 0, 0, 0"
       scale="1, 1, 1" />
     <Component
@@ -66,20 +66,7 @@
     </Component>
   </SceneObject>
   <SceneObject
-    id="Cube"
-    instanceId="869471065">
-    <Transform
-      position="6.847141, 3.702488, 0.3746132"
-      rotation="1, 0, 0, 0"
-      scale="1, 1, 1" />
-    <Component
-      className="MeshRenderer">
-      <Mesh>100000004</Mesh>
-      <Material>400000001</Material>
-    </Component>
-  </SceneObject>
-  <SceneObject
-    id="Light"
+    id="Light (Blue)"
     instanceId="1720234294">
     <Transform
       position="-1.894441, 0.7881706, 2.239689"
@@ -88,20 +75,59 @@
     <Component
       className="Light">
       <Type>1</Type>
-      <Color>1, 1, 1, 1</Color>
+      <Color>0, 0, 1, 1</Color>
     </Component>
   </SceneObject>
   <SceneObject
-    id="Light"
+    id="Light (Red)"
     instanceId="2014542505">
     <Transform
-      position="3.036755, 0.5271679, -4.448693"
+      position="-1.934682, 2.501409, -1.38204"
       rotation="1, 0, 0, 0"
       scale="1, 1, 1" />
     <Component
       className="Light">
       <Type>1</Type>
-      <Color>1, 1, 1, 1</Color>
+      <Color>1, 0, 0, 1</Color>
+    </Component>
+  </SceneObject>
+  <SceneObject
+    id="Sphere"
+    instanceId="1750496848">
+    <Transform
+      position="-3.5, 2, 0"
+      rotation="1, 0, 0, 0"
+      scale="1, 1, 1" />
+    <Component
+      className="MeshRenderer">
+      <Mesh>100000002</Mesh>
+      <Material>400000001</Material>
+    </Component>
+  </SceneObject>
+  <SceneObject
+    id="Sphere"
+    instanceId="1750496858">
+    <Transform
+      position="-3.5, 2, 1.5"
+      rotation="1, 0, 0, 0"
+      scale="1, 1, 1" />
+    <Component
+      className="MeshRenderer">
+      <Mesh>100000002</Mesh>
+      <Material>400000001</Material>
+    </Component>
+  </SceneObject>
+  <SceneObject
+    id="Sphere"
+    instanceId="1750496860">
+    <Transform
+      position="-3.5, 2, -1.5"
+      rotation="1, 0, 0, 0"
+      scale="1, 1, 1" />
+    <Component
+      className="MeshRenderer">
+      <Mesh>100000002</Mesh>
+      <Material>400000001</Material>
     </Component>
   </SceneObject>
 </Root>

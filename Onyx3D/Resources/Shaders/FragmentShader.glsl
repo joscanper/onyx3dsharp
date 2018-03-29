@@ -21,7 +21,7 @@ uniform float fresnel;
 uniform float fresnel_strength;
 
 float metallic = 0.5f;
-float roughness = 0.25f;
+float roughness = 0.15f;
 float ao = 0.0f;
 
 // ------------------------------- Camera UBO
@@ -140,7 +140,7 @@ void main()
         Lo += (kD * albedo / PI + specular) * radiance * NdotL; 
     }   
   
-    vec3 ambient = vec3(0.03) * albedo * ao;
+    vec3 ambient = vec3(0.5) * albedo * ao;
     vec3 color = ambient + Lo;
 	
     color = color / (color + vec3(1.0));

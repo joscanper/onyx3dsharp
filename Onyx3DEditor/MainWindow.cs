@@ -365,6 +365,11 @@ namespace Onyx3DEditor
 			AddPrimitive(BuiltInMesh.Teapot, "Teapot");
 		}
 
+		private void toolStripCreateSphere_Click(object sender, EventArgs e)
+		{
+			AddPrimitive(BuiltInMesh.Sphere, "Sphere");
+		}
+
 		private void toolStripCreateLight_Click(object sender, EventArgs e)
 		{
 			SceneObject light = new SceneObject("Light");

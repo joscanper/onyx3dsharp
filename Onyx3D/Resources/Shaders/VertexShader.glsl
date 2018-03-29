@@ -61,7 +61,10 @@ void main()
 	o_uv = vec2(texcoord.x, 1.0 - texcoord.y);
 	
 	//o_normal = normalize((M * vec4(normal, 0.0f)).xyz);
+	
+	// TODO - Move this to 
 	o_normal = normalize(mat3(transpose(inverse(M))) * normal); 
+
 	vec4 worldPos = M * vec4(position, 1.0f);
 	o_fragpos = worldPos.xyz;
 	gl_Position = P * V * worldPos;
