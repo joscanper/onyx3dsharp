@@ -149,9 +149,21 @@ namespace Onyx3D
 			mChildren.Clear();
 		}
 
-		// ----------- Serialization ------------
+        public void ForEachChild(Action<SceneObject> a)
+        {
+            for (int i = 0; i < ChildCount; ++i)
+                a.Invoke(GetChild(i));
+        }
 
-		public XmlSchema GetSchema()
+        public void ForEachComponent(Action<Component> a)
+        {
+            for (int i = 0; i < mComponents.Count; ++i)
+                a.Invoke(mComponents[i]);
+        }
+
+        // ----------- Serialization ------------
+
+        public XmlSchema GetSchema()
 		{
 			throw new System.NotImplementedException();
 		}

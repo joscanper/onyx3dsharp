@@ -38,6 +38,7 @@ namespace Onyx3D
 
 		public virtual void OnDirtyTransform() { }
 
+        public virtual void OnDrawGizmos(GizmosManager gizmos) { }
 
 		// ---- Serialization ----
 

@@ -46,7 +46,7 @@ namespace Onyx3DEditor
 			}
 			else
 			{
-				mScene = SceneLoader.Load(mSceneAsset.Path);
+				mScene = SceneLoader.Load(ProjectManager.Instance.Content.GetPath(mSceneAsset.Path));
 			}
 
 			// Test objects
@@ -171,7 +171,8 @@ namespace Onyx3DEditor
 			mOnyxInstance.Renderer.Render(mGridRenderer, mNavigation.NavigationCamera);
 
 			mOnyxInstance.Gizmos.DrawLine(mClickRay.Origin, mClickRay.Origin + mClickRay.Direction * 10, Vector3.One);
-			mOnyxInstance.Gizmos.Render(mNavigation.NavigationCamera);
+            mOnyxInstance.Gizmos.DrawComponentGizmos(mScene);
+            mOnyxInstance.Gizmos.Render(mNavigation.NavigationCamera);
 
 			if (mSelectedSceneObject != null)
 			{

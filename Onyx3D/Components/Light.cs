@@ -23,9 +23,14 @@ namespace Onyx3D
 		public LightType Type = LightType.Point;
 		public Vector4 Color = Vector4.One;
 
-		// ---- Serialization ----
+        public override void OnDrawGizmos(GizmosManager gizmos)
+        {
+            gizmos.DrawSphere(Transform.Position, 0.1f, Color.Xyz, 20);
+        }
 
-		public override void ReadComponentXmlNode(XmlReader reader)
+        // ---- Serialization ----
+
+        public override void ReadComponentXmlNode(XmlReader reader)
 		{
 			if (reader.Name.Equals("Type"))
 				Type = (LightType)reader.ReadElementContentAsInt();

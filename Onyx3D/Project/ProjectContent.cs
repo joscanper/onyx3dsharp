@@ -57,5 +57,11 @@ namespace Onyx3D
 		{
 			return Scenes.Count == 0 ? null : Scenes[0];
 		}
-	}
+
+        public string GetPath(string relativePath)
+        {
+            return string.Format("{0}\\{1}", ProjectManager.Instance.Directory, relativePath);
+        }
+
+    }
 }

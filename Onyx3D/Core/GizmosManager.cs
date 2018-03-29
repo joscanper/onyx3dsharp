@@ -84,6 +84,25 @@ namespace Onyx3D
 			SceneObject obj = new SceneObject("Gizmo");
 			return obj.AddComponent<T>();
 		}
+        
+
+        public void DrawComponentGizmos(Scene scene)
+        {
+            DrawComponentGizmos(scene.Root);
+        }
+
+        public void DrawComponentGizmos(SceneObject obj)
+        {
+            obj.ForEachComponent((comp) =>
+            {
+                comp.OnDrawGizmos(this);
+            });
+
+            obj.ForEachChild((child) =>
+            {
+                DrawComponentGizmos(child);
+            });
+        }
 
         public void Render(Camera cam)
         {

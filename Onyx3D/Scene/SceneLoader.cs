@@ -14,7 +14,7 @@ namespace Onyx3D
 	{
 		public static Scene Load(string path)
 		{
-			XmlReader xmlReader = XmlReader.Create(path);
+            XmlReader xmlReader = XmlReader.Create(path);
 			
 			Scene scene = new Scene();
 			scene.ReadXml(xmlReader);

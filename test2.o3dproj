@@ -4,7 +4,7 @@
   <Content>
     <Scenes>
       <OnyxProjectSceneAsset>
-        <Path>C:\Users\Josue\Desktop\Onyx3DSharp\test.o3dscene</Path>
+        <Path>test.o3dscene</Path>
         <Guid>1</Guid>
         <Name />
       </OnyxProjectSceneAsset>

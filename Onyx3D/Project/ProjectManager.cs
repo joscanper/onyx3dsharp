@@ -22,10 +22,11 @@ namespace Onyx3D
 		private ProjectData mData;
 		private string mCurrentProjectPath;
 
+        public string Directory { get { return Path.GetDirectoryName(CurrentProjectPath); } }
 		public string CurrentProjectPath { get { return mCurrentProjectPath; } }
 		public ProjectContent Content { get { return mData.Content; } }
 
-
+       
 		public void New()
 		{
 			mData = new ProjectData();
