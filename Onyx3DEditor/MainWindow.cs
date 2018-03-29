@@ -51,12 +51,6 @@ namespace Onyx3DEditor
 
 			// Test objects
 
-			SceneObject light = new SceneObject("Light");
-			Light lightC = light.AddComponent<Light>();
-			light.Parent = mScene.Root;
-			light.Transform.LocalPosition = new Vector3(1.25f,1.75f,1.25f);
-			lightC.Color = Vector4.UnitY;
-
 			// Editor objects --------------------------------------
 
 			SceneObject grid = new SceneObject("Grid");
@@ -111,6 +105,7 @@ namespace Onyx3DEditor
 			o.Parent = null;
 			o = null;
 			Selection.ActiveObject = null;
+			
 		}
 
 		private void AddPrimitive(int meshType, string name)
@@ -248,7 +243,7 @@ namespace Onyx3DEditor
 			SaveScene();
 				
 
-			if (ProjectManager.Instance.CurrentProjectPath == null || ProjectManager.Instance.CurrentProjectPath.Length == 0)
+			if (ProjectManager.Instance.Content == null)
 			{
 				SaveFileDialog saveFileDialog1 = new SaveFileDialog();
 				saveFileDialog1.Filter = "Onyx3d project files (*.o3dproj)|*.o3dproj";
@@ -370,6 +365,13 @@ namespace Onyx3DEditor
 			AddPrimitive(BuiltInMesh.Teapot, "Teapot");
 		}
 
+		private void toolStripCreateLight_Click(object sender, EventArgs e)
+		{
+			SceneObject light = new SceneObject("Light");
+			Light lightC = light.AddComponent<Light>();
+			light.Parent = mScene.Root;
+		}
+
 		private void toolStripButtonMove_Click(object sender, EventArgs e)
 		{
 			toolStripButtonScale.Checked = false;
@@ -400,8 +402,10 @@ namespace Onyx3DEditor
 		private void MainWindow_KeyDown(object sender, KeyEventArgs e)
 		{
 
+
 			if (e.KeyCode == Keys.Delete)
-				DeleteObject(mSelectedSceneObject);
+					DeleteObject(mSelectedSceneObject);
 		}
+
 	}
 }

@@ -11,7 +11,7 @@ namespace Onyx3D
 	{
 		public Matrix4 View;
 		public Matrix4 Projection;
-		public Vector3 Position;
+		public Vector4 Position;
 	}
 
 	[Serializable]
@@ -53,7 +53,7 @@ namespace Onyx3D
 		{
 			mUBufferData.View = ViewMatrix;
 			mUBufferData.Projection = ProjectionMatrix;
-			mUBufferData.Position = Transform.LocalToWorld(Transform.LocalPosition);
+			mUBufferData.Position = new Vector4(Transform.Position, 1);
 			mCameraUBO.Update(mUBufferData);
 		}
 

@@ -21,7 +21,7 @@ uniform float fresnel;
 uniform float fresnel_strength;
 
 float metallic = 0.5f;
-float roughness = 0.5f;
+float roughness = 0.25f;
 float ao = 0.0f;
 
 // ------------------------------- Camera UBO
@@ -29,7 +29,7 @@ float ao = 0.0f;
 layout(std140) uniform CameraData { 
 	mat4 V; 
 	mat4 P; 
-	vec3 cameraPos; 
+	vec4 cameraPos; 
 };
 
 // ------------------------------- Lighting UBO
@@ -104,7 +104,7 @@ void main()
 	vec3 albedo = (texture(base_texture, o_uv) * base_color).rgb;
 	vec3 WorldPos = o_fragpos;
     vec3 N = normalize(o_normal);
-    vec3 V = normalize(cameraPos - WorldPos);
+    vec3 V = normalize(cameraPos.xyz - WorldPos);
 
     vec3 F0 = vec3(0.1); 
     F0 = mix(F0, albedo, metallic);
@@ -114,9 +114,11 @@ void main()
     for(int i = 0; i < pointLightsNum; ++i) 
     {
         // calculate per-light radiance
-        vec3 L = normalize(pointLight[i].position.xyz - WorldPos);
+		vec3 lightPos = pointLight[i].position.xyz;
+        vec3 L = normalize(lightPos - WorldPos);
         vec3 H = normalize(V + L);
-        float distance    = length(pointLight[i].position.xyz - WorldPos);
+		
+        float distance    = length(lightPos - WorldPos);
         float attenuation = 1.0 / (distance * distance);
         vec3 radiance     = pointLight[i].color.rgb * attenuation;        
         
@@ -132,7 +134,7 @@ void main()
         vec3 numerator    = NDF * G * F;
         float denominator = 4.0 * max(dot(N, V), 0.0) * max(dot(N, L), 0.0);
         vec3 specular     = numerator / max(denominator, 0.001);  
-            
+		
         // add to outgoing radiance Lo
         float NdotL = max(dot(N, L), 0.0);                
         Lo += (kD * albedo / PI + specular) * radiance * NdotL; 

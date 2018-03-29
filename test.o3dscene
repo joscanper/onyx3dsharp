@@ -1,12 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Root>
   <SceneObject
-    id="Cube"
+    id="Floor"
     instanceId="464496875">
     <Transform
-      position="-0.914421, 0.03431559, 0"
+      position="0, -4.900845, 0"
       rotation="1, 0, 0, 0"
-      scale="-10, -0.2475368, 10" />
+      scale="50.41788, 10, 23.70766" />
     <Component
       className="MeshRenderer">
       <Mesh>100000004</Mesh>
@@ -32,7 +32,7 @@
     <Transform
       position="1.560283, 0.3483553, 0"
       rotation="1, 0, 0, 0"
-      scale="1.783289, 1.524654, 2.405456" />
+      scale="2, 2, 2" />
     <Component
       className="MeshRenderer">
       <Mesh>100000004</Mesh>
@@ -43,13 +43,65 @@
     id="Teapot"
     instanceId="876561996">
     <Transform
-      position="1.671229, 1.514299, 0.09646928"
+      position="1.671229, 1.760626, 0.09646928"
       rotation="1, 0, 0, 0"
       scale="1, 1, 1" />
     <Component
       className="MeshRenderer">
       <Mesh>100000001</Mesh>
       <Material>400000001</Material>
+    </Component>
+  </SceneObject>
+  <SceneObject
+    id="Light (Green)"
+    instanceId="1725594512">
+    <Transform
+      position="2.590404, 2.496063, 2.09084"
+      rotation="1, 0, 0, 0"
+      scale="1, 1, 1" />
+    <Component
+      className="Light">
+      <Type>1</Type>
+      <Color>0, 1, 0, 0</Color>
+    </Component>
+  </SceneObject>
+  <SceneObject
+    id="Cube"
+    instanceId="869471065">
+    <Transform
+      position="6.847141, 3.702488, 0.3746132"
+      rotation="1, 0, 0, 0"
+      scale="1, 1, 1" />
+    <Component
+      className="MeshRenderer">
+      <Mesh>100000004</Mesh>
+      <Material>400000001</Material>
+    </Component>
+  </SceneObject>
+  <SceneObject
+    id="Light"
+    instanceId="1720234294">
+    <Transform
+      position="-1.894441, 0.7881706, 2.239689"
+      rotation="0, 0.9999999, 0, 1.570796"
+      scale="1, 1, 1" />
+    <Component
+      className="Light">
+      <Type>1</Type>
+      <Color>1, 1, 1, 1</Color>
+    </Component>
+  </SceneObject>
+  <SceneObject
+    id="Light"
+    instanceId="2014542505">
+    <Transform
+      position="3.036755, 0.5271679, -4.448693"
+      rotation="1, 0, 0, 0"
+      scale="1, 1, 1" />
+    <Component
+      className="Light">
+      <Type>1</Type>
+      <Color>1, 1, 1, 1</Color>
     </Component>
   </SceneObject>
 </Root>

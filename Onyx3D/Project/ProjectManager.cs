@@ -22,14 +22,9 @@ namespace Onyx3D
 		private ProjectData mData;
 		private string mCurrentProjectPath;
 
-
+		public string CurrentProjectPath { get { return mCurrentProjectPath; } }
 		public ProjectContent Content { get { return mData.Content; } }
 
-
-		public string CurrentProjectPath
-		{
-			get { return mCurrentProjectPath; }
-		}
 
 		public void New()
 		{
@@ -39,7 +34,7 @@ namespace Onyx3D
 
 		public bool Load(string path)
 		{
-
+			
 			if (!File.Exists(path))
 			{
 				throw new FileNotFoundException("Unable to open \"" + path + "\", does not exist.");
@@ -52,14 +47,14 @@ namespace Onyx3D
 			stream.Close();
 
 			Content.Init();
-
+			mCurrentProjectPath = path;
 			return true;
 		}
 		
 
 		public void Save()
 		{
-			Save(CurrentProjectPath);
+			Save(mCurrentProjectPath);
 		}
 
 		public void Save(string fileName)

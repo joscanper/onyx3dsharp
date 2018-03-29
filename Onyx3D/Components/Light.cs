@@ -8,9 +8,7 @@ using OpenTK;
 
 namespace Onyx3D
 {
-
-
-
+	
 	public enum LightType
 	{
 		None,
@@ -23,19 +21,22 @@ namespace Onyx3D
 	{
 
 		public LightType Type = LightType.Point;
-		public Vector4 Color;
+		public Vector4 Color = Vector4.One;
 
 		// ---- Serialization ----
 
-
-		public override void ReadComponentXmlNode(XmlReader writer)
+		public override void ReadComponentXmlNode(XmlReader reader)
 		{
-			throw new NotImplementedException();
+			if (reader.Name.Equals("Type"))
+				Type = (LightType)reader.ReadElementContentAsInt();
+			else if (reader.Name.Equals("Color"))
+				Color = XmlUtils.StringToVector4(reader.ReadElementContentAsString());
 		}
 
 		public override void WriteComponentXml(XmlWriter writer)
 		{
-			throw new NotImplementedException();
+			writer.WriteElementString("Type", ((int)Type).ToString());
+			writer.WriteElementString("Color", XmlUtils.Vector4ToString(Color));
 		}
 	}
 }
