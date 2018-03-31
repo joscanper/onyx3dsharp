@@ -9,9 +9,8 @@ layout (location = 1) in vec3 color;
 layout (location = 2) in vec3 normal;
 layout (location = 3) in vec2 texcoord;
 
-//uniform mat4 MVP;
+uniform mat4 NM;
 uniform mat4 M;
-uniform mat4 R;
 
 out vec3 o_color;
 out vec3 o_normal;
@@ -59,11 +58,7 @@ void main()
 {
 	o_color = color;
 	o_uv = vec2(texcoord.x, 1.0 - texcoord.y);
-	
-	//o_normal = normalize((M * vec4(normal, 0.0f)).xyz);
-	
-	// TODO - Move this to 
-	o_normal = normalize(mat3(transpose(inverse(M))) * normal); 
+	o_normal = normalize(NM * vec4(normal, 0.0f)).xyz; 
 
 	vec4 worldPos = M * vec4(position, 1.0f);
 	o_fragpos = worldPos.xyz;

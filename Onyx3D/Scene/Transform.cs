@@ -10,8 +10,9 @@ namespace Onyx3D
 		private Vector4 mLocalPosition = Vector4.UnitW;
 		private Quaternion mLocalRotation = Quaternion.Identity;
 
-		private Matrix4 mBakedModel;
-		private Vector4 mBakedPosition;
+		private Matrix4 mBakedModelM;
+        private Matrix4 mBakedNormalM;
+        private Vector4 mBakedPosition;
         
         public Vector3 Forward { get; private set; }
         public Vector3 Right { get; private set; }
@@ -45,17 +46,13 @@ namespace Onyx3D
 			}
 		}
 
-		public Vector3 Position
-		{
-			get { return mBakedPosition.Xyz; }
-		}
+		public Vector3 Position { get { return mBakedPosition.Xyz; } }
 
-		public Matrix4 ModelMatrix
-		{
-			get { return mBakedModel; }
-		}
+		public Matrix4 ModelMatrix { get { return mBakedModelM; } }
 
-		public Transform(SceneObject sceneObject)
+        public Matrix4 NormalMatrix { get { return mBakedNormalM; } }
+
+        public Transform(SceneObject sceneObject)
 		{
 			SceneObject = sceneObject;
 			SetDirty();
@@ -125,18 +122,19 @@ namespace Onyx3D
 
 		public Vector3 LocalToWorld(Vector3 point)
 		{
-			return (new Vector4(point, 1)  * mBakedModel).Xyz;
+			return (new Vector4(point, 1)  * mBakedModelM).Xyz;
 		}
 
 		public void SetDirty()
 		{
-			mBakedModel = CalculateModelMatrix();
-			mBakedPosition = Vector4.UnitW * mBakedModel;
+			mBakedModelM = CalculateModelMatrix();
+            mBakedNormalM = Matrix4.Transpose(Matrix4.Invert(mBakedModelM));
+            mBakedPosition = Vector4.UnitW * mBakedModelM;
             //mBakedRotation = GetModelMatrix() * mLocalRotation;
 
-            Right = new Vector3(Vector4.UnitX * mBakedModel);
-            Up = new Vector3(Vector4.UnitY * mBakedModel);
-            Forward = new Vector3(Vector4.UnitZ * mBakedModel);
+            Right = new Vector3(Vector4.UnitX * mBakedModelM);
+            Up = new Vector3(Vector4.UnitY * mBakedModelM);
+            Forward = new Vector3(Vector4.UnitZ * mBakedModelM);
 
 			for (int c = 0; c < SceneObject.Components.Count; c++)
 			{
