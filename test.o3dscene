@@ -1,19 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Root>
   <SceneObject
-    id="Floor"
-    instanceId="464496875">
-    <Transform
-      position="0, -4.900845, 0"
-      rotation="1, 0, 0, 0"
-      scale="50.41788, 10, 23.70766" />
-    <Component
-      className="MeshRenderer">
-      <Mesh>100000004</Mesh>
-      <Material>400000001</Material>
-    </Component>
-  </SceneObject>
-  <SceneObject
     id="Cube"
     instanceId="270134201">
     <Transform
@@ -56,7 +43,7 @@
     id="Light (Green)"
     instanceId="1725594512">
     <Transform
-      position="2.012708, 2.0166, 1.897814"
+      position="2.031118, 1.280694, 1.516819"
       rotation="1, 0, 0, 0"
       scale="1, 1, 1" />
     <Component
@@ -69,7 +56,7 @@
     id="Light (Blue)"
     instanceId="1720234294">
     <Transform
-      position="-1.894441, 0.7881706, 2.239689"
+      position="-2.711203, 0.7881706, 1.474802"
       rotation="0, 0.9999999, 0, 1.570796"
       scale="1, 1, 1" />
     <Component
@@ -82,7 +69,7 @@
     id="Light (Red)"
     instanceId="2014542505">
     <Transform
-      position="-1.934682, 2.501409, -1.38204"
+      position="-2.503048, 0.7924858, -1.38204"
       rotation="1, 0, 0, 0"
       scale="1, 1, 1" />
     <Component
@@ -127,6 +114,19 @@
     <Component
       className="MeshRenderer">
       <Mesh>100000002</Mesh>
+      <Material>400000001</Material>
+    </Component>
+  </SceneObject>
+  <SceneObject
+    id="Quad"
+    instanceId="38249952">
+    <Transform
+      position="0, 0.4217774, 0"
+      rotation="1, 0, 0, 0"
+      scale="20, 20, 20" />
+    <Component
+      className="MeshRenderer">
+      <Mesh>100000006</Mesh>
       <Material>400000001</Material>
     </Component>
   </SceneObject>

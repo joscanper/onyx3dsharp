@@ -17,7 +17,8 @@ namespace Onyx3D
 		public static int Torus = 100000003;
 		public static int Cube = 100000004;
 		public static int Cylinder = 100000005;
-	}
+        public static int Quad = 100000006;
+    }
 
 	public class BuiltInTexture
 	{

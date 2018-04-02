@@ -112,12 +112,17 @@ namespace Onyx3D
 
 		// TODO Delete Vertex Array
 
-		protected void AddFace(Vertex v1, Vertex v2, Vertex v3, Vertex v4)
+		public void AddFace(Vertex v1, Vertex v2, Vertex v3, Vertex v4)
 		{
-			AddFace(v1, v2, v3, v4, Vector3.Zero);
-		}
+            Vertices.Add(v1);
+            Vertices.Add(v2);
+            Vertices.Add(v3);
+            Vertices.Add(v2);
+            Vertices.Add(v4);
+            Vertices.Add(v3);
+        }
 
-		protected void AddFace(Vertex v1, Vertex v2, Vertex v3, Vertex v4, Vector3 n)
+        public void AddFace(Vertex v1, Vertex v2, Vertex v3, Vertex v4, Vector3 n)
 		{
 			if (n == Vector3.Zero)
 				n = Vector3.Cross((v1.Position - v2.Position), (v2.Position - v3.Position));
@@ -127,13 +132,7 @@ namespace Onyx3D
 			v3.Normal = n;
 			v4.Normal = n;
 
-			Vertices.Add(v1);
-			Vertices.Add(v2);
-			Vertices.Add(v3);
-			Vertices.Add(v2);
-			Vertices.Add(v4);
-			Vertices.Add(v3);
-
+            AddFace(v1, v2, v3, v4);
 		}
 
 

@@ -31,6 +31,8 @@ namespace Onyx3DEditor
 
 			Selection.OnSelectionChanged += OnSelectionChanged;
 			mNavigation.Bind(renderCanvas);
+
+            KeyPreview = true;
 		}
 
 		private void InitScene()
@@ -65,7 +67,7 @@ namespace Onyx3DEditor
 			// TODO - This could allocate several times
 			mObjectHandler.OnTransformModified += OnTransformModifiedFromObjectHandler;
 
-			sceneHierarchy.UpdateScene(mScene);
+			sceneHierarchy.SetScene(mScene);
 			// TODO - This could allocate several times
 			selectedObjectInspector.OnInspectorChanged += OnInspectorChanged;
 		}
@@ -89,7 +91,7 @@ namespace Onyx3DEditor
 
 		private void OnInspectorChanged()
 		{
-			sceneHierarchy.UpdateScene(mScene);
+			//sceneHierarchy.UpdateScene(mScene);
 		}
 
 		private void OnTransformModifiedFromObjectHandler()
@@ -102,35 +104,34 @@ namespace Onyx3DEditor
 			if (o == null)
 				return;
 
-			o.Parent = null;
-			o = null;
+            o.Destroy();
+            o = null;
 			Selection.ActiveObject = null;
-			
 		}
 
 		private void AddPrimitive(int meshType, string name)
 		{
-			SceneObject cube = new SceneObject(name);
-			MeshRenderer mesh = cube.AddComponent<MeshRenderer>();
+			SceneObject primitive = new SceneObject(name);
+			MeshRenderer mesh = primitive.AddComponent<MeshRenderer>();
 			mesh.Mesh = mOnyxInstance.Resources.GetMesh(meshType);
-			cube.Transform.LocalPosition = new Vector3(0, 0.0f, 0);
+			primitive.Transform.LocalPosition = new Vector3(0, 0.0f, 0);
 			mesh.Material = mOnyxInstance.Resources.GetMaterial(BuiltInMaterial.Default);
-			cube.Parent = mScene.Root;
+			primitive.Parent = mScene.Root;
 
-			sceneHierarchy.UpdateScene(mScene);
-		}
+            Selection.ActiveObject = primitive;
+        }
 
 		private void OnSceneSelected(Scene s)
 		{
 			mScene = s;
-			sceneHierarchy.UpdateScene(mScene);
+			sceneHierarchy.SetScene(mScene);
 			renderCanvas.Refresh();
+            Selection.ActiveObject = null;
 		}
 
 		private void SaveScene()
 		{
-			//ProjectManager.Instance.Content.Scenes.Add(myScene);
-
+			
 			if (mSceneAsset == null)
 			{
 				SaveFileDialog saveFileDialog1 = new SaveFileDialog();
@@ -156,7 +157,7 @@ namespace Onyx3DEditor
 			}
 			else
 			{
-				SceneLoader.Save(mScene, mSceneAsset.Path);
+				SceneLoader.Save(mScene, ProjectManager.Instance.Content.GetPath(mSceneAsset.Path));
 			}
 		}
 
@@ -339,7 +340,6 @@ namespace Onyx3DEditor
 					if ((myStream = openFileDialog1.OpenFile()) != null)
 					{
 						mScene = SceneLoader.Load(openFileDialog1.FileName);
-						sceneHierarchy.UpdateScene(mScene);
 						renderCanvas.Refresh();
 					}
 				}
@@ -371,14 +371,21 @@ namespace Onyx3DEditor
 			AddPrimitive(BuiltInMesh.Sphere, "Sphere");
 		}
 
-		private void toolStripCreateLight_Click(object sender, EventArgs e)
+        private void toolStripCreateQuad_Click(object sender, EventArgs e)
+        {
+            AddPrimitive(BuiltInMesh.Quad, "Quad");
+        }
+
+        private void toolStripCreateLight_Click(object sender, EventArgs e)
 		{
 			SceneObject light = new SceneObject("Light");
 			Light lightC = light.AddComponent<Light>();
 			light.Parent = mScene.Root;
-		}
+            Selection.ActiveObject = light;
+        }
 
-		private void toolStripButtonMove_Click(object sender, EventArgs e)
+   
+        private void toolStripButtonMove_Click(object sender, EventArgs e)
 		{
 			toolStripButtonScale.Checked = false;
 			toolStripButtonMove.Checked = true;
@@ -407,11 +414,9 @@ namespace Onyx3DEditor
 
 		private void MainWindow_KeyDown(object sender, KeyEventArgs e)
 		{
-
-
 			if (e.KeyCode == Keys.Delete)
 					DeleteObject(mSelectedSceneObject);
 		}
 
-	}
+    }
 }

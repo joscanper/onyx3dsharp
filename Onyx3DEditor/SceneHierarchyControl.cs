@@ -13,18 +13,26 @@ namespace Onyx3DEditor
 {
 	public partial class SceneHierarchyControl : UserControl
 	{
+        private Scene mScene;
+
 		public SceneHierarchyControl()
 		{
 			InitializeComponent();
 			Selection.OnSelectionChanged += OnSelectionChanged;
 		}
 
-		public void UpdateScene(Scene scene)
+        public void SetScene(Scene scene)
+        {
+            mScene = scene;
+            UpdateScene();
+        }
+
+		public void UpdateScene()
 		{
 			treeViewScene.Nodes.Clear();
 			TreeNode root = new TreeNode("Scene Name");
-			if (scene.Root.ChildCount > 0)
-				AddSceneObjectToTreeNode(root, scene.Root, true);
+			if (mScene.Root.ChildCount > 0)
+				AddSceneObjectToTreeNode(root, mScene.Root, true);
 			treeViewScene.Nodes.Add(root);
 			treeViewScene.ExpandAll();
 		}
@@ -49,8 +57,9 @@ namespace Onyx3DEditor
 			{ 
 				treeViewScene.SelectedNode = null;
 			}
-			
-			SearchAndHighlightObject(treeViewScene.Nodes[0]);
+
+            UpdateScene();
+            SearchAndHighlightObject(treeViewScene.Nodes[0]);
 			
 		}
 
@@ -94,5 +103,6 @@ namespace Onyx3DEditor
 				Selection.ActiveObject = sceneTreeeNode.BoundSceneObject;
 			}
 		}
-	}
+
+    }
 }

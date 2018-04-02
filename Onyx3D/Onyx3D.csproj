@@ -55,6 +55,7 @@
     <Compile Include="Components\GridRenderer.cs" />
     <Compile Include="Components\Light.cs" />
     <Compile Include="Components\LineRenderer.cs" />
+    <Compile Include="Components\QuadRenderer.cs" />
     <Compile Include="Core\EngineComponent.cs" />
     <Compile Include="Core\Extensions\QuaterionExtension.cs" />
     <Compile Include="Core\Onyx3DInstance.cs" />
@@ -114,6 +115,9 @@
     </None>
     <None Include="Resources\Models\cylinder.obj">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Models\quad.obj">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Resources\Models\roundcube.obj">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

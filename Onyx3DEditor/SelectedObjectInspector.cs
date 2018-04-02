@@ -40,6 +40,9 @@ namespace Onyx3DEditor
 			propGrid.Width = this.Width;
 			tableLayoutPanel.Controls.Add(propGrid, 0, 1);
 			//tableLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, propGrid.Size.Height));
+
+
+
 		}
 
 		public void Clear()

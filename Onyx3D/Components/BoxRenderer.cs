@@ -90,7 +90,8 @@ namespace Onyx3D
 			Vector3 backTR = new Vector3(position.X + size.X / 2.0f, position.X - size.Y / 2.0f, position.X + size.Y / 2.0f);
 			Vector3 backBR = new Vector3(position.X + size.X / 2.0f, position.X + size.Y / 2.0f, position.X + size.Y / 2.0f);
 
-			// Front rect
+            // Front rect
+            Vector3 normal = new Vector3(0, 0, 1);
 			MeshUtils.CreateLine(ref myMesh, frontTL, frontTR, color);
 			MeshUtils.CreateLine(ref myMesh, frontTR, frontBR, color);
 			MeshUtils.CreateLine(ref myMesh, frontBR, frontBL, color);

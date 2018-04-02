@@ -70,6 +70,14 @@ namespace Onyx3D
 			Transform = new Transform(this);
 		}
 
+        public void Destroy()
+        {
+            mComponents.Clear();
+            mChildren.Clear();
+            mScene = null;
+            Parent = null;    
+        }
+
 		public bool RemoveComponent(Component c)
 		{
 			return mComponents.Remove(c);
@@ -98,12 +106,14 @@ namespace Onyx3D
 		{
 			for (int i=0; i<mComponents.Count; ++i)
 			{
-				if (mComponents[i].GetType() != typeof(T))
-					continue;
 
-				T comp = (T)mComponents[i];
-				if (comp != null)
-					return comp;
+
+                if (mComponents[i].GetType().IsSubclassOf(typeof(T)) || mComponents[i].GetType() == typeof(T))
+                {
+                    T comp = (T)mComponents[i];
+                    if (comp != null)
+                        return comp;
+                }
 			}
 			return null;
 		}
@@ -113,12 +123,12 @@ namespace Onyx3D
 			List<T> components = new List<T>();
 			for (int i = 0; i < mComponents.Count; ++i)
 			{
-				if (mComponents[i].GetType() != typeof(T))
-					continue;
-
-				T comp = (T)mComponents[i];
-				if (comp != null)
-					components.Add(comp);
+                if (mComponents[i].GetType().IsSubclassOf(typeof(T)) || mComponents[i].GetType() == typeof(T))
+                {
+                    T comp = (T)mComponents[i];
+                    if (comp != null)
+                        components.Add(comp);
+                }
 			}
 			return components;
 		}
