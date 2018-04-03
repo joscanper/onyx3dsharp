@@ -28,50 +28,50 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-            this.tableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
-            this.textBoxName = new System.Windows.Forms.TextBox();
-            this.tableLayoutPanel.SuspendLayout();
-            this.SuspendLayout();
-            // 
-            // tableLayoutPanel
-            // 
-            this.tableLayoutPanel.AutoSize = true;
-            this.tableLayoutPanel.ColumnCount = 1;
-            this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel.Controls.Add(this.textBoxName, 0, 1);
-            this.tableLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel.Location = new System.Drawing.Point(0, 0);
-            this.tableLayoutPanel.Name = "tableLayoutPanel";
-            this.tableLayoutPanel.RowCount = 2;
-            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel.Size = new System.Drawing.Size(350, 150);
-            this.tableLayoutPanel.TabIndex = 0;
-            // 
-            // textBoxName
-            // 
-            this.textBoxName.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxName.Location = new System.Drawing.Point(3, 78);
-            this.textBoxName.Name = "textBoxName";
-            this.textBoxName.Size = new System.Drawing.Size(344, 20);
-            this.textBoxName.TabIndex = 1;
-            this.textBoxName.Visible = false;
-            // 
-            // SelectedObjectInspector
-            // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.AutoScroll = true;
-            this.AutoSize = true;
-            this.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.Controls.Add(this.tableLayoutPanel);
-            this.Name = "SelectedObjectInspector";
-            this.Size = new System.Drawing.Size(350, 150);
-            this.tableLayoutPanel.ResumeLayout(false);
-            this.tableLayoutPanel.PerformLayout();
-            this.ResumeLayout(false);
-            this.PerformLayout();
+			this.tableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
+			this.textBoxName = new System.Windows.Forms.TextBox();
+			this.tableLayoutPanel.SuspendLayout();
+			this.SuspendLayout();
+			// 
+			// tableLayoutPanel
+			// 
+			this.tableLayoutPanel.AutoSize = true;
+			this.tableLayoutPanel.ColumnCount = 1;
+			this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+			this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+			this.tableLayoutPanel.Controls.Add(this.textBoxName, 0, 1);
+			this.tableLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.tableLayoutPanel.Location = new System.Drawing.Point(0, 0);
+			this.tableLayoutPanel.Name = "tableLayoutPanel";
+			this.tableLayoutPanel.RowCount = 2;
+			this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+			this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+			this.tableLayoutPanel.Size = new System.Drawing.Size(350, 150);
+			this.tableLayoutPanel.TabIndex = 0;
+			// 
+			// textBoxName
+			// 
+			this.textBoxName.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.textBoxName.Location = new System.Drawing.Point(3, 78);
+			this.textBoxName.Name = "textBoxName";
+			this.textBoxName.Size = new System.Drawing.Size(344, 20);
+			this.textBoxName.TabIndex = 1;
+			this.textBoxName.Visible = false;
+			// 
+			// SelectedObjectInspector
+			// 
+			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.AutoScroll = true;
+			this.AutoSize = true;
+			this.BackColor = System.Drawing.SystemColors.ActiveCaption;
+			this.Controls.Add(this.tableLayoutPanel);
+			this.Name = "SelectedObjectInspector";
+			this.Size = new System.Drawing.Size(350, 150);
+			this.tableLayoutPanel.ResumeLayout(false);
+			this.tableLayoutPanel.PerformLayout();
+			this.ResumeLayout(false);
+			this.PerformLayout();
 
 		}
 

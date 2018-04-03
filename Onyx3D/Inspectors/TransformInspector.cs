@@ -3,7 +3,7 @@ using Onyx3D;
 using System;
 using System.ComponentModel;
 
-namespace Onyx3DEditor
+namespace Onyx3D
 {
 	public class TransformInspector  : Inspector<Transform>
 	{
@@ -25,7 +25,7 @@ namespace Onyx3DEditor
 		[TypeConverter(typeof(Vector3Converter))]
 		public Vector3Inspector Position {
 			get { return position; }
-			set { mObject.LocalPosition = position.Object; }
+			set { position = value; }
 		}
 
 		[Category("Transform")]
@@ -33,7 +33,7 @@ namespace Onyx3DEditor
 		public Vector3Inspector Scale
 		{
 			get { return scale; }
-			set { mObject.LocalScale = scale.Object; }
+			set { scale = value; }
 		}
 
 		[Category("Transform")]
@@ -41,7 +41,7 @@ namespace Onyx3DEditor
 		public Vector3Inspector Rotation
 		{
 			get { return rotation; }
-			set { mObject.LocalRotation = mObject.LocalRotation.FromDegEulerAngles(rotation.Object); }
+			set { rotation = value; }
 		}
 
 		

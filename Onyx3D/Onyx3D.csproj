@@ -78,6 +78,11 @@
     <Compile Include="Graphics\ObjLoader.cs" />
     <Compile Include="Graphics\Texture.cs" />
     <Compile Include="Graphics\UBO.cs" />
+    <Compile Include="Inspectors\Converters\VectorConverter.cs" />
+    <Compile Include="Inspectors\Inspector.cs" />
+    <Compile Include="Inspectors\LightInspector.cs" />
+    <Compile Include="Inspectors\TransformInspector.cs" />
+    <Compile Include="Inspectors\Vector3Inspector.cs" />
     <Compile Include="Physics\Physics.cs" />
     <Compile Include="Physics\RaycastHit.cs" />
     <Compile Include="Project\ProjectAssets.cs" />

@@ -7,7 +7,7 @@ using System.Text;
 
 using OpenTK;
 
-namespace Onyx3DEditor
+namespace Onyx3D
 {
 	public class Vector3Converter : TypeConverter
 	{

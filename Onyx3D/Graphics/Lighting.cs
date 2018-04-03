@@ -15,7 +15,7 @@ namespace Onyx3D
 		public Vector4 Color;
 		public Vector4 Specular;
 		public float Angle;
-		public float Range;
+		public float Intensity;
 		public float Linear;
 		public float Quadratic;
 	};
@@ -107,7 +107,7 @@ namespace Onyx3D
 			data.Position = new Vector4(light.Transform.Position);
 			data.Color = light.Color;
 			data.Direction = new Vector4(light.Transform.Forward);
-			
+			data.Intensity = light.Intensity;
 			// TODO - Add more things
 
 			return data;

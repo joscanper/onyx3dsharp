@@ -30,7 +30,7 @@
     id="Teapot"
     instanceId="876561996">
     <Transform
-      position="1.671229, 1.760626, 0.09646928"
+      position="1.734429, 1.760626, 0.09646928"
       rotation="1, 0, 0, 0"
       scale="1, 1, 1" />
     <Component
@@ -49,33 +49,36 @@
     <Component
       className="Light">
       <Type>1</Type>
-      <Color>0, 1, 0, 0</Color>
+      <Color>0.6078432, 1, 0.7529412, 1</Color>
+      <Intensity>10</Intensity>
     </Component>
   </SceneObject>
   <SceneObject
     id="Light (Blue)"
     instanceId="1720234294">
     <Transform
-      position="-2.711203, 0.7881706, 1.474802"
+      position="-2.5, 0.8, 1.5"
       rotation="0, 0.9999999, 0, 1.570796"
       scale="1, 1, 1" />
     <Component
       className="Light">
       <Type>1</Type>
-      <Color>0, 0, 1, 1</Color>
+      <Color>0.6078432, 1, 0.7529412, 1</Color>
+      <Intensity>0.1</Intensity>
     </Component>
   </SceneObject>
   <SceneObject
     id="Light (Red)"
     instanceId="2014542505">
     <Transform
-      position="-2.503048, 0.7924858, -1.38204"
+      position="-2.5, 0.8, -1.5"
       rotation="1, 0, 0, 0"
       scale="1, 1, 1" />
     <Component
       className="Light">
       <Type>1</Type>
-      <Color>1, 0, 0, 1</Color>
+      <Color>0.6078432, 1, 0.7529412, 1</Color>
+      <Intensity>0.1</Intensity>
     </Component>
   </SceneObject>
   <SceneObject
@@ -128,6 +131,20 @@
       className="MeshRenderer">
       <Mesh>100000006</Mesh>
       <Material>400000001</Material>
+    </Component>
+  </SceneObject>
+  <SceneObject
+    id="Light"
+    instanceId="1370593142">
+    <Transform
+      position="-2.5, 0.8, 0"
+      rotation="1, 0, 0, 0"
+      scale="1, 1, 1" />
+    <Component
+      className="Light">
+      <Type>1</Type>
+      <Color>0.6078432, 1, 0.7529412, 1</Color>
+      <Intensity>0.1</Intensity>
     </Component>
   </SceneObject>
 </Root>

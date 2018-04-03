@@ -40,7 +40,8 @@ struct Light {
     vec4 color;
     vec4 specular;
 	float angle;
-	float range;
+	float intensity;
+
 	float linear;
 	float quadratic;
 };
@@ -120,7 +121,7 @@ void main()
 		
         float distance    = length(lightPos - WorldPos);
         float attenuation = 1.0 / (distance * distance);
-        vec3 radiance     = pointLight[i].color.rgb * attenuation;        
+        vec3 radiance     = pointLight[i].color.rgb * attenuation * pointLight[i].intensity;        
         
         // cook-torrance brdf
         float NDF = DistributionGGX(N, H, roughness);        

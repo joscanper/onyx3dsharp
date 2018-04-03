@@ -33,16 +33,31 @@ namespace Onyx3DEditor
 
 
 			// Transform inspector
-			PropertyGrid propGrid = new PropertyGrid();
-			propGrid.SelectedObject = new TransformInspector(obj.Transform);
-			propGrid.PropertyValueChanged += OnObjectInspectorChanged;
-			propGrid.HelpVisible = false;
-			propGrid.Width = this.Width;
-			tableLayoutPanel.Controls.Add(propGrid, 0, 1);
+			AddInspector(new TransformInspector(obj.Transform));
+			
 			//tableLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, propGrid.Size.Height));
 
 
+			obj.ForEachComponent((c) =>
+			{
+				Type inspectorType = c.GetInspectorType();
+				if (inspectorType != null)
+				{
+					IInspector inspector = (IInspector)Activator.CreateInstance(inspectorType, c);
+					AddInspector(inspector);
+				}
+			});
 
+		}
+
+		private void AddInspector(IInspector inspector)
+		{
+			PropertyGrid propGrid = new PropertyGrid();
+			propGrid.SelectedObject = inspector;
+			propGrid.PropertyValueChanged += OnObjectInspectorChanged;
+			propGrid.HelpVisible = false;
+			propGrid.Width = this.Width;
+			tableLayoutPanel.Controls.Add(propGrid);
 		}
 
 		public void Clear()

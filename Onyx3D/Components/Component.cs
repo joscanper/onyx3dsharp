@@ -40,6 +40,8 @@ namespace Onyx3D
 
         public virtual void OnDrawGizmos(GizmosManager gizmos) { }
 
+		public virtual Type GetInspectorType() { return null; }
+
 		// ---- Serialization ----
 
 		public XmlSchema GetSchema() { return null; }
