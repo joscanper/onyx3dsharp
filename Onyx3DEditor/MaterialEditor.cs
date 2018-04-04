@@ -14,14 +14,13 @@ namespace Onyx3DEditor
         private bool canDraw = false;
 
 		private Onyx3DInstance myOnyxInstance;
-
-		//private Material mMaterial;
-        private SceneObject myObject;
-		private Shader myShader;
-        private MeshRenderer myRenderer;
-		private Camera myCamera;
-
-		private GridRenderer gridRenderer;
+		
+		private Scene mScene;
+        private SceneObject mObject;
+		private Shader mShader;
+        private MeshRenderer mRenderer;
+		private Camera mCamera;
+		private GridRenderer mGridRenderer;
 
 		private float mAngle = 0;
 		
@@ -38,53 +37,75 @@ namespace Onyx3DEditor
 			myOnyxInstance.Init();
 
 			RebuildShader();
+
+			mScene = new Scene();
 			
-			myCamera = new PerspectiveCamera("MainCamera", 1.5f, (float)renderCanvas.Width / (float)renderCanvas.Height);
-			myCamera.Transform.LocalPosition = new Vector3(0, 0.85f, 2);
-			myCamera.Transform.LocalRotation = Quaternion.FromAxisAngle(new Vector3(1, 0, 0), -0.45f);
+			mCamera = new PerspectiveCamera("MainCamera", 1.5f, (float)renderCanvas.Width / (float)renderCanvas.Height);
+			mCamera.Transform.LocalPosition = new Vector3(0, 0.85f, 2);
+			mCamera.Transform.LocalRotation = Quaternion.FromAxisAngle(new Vector3(1, 0, 0), -0.45f);
+			mCamera.Parent = mScene.Root;
 
-			myObject = new SceneObject("BaseObject");
-			//myObject.Transform.LocalRotation = Quaternion.FromEulerAngles(0, 0, -90);
+			mObject = new SceneObject("BaseObject");
+			mObject.Parent = mScene.Root;
 
-			//mMaterial = myOnyxInstance.Content.BuiltInMaterials.Default; // TODO = Copy this shit instead
+			mRenderer = mObject.AddComponent<MeshRenderer>();
+			mRenderer.Mesh = myOnyxInstance.Resources.GetMesh(BuiltInMesh.Teapot);
+			mRenderer.Material = myOnyxInstance.Resources.GetMaterial(BuiltInMaterial.Default);
+			mShader = mRenderer.Material.Shader;
+
+			SceneObject grid = new SceneObject("Grid");
+			//grid.Parent = mScene.Root;
+
+			mGridRenderer = grid.AddComponent<GridRenderer>();
+			mGridRenderer.GenerateGridMesh(10, 10, 0.25f, 0.25f);
+			mGridRenderer.Material = myOnyxInstance.Resources.GetMaterial(BuiltInMaterial.Default);
 			
-
-			myRenderer = myObject.AddComponent<MeshRenderer>();
-			myRenderer.Mesh = myOnyxInstance.Resources.GetMesh(BuiltInMesh.Teapot);
-			myRenderer.Material = myOnyxInstance.Resources.GetMaterial(BuiltInMaterial.Default);
-			myShader = myRenderer.Material.Shader;
-
+			SceneObject light = new SceneObject("Light");
+			light.AddComponent<Light>();
+			light.Parent = mScene.Root;
+			light.Transform.LocalPosition = Vector3.One * 1;
 			
-			gridRenderer = new SceneObject("Grid").AddComponent<GridRenderer>();
-			gridRenderer.GenerateGridMesh(10, 10, 0.25f, 0.25f);
-			gridRenderer.Material = myOnyxInstance.Resources.GetMaterial(BuiltInMaterial.Default);
 		}
 
 		private void InitUI()
 		{
-			textBoxVertexCode.Text = myShader.VertexCode;
-			textBoxFragmentCode.Text = myShader.FragmentCode;
+			textBoxVertexCode.Text = mShader.VertexCode;
+			textBoxFragmentCode.Text = mShader.FragmentCode;
 
-			materialPropertiesControl.Fill(myRenderer.Material);
+			materialPropertiesControl.Fill(mRenderer.Material);
 		}
 
 		private void RebuildShader()
 		{
 			Logger.Instance.Clear();
 
-			if (myShader == null)
+			if (mShader == null)
 			{
-				myShader = myOnyxInstance.Resources.GetShader(BuiltInShader.Default);
+				mShader = myOnyxInstance.Resources.GetShader(BuiltInShader.Default);
 			}
 			else
 			{
-				myShader = new Shader();
-				myShader.InitProgram(textBoxVertexCode.Text, textBoxFragmentCode.Text);
-				myRenderer.Material.Shader = myShader;
+				mShader = new Shader();
+				mShader.InitProgram(textBoxVertexCode.Text, textBoxFragmentCode.Text);
+				mRenderer.Material.Shader = mShader;
 			}
 
 			textBoxLog.Text = Logger.Instance.Content;
 		}
+
+		private void RenderScene()
+		{
+			mCamera.Update();
+
+			myOnyxInstance.Renderer.Render(mScene, mCamera, renderCanvas.Width, renderCanvas.Height);
+
+			if (toolStripButtonGrid.CheckState == CheckState.Checked)
+				mGridRenderer.Render();
+
+			renderCanvas.SwapBuffers();
+		}
+
+		// --------------------------------------------------------------------
 
 		#region RenderCanvas callbacks
 
@@ -102,22 +123,7 @@ namespace Onyx3DEditor
 			if (!canDraw)
 				return;
 
-
-			myCamera.Update();
-
-			myRenderer.Material.Shader.BindUBO(myCamera.UBO);
-			gridRenderer.Material.Shader.BindUBO(myCamera.UBO);
-
-
-			GL.Viewport(0, 0, renderCanvas.Width, renderCanvas.Height);
-			GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
-
-			if (toolStripButtonGrid.CheckState == CheckState.Checked)
-				gridRenderer.Render();
-			myRenderer.Render();
-			
-			GL.Flush();
-			renderCanvas.SwapBuffers();
+			RenderScene();
         }
 
 		#endregion
@@ -141,31 +147,31 @@ namespace Onyx3DEditor
 
 		private void toolStripButtonCube_Click(object sender, EventArgs e)
 		{
-			myRenderer.Mesh = myOnyxInstance.Resources.GetMesh(BuiltInMesh.Cube);
+			mRenderer.Mesh = myOnyxInstance.Resources.GetMesh(BuiltInMesh.Cube);
 			renderCanvas.Refresh();
 		}
 
 		private void toolStripButtonSphere_Click(object sender, EventArgs e)
 		{
-			myRenderer.Mesh = myOnyxInstance.Resources.GetMesh(BuiltInMesh.Sphere);
+			mRenderer.Mesh = myOnyxInstance.Resources.GetMesh(BuiltInMesh.Sphere);
 			renderCanvas.Refresh();
 		}
 		
 		private void toolStripButtonTorus_Click(object sender, EventArgs e)
 		{
-			myRenderer.Mesh = myOnyxInstance.Resources.GetMesh(BuiltInMesh.Torus);
+			mRenderer.Mesh = myOnyxInstance.Resources.GetMesh(BuiltInMesh.Torus);
 			renderCanvas.Refresh();
 		}
 
 		private void toolStripButtonCylinder_Click(object sender, EventArgs e)
 		{
-			myRenderer.Mesh = myOnyxInstance.Resources.GetMesh(BuiltInMesh.Cylinder);
+			mRenderer.Mesh = myOnyxInstance.Resources.GetMesh(BuiltInMesh.Cylinder);
 			renderCanvas.Refresh();
 		}
 
 		private void toolStripButtonTeapot_Click(object sender, EventArgs e)
 		{
-			myRenderer.Mesh = myOnyxInstance.Resources.GetMesh(BuiltInMesh.Teapot);
+			mRenderer.Mesh = myOnyxInstance.Resources.GetMesh(BuiltInMesh.Teapot);
 			renderCanvas.Refresh();
 		}
 
@@ -178,7 +184,7 @@ namespace Onyx3DEditor
 		private void timer1_Tick(object sender, EventArgs e)
 		{
 			mAngle+= 0.05f;
-			myObject.Transform.LocalRotation = Quaternion.FromEulerAngles(mAngle, mAngle, mAngle);
+			mObject.Transform.LocalRotation = Quaternion.FromEulerAngles(mAngle, mAngle, mAngle);
 			renderCanvas.Refresh();
 		}
 

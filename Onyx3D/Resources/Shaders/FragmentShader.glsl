@@ -22,7 +22,7 @@ uniform float fresnel_strength;
 
 float metallic = 0.5f;
 float roughness = 0.15f;
-float ao = 0.0f;
+float ao = 1.0f;
 
 // ------------------------------- Camera UBO
 
@@ -47,16 +47,15 @@ struct Light {
 };
 
 layout(std140) uniform LightingData { 
-	vec3 ambient;
+	vec4 ambient;
     
-    int pointLightsNum;
     Light pointLight[MAX_POINT_LIGHTS];
-    
-    int dirLightsNum;
     Light dirLight[MAX_DIR_LIGHTS];
-    
-    int spotLightsNum;
     Light spotLight[MAX_SPOT_LIGHTS];
+
+	int pointLightsNum;
+    int dirLightsNum;
+    int spotLightsNum;
 };
 
 // ----------------------------------
@@ -141,8 +140,7 @@ void main()
         Lo += (kD * albedo / PI + specular) * radiance * NdotL; 
     }   
   
-    vec3 ambient = vec3(0.5) * albedo * ao;
-    vec3 color = ambient + Lo;
+    vec3 color = ambient.rgb * albedo * ao + Lo;
 	
     color = color / (color + vec3(1.0));
     color = pow(color, vec3(1.0/2.2));  
