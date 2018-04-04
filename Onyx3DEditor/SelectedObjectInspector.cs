@@ -33,7 +33,7 @@ namespace Onyx3DEditor
 
 
 			// Transform inspector
-			AddInspector(new TransformInspector(obj.Transform));
+			AddComponentInspector(new TransformInspector(obj.Transform));
 			
 			//tableLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, propGrid.Size.Height));
 
@@ -44,22 +44,25 @@ namespace Onyx3DEditor
 				if (inspectorType != null)
 				{
 					IInspector inspector = (IInspector)Activator.CreateInstance(inspectorType, c);
-					AddInspector(inspector);
+					AddComponentInspector(inspector);
 				}
 			});
 
 		}
 
-		private void AddInspector(IInspector inspector)
+		private void AddComponentInspector(IInspector inspector)
 		{
 			PropertyGrid propGrid = new PropertyGrid();
 			propGrid.SelectedObject = inspector;
 			propGrid.PropertyValueChanged += OnObjectInspectorChanged;
 			propGrid.HelpVisible = false;
 			propGrid.Width = this.Width;
+			propGrid.ToolbarVisible = false;
+			propGrid.Height = inspector.GetFieldCount() * 20;
+
 			tableLayoutPanel.Controls.Add(propGrid);
 		}
-
+		
 		public void Clear()
 		{
 			tableLayoutPanel.Controls.Clear();

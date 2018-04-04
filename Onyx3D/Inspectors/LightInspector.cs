@@ -38,5 +38,10 @@ namespace Onyx3D
 		{
 			mObject.Color = new Vector4(lightColor.R / 255.0f, lightColor.G / 255.0f, lightColor.B / 255.0f, 1.0f);
 		}
+
+		public override int GetFieldCount()
+		{
+			return 2;
+		}
 	}
 }

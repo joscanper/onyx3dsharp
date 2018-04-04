@@ -51,5 +51,10 @@ namespace Onyx3D
 			mObject.LocalScale = Scale.Object;
 			mObject.LocalRotation = mObject.LocalRotation.FromDegEulerAngles(Rotation.Object);
 		}
+
+		public override int GetFieldCount()
+		{
+			return 4;
+		}
 	}
 }

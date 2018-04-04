@@ -7,6 +7,8 @@ namespace Onyx3D
 	public interface IInspector
 	{
 		void Apply();
+
+		int GetFieldCount();
 	}
 
 	public class Inspector<T> : IInspector
@@ -25,6 +27,8 @@ namespace Onyx3D
 		}
 
 		public virtual void Apply() {}
+
+		public virtual int GetFieldCount() { return 5; }
 	}
 
 }

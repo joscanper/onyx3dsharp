@@ -46,13 +46,13 @@
 			this.tableLayoutPanel.RowCount = 2;
 			this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
 			this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-			this.tableLayoutPanel.Size = new System.Drawing.Size(350, 150);
+			this.tableLayoutPanel.Size = new System.Drawing.Size(350, 52);
 			this.tableLayoutPanel.TabIndex = 0;
 			// 
 			// textBoxName
 			// 
 			this.textBoxName.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.textBoxName.Location = new System.Drawing.Point(3, 78);
+			this.textBoxName.Location = new System.Drawing.Point(3, 29);
 			this.textBoxName.Name = "textBoxName";
 			this.textBoxName.Size = new System.Drawing.Size(344, 20);
 			this.textBoxName.TabIndex = 1;
@@ -64,10 +64,11 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.AutoScroll = true;
 			this.AutoSize = true;
+			this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.BackColor = System.Drawing.SystemColors.ActiveCaption;
 			this.Controls.Add(this.tableLayoutPanel);
 			this.Name = "SelectedObjectInspector";
-			this.Size = new System.Drawing.Size(350, 150);
+			this.Size = new System.Drawing.Size(350, 52);
 			this.tableLayoutPanel.ResumeLayout(false);
 			this.tableLayoutPanel.PerformLayout();
 			this.ResumeLayout(false);
