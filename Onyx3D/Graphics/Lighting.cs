@@ -4,6 +4,9 @@ using System.Linq;
 using System.Text;
 using OpenTK;
 using System.Runtime.InteropServices;
+using System.Xml.Serialization;
+using System.Xml;
+using System.Xml.Schema;
 
 namespace Onyx3D
 {
@@ -23,27 +26,29 @@ namespace Onyx3D
 	[StructLayout(LayoutKind.Sequential)]
 	public struct LightingUBufferData
 	{
-		public Vector3 AmbientColor;
+		public Vector4 AmbientColor;
 
-		public int PointLightsNum;
-		
 		[MarshalAs(UnmanagedType.ByValArray, SizeConst = 8)]
 		public LightUBufferData[] PointLight;
 		
-		public int DirectionalLightsNum;
 		[MarshalAs(UnmanagedType.ByValArray, SizeConst = 2)]
 		public LightUBufferData[] DirectionalLight;
 
-		public int SpotLightsNum;
 		[MarshalAs(UnmanagedType.ByValArray, SizeConst = 8)]
 		public LightUBufferData[] SpotLight;
+
+		public int PointLightsNum;
+		public int DirectionalLightsNum;
+		public int SpotLightsNum;
 	}
 
 
-	public class Lighting
+	public class Lighting : IXmlSerializable
 	{
 		private LightingUBufferData mUBufferData = new LightingUBufferData();
 		private UBO<LightingUBufferData> mLightingUBO;
+
+		public Vector3 Ambient = Vector3.One * 0.15f; 
 
 		public UBO<LightingUBufferData> UBO { get { return mLightingUBO; } }
 
@@ -60,6 +65,7 @@ namespace Onyx3D
 		{
 			List<Light> ligths = scene.Root.GetComponentInChildren<Light>();
 
+			mUBufferData.AmbientColor = new Vector4(Ambient, 1.0f);
 			mUBufferData.PointLightsNum = 0;
 			mUBufferData.DirectionalLightsNum = 0;
 			mUBufferData.SpotLightsNum = 0;
@@ -113,5 +119,40 @@ namespace Onyx3D
 			return data;
 		}
 
+
+		// ------ Serialization ------
+
+		public XmlSchema GetSchema()
+		{
+			throw new NotImplementedException();
+		}
+
+		public void ReadXml(XmlReader reader)
+		{
+			while (reader.Read())
+			{
+				switch (reader.NodeType)
+				{
+					case XmlNodeType.Element:
+						if (reader.Name.Equals("Ambient"))
+							Ambient = XmlUtils.StringToVector3(reader.ReadElementContentAsString());
+						
+						//ComponentLoader.Load(obj, reader);
+						break;
+					case XmlNodeType.EndElement:
+						if (reader.Name.Equals("Lighting"))
+							return;
+						break;
+				}
+
+			}
+		}
+
+		public void WriteXml(XmlWriter writer)
+		{
+			writer.WriteStartElement("Lighting");
+			writer.WriteElementString("Ambient", XmlUtils.Vector3ToString(Ambient));
+			writer.WriteEndElement();
+		}
 	}
 }

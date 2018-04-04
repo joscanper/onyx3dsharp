@@ -10,7 +10,7 @@ namespace Onyx3D
 	{
 		
 		private SceneObject mRoot;
-		private Lighting mLighting = new Lighting();
+		
 
 		public GizmosManager Gizmos { get; private set; }
 
@@ -47,14 +47,14 @@ namespace Onyx3D
 		{
 			
 			cam.UpdateUBO();
-			mLighting.UpdateUBO(scene);
+			scene.Lighting.UpdateUBO(scene);
 
 
 			GL.Viewport(0, 0, w, h);
 			GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
 			List<MeshRenderer> renderers = GetSceneRenderers(scene);
-			PrepareMaterials(renderers, cam.UBO, mLighting.UBO);
+			PrepareMaterials(renderers, cam.UBO, scene.Lighting.UBO);
 			Render(renderers);
 			
 

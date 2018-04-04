@@ -10,6 +10,7 @@ namespace Onyx3D
 	
 		public SceneObject Root;
 		public Camera ActiveCamera;
+		public Lighting Lighting = new Lighting();
 
 		public Scene()
 		{
@@ -25,7 +26,12 @@ namespace Onyx3D
 
 		public void ReadXml(XmlReader reader)
 		{
-			reader.ReadStartElement("Root");
+			
+			reader.ReadStartElement("Scene");
+
+			Lighting.ReadXml(reader);
+
+			reader.ReadToNextSibling("Root");
 			this.Root = new SceneObject("", this, 0);
 			this.Root.ReadXml(reader);
 		}
@@ -34,13 +40,19 @@ namespace Onyx3D
 		{
 			writer.WriteStartDocument();
 
+			writer.WriteStartElement("Scene");
+
+			Lighting.WriteXml(writer);
+
 			writer.WriteStartElement("Root");
 
 			for (int i = 0; i < Root.ChildCount; ++i)
 				Root.GetChild(i).WriteXml(writer);
 
 			writer.WriteEndElement();
-			
+
+			writer.WriteEndElement();
+
 			writer.WriteEndDocument();
 		}
 	}

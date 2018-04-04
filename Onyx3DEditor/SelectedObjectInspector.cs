@@ -33,7 +33,7 @@ namespace Onyx3DEditor
 
 
 			// Transform inspector
-			AddComponentInspector(new TransformInspector(obj.Transform));
+			AddInspector(new TransformInspector(obj.Transform));
 			
 			//tableLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, propGrid.Size.Height));
 
@@ -44,13 +44,26 @@ namespace Onyx3DEditor
 				if (inspectorType != null)
 				{
 					IInspector inspector = (IInspector)Activator.CreateInstance(inspectorType, c);
-					AddComponentInspector(inspector);
+					AddInspector(inspector);
 				}
 			});
 
 		}
 
-		private void AddComponentInspector(IInspector inspector)
+		public void Fill(Scene scene)
+		{
+
+			Clear();
+
+			// Name
+			textBoxName.Visible = true;
+			textBoxName.Text = "SCENE NAME HERE!";
+			tableLayoutPanel.Controls.Add(textBoxName, 0, 0);
+
+			AddInspector(new SceneInspector(scene));
+		}
+
+		private void AddInspector(IInspector inspector)
 		{
 			PropertyGrid propGrid = new PropertyGrid();
 			propGrid.SelectedObject = inspector;

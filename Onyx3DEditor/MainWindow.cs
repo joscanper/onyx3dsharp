@@ -83,15 +83,16 @@ namespace Onyx3DEditor
 			}
 			else
 			{
-				selectedObjectInspector.Clear();
+				selectedObjectInspector.Fill(mScene);
 			}
 
 			mObjectHandler.HandleObject(mSelectedSceneObject);
+			RenderScene();
 		}
 
 		private void OnInspectorChanged()
 		{
-			//sceneHierarchy.UpdateScene(mScene);
+			RenderScene();
 		}
 
 		private void OnTransformModifiedFromObjectHandler()
@@ -237,7 +238,7 @@ namespace Onyx3DEditor
 		private void timer1_Tick(object sender, EventArgs e)
 		{
 			//myTeapot.Transform.Rotate(new Vector3(0, 0.1f, 0));
-			renderCanvas.Refresh();
+			//renderCanvas.Refresh();
 		}
 
 		private void toolStripButtonSaveProject_Click(object sender, EventArgs e)
