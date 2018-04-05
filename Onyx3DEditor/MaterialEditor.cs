@@ -6,6 +6,7 @@ using OpenTK;
 using OpenTK.Graphics.OpenGL;
 
 using Onyx3D;
+using System.Xml;
 
 namespace Onyx3DEditor
 {
@@ -72,7 +73,7 @@ namespace Onyx3DEditor
 			textBoxVertexCode.Text = mShader.VertexCode;
 			textBoxFragmentCode.Text = mShader.FragmentCode;
 
-			materialPropertiesControl.Fill(mRenderer.Material);
+			UpdateMaterialList(0);
 		}
 
 		private void RebuildShader()
@@ -105,7 +106,46 @@ namespace Onyx3DEditor
 			renderCanvas.SwapBuffers();
 		}
 
+		private string CreateNewMaterialFile(Material material)
+		{
+			SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+			saveFileDialog1.Filter = "Onyx3d material files (*.o3dmat)|*.o3dmat";
+			saveFileDialog1.FilterIndex = 2;
+			saveFileDialog1.RestoreDirectory = true;
+
+			if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+			{
+				try
+				{
+					XmlWriter xmlWriter = XmlWriter.Create(saveFileDialog1.FileName);
+					material.WriteXml(xmlWriter);
+					xmlWriter.Close();
+					return saveFileDialog1.FileName;
+				}
+				catch (Exception ex)
+				{
+					MessageBox.Show("Error: Could not save the project: " + ex.StackTrace);
+				}
+
+			}
+
+			return "";
+		}
+
+		private void UpdateMaterialList(int selected)
+		{
+			int i = 0;
+			foreach(OnyxProjectMaterialAsset m in ProjectManager.Instance.Content.Materials)
+			{
+				toolStripMaterialsComboBox.Items.Add(m.Name);
+				if (m.Guid == selected)
+					toolStripMaterialsComboBox.SelectedIndex = i;
+				i++;
+			}
+		}
+
 		// --------------------------------------------------------------------
+
 
 		#region RenderCanvas callbacks
 
@@ -132,8 +172,18 @@ namespace Onyx3DEditor
 
 		private void toolStripNewMaterialButton_Click(object sender, EventArgs e)
 		{
-			toolStripMaterialsComboBox.Items.Add("New Material");
-			toolStripMaterialsComboBox.SelectedIndex = toolStripMaterialsComboBox.Items.Count - 1;
+			DefaultMaterial material = new DefaultMaterial();
+			string matPath = CreateNewMaterialFile(material);
+			if (matPath.Length == 0)
+				return;
+
+			int guid = 123; ProjectManager.Instance.Content.GetNewMaterialId();
+			ProjectManager.Instance.Content.Materials.Add(new OnyxProjectMaterialAsset(matPath, "New Material", guid));
+			
+			mRenderer.Material = material;
+			materialPropertiesControl.Fill(material);
+
+			UpdateMaterialList(guid);
 		}
 
 		private void tabControlMain_SelectedIndexChanged(object sender, EventArgs e)

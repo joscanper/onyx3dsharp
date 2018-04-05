@@ -83,4 +83,15 @@ namespace Onyx3D
 		}
 	};
 
+	[Serializable]
+	public class OnyxProjectMaterialAsset : OnyxProjectAsset
+	{
+		public string Name;
+
+		public OnyxProjectMaterialAsset() { }
+		public OnyxProjectMaterialAsset(string path, string name = "", int guid = 0) : base(path, guid)
+		{
+			Name = name;
+		}
+	};
 }
