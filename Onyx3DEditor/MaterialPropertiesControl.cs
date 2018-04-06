@@ -13,6 +13,7 @@ namespace Onyx3DEditor
 {
 	public partial class MaterialPropertiesControl : UserControl
 	{
+		private Material mMaterial;
 		public event EventHandler PropertyChanged;
 
 		public MaterialPropertiesControl()
@@ -22,9 +23,14 @@ namespace Onyx3DEditor
 
 		public void Fill(Material mat)
 		{
-			tableLayoutPanelProperties.Controls.Clear();
+			mMaterial = mat;
 
-			tableLayoutPanelProperties.RowCount = mat.Properties.Count;
+			OnyxProjectMaterialAsset matAsset = (OnyxProjectMaterialAsset)mat.LinkedProjectAsset;
+			textBoxGuid.Text = matAsset.Guid.ToString();
+			textBoxName.Text = matAsset.Name;
+
+			tableLayoutPanelProperties.Controls.Clear();
+			tableLayoutPanelProperties.RowCount = mat.Properties.Count + 2;
 			tableLayoutPanelProperties.RowStyles.Clear();
 			int currentRow = 0;
 			foreach (KeyValuePair<string,MaterialProperty> prop in mat.Properties)
@@ -42,6 +48,13 @@ namespace Onyx3DEditor
 		private void OnPropertyChangedListener()
 		{
 			PropertyChanged.Invoke(this, null);
+		}
+
+		private void textBoxName_TextChanged(object sender, EventArgs e)
+		{
+			OnyxProjectMaterialAsset matAsset = (OnyxProjectMaterialAsset)mMaterial.LinkedProjectAsset;
+			matAsset.Name = textBoxName.Text;
+			//PropertyChanged.Invoke(this, null);
 		}
 	}
 }

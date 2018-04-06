@@ -135,7 +135,51 @@ namespace Onyx3D
 
 		public void WriteXml(XmlWriter writer)
 		{
+			writer.WriteStartElement("Material");
+
 			
+			writer.WriteElementString("Shader", Shader.LinkedProjectAsset.Guid.ToString());
+
+			foreach (KeyValuePair<string, MaterialProperty> prop in Properties)
+			{
+				writer.WriteStartElement("Property");
+				writer.WriteAttributeString("id", prop.Key);
+				switch (prop.Value.Type)
+				{
+					case MaterialPropertyType.Color:
+						writer.WriteAttributeString("type", "color");
+						writer.WriteAttributeString("value", XmlUtils.Vector4ToString((Vector4)prop.Value.Data));
+						break;
+					case MaterialPropertyType.Vector4:
+						writer.WriteAttributeString("type", "float4");
+						writer.WriteAttributeString("value", XmlUtils.Vector4ToString((Vector4)prop.Value.Data));
+						break;
+					case MaterialPropertyType.Vector3:
+						writer.WriteAttributeString("type", "float3");
+						writer.WriteAttributeString("value", XmlUtils.Vector3ToString((Vector3)prop.Value.Data));
+						break;
+					case MaterialPropertyType.Vector2:
+						writer.WriteAttributeString("type", "float2");
+						writer.WriteAttributeString("value", XmlUtils.Vector2ToString((Vector2)prop.Value.Data));
+						break;
+					case MaterialPropertyType.Float:
+						writer.WriteAttributeString("type", "float");
+						writer.WriteAttributeString("value", ((float)prop.Value.Data).ToString());
+						break;
+					case MaterialPropertyType.Sampler2D:
+						writer.WriteAttributeString("type", "sampler2d");
+						writer.WriteAttributeString("value", ((int)prop.Value.Data).ToString());
+						break;
+					// TODO - More things
+				}
+
+
+				writer.WriteEndElement();
+			}
+			
+
+
+			writer.WriteEndElement();
 		}
 	}
 }

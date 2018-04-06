@@ -7,6 +7,7 @@ using OpenTK.Graphics.OpenGL;
 
 using Onyx3D;
 using System.Xml;
+using System.IO;
 
 namespace Onyx3DEditor
 {
@@ -18,7 +19,7 @@ namespace Onyx3DEditor
 		
 		private Scene mScene;
         private SceneObject mObject;
-		private Shader mShader;
+		private Material mMaterial;
         private MeshRenderer mRenderer;
 		private Camera mCamera;
 		private GridRenderer mGridRenderer;
@@ -29,6 +30,7 @@ namespace Onyx3DEditor
         {
             InitializeComponent();
 			InitializeCanvas();
+			
 		}
 
 
@@ -37,7 +39,7 @@ namespace Onyx3DEditor
 			myOnyxInstance = new Onyx3DInstance();
 			myOnyxInstance.Init();
 
-			RebuildShader();
+			//RebuildShader();
 
 			mScene = new Scene();
 			
@@ -51,9 +53,7 @@ namespace Onyx3DEditor
 
 			mRenderer = mObject.AddComponent<MeshRenderer>();
 			mRenderer.Mesh = myOnyxInstance.Resources.GetMesh(BuiltInMesh.Teapot);
-			mRenderer.Material = myOnyxInstance.Resources.GetMaterial(BuiltInMaterial.Default);
-			mShader = mRenderer.Material.Shader;
-
+			
 			SceneObject grid = new SceneObject("Grid");
 			//grid.Parent = mScene.Root;
 
@@ -65,17 +65,27 @@ namespace Onyx3DEditor
 			light.AddComponent<Light>();
 			light.Parent = mScene.Root;
 			light.Transform.LocalPosition = Vector3.One * 1;
-			
+
+			SetMaterial(myOnyxInstance.Resources.GetMaterial(BuiltInMaterial.Default));
+		}
+
+		private void SetMaterial(Material mat)
+		{
+			mMaterial = mat;
+			mRenderer.Material = mat;
+			if (mat.LinkedProjectAsset.Guid != BuiltInMaterial.Default)
+				materialPropertiesControl.Fill(mat);
 		}
 
 		private void InitUI()
 		{
-			textBoxVertexCode.Text = mShader.VertexCode;
-			textBoxFragmentCode.Text = mShader.FragmentCode;
+			textBoxVertexCode.Text = mMaterial.Shader.VertexCode;
+			textBoxFragmentCode.Text = mMaterial.Shader.FragmentCode;
 
 			UpdateMaterialList(0);
 		}
 
+		/*
 		private void RebuildShader()
 		{
 			Logger.Instance.Clear();
@@ -86,13 +96,14 @@ namespace Onyx3DEditor
 			}
 			else
 			{
-				mShader = new Shader();
+				MaterialShader = new Shader();
 				mShader.InitProgram(textBoxVertexCode.Text, textBoxFragmentCode.Text);
 				mRenderer.Material.Shader = mShader;
 			}
 
 			textBoxLog.Text = Logger.Instance.Content;
 		}
+		*/
 
 		private void RenderScene()
 		{
@@ -106,6 +117,15 @@ namespace Onyx3DEditor
 			renderCanvas.SwapBuffers();
 		}
 
+		private void SaveMaterialFile(Material material, string path)
+		{
+			Path.r
+				//TODO - Get relative path
+			XmlWriter xmlWriter = XmlWriter.Create(path, ProjectContent.DefaultXMLSettings);
+			material.WriteXml(xmlWriter);
+			xmlWriter.Close();
+		}
+
 		private string CreateNewMaterialFile(Material material)
 		{
 			SaveFileDialog saveFileDialog1 = new SaveFileDialog();
@@ -117,9 +137,8 @@ namespace Onyx3DEditor
 			{
 				try
 				{
-					XmlWriter xmlWriter = XmlWriter.Create(saveFileDialog1.FileName);
-					material.WriteXml(xmlWriter);
-					xmlWriter.Close();
+					SaveMaterialFile(material, saveFileDialog1.FileName);
+					
 					return saveFileDialog1.FileName;
 				}
 				catch (Exception ex)
@@ -134,6 +153,7 @@ namespace Onyx3DEditor
 
 		private void UpdateMaterialList(int selected)
 		{
+			toolStripMaterialsComboBox.Items.Clear();
 			int i = 0;
 			foreach(OnyxProjectMaterialAsset m in ProjectManager.Instance.Content.Materials)
 			{
@@ -177,20 +197,16 @@ namespace Onyx3DEditor
 			if (matPath.Length == 0)
 				return;
 
-			int guid = 123; ProjectManager.Instance.Content.GetNewMaterialId();
-			ProjectManager.Instance.Content.Materials.Add(new OnyxProjectMaterialAsset(matPath, "New Material", guid));
-			
-			mRenderer.Material = material;
-			materialPropertiesControl.Fill(material);
-
-			UpdateMaterialList(guid);
+			ProjectManager.Instance.Content.AddMaterial(material, matPath);
+			SetMaterial(material);
+			UpdateMaterialList(material.LinkedProjectAsset.Guid);
 		}
 
 		private void tabControlMain_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			if (tabControlMain.TabIndex == 0)
 			{
-				RebuildShader();
+				//RebuildShader();
 			}
 		}
 		
@@ -228,6 +244,7 @@ namespace Onyx3DEditor
 		private void materialProperties_Changed(object sender, EventArgs e)
 		{
 			renderCanvas.Refresh();
+			UpdateMaterialList(mMaterial.LinkedProjectAsset.Guid);
 		}
 
 
@@ -243,6 +260,18 @@ namespace Onyx3DEditor
 		private void toolStripButtonGrid_Click(object sender, EventArgs e)
 		{
 			//mDrawGrid = false;
+		}
+
+		private void toolStripMaterialsComboBox_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			int id = ProjectManager.Instance.Content.Materials[toolStripMaterialsComboBox.SelectedIndex].Guid;
+			Material m = myOnyxInstance.Resources.GetMaterial(id);
+			SetMaterial(m);
+		}
+
+		private void toolStripSaveMaterialButton_Click(object sender, EventArgs e)
+		{
+			SaveMaterialFile(mMaterial, mMaterial.LinkedProjectAsset.Path);
 		}
 	}
 }

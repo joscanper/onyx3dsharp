@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Xml;
 using System.Xml.Serialization;
 
 namespace Onyx3D
@@ -9,10 +11,14 @@ namespace Onyx3D
 	[Serializable]
 	public class ProjectContent
 	{
+
+		public static XmlWriterSettings DefaultXMLSettings = new XmlWriterSettings();
+		
+
 		
 		public List<OnyxProjectSceneAsset> Scenes = new List<OnyxProjectSceneAsset>();
 		public List<OnyxProjectAsset> Textures = new List<OnyxProjectAsset>();
-		public List<OnyxProjectAsset> Materials = new List<OnyxProjectAsset>();
+		public List<OnyxProjectMaterialAsset> Materials = new List<OnyxProjectMaterialAsset>();
 		public List<OnyxProjectAsset> Meshes = new List<OnyxProjectAsset>();
 
 		[XmlIgnore]
@@ -20,7 +26,10 @@ namespace Onyx3D
 
 		public void Init()
 		{
-			
+
+			DefaultXMLSettings.NewLineOnAttributes = true;
+			DefaultXMLSettings.Indent = true;
+
 			// Built-in meshes (from 100000000)
 			AddAsset(new OnyxProjectAsset("./Resources/Models/teapot.obj", BuiltInMesh.Teapot));
 			AddAsset(new OnyxProjectAsset("./Resources/Models/cube.obj", BuiltInMesh.Cube));
@@ -41,8 +50,20 @@ namespace Onyx3D
 			AddAsset(new OnyxProjectAsset("./Resources/Materials/Default.o3dmat", BuiltInMaterial.Default));
 			AddAsset(new OnyxProjectAsset("./Resources/Materials/Unlit.o3dmat", BuiltInMaterial.Unlit));
 			AddAsset(new OnyxProjectAsset("./Resources/Materials/UnlitVertexColor.o3dmat", BuiltInMaterial.UnlitVertexColor));
-			
+
+			AddAssets(Scenes);
+			AddAssets(Materials);
+			AddAssets(Textures);
+			AddAssets(Meshes);
 		}
+
+
+		public void AddAssets<T>(List<T> assets) where T : OnyxProjectAsset
+		{
+			foreach (T asset in assets)
+				AddAsset(asset);
+		}
+
 
 		public void AddAsset(OnyxProjectAsset asset)
 		{
@@ -64,5 +85,34 @@ namespace Onyx3D
             return string.Format("{0}\\{1}", ProjectManager.Instance.Directory, relativePath);
         }
 
-    }
+		public void AddMaterial(Material m, string path)
+		{
+			OnyxProjectMaterialAsset matAsset = new OnyxProjectMaterialAsset(path, Path.GetFileNameWithoutExtension(path), GetNewMaterialId());
+			m.LinkedProjectAsset = matAsset;
+			Materials.Add(matAsset);
+			AddAsset(matAsset);
+		}
+
+		// -----
+
+		private int GetNewMaterialId()
+		{
+			return ContentIds.Materials + Materials.Count;
+		}
+
+		private int GetNewMeshId()
+		{
+			return ContentIds.Meshes + Meshes.Count;
+		}
+
+		private int GetNewSceneId()
+		{
+			return ContentIds.Scenes + Scenes.Count;
+		}
+
+		private int GetNewTextureId()
+		{
+			return ContentIds.Textures + Textures.Count;
+		}
+	}
 }

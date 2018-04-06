@@ -48,26 +48,26 @@ namespace Onyx3D
 
 		// ----------------------------------------------------------------  Loaders
 
-		public Mesh LoadMesh(OnyxProjectAsset asset)
+		private Mesh LoadMesh(OnyxProjectAsset asset)
 		{
 			return ObjLoader.Load(asset.Path);
 		}
 
-		public Material LoadMaterial(OnyxProjectAsset asset)
+		private Material LoadMaterial(OnyxProjectAsset asset)
 		{
 			XmlReader xmlReader = XmlReader.Create(asset.Path);
 			Material m = new Material();
 			m.ReadXml(xmlReader);
 			return m;
 		}
-	
-		public Shader LoadShader(OnyxProjectAsset asset)
+
+		private Shader LoadShader(OnyxProjectAsset asset)
 		{
 			OnyxProjectShaderAsset sAsset = (OnyxProjectShaderAsset)asset;
 			return new Shader(sAsset.PathVertex, sAsset.PathFragment);
 		}
 
-		public Texture LoadTexture(OnyxProjectAsset asset)
+		private Texture LoadTexture(OnyxProjectAsset asset)
 		{
 			return new Texture(asset.Path);
 		}

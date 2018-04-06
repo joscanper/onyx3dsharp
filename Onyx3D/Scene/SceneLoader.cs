@@ -26,12 +26,7 @@ namespace Onyx3D
 
 		public static void Save(Scene myScene, string path)
 		{
-
-			XmlWriterSettings xmlWriterSettings = new XmlWriterSettings();
-			xmlWriterSettings.NewLineOnAttributes = true;
-			xmlWriterSettings.Indent = true;
-
-			XmlWriter xmlWriter = XmlWriter.Create(path, xmlWriterSettings);
+			XmlWriter xmlWriter = XmlWriter.Create(path, ProjectContent.DefaultXMLSettings);
 
 			myScene.WriteXml(xmlWriter);
 
@@ -43,6 +38,11 @@ namespace Onyx3D
 
 public class XmlUtils
 {
+	public static string Vector2ToString(Vector2 v)
+	{
+		return v.X + ", " + v.Y;
+	}
+
 	public static string Vector3ToString(Vector3 v)
 	{
 		return  v.X + ", " + v.Y + ", " + v.Z;
@@ -52,6 +52,7 @@ public class XmlUtils
 	{
 		return v.X + ", " + v.Y + ", " + v.Z + ", " + v.W;
 	}
+
 
 	public static Vector2 StringToVector2(string vs)
 	{

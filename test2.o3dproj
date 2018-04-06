@@ -10,7 +10,18 @@
       </OnyxProjectSceneAsset>
     </Scenes>
     <Textures />
-    <Materials />
+    <Materials>
+      <OnyxProjectMaterialAsset>
+        <Path>C:\Users\Josue\Desktop\Onyx3DSharp\Test1.o3dmat</Path>
+        <Guid>4000000</Guid>
+        <Name>Test1</Name>
+      </OnyxProjectMaterialAsset>
+      <OnyxProjectMaterialAsset>
+        <Path>C:\Users\Josue\Desktop\Onyx3DSharp\Test2.o3dmat</Path>
+        <Guid>4000001</Guid>
+        <Name>Test2</Name>
+      </OnyxProjectMaterialAsset>
+    </Materials>
     <Meshes />
   </Content>
 </ProjectData>

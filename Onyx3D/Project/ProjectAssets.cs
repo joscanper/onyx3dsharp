@@ -36,6 +36,15 @@ namespace Onyx3D
 		public static int UnlitVertexColor = 400000003;
 	}
 
+	public class ContentIds
+	{
+		public static int Scenes = 0000000;
+		public static int Meshes = 1000000;
+		public static int Textures = 2000000;
+		public static int Shaders = 3000000;
+		public static int Materials = 4000000;
+	}
+
 	[Serializable]
 	public class OnyxProjectAsset
 	{

@@ -50,7 +50,6 @@ namespace Onyx3DEditor
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MaterialEditor));
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
 			this.panel1 = new System.Windows.Forms.Panel();
 			this.groupBoxProperties = new System.Windows.Forms.GroupBox();
@@ -75,6 +74,7 @@ namespace Onyx3DEditor
 			this.tabFragment = new System.Windows.Forms.TabPage();
 			this.textBoxFragmentCode = new System.Windows.Forms.TextBox();
 			this.timer1 = new System.Windows.Forms.Timer(this.components);
+			this.toolStripSaveMaterialButton = new System.Windows.Forms.ToolStripButton();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
 			this.splitContainer1.Panel1.SuspendLayout();
 			this.splitContainer1.Panel2.SuspendLayout();
@@ -140,7 +140,8 @@ namespace Onyx3DEditor
 			// 
 			this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMaterialsComboBox,
-            this.toolStripNewMaterialButton});
+            this.toolStripNewMaterialButton,
+            this.toolStripSaveMaterialButton});
 			this.toolStrip1.Location = new System.Drawing.Point(0, 0);
 			this.toolStrip1.Name = "toolStrip1";
 			this.toolStrip1.Size = new System.Drawing.Size(250, 25);
@@ -149,14 +150,15 @@ namespace Onyx3DEditor
 			// 
 			// toolStripMaterialsComboBox
 			// 
+			this.toolStripMaterialsComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.toolStripMaterialsComboBox.Name = "toolStripMaterialsComboBox";
 			this.toolStripMaterialsComboBox.Size = new System.Drawing.Size(121, 25);
-			this.toolStripMaterialsComboBox.Text = "Select Material";
+			this.toolStripMaterialsComboBox.SelectedIndexChanged += new System.EventHandler(this.toolStripMaterialsComboBox_SelectedIndexChanged);
 			// 
 			// toolStripNewMaterialButton
 			// 
 			this.toolStripNewMaterialButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.toolStripNewMaterialButton.Image = ((System.Drawing.Image)(resources.GetObject("toolStripNewMaterialButton.Image")));
+			this.toolStripNewMaterialButton.Image = global::Onyx3DEditor.Properties.Resources.if_gtk_new_20536;
 			this.toolStripNewMaterialButton.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.toolStripNewMaterialButton.Name = "toolStripNewMaterialButton";
 			this.toolStripNewMaterialButton.Size = new System.Drawing.Size(23, 22);
@@ -349,6 +351,16 @@ namespace Onyx3DEditor
 			this.timer1.Interval = 33;
 			this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
 			// 
+			// toolStripSaveMaterialButton
+			// 
+			this.toolStripSaveMaterialButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.toolStripSaveMaterialButton.Image = global::Onyx3DEditor.Properties.Resources.if_stock_save_20659;
+			this.toolStripSaveMaterialButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.toolStripSaveMaterialButton.Name = "toolStripSaveMaterialButton";
+			this.toolStripSaveMaterialButton.Size = new System.Drawing.Size(23, 22);
+			this.toolStripSaveMaterialButton.Text = "toolStripButton1";
+			this.toolStripSaveMaterialButton.Click += new System.EventHandler(this.toolStripSaveMaterialButton_Click);
+			// 
 			// MaterialEditor
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -407,6 +419,7 @@ namespace Onyx3DEditor
 		private System.Windows.Forms.Timer timer1;
 		private System.Windows.Forms.ToolStripButton toolStripButtonGrid;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+		private System.Windows.Forms.ToolStripButton toolStripSaveMaterialButton;
 	}
 }
 
