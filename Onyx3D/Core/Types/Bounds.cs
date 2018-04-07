@@ -37,7 +37,8 @@ namespace Onyx3D
 
 		public bool IntersectsRay(Ray r)
 		{
-			return IntersectsRay(r, out float t);
+            float t;
+			return IntersectsRay(r, out t);
 		}
 
 

@@ -4,7 +4,7 @@
   <Property
     id="base_color"
     type="color"
-    value="1, 0, 0, 1" />
+    value="1, 1, 1, 1" />
   <Property
     id="base_texture"
     type="sampler2d"

@@ -80,22 +80,39 @@ namespace Onyx3D
 			return Scenes.Count == 0 ? null : Scenes[0];
 		}
 
-        public string GetPath(string relativePath)
-        {
-            return string.Format("{0}\\{1}", ProjectManager.Instance.Directory, relativePath);
-        }
-
 		public void AddMaterial(Material m, string path)
 		{
-			OnyxProjectMaterialAsset matAsset = new OnyxProjectMaterialAsset(path, Path.GetFileNameWithoutExtension(path), GetNewMaterialId());
+			OnyxProjectMaterialAsset matAsset = new OnyxProjectMaterialAsset(GetRelativePath(path), Path.GetFileNameWithoutExtension(path), GetNewMaterialId());
 			m.LinkedProjectAsset = matAsset;
 			Materials.Add(matAsset);
 			AddAsset(matAsset);
 		}
 
-		// -----
+        // -----
 
-		private int GetNewMaterialId()
+
+        public static string GetAbsolutePath(string relativePath)
+        {
+
+            if (relativePath.StartsWith("./"))
+                return relativePath;
+
+            return string.Format("{0}\\{1}", ProjectManager.Instance.Directory, relativePath);
+            
+        }
+
+
+        public static string GetRelativePath(string absolutePath)
+        {
+            Uri projectUri = new Uri(ProjectManager.Instance.CurrentProjectPath);
+            Uri assetUri = new Uri(absolutePath);
+
+            return projectUri.MakeRelativeUri(assetUri).ToString();
+        }
+
+        // -----
+
+        private int GetNewMaterialId()
 		{
 			return ContentIds.Materials + Materials.Count;
 		}

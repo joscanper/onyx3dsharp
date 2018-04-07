@@ -48,7 +48,7 @@ namespace Onyx3DEditor
 			}
 			else
 			{
-				mScene = SceneLoader.Load(ProjectManager.Instance.Content.GetPath(mSceneAsset.Path));
+				mScene = SceneLoader.Load(ProjectContent.GetAbsolutePath(mSceneAsset.Path));
 			}
 
 			// Test objects
@@ -158,7 +158,7 @@ namespace Onyx3DEditor
 			}
 			else
 			{
-				SceneLoader.Save(mScene, ProjectManager.Instance.Content.GetPath(mSceneAsset.Path));
+				SceneLoader.Save(mScene, ProjectContent.GetAbsolutePath(mSceneAsset.Path));
 			}
 		}
 

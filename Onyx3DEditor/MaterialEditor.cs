@@ -119,9 +119,7 @@ namespace Onyx3DEditor
 
 		private void SaveMaterialFile(Material material, string path)
 		{
-			Path.r
-				//TODO - Get relative path
-			XmlWriter xmlWriter = XmlWriter.Create(path, ProjectContent.DefaultXMLSettings);
+            XmlWriter xmlWriter = XmlWriter.Create(ProjectContent.GetAbsolutePath(path), ProjectContent.DefaultXMLSettings);
 			material.WriteXml(xmlWriter);
 			xmlWriter.Close();
 		}
@@ -137,8 +135,6 @@ namespace Onyx3DEditor
 			{
 				try
 				{
-					SaveMaterialFile(material, saveFileDialog1.FileName);
-					
 					return saveFileDialog1.FileName;
 				}
 				catch (Exception ex)
@@ -198,6 +194,8 @@ namespace Onyx3DEditor
 				return;
 
 			ProjectManager.Instance.Content.AddMaterial(material, matPath);
+
+            SaveMaterialFile(material, material.LinkedProjectAsset.Path);
 			SetMaterial(material);
 			UpdateMaterialList(material.LinkedProjectAsset.Guid);
 		}

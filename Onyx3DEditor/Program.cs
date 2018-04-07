@@ -17,7 +17,7 @@ namespace Onyx3DEditor
 			
 			try
 			{
-				ProjectManager.Instance.Load("../../../test2.o3dproj");
+				ProjectManager.Instance.Load("../../../TestProject/test2.o3dproj");
 			}
 			catch (Exception e)
 			{

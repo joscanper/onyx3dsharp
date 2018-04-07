@@ -88,9 +88,15 @@ namespace Onyx3D
 			Bounds = bounds;
 		}
 
-		// ------ Serialization ------
+        public override Type GetInspectorType()
+        {
+            return typeof(MeshRendererInspector);
+        }
 
-		public override void ReadComponentXmlNode(XmlReader reader)
+
+        // ------ Serialization ------
+
+        public override void ReadComponentXmlNode(XmlReader reader)
 		{
 			if (reader.Name.Equals("Mesh"))
 				Mesh = Onyx3DEngine.Instance.Resources.GetMesh(reader.ReadElementContentAsInt());

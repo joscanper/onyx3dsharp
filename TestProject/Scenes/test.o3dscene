@@ -40,7 +40,7 @@
       <Component
         className="MeshRenderer">
         <Mesh>100000001</Mesh>
-        <Material>400000001</Material>
+        <Material>4000001</Material>
       </Component>
     </SceneObject>
     <SceneObject
@@ -95,7 +95,7 @@
       <Component
         className="MeshRenderer">
         <Mesh>100000002</Mesh>
-        <Material>400000001</Material>
+        <Material>4000000</Material>
       </Component>
     </SceneObject>
     <SceneObject
@@ -108,7 +108,7 @@
       <Component
         className="MeshRenderer">
         <Mesh>100000002</Mesh>
-        <Material>400000001</Material>
+        <Material>4000000</Material>
       </Component>
     </SceneObject>
     <SceneObject
@@ -121,7 +121,7 @@
       <Component
         className="MeshRenderer">
         <Mesh>100000002</Mesh>
-        <Material>400000001</Material>
+        <Material>4000000</Material>
       </Component>
     </SceneObject>
     <SceneObject

@@ -55,7 +55,7 @@ namespace Onyx3D
 
 		private Material LoadMaterial(OnyxProjectAsset asset)
 		{
-			XmlReader xmlReader = XmlReader.Create(asset.Path);
+			XmlReader xmlReader = XmlReader.Create(ProjectContent.GetAbsolutePath(asset.Path));
 			Material m = new Material();
 			m.ReadXml(xmlReader);
 			return m;

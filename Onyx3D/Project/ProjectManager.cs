@@ -48,7 +48,7 @@ namespace Onyx3D
 			stream.Close();
 
 			Content.Init();
-			mCurrentProjectPath = path;
+			mCurrentProjectPath = Path.GetFullPath(path);
 			return true;
 		}
 		
