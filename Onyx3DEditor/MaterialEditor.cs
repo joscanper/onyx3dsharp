@@ -124,10 +124,11 @@ namespace Onyx3DEditor
 			xmlWriter.Close();
 		}
 
-		private string CreateNewMaterialFile(Material material)
+		private string SelectMaterialFile()
 		{
 			SaveFileDialog saveFileDialog1 = new SaveFileDialog();
-			saveFileDialog1.Filter = "Onyx3d material files (*.o3dmat)|*.o3dmat";
+            saveFileDialog1.InitialDirectory = ProjectManager.Instance.CurrentProjectPath;
+            saveFileDialog1.Filter = "Onyx3d material files (*.o3dmat)|*.o3dmat";
 			saveFileDialog1.FilterIndex = 2;
 			saveFileDialog1.RestoreDirectory = true;
 
@@ -189,11 +190,11 @@ namespace Onyx3DEditor
 		private void toolStripNewMaterialButton_Click(object sender, EventArgs e)
 		{
 			DefaultMaterial material = new DefaultMaterial();
-			string matPath = CreateNewMaterialFile(material);
+			string matPath = SelectMaterialFile();
 			if (matPath.Length == 0)
 				return;
 
-			ProjectManager.Instance.Content.AddMaterial(material, matPath);
+			ProjectManager.Instance.Content.AddMaterial(matPath, material);
 
             SaveMaterialFile(material, material.LinkedProjectAsset.Path);
 			SetMaterial(material);

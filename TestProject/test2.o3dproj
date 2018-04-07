@@ -9,7 +9,16 @@
         <Name />
       </OnyxProjectSceneAsset>
     </Scenes>
-    <Textures/>
+    <Textures>
+      <OnyxProjectAsset>
+        <Path>Textures/crate.jpg</Path>
+        <Guid>2000000</Guid>
+      </OnyxProjectAsset>
+      <OnyxProjectAsset>
+        <Path>Textures/rock.png</Path>
+        <Guid>2000001</Guid>
+      </OnyxProjectAsset>
+    </Textures>
     <Materials>
       <OnyxProjectMaterialAsset>
         <Path>Materials/Test1.o3dmat</Path>

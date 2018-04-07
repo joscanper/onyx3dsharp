@@ -35,7 +35,7 @@ namespace Onyx3DEditor
 			listViewTextures.SmallImageList.ImageSize = new Size(64, 64);
 			foreach (OnyxProjectAsset t in ProjectManager.Instance.Content.Textures)
 			{
-				Bitmap bmp = new Bitmap(t.Path);
+				Bitmap bmp = new Bitmap(ProjectContent.GetAbsolutePath(t.Path));
 				Image small_img = bmp.GetThumbnailImage(64, 64, null, IntPtr.Zero);
 				listViewTextures.SmallImageList.Images.Add(small_img);
 				listViewTextures.Items.Add(new ListViewItem(t.Guid.ToString(), i));
@@ -47,7 +47,7 @@ namespace Onyx3DEditor
 		private void OnTextureSelected(object sender, EventArgs e)
 		{
 			OnyxProjectAsset textureEntry = mTextureIds[listViewTextures.SelectedItems[0].Index];
-			SelectedTexture = new Texture(textureEntry.Path);
+			SelectedTexture = new Texture(ProjectContent.GetAbsolutePath(textureEntry.Path));
 			TextureSelected.Invoke(this, null);
 			Close();
 		}

@@ -36,7 +36,7 @@ namespace Onyx3DEditor
 			listViewTextures.SmallImageList.ImageSize = new Size(64,64);
 			foreach (OnyxProjectAsset t in ProjectManager.Instance.Content.Textures)
 			{
-				Bitmap bmp = new Bitmap(t.Path);
+				Bitmap bmp = new Bitmap(ProjectContent.GetAbsolutePath(t.Path));
 				Image small_img = bmp.GetThumbnailImage(64, 64, null, IntPtr.Zero);
 				//Image big_img = bmp.GetThumbnailImage(256, 256, null, IntPtr.Zero);
 				listViewTextures.SmallImageList.Images.Add(small_img);
@@ -69,8 +69,7 @@ namespace Onyx3DEditor
 
 		private void CreateNewTexture(string path)
 		{
-			mCurrentTexture = new OnyxProjectAsset(path);
-			ProjectManager.Instance.Content.Textures.Add(mCurrentTexture);
+            mCurrentTexture = ProjectManager.Instance.Content.AddTexture(path);
 
 			UpdateTextureInfo();
 			FillTexturesList();
@@ -87,7 +86,7 @@ namespace Onyx3DEditor
 
 		private void LoadTexturePreview()
 		{
-			Bitmap bmp = new Bitmap(textBoxFilePath.Text);
+			Bitmap bmp = new Bitmap(ProjectContent.GetAbsolutePath(mCurrentTexture.Path));
 			pictureBoxPreview.Image = bmp.GetThumbnailImage(256, 256, null, IntPtr.Zero);
 		}
 

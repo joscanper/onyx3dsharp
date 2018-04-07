@@ -4,11 +4,11 @@
   <Property
     id="base_color"
     type="color"
-    value="0.09803922, 0.09803922, 0.09803922, 1" />
+    value="0.06666667, 0.06666667, 0.06666667, 1" />
   <Property
     id="base_texture"
     type="sampler2d"
-    value="1" />
+    value="2" />
   <Property
     id="fresnel"
     type="float"
