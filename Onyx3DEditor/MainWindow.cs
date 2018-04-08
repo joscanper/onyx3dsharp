@@ -163,11 +163,13 @@ namespace Onyx3DEditor
 		}
 
 		private void RenderScene()
-		{
-			if (!canDraw)
+		{            
+            if (!canDraw)
 				return;
 
-			mNavigation.UpdateCamera();
+            renderCanvas.MakeCurrent();
+
+            mNavigation.UpdateCamera();
 
 			mOnyxInstance.Renderer.Render(mScene, mNavigation.NavigationCamera, renderCanvas.Width, renderCanvas.Height);
 			mOnyxInstance.Renderer.Render(mGridRenderer, mNavigation.NavigationCamera);
@@ -184,6 +186,9 @@ namespace Onyx3DEditor
 			}
 
 			renderCanvas.SwapBuffers();
+
+            labelLoggerOutput.Text = Logger.Instance.Content;
+
 		}
 
 		#region RenderCanvas callbacks
@@ -226,15 +231,6 @@ namespace Onyx3DEditor
 
 		#region UI callbacks
 
-
-
-
-		private void MainWindow_Activated(object sender, EventArgs e)
-		{
-			if (renderCanvas.Context != null)
-				renderCanvas.MakeCurrent();
-		}
-
 		private void timer1_Tick(object sender, EventArgs e)
 		{
 			//myTeapot.Transform.Rotate(new Vector3(0, 0.1f, 0));
@@ -244,37 +240,19 @@ namespace Onyx3DEditor
 		private void toolStripButtonSaveProject_Click(object sender, EventArgs e)
 		{
 			SaveScene();
-				
-
-			if (ProjectManager.Instance.Content == null)
-			{
-				SaveFileDialog saveFileDialog1 = new SaveFileDialog();
-				saveFileDialog1.Filter = "Onyx3d project files (*.o3dproj)|*.o3dproj";
-				saveFileDialog1.FilterIndex = 2;
-				saveFileDialog1.RestoreDirectory = true;
-
-				if (saveFileDialog1.ShowDialog() == DialogResult.OK)
-				{
-					try
-					{
-						ProjectManager.Instance.Save(saveFileDialog1.FileName);
-					}
-					catch (Exception ex)
-					{
-						MessageBox.Show("Error: Could not save the project: " + ex.StackTrace);
-					}
-				}
-			}
-			else
-			{
-				ProjectManager.Instance.Save();
-			}
-
+            ProjectLoader.Save();
 		}
 
 		private void toolStripButtonMaterials_Click(object sender, EventArgs e)
 		{
-			new MaterialEditor().Show();
+            MaterialEditor matEditor = new MaterialEditor();
+            matEditor.MaterialSaved += (OnyxProjectMaterialAsset asset) =>
+            {
+                Onyx3DEngine.Instance.Resources.ReloadMaterial(asset.Guid);
+                RenderScene();
+            };
+            
+            matEditor.Show();
 		}
 
 		private void toolStripButtonTextures_Click(object sender, EventArgs e)
@@ -293,8 +271,6 @@ namespace Onyx3DEditor
 
 		private void toolStripButtonOpenProject_Click(object sender, EventArgs e)
 		{
-
-			Stream myStream;
 			OpenFileDialog openFileDialog1 = new OpenFileDialog();
 
 			openFileDialog1.InitialDirectory = "c:\\";
@@ -304,15 +280,8 @@ namespace Onyx3DEditor
 
 			if (openFileDialog1.ShowDialog() == DialogResult.OK)
 			{
-				//try
-				//{
-					ProjectManager.Instance.Load(openFileDialog1.FileName);
-					InitScene();
-				//}
-				//catch (Exception ex)
-				//{
-				//	MessageBox.Show("Error: Could not read file from disk. Original error: " + ex.Message);
-				//}
+				ProjectManager.Instance.Load(openFileDialog1.FileName);
+				InitScene();
 			}
 		}
 

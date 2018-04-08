@@ -31,7 +31,8 @@ namespace Onyx3D
 
 	public class BuiltInMaterial
 	{
-		public static int Default = 400000001;
+        public static int NotFound = 400000000;
+        public static int Default = 400000001;
 		public static int Unlit = 400000002;
 		public static int UnlitVertexColor = 400000003;
 	}
@@ -48,7 +49,12 @@ namespace Onyx3D
 	[Serializable]
 	public class OnyxProjectAsset
 	{
-		public static int LastGeneratedGuid { get; private set; }
+        public bool Dirty;
+
+        public string AbsolutePath
+        {
+            get { return ProjectContent.GetAbsolutePath(Path); }
+        }
 
 		public string Path;
 
@@ -60,10 +66,9 @@ namespace Onyx3D
 		{
 			Path = path;
 			Guid = guid;
-			if (guid == 0)
-				Guid = LastGeneratedGuid + 1;
 		}
-	};
+
+    };
 
 	[Serializable]
 	public class OnyxProjectShaderAsset : OnyxProjectAsset
@@ -102,5 +107,6 @@ namespace Onyx3D
 		{
 			Name = name;
 		}
-	};
+
+    };
 }

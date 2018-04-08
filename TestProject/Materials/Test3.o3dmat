@@ -4,17 +4,37 @@
   <Property
     id="base_color"
     type="color"
-    value="1, 1, 1, 1" />
+    value="0.5019608, 0.2509804, 0.2509804, 1" />
   <Property
-    id="base_texture"
+    id="albedo"
     type="sampler2d"
+    value="2000008"
+    index="0" />
+  <Property
+    id="metallic"
+    type="sampler2d"
+    value="2000008"
+    index="1" />
+  <Property
+    id="roughness"
+    type="sampler2d"
+    value="2000008"
+    index="2" />
+  <Property
+    id="occlusion"
+    type="sampler2d"
+    value="2000008"
+    index="3" />
+  <Property
+    id="metallic_strength"
+    type="float"
     value="1" />
   <Property
-    id="fresnel"
+    id="roughness_strength"
     type="float"
-    value="2.5" />
+    value="1" />
   <Property
-    id="fresnel_strength"
+    id="occlusion_strength"
     type="float"
     value="0.5" />
 </Material>

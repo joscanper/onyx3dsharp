@@ -1,18 +1,15 @@
 ﻿using System;
-using System.Drawing;
 using System.Windows.Forms;
 
 using OpenTK;
-using OpenTK.Graphics.OpenGL;
-
 using Onyx3D;
-using System.Xml;
-using System.IO;
 
 namespace Onyx3DEditor
 {
     public partial class MaterialEditor : Form
     {
+        public Action<OnyxProjectMaterialAsset> MaterialSaved;
+
         private bool canDraw = false;
 
 		private Onyx3DInstance myOnyxInstance;
@@ -23,14 +20,19 @@ namespace Onyx3DEditor
         private MeshRenderer mRenderer;
 		private Camera mCamera;
 		private GridRenderer mGridRenderer;
+        private Shader mTestShader;
 
 		private float mAngle = 0;
+
+        public OnyxProjectMaterialAsset SelectedMaterial
+        {
+            get { return ProjectManager.Instance.Content.Materials[toolStripMaterialsComboBox.SelectedIndex]; }
+        }
 		
         public MaterialEditor()
         {
             InitializeComponent();
 			InitializeCanvas();
-			
 		}
 
 
@@ -85,45 +87,43 @@ namespace Onyx3DEditor
 			UpdateMaterialList(0);
 		}
 
-		/*
+		
 		private void RebuildShader()
 		{
 			Logger.Instance.Clear();
 
-			if (mShader == null)
-			{
-				mShader = myOnyxInstance.Resources.GetShader(BuiltInShader.Default);
-			}
-			else
-			{
-				MaterialShader = new Shader();
-				mShader.InitProgram(textBoxVertexCode.Text, textBoxFragmentCode.Text);
-				mRenderer.Material.Shader = mShader;
-			}
 
+            mTestShader = new Shader();
+            mTestShader.InitProgram(textBoxVertexCode.Text, textBoxFragmentCode.Text);
+			
 			textBoxLog.Text = Logger.Instance.Content;
 		}
-		*/
+		
 
 		private void RenderScene()
 		{
+
+            renderCanvas.MakeCurrent();
+
 			mCamera.Update();
+
+            Shader originalShader = mMaterial.Shader;
+            if (mTestShader != null)
+                mMaterial.Shader = mTestShader;
+            
 
 			myOnyxInstance.Renderer.Render(mScene, mCamera, renderCanvas.Width, renderCanvas.Height);
 
-			if (toolStripButtonGrid.CheckState == CheckState.Checked)
+            mMaterial.Shader = originalShader;
+
+
+            if (toolStripButtonGrid.CheckState == CheckState.Checked)
 				mGridRenderer.Render();
 
 			renderCanvas.SwapBuffers();
 		}
 
-		private void SaveMaterialFile(Material material, string path)
-		{
-            XmlWriter xmlWriter = XmlWriter.Create(ProjectContent.GetAbsolutePath(path), ProjectContent.DefaultXMLSettings);
-			material.WriteXml(xmlWriter);
-			xmlWriter.Close();
-		}
-
+	
 		private string SelectMaterialFile()
 		{
 			SaveFileDialog saveFileDialog1 = new SaveFileDialog();
@@ -195,8 +195,8 @@ namespace Onyx3DEditor
 				return;
 
 			ProjectManager.Instance.Content.AddMaterial(matPath, material);
+            MaterialLoader.Save(material, material.LinkedProjectAsset.Path);
 
-            SaveMaterialFile(material, material.LinkedProjectAsset.Path);
 			SetMaterial(material);
 			UpdateMaterialList(material.LinkedProjectAsset.Guid);
 		}
@@ -205,7 +205,7 @@ namespace Onyx3DEditor
 		{
 			if (tabControlMain.TabIndex == 0)
 			{
-				//RebuildShader();
+				RebuildShader();
 			}
 		}
 		
@@ -243,7 +243,8 @@ namespace Onyx3DEditor
 		private void materialProperties_Changed(object sender, EventArgs e)
 		{
 			renderCanvas.Refresh();
-			UpdateMaterialList(mMaterial.LinkedProjectAsset.Guid);
+			//UpdateMaterialList(mMaterial.LinkedProjectAsset.Guid);
+            toolStripMaterialsComboBox.SelectedItem = ((OnyxProjectMaterialAsset)mMaterial.LinkedProjectAsset).Name;
 		}
 
 
@@ -263,14 +264,15 @@ namespace Onyx3DEditor
 
 		private void toolStripMaterialsComboBox_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			int id = ProjectManager.Instance.Content.Materials[toolStripMaterialsComboBox.SelectedIndex].Guid;
-			Material m = myOnyxInstance.Resources.GetMaterial(id);
-			SetMaterial(m);
+			int id = SelectedMaterial.Guid;
+			SetMaterial(myOnyxInstance.Resources.GetMaterial(id));
 		}
 
 		private void toolStripSaveMaterialButton_Click(object sender, EventArgs e)
 		{
-			SaveMaterialFile(mMaterial, mMaterial.LinkedProjectAsset.Path);
-		}
-	}
+			MaterialLoader.Save(mMaterial, mMaterial.LinkedProjectAsset.Path);
+            MaterialSaved?.Invoke(SelectedMaterial);
+        }
+
+    }
 }

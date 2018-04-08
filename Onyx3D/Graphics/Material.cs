@@ -36,12 +36,14 @@ namespace Onyx3D
 
 	public class TextureMaterialProperty : MaterialProperty
 	{
-		public Texture Texture;
+		public int TextureId {
+            set { Data = value; }
+            get { return (int)Data; }
+        }
 		public int DataIndex;
 
-		public TextureMaterialProperty(MaterialPropertyType type, Texture t, int index) : base(type, t.Id)
+		public TextureMaterialProperty(MaterialPropertyType type, int textureId, int index) : base(type, textureId)
 		{
-			Texture = t;
 			DataIndex = index;
 		}
 	}
@@ -60,7 +62,8 @@ namespace Onyx3D
 					case MaterialPropertyType.Sampler2D:
 						TextureMaterialProperty tmp = (TextureMaterialProperty)mp.Value;
 						GL.ActiveTexture(TextureUnit.Texture0 + tmp.DataIndex);
-						GL.BindTexture(TextureTarget.Texture2D, (int)mp.Value.Data);
+                        Texture t = Onyx3DEngine.Instance.Resources.GetTexture(tmp.TextureId);
+						GL.BindTexture(TextureTarget.Texture2D, t.Id);
 						GL.Uniform1(GL.GetUniformLocation(Shader.Program, mp.Key), tmp.DataIndex);
 						break;
 					case MaterialPropertyType.Float:
@@ -84,6 +87,13 @@ namespace Onyx3D
 				}
 			}
 		}
+
+        public override void Copy(GameAsset other)
+        {
+            Material otherMat = other as Material;
+            Shader = otherMat.Shader;
+            Properties = otherMat.Properties;
+        }
 
 		// ------ Serialization ------
 
@@ -109,18 +119,18 @@ namespace Onyx3D
 							string id = reader.GetAttribute("id");
 							string type = reader.GetAttribute("type");
 							string value = reader.GetAttribute("value");
-							if (type == "float")
-								Properties.Add(id, new MaterialProperty(MaterialPropertyType.Float, (float)Convert.ToDecimal(value)));
-							else if (type == "float2")
-								Properties.Add(id, new MaterialProperty(MaterialPropertyType.Vector2, XmlUtils.StringToVector2(value)));
-							else if (type == "float3")
-								Properties.Add(id, new MaterialProperty(MaterialPropertyType.Vector3, XmlUtils.StringToVector3(value)));
-							else if (type == "float4")
-								Properties.Add(id, new MaterialProperty(MaterialPropertyType.Vector4, XmlUtils.StringToVector4(value)));
-							else if (type == "color")
-								Properties.Add(id, new MaterialProperty(MaterialPropertyType.Color, XmlUtils.StringToVector4(value)));
-							else if (type == "sampler2d")
-								Properties.Add(id, new TextureMaterialProperty(MaterialPropertyType.Sampler2D, Onyx3DEngine.Instance.Resources.GetTexture(BuiltInTexture.Checker), 0));
+                            if (type == "float")
+                                Properties.Add(id, new MaterialProperty(MaterialPropertyType.Float, (float)Convert.ToDecimal(value)));
+                            else if (type == "float2")
+                                Properties.Add(id, new MaterialProperty(MaterialPropertyType.Vector2, XmlUtils.StringToVector2(value)));
+                            else if (type == "float3")
+                                Properties.Add(id, new MaterialProperty(MaterialPropertyType.Vector3, XmlUtils.StringToVector3(value)));
+                            else if (type == "float4")
+                                Properties.Add(id, new MaterialProperty(MaterialPropertyType.Vector4, XmlUtils.StringToVector4(value)));
+                            else if (type == "color")
+                                Properties.Add(id, new MaterialProperty(MaterialPropertyType.Color, XmlUtils.StringToVector4(value)));
+                            else if (type == "sampler2d")
+								Properties.Add(id, new TextureMaterialProperty(MaterialPropertyType.Sampler2D, Convert.ToInt32(value), Convert.ToInt32(reader.GetAttribute("index"))));
 							//else if (type == "samplerCube")
 								//Properties.Add(id, new TextureMaterialProperty(MaterialPropertyType.Sampler2D, Onyx3DEngine.Instance.Resources.GetTexture(BuiltInTexture.Checker), 0));
 							// TODO - More things
@@ -168,8 +178,10 @@ namespace Onyx3D
 						break;
 					case MaterialPropertyType.Sampler2D:
 						writer.WriteAttributeString("type", "sampler2d");
-						writer.WriteAttributeString("value", ((int)prop.Value.Data).ToString());
-						break;
+                        TextureMaterialProperty textureProp = (TextureMaterialProperty)prop.Value;
+                        writer.WriteAttributeString("value", textureProp.TextureId.ToString());
+                        writer.WriteAttributeString("index", textureProp.DataIndex.ToString());
+                        break;
 					// TODO - More things
 				}
 

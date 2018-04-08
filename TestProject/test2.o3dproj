@@ -4,6 +4,7 @@
   <Content>
     <Scenes>
       <OnyxProjectSceneAsset>
+        <Dirty>false</Dirty>
         <Path>Scenes/test.o3dscene</Path>
         <Guid>1</Guid>
         <Name />
@@ -11,29 +12,80 @@
     </Scenes>
     <Textures>
       <OnyxProjectAsset>
+        <Dirty>false</Dirty>
         <Path>Textures/crate.jpg</Path>
         <Guid>2000000</Guid>
       </OnyxProjectAsset>
       <OnyxProjectAsset>
+        <Dirty>false</Dirty>
         <Path>Textures/rock.png</Path>
         <Guid>2000001</Guid>
+      </OnyxProjectAsset>
+      <OnyxProjectAsset>
+        <Dirty>false</Dirty>
+        <Path>Textures/marble.jpg</Path>
+        <Guid>2000002</Guid>
+      </OnyxProjectAsset>
+      <OnyxProjectAsset>
+        <Dirty>false</Dirty>
+        <Path>Textures/marble_green.jpg</Path>
+        <Guid>2000003</Guid>
+      </OnyxProjectAsset>
+      <OnyxProjectAsset>
+        <Dirty>false</Dirty>
+        <Path>Textures/darktiles1_basecolor.png</Path>
+        <Guid>2000004</Guid>
+      </OnyxProjectAsset>
+      <OnyxProjectAsset>
+        <Dirty>false</Dirty>
+        <Path>Textures/darktiles1_roughness.png</Path>
+        <Guid>2000005</Guid>
+      </OnyxProjectAsset>
+      <OnyxProjectAsset>
+        <Dirty>false</Dirty>
+        <Path>Textures/darktiles1_metallic.png</Path>
+        <Guid>2000006</Guid>
+      </OnyxProjectAsset>
+      <OnyxProjectAsset>
+        <Dirty>false</Dirty>
+        <Path>Textures/darktiles1_AO.png</Path>
+        <Guid>2000007</Guid>
+      </OnyxProjectAsset>
+      <OnyxProjectAsset>
+        <Dirty>false</Dirty>
+        <Path>Textures/galvanized.jpg</Path>
+        <Guid>2000008</Guid>
+      </OnyxProjectAsset>
+      <OnyxProjectAsset>
+        <Dirty>false</Dirty>
+        <Path>Textures/roughness.jpg</Path>
+        <Guid>2000009</Guid>
       </OnyxProjectAsset>
     </Textures>
     <Materials>
       <OnyxProjectMaterialAsset>
+        <Dirty>false</Dirty>
         <Path>Materials/Test1.o3dmat</Path>
         <Guid>4000000</Guid>
-        <Name>Test1</Name>
+        <Name>Marble</Name>
       </OnyxProjectMaterialAsset>
       <OnyxProjectMaterialAsset>
+        <Dirty>false</Dirty>
         <Path>Materials/Test2.o3dmat</Path>
         <Guid>4000001</Guid>
-        <Name>Test2</Name>
+        <Name>Gold</Name>
       </OnyxProjectMaterialAsset>
       <OnyxProjectMaterialAsset>
+        <Dirty>false</Dirty>
         <Path>Materials/Test3.o3dmat</Path>
         <Guid>4000002</Guid>
-        <Name>Test3</Name>
+        <Name>Box</Name>
+      </OnyxProjectMaterialAsset>
+      <OnyxProjectMaterialAsset>
+        <Dirty>false</Dirty>
+        <Path>Materials/Floor.o3dmat</Path>
+        <Guid>4000003</Guid>
+        <Name>Floor</Name>
       </OnyxProjectMaterialAsset>
     </Materials>
     <Meshes />

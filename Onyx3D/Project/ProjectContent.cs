@@ -40,14 +40,17 @@ namespace Onyx3D
 
             //  Built-in textures (from 200000000)
             AddAsset(new OnyxProjectAsset("./Resources/Textures/checker.png", BuiltInTexture.Checker));
+            AddAsset(new OnyxProjectAsset("./Resources/Textures/white.jpg", BuiltInTexture.White));
+            AddAsset(new OnyxProjectAsset("./Resources/Textures/black.jpg", BuiltInTexture.Black));
 
-			// Built-in shaders (from 300000000)
-			AddAsset(new OnyxProjectShaderAsset("./Resources/Shaders/VertexShader.glsl", "./Resources/Shaders/FragmentShader.glsl", BuiltInShader.Default));
+            // Built-in shaders (from 300000000)
+            AddAsset(new OnyxProjectShaderAsset("./Resources/Shaders/VertexShader.glsl", "./Resources/Shaders/FragmentShader.glsl", BuiltInShader.Default));
 			AddAsset(new OnyxProjectShaderAsset("./Resources/Shaders/VertexShader.glsl", "./Resources/Shaders/UnlitFragmentShader.glsl", BuiltInShader.Unlit));
 			AddAsset(new OnyxProjectShaderAsset("./Resources/Shaders/VertexShader.glsl", "./Resources/Shaders/UnlitVertexColorFragmentShader.glsl", BuiltInShader.UnlitVertexColor));
 
-			// Built-in materials (from 400000000)
-			AddAsset(new OnyxProjectAsset("./Resources/Materials/Default.o3dmat", BuiltInMaterial.Default));
+            // Built-in materials (from 400000000)
+            AddAsset(new OnyxProjectAsset("./Resources/Materials/NotFound.o3dmat", BuiltInMaterial.NotFound));
+            AddAsset(new OnyxProjectAsset("./Resources/Materials/Default.o3dmat", BuiltInMaterial.Default));
 			AddAsset(new OnyxProjectAsset("./Resources/Materials/Unlit.o3dmat", BuiltInMaterial.Unlit));
 			AddAsset(new OnyxProjectAsset("./Resources/Materials/UnlitVertexColor.o3dmat", BuiltInMaterial.UnlitVertexColor));
 
@@ -72,6 +75,8 @@ namespace Onyx3D
 
 		public OnyxProjectAsset GetAsset(int id)
 		{
+            if (!mMappedResources.ContainsKey(id))
+                return null;
 			return mMappedResources[id];
 		}
 
@@ -126,22 +131,29 @@ namespace Onyx3D
 
         private int GetNewMaterialId()
 		{
-			return ContentIds.Materials + Materials.Count;
+			return GetNewId(Materials, ContentIds.Materials);
 		}
 
 		private int GetNewMeshId()
 		{
-			return ContentIds.Meshes + Meshes.Count;
+			return GetNewId(Meshes, ContentIds.Meshes);
 		}
 
 		private int GetNewSceneId()
 		{
-			return ContentIds.Scenes + Scenes.Count;
-		}
+			return GetNewId(Scenes, ContentIds.Scenes);
+        }
 
 		private int GetNewTextureId()
 		{
-			return ContentIds.Textures + Textures.Count;
-		}
+			return GetNewId(Textures, ContentIds.Textures);
+        }
+
+        private int GetNewId<T>(List<T> list, int start) where T : OnyxProjectAsset
+        {
+            if (list.Count == 0)
+                return start;
+            return list[list.Count - 1].Guid + 1;
+        }
 	}
 }

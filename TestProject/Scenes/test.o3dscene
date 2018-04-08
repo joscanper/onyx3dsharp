@@ -1,41 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Scene>
   <Lighting>
-    <Ambient>0.15, 0.15, 0.15</Ambient>
+    <Ambient>0.1176471, 0.1176471, 0.1176471</Ambient>
   </Lighting>
   <Root>
-    <SceneObject
-      id="Cube"
-      instanceId="270134201">
-      <Transform
-        position="-3.454963, 0.788393, 0"
-        rotation="1, 0, 0, 0"
-        scale="0.5574796, 1.356577, 4.64709" />
-      <Component
-        className="MeshRenderer">
-        <Mesh>100000004</Mesh>
-        <Material>400000001</Material>
-      </Component>
-    </SceneObject>
-    <SceneObject
-      id="Cube"
-      instanceId="1800469603">
-      <Transform
-        position="1.560283, 0.3483553, 0"
-        rotation="1, 0, 0, 0"
-        scale="2, 2, 2" />
-      <Component
-        className="MeshRenderer">
-        <Mesh>100000004</Mesh>
-        <Material>400000001</Material>
-      </Component>
-    </SceneObject>
     <SceneObject
       id="Teapot"
       instanceId="876561996">
       <Transform
-        position="1.734429, 1.760626, 0.09646928"
-        rotation="1, 0, 0, 0"
+        position="2, 0.8933107, -1.15"
+        rotation="0, 1.000003, 0, 0.1745324"
         scale="1, 1, 1" />
       <Component
         className="MeshRenderer">
@@ -53,7 +27,7 @@
       <Component
         className="Light">
         <Type>1</Type>
-        <Color>0.6078432, 1, 0.7529412, 1</Color>
+        <Color>0.4117647, 0.4117647, 0.4117647, 1</Color>
         <Intensity>10</Intensity>
       </Component>
     </SceneObject>
@@ -67,7 +41,7 @@
       <Component
         className="Light">
         <Type>1</Type>
-        <Color>0.6078432, 1, 0.7529412, 1</Color>
+        <Color>0.8784314, 0.8784314, 0.8784314, 1</Color>
         <Intensity>0.1</Intensity>
       </Component>
     </SceneObject>
@@ -81,7 +55,7 @@
       <Component
         className="Light">
         <Type>1</Type>
-        <Color>0.6078432, 1, 0.7529412, 1</Color>
+        <Color>0.8784314, 0.8784314, 0.8784314, 1</Color>
         <Intensity>0.1</Intensity>
       </Component>
     </SceneObject>
@@ -89,21 +63,21 @@
       id="Sphere"
       instanceId="1750496848">
       <Transform
-        position="-3.5, 2, 0"
-        rotation="1, 0, 0, 0"
+        position="-3.5, 1.25, 0"
+        rotation="0, 0.9999999, 0, 1.570796"
         scale="1, 1, 1" />
       <Component
         className="MeshRenderer">
         <Mesh>100000002</Mesh>
-        <Material>4000000</Material>
+        <Material>4000001</Material>
       </Component>
     </SceneObject>
     <SceneObject
       id="Sphere"
       instanceId="1750496858">
       <Transform
-        position="-3.5, 2, 1.5"
-        rotation="1, 0, 0, 0"
+        position="-3.5, 1.25, 1.5"
+        rotation="0, 0.9999999, 0, 2.094395"
         scale="1, 1, 1" />
       <Component
         className="MeshRenderer">
@@ -115,26 +89,26 @@
       id="Sphere"
       instanceId="1750496860">
       <Transform
-        position="-3.5, 2, -1.5"
-        rotation="1, 0, 0, 0"
+        position="-3.5, 1.25, -1.5"
+        rotation="0, 1, 0, 0.2624321"
         scale="1, 1, 1" />
       <Component
         className="MeshRenderer">
         <Mesh>100000002</Mesh>
-        <Material>4000000</Material>
+        <Material>4000002</Material>
       </Component>
     </SceneObject>
     <SceneObject
       id="Quad"
       instanceId="38249952">
       <Transform
-        position="0, 0.4217774, 0"
+        position="-0.5, 0.5, 0"
         rotation="1, 0, 0, 0"
-        scale="20, 20, 20" />
+        scale="10, 10, 10" />
       <Component
         className="MeshRenderer">
         <Mesh>100000006</Mesh>
-        <Material>400000001</Material>
+        <Material>4000003</Material>
       </Component>
     </SceneObject>
     <SceneObject
@@ -147,8 +121,125 @@
       <Component
         className="Light">
         <Type>1</Type>
-        <Color>0.6078432, 1, 0.7529412, 1</Color>
+        <Color>0.8784314, 0.8784314, 0.8784314, 1</Color>
         <Intensity>0.1</Intensity>
+      </Component>
+    </SceneObject>
+    <SceneObject
+      id="Cylinder"
+      instanceId="751714200">
+      <Transform
+        position="-3.5, 0.1, 0"
+        rotation="1, 0, 0, 0"
+        scale="1, 1, 1" />
+      <Component
+        className="MeshRenderer">
+        <Mesh>100000005</Mesh>
+        <Material>400000001</Material>
+      </Component>
+    </SceneObject>
+    <SceneObject
+      id="Cylinder"
+      instanceId="751714202">
+      <Transform
+        position="-3.5, 0.1, 1.5"
+        rotation="1, 0, 0, 0"
+        scale="1, 1, 1" />
+      <Component
+        className="MeshRenderer">
+        <Mesh>100000005</Mesh>
+        <Material>400000001</Material>
+      </Component>
+    </SceneObject>
+    <SceneObject
+      id="Cylinder"
+      instanceId="751714204">
+      <Transform
+        position="-3.5, 0.1, -1.5"
+        rotation="1, 0, 0, 0"
+        scale="1, 1, 1" />
+      <Component
+        className="MeshRenderer">
+        <Mesh>100000005</Mesh>
+        <Material>400000001</Material>
+      </Component>
+    </SceneObject>
+    <SceneObject
+      id="Cube"
+      instanceId="751714236">
+      <Transform
+        position="-8, 3, -2.5"
+        rotation="1, 0, 0, 0"
+        scale="5, 5, 5" />
+      <Component
+        className="MeshRenderer">
+        <Mesh>100000004</Mesh>
+        <Material>400000001</Material>
+      </Component>
+    </SceneObject>
+    <SceneObject
+      id="Cube"
+      instanceId="751714238">
+      <Transform
+        position="-8, 3, 2.5"
+        rotation="1, 0, 0, 0"
+        scale="5, 5, 5" />
+      <Component
+        className="MeshRenderer">
+        <Mesh>100000004</Mesh>
+        <Material>400000001</Material>
+      </Component>
+    </SceneObject>
+    <SceneObject
+      id="Cube"
+      instanceId="751714240">
+      <Transform
+        position="-3, 3, -7.5"
+        rotation="1, 0, 0, 0"
+        scale="5, 5, 5" />
+      <Component
+        className="MeshRenderer">
+        <Mesh>100000004</Mesh>
+        <Material>400000001</Material>
+      </Component>
+    </SceneObject>
+    <SceneObject
+      id="Cube"
+      instanceId="751714242">
+      <Transform
+        position="2, 3, -7.5"
+        rotation="1, 0, 0, 0"
+        scale="5, 5, 5" />
+      <Component
+        className="MeshRenderer">
+        <Mesh>100000004</Mesh>
+        <Material>400000001</Material>
+      </Component>
+    </SceneObject>
+    <SceneObject
+      id="Cylinder"
+      instanceId="751714276">
+      <Transform
+        position="-5.441566, 2.981382, -5.181775"
+        rotation="0, -1.000011, 0, 0.03490487"
+        scale="2, 5, 2" />
+      <Component
+        className="MeshRenderer">
+        <Mesh>100000005</Mesh>
+        <Material>400000001</Material>
+      </Component>
+    </SceneObject>
+    <SceneObject
+      id="Cylinder"
+      instanceId="751714278">
+      <Transform
+        position="2, 0.5074954, -1.15"
+        rotation="1, 0, 0, 0"
+        scale="2, 0.05, 2" />
+      <Component
+        className="MeshRenderer">
+        <Mesh>100000005</Mesh>
+        <Material>4000001</Material>
       </Component>
     </SceneObject>
   </Root>

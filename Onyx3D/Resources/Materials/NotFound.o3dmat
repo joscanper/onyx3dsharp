@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Material>
+  <Name>NotFound</Name>
+	<Shader>300000002</Shader>
+
+	<Properties>
+		<Property id="color" type="color" value="1,0,1,1"/>
+	</Properties>
+</Material>

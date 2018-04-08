@@ -5,8 +5,13 @@
 
 	<Properties>
 		<Property id="base_color" type="color" value="1,1,1,1"/>
-		<Property id="base_texture" type="sampler2d" value=""/>
-		<Property id="fresnel" type="float" value="2.5"/>
-		<Property id="fresnel_strength" type="float" value="0.5"/>
+		<Property id="albedo" type="sampler2d" value="200000001" index="0"/>
+  		<Property id="metallic" type="sampler2d" value="200000002" index="1"/>
+  		<Property id="roughness" type="sampler2d" value="200000002" index="2"/>
+  		<Property id="occlusion" type="sampler2d" value="200000002" index="3"/>
+
+  		<Property id="metallic_strength" type="float" value="0.25" />
+  		<Property id="roughness_strength" type="float" value="0.5" />
+  		<Property id="occlusion_strength" type="float" value="1" />
 	</Properties>
 </Material>

@@ -81,6 +81,7 @@
       <DependentUpon>MaterialPropertyControl.cs</DependentUpon>
     </Compile>
     <Compile Include="ObjectHandler.cs" />
+    <Compile Include="ProjectLoader.cs" />
     <Compile Include="SceneHierarchyControl.cs">
       <SubType>UserControl</SubType>
     </Compile>

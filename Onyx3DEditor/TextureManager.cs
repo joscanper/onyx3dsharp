@@ -29,18 +29,14 @@ namespace Onyx3DEditor
 			listViewTextures.Items.Clear();
 			int i = 0;
 
-			
-			//listViewTextures.LargeImageList = new ImageList();
-			//listViewTextures.LargeImageList.ImageSize = new Size(128, 128);
 			listViewTextures.SmallImageList = new ImageList();
 			listViewTextures.SmallImageList.ImageSize = new Size(64,64);
 			foreach (OnyxProjectAsset t in ProjectManager.Instance.Content.Textures)
 			{
 				Bitmap bmp = new Bitmap(ProjectContent.GetAbsolutePath(t.Path));
 				Image small_img = bmp.GetThumbnailImage(64, 64, null, IntPtr.Zero);
-				//Image big_img = bmp.GetThumbnailImage(256, 256, null, IntPtr.Zero);
+
 				listViewTextures.SmallImageList.Images.Add(small_img);
-				//listViewTextures.LargeImageList.Images.Add(big_img);
 				listViewTextures.Items.Add(new ListViewItem(Path.GetFileName(t.Path), i));
 				i++;
 			}

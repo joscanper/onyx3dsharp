@@ -14,51 +14,65 @@ namespace Onyx3D
 
 		// ----------------------------------------------------------------  Getters
 
-		private T GetResource<T>(int id, Dictionary<int, T> map, Func<OnyxProjectAsset, T> loadFallback) where T : GameAsset
+       
+		private T GetResource<T>(int id, Dictionary<int, T> map, Func<OnyxProjectAsset, T> loadFallback, int defaultAsset) where T : GameAsset
 		{
+
 			if (!map.ContainsKey(id))
 			{
 				OnyxProjectAsset asset = ProjectManager.Instance.Content.GetAsset(id);
-				map[id] = loadFallback(asset);
+                if (asset == null)
+                    return GetResource(defaultAsset, map, loadFallback, 0);
+
+                map[id] = loadFallback(asset);
 				map[id].LinkedProjectAsset = asset; 
 			}
 
 			return map[id];
 		}
 
-		public Mesh GetMesh(int id)
+        private void ReloadResource<T>(int id, Dictionary<int, T> map, Func<OnyxProjectAsset, T> loadFallback) where T : GameAsset
+        {
+            OnyxProjectAsset asset = GetResource(id, map, loadFallback, 0).LinkedProjectAsset;
+            T newAsset = loadFallback(asset);
+            map[id].Copy(newAsset);
+        }
+
+        public Mesh GetMesh(int id)
 		{
-			return GetResource(id, mMeshes, LoadMesh);
+			return GetResource(id, mMeshes, LoadMesh, BuiltInMesh.Cube);
 		}
 
 		public Material GetMaterial(int id)
 		{
-			return GetResource(id, mMaterials, LoadMaterial);
+			return GetResource(id, mMaterials, LoadMaterial, BuiltInMaterial.NotFound);
 		}
 		
 		public Texture GetTexture(int id)
 		{
-			return GetResource(id, mTextures, LoadTexture);
+			return GetResource(id, mTextures, LoadTexture, BuiltInTexture.Checker);
 		}
 
 		public Shader GetShader(int id)
 		{
-			return GetResource(id, mShaders, LoadShader);
+			return GetResource(id, mShaders, LoadShader, BuiltInShader.Default);
 		}
+
+        public void ReloadMaterial(int id)
+        {
+            ReloadResource(id, mMaterials, LoadMaterial);
+        }
 
 		// ----------------------------------------------------------------  Loaders
 
 		private Mesh LoadMesh(OnyxProjectAsset asset)
 		{
-			return ObjLoader.Load(asset.Path);
+			return ObjLoader.Load(asset.AbsolutePath);
 		}
 
 		private Material LoadMaterial(OnyxProjectAsset asset)
 		{
-			XmlReader xmlReader = XmlReader.Create(ProjectContent.GetAbsolutePath(asset.Path));
-			Material m = new Material();
-			m.ReadXml(xmlReader);
-			return m;
+			return MaterialLoader.Load(asset.AbsolutePath);
 		}
 
 		private Shader LoadShader(OnyxProjectAsset asset)
@@ -69,7 +83,7 @@ namespace Onyx3D
 
 		private Texture LoadTexture(OnyxProjectAsset asset)
 		{
-			return new Texture(asset.Path);
+			return new Texture(asset.AbsolutePath);
 		}
 	}
 	

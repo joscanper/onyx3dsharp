@@ -89,3 +89,6 @@ C:\Users\Josue\Desktop\Onyx3DSharp\Onyx3DEditor\bin\Debug\Resources\Models\quad.
 C:\Users\MiriamYJosue\Documents\Projects\Onyx3DSharp\Onyx3DEditor\obj\Debug\Onyx3DEditor.SceneHierarchyControl.resources
 C:\Users\MiriamYJosue\Documents\Projects\Onyx3DSharp\Onyx3DEditor\obj\Debug\Onyx3DEditor.SelectedObjectInspector.resources
 C:\Users\MiriamYJosue\Documents\Projects\Onyx3DSharp\Onyx3DEditor\bin\Debug\Resources\Models\quad.obj
+C:\Users\MiriamYJosue\Documents\Projects\Onyx3DSharp\Onyx3DEditor\bin\Debug\Resources\Textures\white.jpg
+C:\Users\MiriamYJosue\Documents\Projects\Onyx3DSharp\Onyx3DEditor\bin\Debug\Resources\Textures\black.jpg
+C:\Users\MiriamYJosue\Documents\Projects\Onyx3DSharp\Onyx3DEditor\bin\Debug\Resources\Materials\NotFound.o3dmat

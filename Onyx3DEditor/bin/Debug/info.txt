@@ -1,3 +1,0 @@
-Shader :: Failed to compile VertexShader shader: 0(64) : error C7011: implicit cast from "vec4" to "vec3"
-
-Shader :: Failed to create program

@@ -56,7 +56,6 @@ namespace Onyx3DEditor
             this.toolStripButtonOpenProject = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonSaveProject = new System.Windows.Forms.ToolStripButton();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.sceneHierarchy = new Onyx3DEditor.SceneHierarchyControl();
             this.toolStripScene = new System.Windows.Forms.ToolStrip();
             this.toolStripButtonChangeScene = new System.Windows.Forms.ToolStripButton();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
@@ -65,18 +64,20 @@ namespace Onyx3DEditor
             this.toolStripButtonScale = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonRotate = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripCreateQuad = new System.Windows.Forms.ToolStripButton();
             this.toolStripCreateCube = new System.Windows.Forms.ToolStripButton();
             this.toolStripCreateCylinder = new System.Windows.Forms.ToolStripButton();
             this.toolStripCreateSphere = new System.Windows.Forms.ToolStripButton();
             this.toolStripCreateTeapot = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripCreateLight = new System.Windows.Forms.ToolStripButton();
-            this.selectedObjectInspector = new Onyx3DEditor.SelectedObjectInspector();
             this.toolStrip3 = new System.Windows.Forms.ToolStrip();
             this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.toolStripCreateQuad = new System.Windows.Forms.ToolStripButton();
+            this.labelLoggerOutput = new System.Windows.Forms.Label();
+            this.sceneHierarchy = new Onyx3DEditor.SceneHierarchyControl();
+            this.selectedObjectInspector = new Onyx3DEditor.SelectedObjectInspector();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -172,14 +173,6 @@ namespace Onyx3DEditor
             this.splitContainer1.SplitterDistance = 158;
             this.splitContainer1.TabIndex = 2;
             // 
-            // sceneHierarchy
-            // 
-            this.sceneHierarchy.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.sceneHierarchy.Location = new System.Drawing.Point(0, 0);
-            this.sceneHierarchy.Name = "sceneHierarchy";
-            this.sceneHierarchy.Size = new System.Drawing.Size(158, 495);
-            this.sceneHierarchy.TabIndex = 4;
-            // 
             // toolStripScene
             // 
             this.toolStripScene.Dock = System.Windows.Forms.DockStyle.Bottom;
@@ -210,6 +203,7 @@ namespace Onyx3DEditor
             // 
             // splitContainer2.Panel1
             // 
+            this.splitContainer2.Panel1.Controls.Add(this.labelLoggerOutput);
             this.splitContainer2.Panel1.Controls.Add(this.toolStrip2);
             this.splitContainer2.Panel1.Controls.Add(this.renderCanvas);
             this.splitContainer2.Panel1MinSize = 600;
@@ -281,6 +275,16 @@ namespace Onyx3DEditor
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
             // 
+            // toolStripCreateQuad
+            // 
+            this.toolStripCreateQuad.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripCreateQuad.Image = ((System.Drawing.Image)(resources.GetObject("toolStripCreateQuad.Image")));
+            this.toolStripCreateQuad.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripCreateQuad.Name = "toolStripCreateQuad";
+            this.toolStripCreateQuad.Size = new System.Drawing.Size(23, 22);
+            this.toolStripCreateQuad.Text = "toolStripButton3";
+            this.toolStripCreateQuad.Click += new System.EventHandler(this.toolStripCreateQuad_Click);
+            // 
             // toolStripCreateCube
             // 
             this.toolStripCreateCube.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -341,17 +345,6 @@ namespace Onyx3DEditor
             this.toolStripCreateLight.ToolTipText = "Create Light";
             this.toolStripCreateLight.Click += new System.EventHandler(this.toolStripCreateLight_Click);
             // 
-            // selectedObjectInspector
-            // 
-            this.selectedObjectInspector.AutoScroll = true;
-            this.selectedObjectInspector.AutoSize = true;
-            this.selectedObjectInspector.BackColor = System.Drawing.SystemColors.Control;
-            this.selectedObjectInspector.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.selectedObjectInspector.Location = new System.Drawing.Point(0, 0);
-            this.selectedObjectInspector.Name = "selectedObjectInspector";
-            this.selectedObjectInspector.Size = new System.Drawing.Size(192, 520);
-            this.selectedObjectInspector.TabIndex = 0;
-            // 
             // toolStrip3
             // 
             this.toolStrip3.Dock = System.Windows.Forms.DockStyle.Left;
@@ -391,15 +384,38 @@ namespace Onyx3DEditor
             this.timer1.Interval = 14;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
-            // toolStripCreateQuad
+            // labelLoggerOutput
             // 
-            this.toolStripCreateQuad.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripCreateQuad.Image = ((System.Drawing.Image)(resources.GetObject("toolStripCreateQuad.Image")));
-            this.toolStripCreateQuad.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripCreateQuad.Name = "toolStripCreateQuad";
-            this.toolStripCreateQuad.Size = new System.Drawing.Size(23, 22);
-            this.toolStripCreateQuad.Text = "toolStripButton3";
-            this.toolStripCreateQuad.Click += new System.EventHandler(this.toolStripCreateQuad_Click);
+            this.labelLoggerOutput.AutoSize = true;
+            this.labelLoggerOutput.BackColor = System.Drawing.Color.Black;
+            this.labelLoggerOutput.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.labelLoggerOutput.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.labelLoggerOutput.ForeColor = System.Drawing.Color.Red;
+            this.labelLoggerOutput.Location = new System.Drawing.Point(0, 507);
+            this.labelLoggerOutput.Name = "labelLoggerOutput";
+            this.labelLoggerOutput.Size = new System.Drawing.Size(57, 13);
+            this.labelLoggerOutput.TabIndex = 2;
+            this.labelLoggerOutput.Text = "Label Test";
+            // 
+            // sceneHierarchy
+            // 
+            this.sceneHierarchy.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.sceneHierarchy.Location = new System.Drawing.Point(0, 0);
+            this.sceneHierarchy.Name = "sceneHierarchy";
+            this.sceneHierarchy.Size = new System.Drawing.Size(158, 495);
+            this.sceneHierarchy.TabIndex = 4;
+            // 
+            // selectedObjectInspector
+            // 
+            this.selectedObjectInspector.AutoScroll = true;
+            this.selectedObjectInspector.AutoSize = true;
+            this.selectedObjectInspector.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.selectedObjectInspector.BackColor = System.Drawing.SystemColors.Control;
+            this.selectedObjectInspector.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.selectedObjectInspector.Location = new System.Drawing.Point(0, 0);
+            this.selectedObjectInspector.Name = "selectedObjectInspector";
+            this.selectedObjectInspector.Size = new System.Drawing.Size(192, 520);
+            this.selectedObjectInspector.TabIndex = 0;
             // 
             // MainWindow
             // 
@@ -408,10 +424,10 @@ namespace Onyx3DEditor
             this.ClientSize = new System.Drawing.Size(979, 545);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.toolStrip1);
-            this.Name = "MainWindow";
-            this.Text = "MainWindow";
+            this.Name = "Onyx3DSharp";
+            this.Text = "Onyx3DSharp";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-            this.Activated += new System.EventHandler(this.MainWindow_Activated);
+            //this.Activated += new System.EventHandler(this.MainWindow_Activated);
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
             this.splitContainer1.Panel1.ResumeLayout(false);
@@ -468,5 +484,6 @@ namespace Onyx3DEditor
 		private ToolStripSeparator toolStripSeparator2;
 		private ToolStripButton toolStripCreateLight;
         private ToolStripButton toolStripCreateQuad;
+        private Label labelLoggerOutput;
     }
 }
