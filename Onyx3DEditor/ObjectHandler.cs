@@ -111,7 +111,7 @@ abstract class HandlerOperator
 
 	public void CheckHandleStart(SceneObject obj, Ray ray)
 	{
-		CheckSelectedAxis(ray);
+		CheckSelectedAxis(obj, ray);
 
 		if (IsHandling)
 			OnHandleStart(obj);
@@ -143,7 +143,7 @@ abstract class HandlerOperator
 		gizmos.DrawBox(mZAxisBound.Center, Vector3.One * 0.25f, SelectedAxis == Vector3.UnitZ ? Vector3.UnitY : Vector3.Zero);
 	}
 
-	virtual public void CheckSelectedAxis(Ray ray)
+	virtual public void CheckSelectedAxis(SceneObject obj, Ray ray)
 	{
 		if (mXAxisBound.IntersectsRay(ray))
 			SelectedAxis = Vector3.UnitX;
@@ -188,11 +188,12 @@ class ObjectHandlerScale : HandlerOperator
 	private Bounds mXYZAxisBound;
 
 	private Vector3 mScale;
-	private Vector3 mInitialPoint;
+	private Vector3 mInitAxisPoint;
 
 	protected override void OnHandleStart(SceneObject obj)
 	{
 		mScale = obj.Transform.LocalScale;
+
 	}
 
 	public override void DrawGizmos(SceneObject obj, GizmosManager gizmos)
@@ -211,23 +212,26 @@ class ObjectHandlerScale : HandlerOperator
 
 	public override void Handle(SceneObject obj, Ray ray)
 	{
-		Ray axisRay = new Ray(obj.Transform.Position, SelectedAxis);
-		Vector3 closestPointToAxis = axisRay.ClosestPointTo(ray);
-		Vector3 axisPoint = (obj.Transform.Position + SelectedAxis);
+		
 		Vector3 scale = mScale;
+
+
+		Vector3 closestPointToAxis = GetClosestPointToAxis(obj, ray, SelectedAxis);
 		if (SelectedAxis == Vector3.One)
 		{
-			scale = new Vector3(closestPointToAxis.Length / axisPoint.Length);
+			float scaleY = closestPointToAxis.Y / mInitAxisPoint.Y;
+			scale = new Vector3(scaleY);
 		}
 		else
 		{
 			scale = new Vector3(
-				SelectedAxis == Vector3.UnitX ? closestPointToAxis.X / axisPoint.X : 1.0f,
-				SelectedAxis == Vector3.UnitY ? closestPointToAxis.Y / axisPoint.Y : 1.0f,
-				SelectedAxis == Vector3.UnitZ ? closestPointToAxis.Z / axisPoint.Z : 1.0f);
+				SelectedAxis == Vector3.UnitX ? closestPointToAxis.X / mInitAxisPoint.X : 1.0f,
+				SelectedAxis == Vector3.UnitY ? closestPointToAxis.Y / mInitAxisPoint.Y : 1.0f,
+				SelectedAxis == Vector3.UnitZ ? closestPointToAxis.Z / mInitAxisPoint.Z : 1.0f);
 		}
 		obj.Transform.LocalScale = mScale * scale;
 	}
+
 
 	public override void Update(SceneObject obj)
 	{
@@ -236,12 +240,26 @@ class ObjectHandlerScale : HandlerOperator
 		mXYZAxisBound.SetMinMax(obj.Transform.Position - Vector3.One * 0.1f, obj.Transform.Position + Vector3.One * 0.1f);
 	}
 
-	public override void CheckSelectedAxis(Ray ray)
+	public override void CheckSelectedAxis(SceneObject obj, Ray ray)
 	{
 		if (mXYZAxisBound.IntersectsRay(ray))
 			SelectedAxis = Vector3.One;
 
-		base.CheckSelectedAxis(ray);
+		base.CheckSelectedAxis(obj, ray);
+
+		if (SelectedAxis != Vector3.Zero)
+		{
+			if (SelectedAxis == Vector3.One)
+				mInitAxisPoint = obj.Transform.Position;
+			else
+				mInitAxisPoint = GetClosestPointToAxis(obj, ray, SelectedAxis);
+		}
+	}
+	
+	private Vector3 GetClosestPointToAxis(SceneObject obj, Ray ray, Vector3 axis)
+	{
+		Ray axisRay = new Ray(obj.Transform.Position, axis);
+		return axisRay.ClosestPointTo(ray);
 	}
 
 }
@@ -251,11 +269,13 @@ class ObjectHandlerScale : HandlerOperator
 class ObjectHandlerRotate : HandlerOperator
 {
 
-	private Vector3 mScale;
+
+
+	private Vector3 closestPoint;
 
 	protected override void OnHandleStart(SceneObject obj)
 	{
-		mScale = obj.Transform.LocalScale;
+	
 	}
 
 	public override void DrawGizmos(SceneObject obj, GizmosManager gizmos)
@@ -273,19 +293,35 @@ class ObjectHandlerRotate : HandlerOperator
 		gizmos.DrawSphere(obj.Transform.Position + Vector3.UnitX, 0.05f, Vector3.UnitZ);
 		gizmos.DrawSphere(obj.Transform.Position + Vector3.UnitY, 0.05f, Vector3.UnitX);
 		gizmos.DrawSphere(obj.Transform.Position + Vector3.UnitZ, 0.05f, Vector3.UnitY);
+
+		gizmos.DrawLine(obj.Transform.Position, closestPoint, Vector3.One);
 	}
 
 	public override void Handle(SceneObject obj, Ray ray)
 	{
 		
 		Ray axisRay = new Ray(obj.Transform.Position, SelectedAxis);
-		Vector3 closestPointToRay = ray.ClosestPointTo(axisRay);
-		Vector3 axisPoint = (obj.Transform.Position + SelectedAxis);
-		Quaternion prevAngle = obj.Transform.LocalRotation;
-		float angleOffset = Vector3.CalculateAngle(axisPoint, closestPointToRay);
+
+		closestPoint = axisRay.ClosestPointTo(ray);
+		Vector3 dirToClosest = (closestPoint - obj.Transform.Position) * SelectedAxis;
+		//Vector3 axisPoint = (obj.Transform.Position + SelectedAxis);
+		//Quaternion prevAngle = obj.Transform.LocalRotation;
+		float angleOffset = Vector3.CalculateAngle(SelectedAxis, dirToClosest);
 		
 
 		obj.Transform.LocalRotation += Quaternion.FromEulerAngles(SelectedAxis * angleOffset);
+	}
+
+	public override void CheckSelectedAxis(SceneObject obj, Ray ray)
+	{
+
+		base.CheckSelectedAxis(obj, ray);
+
+		/*
+		if (SelectedAxis == Vector3.UnitX) SelectedAxis = Vector3.UnitY;
+		else if (SelectedAxis == Vector3.UnitY) SelectedAxis = Vector3.UnitZ;
+		else if (SelectedAxis == Vector3.UnitZ) SelectedAxis = Vector3.UnitX;
+		*/
 	}
 
 }
