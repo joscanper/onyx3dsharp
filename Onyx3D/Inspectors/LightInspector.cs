@@ -41,7 +41,7 @@ namespace Onyx3D
 
 		public override int GetFieldCount()
 		{
-			return 2;
+			return 3;
 		}
 	}
 }
