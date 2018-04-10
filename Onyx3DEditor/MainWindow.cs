@@ -24,6 +24,11 @@ namespace Onyx3DEditor
 		ObjectHandler mObjectHandler;
 		OnyxViewerNavigation mNavigation = new OnyxViewerNavigation();
 
+		float mCameraAngle;
+
+		Camera mCamera;
+		FrameBuffer mFbuffer;
+
 		public MainWindow()
 		{
 			InitializeComponent();
@@ -70,6 +75,10 @@ namespace Onyx3DEditor
 			sceneHierarchy.SetScene(mScene);
 			// TODO - This could allocate several times
 			selectedObjectInspector.OnInspectorChanged += OnInspectorChanged;
+
+			mCamera = new PerspectiveCamera("TestCam", (float)Math.PI/2.0f, 1);
+			mCamera.Transform.LocalPosition = new Vector3(0, 1, 0);
+			mFbuffer = new FrameBuffer(64, 64);
 		}
 
 		private void OnSelectionChanged(List<SceneObject> selected)
@@ -186,9 +195,37 @@ namespace Onyx3DEditor
 			}
 
 			renderCanvas.SwapBuffers();
+			labelLoggerOutput.Text = Logger.Instance.Content;
 
-            labelLoggerOutput.Text = Logger.Instance.Content;
+			// ----------------- FrameBuffer test
 
+			mCamera.Transform.LocalRotation = Quaternion.FromEulerAngles(0, mCameraAngle, 0);
+
+			mFbuffer.Bind();
+			mOnyxInstance.Renderer.Render(mScene, mCamera, mFbuffer.Width, mFbuffer.Height);
+			pictureBoxTest.Image = mFbuffer.Texture.AsBitmap();
+			mFbuffer.Unbind();
+
+			mCamera.Transform.Rotate(new Vector3(0, (float)Math.PI/2.0f, 0));
+
+			mFbuffer.Bind();
+			mOnyxInstance.Renderer.Render(mScene, mCamera, mFbuffer.Width, mFbuffer.Height);
+			pictureBoxTest4.Image = mFbuffer.Texture.AsBitmap();
+			mFbuffer.Unbind();
+
+			mCamera.Transform.Rotate(new Vector3(0, (float)Math.PI / 2.0f, 0));
+
+			mFbuffer.Bind();
+			mOnyxInstance.Renderer.Render(mScene, mCamera, mFbuffer.Width, mFbuffer.Height);
+			pictureBoxTest3.Image = mFbuffer.Texture.AsBitmap();
+			mFbuffer.Unbind();
+
+			mCamera.Transform.Rotate(new Vector3(0, (float)Math.PI / 2.0f, 0));
+
+			mFbuffer.Bind();
+			mOnyxInstance.Renderer.Render(mScene, mCamera, mFbuffer.Width, mFbuffer.Height);
+			pictureBoxTest2.Image = mFbuffer.Texture.AsBitmap();
+			mFbuffer.Unbind();
 		}
 
 		#region RenderCanvas callbacks
@@ -234,7 +271,8 @@ namespace Onyx3DEditor
 		private void timer1_Tick(object sender, EventArgs e)
 		{
 			//myTeapot.Transform.Rotate(new Vector3(0, 0.1f, 0));
-			//renderCanvas.Refresh();
+			renderCanvas.Refresh();
+			mCameraAngle += 0.01f;
 		}
 
 		private void toolStripButtonSaveProject_Click(object sender, EventArgs e)
@@ -361,6 +399,7 @@ namespace Onyx3DEditor
 			toolStripButtonMove.Checked = true;
 			toolStripButtonRotate.Checked = false;
 			mObjectHandler.SetAxisAction(ObjectHandler.HandlerAxisAction.Translate);
+			renderCanvas.Refresh();
 		}
 
 		private void toolStripButtonScale_Click(object sender, EventArgs e)
@@ -369,6 +408,7 @@ namespace Onyx3DEditor
 			toolStripButtonMove.Checked = false;
 			toolStripButtonRotate.Checked = false;
 			mObjectHandler.SetAxisAction(ObjectHandler.HandlerAxisAction.Scale);
+			renderCanvas.Refresh();
 		}
 
 		private void toolStripButtonRotate_Click(object sender, EventArgs e)
@@ -377,6 +417,7 @@ namespace Onyx3DEditor
 			toolStripButtonMove.Checked = false;
 			toolStripButtonRotate.Checked = true;
 			mObjectHandler.SetAxisAction(ObjectHandler.HandlerAxisAction.Rotate);
+			renderCanvas.Refresh();
 		}
 
 
