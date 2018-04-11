@@ -69,8 +69,10 @@
     <Compile Include="Core\ResourcesManager.cs" />
     <Compile Include="Core\Types\Ray.cs" />
     <Compile Include="Core\GizmosManager.cs" />
+    <Compile Include="Graphics\Cubemap.cs" />
     <Compile Include="Graphics\DefaultMaterial.cs" />
     <Compile Include="Graphics\FrameBuffer.cs" />
+    <Compile Include="Graphics\Generators\CubemapGenerator.cs" />
     <Compile Include="Graphics\Lighting.cs" />
     <Compile Include="Graphics\Meshes\CubeMesh.cs" />
     <Compile Include="Graphics\Meshes\CylinderMesh.cs" />

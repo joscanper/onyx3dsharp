@@ -26,8 +26,8 @@ namespace Onyx3DEditor
 
 		float mCameraAngle;
 
-		Camera mCamera;
-		FrameBuffer mFbuffer;
+        Cubemap mCubemap;
+        CubemapGenerator mCubemapGenerator;
 
 		public MainWindow()
 		{
@@ -76,10 +76,12 @@ namespace Onyx3DEditor
 			// TODO - This could allocate several times
 			selectedObjectInspector.OnInspectorChanged += OnInspectorChanged;
 
-			mCamera = new PerspectiveCamera("TestCam", (float)Math.PI/2.0f, 1);
-			mCamera.Transform.LocalPosition = new Vector3(0, 1, 0);
-			mFbuffer = new FrameBuffer(64, 64);
-		}
+
+            mCubemap = new Cubemap();
+            mCubemapGenerator = new CubemapGenerator(64);
+
+
+        }
 
 		private void OnSelectionChanged(List<SceneObject> selected)
 		{
@@ -197,36 +199,16 @@ namespace Onyx3DEditor
 			renderCanvas.SwapBuffers();
 			labelLoggerOutput.Text = Logger.Instance.Content;
 
-			// ----------------- FrameBuffer test
 
-			mCamera.Transform.LocalRotation = Quaternion.FromEulerAngles(0, mCameraAngle, 0);
+            mCubemapGenerator.Generate(mOnyxInstance.Renderer, mScene, new Vector3(0, 1, 0), ref mCubemap, mCameraAngle);
+            pictureBoxTest.Image = mCubemap.TextureFront.AsBitmap();
+            pictureBoxTest2.Image = mCubemap.TextureLeft.AsBitmap();
+            pictureBoxTest3.Image = mCubemap.TextureBack.AsBitmap();
+            pictureBoxTest4.Image = mCubemap.TextureRight.AsBitmap();
+            //pictureBoxTest5.Image = mCubemap.TextureFront.AsBitmap();
+            //pictureBoxTest6.Image = mCubemap.TextureFront.AsBitmap();
 
-			mFbuffer.Bind();
-			mOnyxInstance.Renderer.Render(mScene, mCamera, mFbuffer.Width, mFbuffer.Height);
-			pictureBoxTest.Image = mFbuffer.Texture.AsBitmap();
-			mFbuffer.Unbind();
-
-			mCamera.Transform.Rotate(new Vector3(0, (float)Math.PI/2.0f, 0));
-
-			mFbuffer.Bind();
-			mOnyxInstance.Renderer.Render(mScene, mCamera, mFbuffer.Width, mFbuffer.Height);
-			pictureBoxTest4.Image = mFbuffer.Texture.AsBitmap();
-			mFbuffer.Unbind();
-
-			mCamera.Transform.Rotate(new Vector3(0, (float)Math.PI / 2.0f, 0));
-
-			mFbuffer.Bind();
-			mOnyxInstance.Renderer.Render(mScene, mCamera, mFbuffer.Width, mFbuffer.Height);
-			pictureBoxTest3.Image = mFbuffer.Texture.AsBitmap();
-			mFbuffer.Unbind();
-
-			mCamera.Transform.Rotate(new Vector3(0, (float)Math.PI / 2.0f, 0));
-
-			mFbuffer.Bind();
-			mOnyxInstance.Renderer.Render(mScene, mCamera, mFbuffer.Width, mFbuffer.Height);
-			pictureBoxTest2.Image = mFbuffer.Texture.AsBitmap();
-			mFbuffer.Unbind();
-		}
+        }
 
 		#region RenderCanvas callbacks
 
