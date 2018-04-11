@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Material>
+	<Name>ReflectionProbe</Name>
+	<Shader>300000004</Shader>
+
+	<Properties>
+		<Property id="color" type="color" value="1,1,1,1"/>
+    <Property id="cubemap" type="sameplerCube" value="0"/>
+	</Properties>
+</Material>

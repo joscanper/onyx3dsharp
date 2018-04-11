@@ -55,7 +55,6 @@ C:\Users\Josue\Desktop\Onyx3DSharp\Onyx3D\obj\Debug\Onyx3D.csproj.CoreCompileInp
 C:\Users\Josue\Desktop\Onyx3DSharp\Onyx3D\obj\Debug\Onyx3D.dll
 C:\Users\Josue\Desktop\Onyx3DSharp\Onyx3D\obj\Debug\Onyx3D.pdb
 C:\Users\Josue\Desktop\Onyx3DSharp\Onyx3D\bin\Debug\Resources\Models\quad.obj
-C:\Users\Josue\Desktop\Onyx3DSharp\Onyx3D\obj\Debug\Onyx3D.csprojResolveAssemblyReference.cache
 C:\Users\MiriamYJosue\Documents\Projects\Onyx3DSharp\Onyx3D\bin\Debug\Resources\Models\quad.obj
 C:\Users\MiriamYJosue\Documents\Projects\Onyx3DSharp\Onyx3D\bin\Debug\Resources\Textures\white.jpg
 C:\Users\MiriamYJosue\Documents\Projects\Onyx3DSharp\Onyx3D\bin\Debug\Resources\Textures\black.jpg
@@ -64,3 +63,6 @@ C:\Users\MiriamYJosue\Documents\Projects\Onyx3DSharp\Onyx3D\bin\Debug\Resources\
 C:\Users\Josue\Desktop\Onyx3DSharp\Onyx3D\bin\Debug\Resources\Textures\white.jpg
 C:\Users\Josue\Desktop\Onyx3DSharp\Onyx3D\bin\Debug\Resources\Textures\black.jpg
 C:\Users\Josue\Desktop\Onyx3DSharp\Onyx3D\bin\Debug\Resources\Materials\NotFound.o3dmat
+C:\Users\Josue\Desktop\Onyx3DSharp\Onyx3D\bin\Debug\Resources\Shaders\ReflectionProbeFragmentShader.glsl
+C:\Users\Josue\Desktop\Onyx3DSharp\Onyx3D\bin\Debug\Resources\Materials\ReflectionProbe.o3dmat
+C:\Users\Josue\Desktop\Onyx3DSharp\Onyx3D\obj\Debug\Onyx3D.csprojResolveAssemblyReference.cache

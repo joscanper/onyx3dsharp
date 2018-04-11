@@ -47,12 +47,14 @@ namespace Onyx3D
             AddAsset(new OnyxProjectShaderAsset("./Resources/Shaders/VertexShader.glsl", "./Resources/Shaders/FragmentShader.glsl", BuiltInShader.Default));
 			AddAsset(new OnyxProjectShaderAsset("./Resources/Shaders/VertexShader.glsl", "./Resources/Shaders/UnlitFragmentShader.glsl", BuiltInShader.Unlit));
 			AddAsset(new OnyxProjectShaderAsset("./Resources/Shaders/VertexShader.glsl", "./Resources/Shaders/UnlitVertexColorFragmentShader.glsl", BuiltInShader.UnlitVertexColor));
+			AddAsset(new OnyxProjectShaderAsset("./Resources/Shaders/VertexShader.glsl", "./Resources/Shaders/ReflectionProbeFragmentShader.glsl", BuiltInShader.ReflectionProbe));
 
-            // Built-in materials (from 400000000)
-            AddAsset(new OnyxProjectAsset("./Resources/Materials/NotFound.o3dmat", BuiltInMaterial.NotFound));
+			// Built-in materials (from 400000000)
+			AddAsset(new OnyxProjectAsset("./Resources/Materials/NotFound.o3dmat", BuiltInMaterial.NotFound));
             AddAsset(new OnyxProjectAsset("./Resources/Materials/Default.o3dmat", BuiltInMaterial.Default));
 			AddAsset(new OnyxProjectAsset("./Resources/Materials/Unlit.o3dmat", BuiltInMaterial.Unlit));
 			AddAsset(new OnyxProjectAsset("./Resources/Materials/UnlitVertexColor.o3dmat", BuiltInMaterial.UnlitVertexColor));
+			AddAsset(new OnyxProjectAsset("./Resources/Materials/ReflectionProbe.o3dmat", BuiltInMaterial.ReflectionProbe));
 
 			AddAssets(Scenes);
 			AddAssets(Materials);

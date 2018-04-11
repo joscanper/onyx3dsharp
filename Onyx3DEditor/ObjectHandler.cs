@@ -290,9 +290,9 @@ class ObjectHandlerRotate : HandlerOperator
 		gizmos.DrawLine(obj.Transform.Position + obj.Transform.Up * 0.5f, obj.Transform.Position + obj.Transform.Up, Vector3.UnitX);
 		gizmos.DrawLine(obj.Transform.Position + obj.Transform.Forward * 0.5f, obj.Transform.Position + obj.Transform.Forward, Vector3.UnitY);
 
-		gizmos.DrawSphere(obj.Transform.Position + Vector3.UnitX, 0.05f, Vector3.UnitZ);
-		gizmos.DrawSphere(obj.Transform.Position + Vector3.UnitY, 0.05f, Vector3.UnitX);
-		gizmos.DrawSphere(obj.Transform.Position + Vector3.UnitZ, 0.05f, Vector3.UnitY);
+		gizmos.DrawWireSphere(obj.Transform.Position + Vector3.UnitX, 0.05f, Vector3.UnitZ);
+		gizmos.DrawWireSphere(obj.Transform.Position + Vector3.UnitY, 0.05f, Vector3.UnitX);
+		gizmos.DrawWireSphere(obj.Transform.Position + Vector3.UnitZ, 0.05f, Vector3.UnitY);
 
 		gizmos.DrawLine(obj.Transform.Position, closestPoint, Vector3.One);
 	}

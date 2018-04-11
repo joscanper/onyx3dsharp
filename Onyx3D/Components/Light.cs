@@ -26,7 +26,7 @@ namespace Onyx3D
 
         public override void OnDrawGizmos(GizmosManager gizmos)
         {
-            gizmos.DrawSphere(Transform.Position, 0.1f, Color.Xyz, 20);
+            gizmos.DrawWireSphere(Transform.Position, 0.1f, Color.Xyz, 20);
         }
 
 		public override Type GetInspectorType()

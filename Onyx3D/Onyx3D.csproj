@@ -56,6 +56,7 @@
     <Compile Include="Components\Light.cs" />
     <Compile Include="Components\LineRenderer.cs" />
     <Compile Include="Components\QuadRenderer.cs" />
+    <Compile Include="Components\ReflectionProbe.cs" />
     <Compile Include="Core\EngineComponent.cs" />
     <Compile Include="Core\Extensions\QuaterionExtension.cs" />
     <Compile Include="Core\Onyx3DInstance.cs" />
@@ -121,6 +122,10 @@
     <None Include="Resources\Materials\Default.o3dmat">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="Resources\Materials\ReflectionProbe.o3dmat">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Resources\Materials\Unlit.o3dmat">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
@@ -160,6 +165,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Shaders\UnlitVertexColorFragmentShader.glsl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Shaders\ReflectionProbeFragmentShader.glsl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

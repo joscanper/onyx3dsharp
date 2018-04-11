@@ -32,6 +32,7 @@ namespace Onyx3D
 			GL.GenFramebuffers(1, out mFrameBufferId);
 			GL.BindFramebuffer(FramebufferTarget.Framebuffer, mFrameBufferId);
 
+			
 			Texture = new Texture(w, h);
 			
 			GL.GenRenderbuffers(1, out mDepthId);
@@ -49,7 +50,6 @@ namespace Onyx3D
 			if (result != FramebufferErrorCode.FramebufferComplete)
 				Logger.Instance.Append("Framebuffer failed status : " + result.ToString());
 		}
-
 
 		public void Bind()
 		{

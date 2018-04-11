@@ -28,7 +28,7 @@ namespace Onyx3D
 
         public Cubemap Generate(RenderManager renderMgr, Scene scene, Vector3 position, float yaw = 0)
         {
-            Cubemap cubemap = new Cubemap();
+			Cubemap cubemap = new Cubemap();
             Generate(renderMgr, scene, position, ref cubemap, yaw);
             return cubemap;
         }
@@ -41,17 +41,24 @@ namespace Onyx3D
             for (int i = 0; i < 6; i++)
             {
                 mCamera.Transform.LocalRotation = Quaternion.FromEulerAngles(initRotation + mCamRotations[i]);
-                mFrameBuffer[i].Bind();
+
+				mFrameBuffer[i].Bind();
                 renderMgr.Render(scene, mCamera, mFrameBuffer[i].Width, mFrameBuffer[i].Height);
                 mFrameBuffer[i].Unbind();
-            }
 
+				cubemap.SetTexture(i, mFrameBuffer[i].Texture);
+
+			}
+
+			
             cubemap.TextureFront = mFrameBuffer[0].Texture;
             cubemap.TextureRight = mFrameBuffer[1].Texture;
             cubemap.TextureBack = mFrameBuffer[2].Texture;
             cubemap.TextureLeft = mFrameBuffer[3].Texture;
             cubemap.TextureUp = mFrameBuffer[4].Texture;
             cubemap.TextureDown = mFrameBuffer[5].Texture;
-        }
+			
+	
+		}
     }
 }

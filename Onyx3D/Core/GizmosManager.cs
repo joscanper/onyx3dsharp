@@ -51,11 +51,21 @@ namespace Onyx3D
 
 		}
 
-		public void DrawSphere(Vector3 position, float radius, Vector3 color, int segments = 100)
+		public void DrawWireSphere(Vector3 position, float radius, Vector3 color, int segments = 100)
 		{
 			DrawCircle(position, radius, color, Vector3.UnitY, segments);
 			DrawCircle(position, radius, color, Vector3.UnitZ, segments);
 			DrawCircle(position, radius, color, Vector3.UnitX, segments);
+		}
+
+		public void DrawSphere(Vector3 position, float radius, Vector3 color)
+		{
+			MeshRenderer mySphere = GetComponent<MeshRenderer>();
+			mySphere.Mesh = Onyx3D.Resources.GetMesh(BuiltInMesh.Sphere);
+			mySphere.Material = Onyx3D.Resources.GetMaterial(BuiltInMaterial.ReflectionProbe);
+			mySphere.Transform.LocalScale = Vector3.One * radius;
+			mySphere.Transform.LocalPosition = position;
+			mRenderers.Add(mySphere);
 		}
 
 		public void DrawAxis(Vector3 position)

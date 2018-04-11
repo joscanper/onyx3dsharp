@@ -23,11 +23,8 @@ namespace Onyx3DEditor
 		Ray mClickRay;
 		ObjectHandler mObjectHandler;
 		OnyxViewerNavigation mNavigation = new OnyxViewerNavigation();
+		ReflectionProbe mReflectionProbe;
 
-		float mCameraAngle;
-
-        Cubemap mCubemap;
-        CubemapGenerator mCubemapGenerator;
 
 		public MainWindow()
 		{
@@ -76,12 +73,12 @@ namespace Onyx3DEditor
 			// TODO - This could allocate several times
 			selectedObjectInspector.OnInspectorChanged += OnInspectorChanged;
 
-
-            mCubemap = new Cubemap();
-            mCubemapGenerator = new CubemapGenerator(64);
-
-
-        }
+			SceneObject test = new SceneObject("test");
+			test.Parent = mScene.Root;
+			test.Transform.LocalPosition = new Vector3(0, 1, 0);
+			mReflectionProbe = test.AddComponent<ReflectionProbe>();
+			mReflectionProbe.Init(128);
+		}
 
 		private void OnSelectionChanged(List<SceneObject> selected)
 		{
@@ -200,11 +197,11 @@ namespace Onyx3DEditor
 			labelLoggerOutput.Text = Logger.Instance.Content;
 
 
-            mCubemapGenerator.Generate(mOnyxInstance.Renderer, mScene, new Vector3(0, 1, 0), ref mCubemap, mCameraAngle);
-            pictureBoxTest.Image = mCubemap.TextureFront.AsBitmap();
-            pictureBoxTest2.Image = mCubemap.TextureLeft.AsBitmap();
-            pictureBoxTest3.Image = mCubemap.TextureBack.AsBitmap();
-            pictureBoxTest4.Image = mCubemap.TextureRight.AsBitmap();
+			mReflectionProbe.Bake(mOnyxInstance.Renderer);
+            pictureBoxTest.Image = mReflectionProbe.Cubemap.TextureFront.AsBitmap();
+            pictureBoxTest2.Image = mReflectionProbe.Cubemap.TextureLeft.AsBitmap();
+            pictureBoxTest3.Image = mReflectionProbe.Cubemap.TextureBack.AsBitmap();
+            pictureBoxTest4.Image = mReflectionProbe.Cubemap.TextureRight.AsBitmap();
             //pictureBoxTest5.Image = mCubemap.TextureFront.AsBitmap();
             //pictureBoxTest6.Image = mCubemap.TextureFront.AsBitmap();
 
@@ -254,7 +251,7 @@ namespace Onyx3DEditor
 		{
 			//myTeapot.Transform.Rotate(new Vector3(0, 0.1f, 0));
 			renderCanvas.Refresh();
-			mCameraAngle += 0.01f;
+			mReflectionProbe.Angle += 0.01f;
 		}
 
 		private void toolStripButtonSaveProject_Click(object sender, EventArgs e)

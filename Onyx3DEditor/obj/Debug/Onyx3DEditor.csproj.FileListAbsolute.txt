@@ -95,3 +95,5 @@ C:\Users\MiriamYJosue\Documents\Projects\Onyx3DSharp\Onyx3DEditor\bin\Debug\Reso
 C:\Users\Josue\Desktop\Onyx3DSharp\Onyx3DEditor\bin\Debug\Resources\Textures\white.jpg
 C:\Users\Josue\Desktop\Onyx3DSharp\Onyx3DEditor\bin\Debug\Resources\Textures\black.jpg
 C:\Users\Josue\Desktop\Onyx3DSharp\Onyx3DEditor\bin\Debug\Resources\Materials\NotFound.o3dmat
+C:\Users\Josue\Desktop\Onyx3DSharp\Onyx3DEditor\bin\Debug\Resources\Shaders\ReflectionProbeFragmentShader.glsl
+C:\Users\Josue\Desktop\Onyx3DSharp\Onyx3DEditor\bin\Debug\Resources\Materials\ReflectionProbe.o3dmat
