@@ -8,6 +8,10 @@ out vec4 fragColor;
 uniform vec4 color;
 uniform samplerCube cubemap;
 
+float rand(vec2 co){
+    return fract(sin(dot(co.xy ,vec2(12.9898,78.233))) * 43758.5453);
+}
+
 // ------------------------------- Camera UBO
 
 layout(std140) uniform CameraData 
@@ -20,8 +24,18 @@ layout(std140) uniform CameraData
 void main()
 { 
 	
-	vec3 I = normalize(cameraPos.xyz-o_fragpos);
-	//vec3 R = reflect(I, N);
-	vec3 coord = o_normal * vec3(1,-1,-1);
+	vec3 I = normalize(o_fragpos - cameraPos.xyz);
+	vec3 R = reflect(I, normalize(o_normal));
+	
+	/*
+	// Irradiance map
+	vec3 R = o_normal;
+	vec3 coord = R * vec3(1,-1,-1);
+	coord.x += rand(o_normal.xy) * 3;
+	coord.y += rand(o_normal.yz) * 3;
+	*/
+
+	vec3 coord = R * vec3(1,-1,-1);
+	
 	fragColor = vec4(texture(cubemap, coord).rgb, 1.0f);
 }

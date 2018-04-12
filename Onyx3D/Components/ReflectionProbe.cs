@@ -31,12 +31,10 @@ namespace Onyx3D
 			mCubemapGenerator.Generate(renderer, SceneObject.Scene, Transform.Position, ref mCubemap, Angle);
 		}
 
-		
 		public override void OnDrawGizmos(GizmosManager gizmos)
 		{
 			gizmos.DrawSphere(Transform.Position, 1, Vector3.One);
-		}
-		
+		}		
 
 		public override void ReadComponentXmlNode(XmlReader writer)
 		{

@@ -78,6 +78,7 @@ namespace Onyx3DEditor
 			test.Transform.LocalPosition = new Vector3(0, 1, 0);
 			mReflectionProbe = test.AddComponent<ReflectionProbe>();
 			mReflectionProbe.Init(128);
+			
 		}
 
 		private void OnSelectionChanged(List<SceneObject> selected)
@@ -196,16 +197,16 @@ namespace Onyx3DEditor
 			renderCanvas.SwapBuffers();
 			labelLoggerOutput.Text = Logger.Instance.Content;
 
-
 			mReflectionProbe.Bake(mOnyxInstance.Renderer);
-            pictureBoxTest.Image = mReflectionProbe.Cubemap.TextureFront.AsBitmap();
-            pictureBoxTest2.Image = mReflectionProbe.Cubemap.TextureLeft.AsBitmap();
-            pictureBoxTest3.Image = mReflectionProbe.Cubemap.TextureBack.AsBitmap();
-            pictureBoxTest4.Image = mReflectionProbe.Cubemap.TextureRight.AsBitmap();
-            //pictureBoxTest5.Image = mCubemap.TextureFront.AsBitmap();
-            //pictureBoxTest6.Image = mCubemap.TextureFront.AsBitmap();
 
-        }
+			// pictureBoxTest.Image = mReflectionProbe.Cubemap.TextureFront.AsBitmap();
+			//pictureBoxTest2.Image = mReflectionProbe.Cubemap.TextureLeft.AsBitmap();
+			// pictureBoxTest3.Image = mReflectionProbe.Cubemap.TextureBack.AsBitmap();
+			///pictureBoxTest4.Image = mReflectionProbe.Cubemap.TextureRight.AsBitmap();
+			//pictureBoxTest5.Image = mCubemap.TextureFront.AsBitmap();
+			//pictureBoxTest6.Image = mCubemap.TextureFront.AsBitmap();
+
+		}
 
 		#region RenderCanvas callbacks
 

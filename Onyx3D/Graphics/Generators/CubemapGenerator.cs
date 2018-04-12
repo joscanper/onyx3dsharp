@@ -20,12 +20,12 @@ namespace Onyx3D
                 mFrameBuffer[i] = new FrameBuffer(size, size);
 
             mCamRotations = new Vector3[6];
-            mCamRotations[0] = new Vector3(0, 0, 0);                                                    // front?
-            mCamRotations[1] = new Vector3(0, (float)Math.PI / 2.0f, 0);                                // right?
-            mCamRotations[2] = new Vector3(0, (float)Math.PI, 0);                                       // back?
-            mCamRotations[3] = new Vector3(0, -(float)Math.PI / 2.0f, 0);                               // left?
-            mCamRotations[4] = new Vector3(0, 0, (float)Math.PI / 2.0f);      // top?
-            mCamRotations[5] = new Vector3(0,0, -(float)Math.PI / 2.0f);     // down?
+            mCamRotations[0] = new Vector3(0, 0, 0);                                                    
+            mCamRotations[1] = new Vector3(0, (float)Math.PI / 2.0f, 0);                                
+            mCamRotations[2] = new Vector3(0, (float)Math.PI, 0);                                       
+            mCamRotations[3] = new Vector3(0, -(float)Math.PI / 2.0f, 0);                               
+            mCamRotations[4] = new Vector3(0, 0, (float)Math.PI / 2.0f);								
+            mCamRotations[5] = new Vector3(0,0, -(float)Math.PI / 2.0f);     
         }
 
         public Cubemap Generate(RenderManager renderMgr, Scene scene, Vector3 position, float yaw = 0)
@@ -48,9 +48,6 @@ namespace Onyx3D
 				mFrameBuffer[i].Bind();
                 renderMgr.Render(scene, mCamera, mFrameBuffer[i].Width, mFrameBuffer[i].Height);
                 mFrameBuffer[i].Unbind();
-
-				
-
 			}
 
             cubemap.SetTexture(CubemapFace.Left, mFrameBuffer[1].Texture);
