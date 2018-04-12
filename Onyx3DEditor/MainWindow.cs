@@ -251,7 +251,7 @@ namespace Onyx3DEditor
 		{
 			//myTeapot.Transform.Rotate(new Vector3(0, 0.1f, 0));
 			renderCanvas.Refresh();
-			mReflectionProbe.Angle += 0.01f;
+			//mReflectionProbe.Angle += 0.01f;
 		}
 
 		private void toolStripButtonSaveProject_Click(object sender, EventArgs e)

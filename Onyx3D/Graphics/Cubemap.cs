@@ -8,9 +8,22 @@ using System.Runtime.InteropServices;
 
 namespace Onyx3D
 {
+
+    public enum CubemapFace
+    {
+        Right,
+        Left,
+        Top,
+        Bottom,
+        Back,
+        Front
+    };
+
     public class Cubemap
     {
-		private int mId;
+        IntPtr data;
+
+        private int mId;
 
 		public int Id { get { return mId; } }
 
@@ -26,13 +39,14 @@ namespace Onyx3D
 			GL.TexParameter(TextureTarget.TextureCubeMap, TextureParameterName.TextureWrapR, (int)TextureWrapMode.ClampToEdge);
 		}
 
-		public void SetTexture(int index, Texture t)
+		public void SetTexture(CubemapFace face, Texture t)
 		{
-			IntPtr data = Marshal.AllocHGlobal(32 * t.Width * t.Height);
+            if (data == IntPtr.Zero)
+                data = Marshal.AllocHGlobal(32 * t.Width * t.Height);
 
 			GL.GetTextureImage(t.Id, 0, PixelFormat.Rgba, PixelType.UnsignedByte, 32 * t.Width * t.Height, data);
 			GL.BindTexture(TextureTarget.TextureCubeMap, mId);
-			GL.TexImage2D(TextureTarget.TextureCubeMapPositiveX + index, 0, PixelInternalFormat.Rgba, t.Width, t.Height, 0, PixelFormat.Rgba, PixelType.UnsignedByte, data);
+			GL.TexImage2D(TextureTarget.TextureCubeMapPositiveX + (int)face, 0, PixelInternalFormat.Rgba, t.Width, t.Height, 0, PixelFormat.Rgba, PixelType.UnsignedByte, data);
 
 			//TODO - Free memory here?
 		}
@@ -41,8 +55,8 @@ namespace Onyx3D
         public Texture TextureLeft { set; get; }
         public Texture TextureRight { set; get; }
         public Texture TextureBack { set; get; }
-        public Texture TextureUp { set; get; }
-        public Texture TextureDown { set; get; }
+        public Texture TextureTop { set; get; }
+        public Texture TextureBottom { set; get; }
 
     }
 

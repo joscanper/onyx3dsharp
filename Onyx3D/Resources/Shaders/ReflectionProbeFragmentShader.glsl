@@ -19,7 +19,9 @@ layout(std140) uniform CameraData
 
 void main()
 { 
-	vec3 I = normalize(o_fragpos - cameraPos.xyz);
-	vec3 R = reflect(I, o_normal);
-	fragColor = vec4(texture(cubemap, R).rgb, 1.0f);
+	
+	vec3 I = normalize(cameraPos.xyz-o_fragpos);
+	//vec3 R = reflect(I, N);
+	vec3 coord = o_normal * vec3(1,-1,-1);
+	fragColor = vec4(texture(cubemap, coord).rgb, 1.0f);
 }

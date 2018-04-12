@@ -6,6 +6,8 @@ namespace Onyx3D
 {
     public class CubemapGenerator
     {
+      
+
         private Camera mCamera;
         private FrameBuffer[] mFrameBuffer;
         private Vector3[] mCamRotations;
@@ -22,8 +24,8 @@ namespace Onyx3D
             mCamRotations[1] = new Vector3(0, (float)Math.PI / 2.0f, 0);                                // right?
             mCamRotations[2] = new Vector3(0, (float)Math.PI, 0);                                       // back?
             mCamRotations[3] = new Vector3(0, -(float)Math.PI / 2.0f, 0);                               // left?
-            mCamRotations[4] = new Vector3((float)Math.PI / 2.0f, ((float)Math.PI / 2.0f) * 3, 0);      // top?
-            mCamRotations[5] = new Vector3(-(float)Math.PI / 2.0f, ((float)Math.PI / 2.0f) * 3, 0);     // down?
+            mCamRotations[4] = new Vector3(0, 0, (float)Math.PI / 2.0f);      // top?
+            mCamRotations[5] = new Vector3(0,0, -(float)Math.PI / 2.0f);     // down?
         }
 
         public Cubemap Generate(RenderManager renderMgr, Scene scene, Vector3 position, float yaw = 0)
@@ -35,6 +37,7 @@ namespace Onyx3D
 
         public void Generate(RenderManager renderMgr, Scene scene, Vector3 position, ref Cubemap cubemap, float yaw = 0)
         {
+            
             mCamera.Transform.LocalPosition = position;
             Vector3 initRotation = new Vector3(0, yaw, 0);
 
@@ -46,19 +49,25 @@ namespace Onyx3D
                 renderMgr.Render(scene, mCamera, mFrameBuffer[i].Width, mFrameBuffer[i].Height);
                 mFrameBuffer[i].Unbind();
 
-				cubemap.SetTexture(i, mFrameBuffer[i].Texture);
+				
 
 			}
 
-			
-            cubemap.TextureFront = mFrameBuffer[0].Texture;
+            cubemap.SetTexture(CubemapFace.Left, mFrameBuffer[1].Texture);
+            cubemap.SetTexture(CubemapFace.Right, mFrameBuffer[3].Texture);
+            cubemap.SetTexture(CubemapFace.Front, mFrameBuffer[2].Texture);
+            cubemap.SetTexture(CubemapFace.Back, mFrameBuffer[0].Texture);
+            cubemap.SetTexture(CubemapFace.Top, mFrameBuffer[5].Texture);
+            cubemap.SetTexture(CubemapFace.Bottom, mFrameBuffer[4].Texture);
+
+
             cubemap.TextureRight = mFrameBuffer[1].Texture;
-            cubemap.TextureBack = mFrameBuffer[2].Texture;
             cubemap.TextureLeft = mFrameBuffer[3].Texture;
-            cubemap.TextureUp = mFrameBuffer[4].Texture;
-            cubemap.TextureDown = mFrameBuffer[5].Texture;
-			
-	
-		}
+            cubemap.TextureBack = mFrameBuffer[2].Texture;
+            cubemap.TextureFront = mFrameBuffer[0].Texture;
+            cubemap.TextureTop = mFrameBuffer[5].Texture;
+            cubemap.TextureBottom = mFrameBuffer[4].Texture;
+            
+        }
     }
 }
