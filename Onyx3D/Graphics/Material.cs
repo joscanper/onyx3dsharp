@@ -36,7 +36,7 @@ namespace Onyx3D
 
 	public class TextureMaterialProperty : MaterialProperty
 	{
-		public int TextureId {
+		public int TextureGuid {
             set { Data = value; }
             get { return (int)Data; }
         }
@@ -68,14 +68,14 @@ namespace Onyx3D
                     case MaterialPropertyType.SamplerCube:
                         CubemapMaterialProperty cmp = (CubemapMaterialProperty)mp.Value;
                         GL.ActiveTexture(TextureUnit.Texture0 + cmp.DataIndex);
-                        Texture ct = Onyx3DEngine.Instance.Resources.GetTexture(cmp.TextureId);
-                        GL.BindTexture(TextureTarget.TextureCubeMap, ct.Id);
+                        //Texture ct = Onyx3DEngine.Instance.Resources.GetTexture();
+                        GL.BindTexture(TextureTarget.TextureCubeMap, cmp.TextureGuid);
                         GL.Uniform1(GL.GetUniformLocation(Shader.Program, mp.Key), cmp.DataIndex);
                         break;
                     case MaterialPropertyType.Sampler2D:
 						TextureMaterialProperty tmp = (TextureMaterialProperty)mp.Value;
 						GL.ActiveTexture(TextureUnit.Texture0 + tmp.DataIndex);
-                        Texture t = Onyx3DEngine.Instance.Resources.GetTexture(tmp.TextureId);
+                        Texture t = Onyx3DEngine.Instance.Resources.GetTexture(tmp.TextureGuid);
 						GL.BindTexture(TextureTarget.Texture2D, t.Id);
 						GL.Uniform1(GL.GetUniformLocation(Shader.Program, mp.Key), tmp.DataIndex);
 						break;
@@ -192,13 +192,13 @@ namespace Onyx3D
 					case MaterialPropertyType.Sampler2D:
 						writer.WriteAttributeString("type", "sampler2d");
                         TextureMaterialProperty textureProp = (TextureMaterialProperty)prop.Value;
-                        writer.WriteAttributeString("value", textureProp.TextureId.ToString());
+                        writer.WriteAttributeString("value", textureProp.TextureGuid.ToString());
                         writer.WriteAttributeString("index", textureProp.DataIndex.ToString());
                         break;
                     case MaterialPropertyType.SamplerCube:
                         writer.WriteAttributeString("type", "samplerCube");
                         CubemapMaterialProperty cubemapProp = (CubemapMaterialProperty)prop.Value;
-                        writer.WriteAttributeString("value", cubemapProp.TextureId.ToString());
+                        writer.WriteAttributeString("value", cubemapProp.TextureGuid.ToString());
                         writer.WriteAttributeString("index", cubemapProp.DataIndex.ToString());
                         break;
 					// TODO - More things

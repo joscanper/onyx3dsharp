@@ -71,7 +71,7 @@ namespace Onyx3DEditor
 			pic.Size = new Size(64, 64);
 			pic.BackColor = Color.Black;
 
-            OnyxProjectAsset asset = ProjectManager.Instance.Content.GetAsset(tmp.TextureId);
+            OnyxProjectAsset asset = ProjectManager.Instance.Content.GetAsset(tmp.TextureGuid);
 			pic.Image = new Bitmap(asset.AbsolutePath).GetThumbnailImage(64, 64, null, IntPtr.Zero);
 			panelPropertyValue.Controls.Add(pic);
 			panelPropertyValue.Size = new Size(panelPropertyValue.Size.Width, 70);
@@ -120,10 +120,10 @@ namespace Onyx3DEditor
 		private void OnTextureSelected(object sender, EventArgs e)
 		{
 			TextureMaterialProperty tmp = (TextureMaterialProperty)mProperty;
-			tmp.TextureId = mTextureSelector.SelectedTexture.Guid;
+			tmp.TextureGuid = mTextureSelector.SelectedTexture.Guid;
 			
 			PictureBox pb = (PictureBox)mPropertyControl;
-            OnyxProjectAsset asset = ProjectManager.Instance.Content.GetAsset(tmp.TextureId);
+            OnyxProjectAsset asset = ProjectManager.Instance.Content.GetAsset(tmp.TextureGuid);
             pb.Image = new Bitmap(asset.AbsolutePath).GetThumbnailImage(64, 64, null, IntPtr.Zero);
 
 			OnPropertyChanged();
