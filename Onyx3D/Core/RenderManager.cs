@@ -55,10 +55,19 @@ namespace Onyx3D
 
 			List<MeshRenderer> renderers = GetSceneRenderers(scene);
 			PrepareMaterials(renderers, cam.UBO, scene.Lighting.UBO);
-			Render(renderers);
-			
 
-			GL.Flush();
+            if (scene.Sky != null)
+            {
+                GL.DepthMask(false);
+                Render(scene.Sky, cam);
+                GL.DepthMask(true);
+            }
+
+
+            Render(renderers);
+
+
+            GL.Flush();
 			
 		}
 		
@@ -118,7 +127,7 @@ namespace Onyx3D
 		public void Render(MeshRenderer r, Camera cam)
 		{
 			r.Material.Shader.BindUBO(cam.UBO);
-			r.Render();
+            r.Render();
 		}
 	}
 }

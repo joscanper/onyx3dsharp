@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Material>
+	<Name>Sky</Name>
+	<Shader>300000005</Shader>
+
+	<Properties>
+	</Properties>
+</Material>

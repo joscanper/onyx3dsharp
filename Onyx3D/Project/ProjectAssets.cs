@@ -9,7 +9,8 @@ namespace Onyx3D
 		public static int Unlit = 300000002;
 		public static int UnlitVertexColor = 300000003;
 		public static int ReflectionProbe = 300000004;
-	}
+        public static int ProceduralSky = 300000005;
+    }
 
 	public class BuiltInMesh
 	{
@@ -37,7 +38,8 @@ namespace Onyx3D
 		public static int Unlit = 400000002;
 		public static int UnlitVertexColor = 400000003;
 		public static int ReflectionProbe = 400000004;
-	}
+        public static int Sky = 400000005;
+    }
 
 	public class ContentIds
 	{
