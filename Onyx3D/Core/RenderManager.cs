@@ -8,9 +8,6 @@ namespace Onyx3D
 {
 	public class RenderManager : EngineComponent
 	{
-		
-		private SceneObject mRoot;
-
 		private List<MeshRenderer> mSceneRenderers;
 		private List<ReflectionProbe> mReflectionProbes;
 
@@ -123,8 +120,7 @@ namespace Onyx3D
 				materials.Add(renderers[i].Material);
 			return materials;
 		}
-
-
+        
 		private void PrepareMaterials(List<MeshRenderer> renderers, UBO<CameraUBufferData> camUBO, UBO<LightingUBufferData> lightUBO)
 		{
 			HashSet<Material> materials = GetMaterialsFromRenderers(renderers);
@@ -168,8 +164,6 @@ namespace Onyx3D
 			if (reflectionProbe != null)
 				cubemapProp.Data = reflectionProbe.Cubemap.Id;
 		}
-
-		
 
 		public void Render(MeshRenderer r, Camera cam)
 		{

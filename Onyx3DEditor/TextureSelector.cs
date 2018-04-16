@@ -30,8 +30,7 @@ namespace Onyx3DEditor
 		private void FillTexturesList()
 		{
 			listViewTextures.Items.Clear();
-			int i = 0;
-
+			
             mTextureIds = new List<OnyxProjectAsset>();
 			listViewTextures.SmallImageList = new ImageList();
 			listViewTextures.SmallImageList.ImageSize = new Size(64, 64);
