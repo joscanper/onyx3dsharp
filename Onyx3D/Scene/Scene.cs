@@ -13,9 +13,16 @@ namespace Onyx3D
 		public Lighting Lighting = new Lighting();
         public MeshRenderer Sky;
 
+		public bool IsDirty { get; private set; }
+
 		public Scene()
 		{
 			Root = new SceneObject("", this);
+		}
+
+		public void SetDirty()
+		{
+			IsDirty = true;
 		}
 
 		// ------ Serialization ------

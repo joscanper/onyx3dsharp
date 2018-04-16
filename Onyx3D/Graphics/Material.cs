@@ -108,6 +108,14 @@ namespace Onyx3D
             Properties = otherMat.Properties;
         }
 
+		public T GetProperty<T>(string name) where T : MaterialProperty
+		{
+			if (!Properties.ContainsKey(name))
+				return null;
+
+			return Properties[name] as T;
+		}
+
 		// ------ Serialization ------
 
 		public XmlSchema GetSchema()

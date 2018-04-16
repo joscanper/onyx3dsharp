@@ -32,7 +32,7 @@ namespace Onyx3D
 			GL.GenTextures(1, out mId);
 			GL.BindTexture(TextureTarget.TextureCubeMap, mId);
 
-			GL.TexParameter(TextureTarget.TextureCubeMap, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
+			GL.TexParameter(TextureTarget.TextureCubeMap, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.LinearMipmapLinear);
 			GL.TexParameter(TextureTarget.TextureCubeMap, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
 			GL.TexParameter(TextureTarget.TextureCubeMap, TextureParameterName.TextureWrapS, (int)TextureWrapMode.ClampToEdge);
 			GL.TexParameter(TextureTarget.TextureCubeMap, TextureParameterName.TextureWrapT, (int)TextureWrapMode.ClampToEdge);
@@ -49,6 +49,11 @@ namespace Onyx3D
 			GL.TexImage2D(TextureTarget.TextureCubeMapPositiveX + (int)face, 0, PixelInternalFormat.Rgba, t.Width, t.Height, 0, PixelFormat.Rgba, PixelType.UnsignedByte, data);
 
 			//TODO - Free memory here?
+		}
+
+		public void GenerateMipmaps()
+		{
+			GL.GenerateMipmap(GenerateMipmapTarget.TextureCubeMap);
 		}
 
         public Texture TextureFront { set; get; }

@@ -30,6 +30,11 @@ namespace Onyx3D
 				if (mParent != null)
 					mParent.mChildren.Remove(this);
 
+				if (mScene != null)
+					mScene.SetDirty();
+
+				if (value.mScene != null)
+					value.mScene.SetDirty();
 
 				mParent = value;
 				if (value != null)
@@ -92,6 +97,8 @@ namespace Onyx3D
 		{
 			comp.Attach(this);
 			mComponents.Add(comp);
+			if (mScene != null)
+				mScene.SetDirty();
 		}
 
 		public T AddComponent<T>() where T : Component, new()
@@ -99,7 +106,9 @@ namespace Onyx3D
 			T newComp = new T();
             newComp.Attach(this);
 			mComponents.Add(newComp);
-            return newComp;
+			if (mScene != null)
+				mScene.SetDirty();
+			return newComp;
 		}
 
 		public T GetComponent<T>() where T : Component
@@ -157,6 +166,8 @@ namespace Onyx3D
 				mChildren[i].Parent = null;
 
 			mChildren.Clear();
+			if (mScene != null)
+				mScene.SetDirty();
 		}
 
         public void ForEachChild(Action<SceneObject> a)

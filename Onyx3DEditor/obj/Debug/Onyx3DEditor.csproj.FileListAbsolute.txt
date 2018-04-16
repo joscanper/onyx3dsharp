@@ -103,3 +103,7 @@ C:\Users\MiriamYJosue\Documents\Projects\Onyx3DSharp\Onyx3DEditor\bin\Debug\Reso
 C:\Users\MiriamYJosue\Documents\Projects\Onyx3DSharp\Onyx3DEditor\bin\Debug\Resources\Shaders\SkyFragmentShader.glsl
 C:\Users\MiriamYJosue\Documents\Projects\Onyx3DSharp\Onyx3DEditor\bin\Debug\Resources\Materials\Sky.o3dmat
 C:\Users\MiriamYJosue\Documents\Projects\Onyx3DSharp\Onyx3DEditor\obj\Debug\Onyx3DEditor.CubemapViewer.resources
+C:\Users\Josue\Desktop\Onyx3DSharp\Onyx3DEditor\bin\Debug\Resources\Shaders\SkyVertexShader.glsl
+C:\Users\Josue\Desktop\Onyx3DSharp\Onyx3DEditor\bin\Debug\Resources\Shaders\SkyFragmentShader.glsl
+C:\Users\Josue\Desktop\Onyx3DSharp\Onyx3DEditor\bin\Debug\Resources\Materials\Sky.o3dmat
+C:\Users\Josue\Desktop\Onyx3DSharp\Onyx3DEditor\obj\Debug\Onyx3DEditor.CubemapViewer.resources

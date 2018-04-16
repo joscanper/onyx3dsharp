@@ -1,5 +1,6 @@
 ﻿#version 330
 
+#define IRRADIANCE_LOD 4
 #define MAX_DIR_LIGHTS 2
 #define MAX_POINT_LIGHTS 8
 #define MAX_SPOT_LIGHTS 8
@@ -61,6 +62,10 @@ layout(std140) uniform LightingData {
 };
 
 // ----------------------------------
+
+float rand(vec2 co){
+    return fract(sin(dot(co.xy ,vec2(12.9898,78.233))) * 43758.5453);
+}
 
 float DistributionGGX(vec3 N, vec3 H, float roughness)
 {
@@ -153,7 +158,7 @@ void main()
     }   
 
 	vec3 R = reflect(-V, N);
-	vec3 coord = R * vec3(1,-1,-1);
+	
 
     vec3 F = fresnelSchlickRoughness(max(dot(N, V), 0.0), F0, roughness_f);
     
@@ -161,10 +166,11 @@ void main()
     vec3 kD = 1.0 - kS;
     kD *= 1.0 - metallic_f;
 
-	vec3 reflection = texture(environment_map, R).rgb;   
+	vec3 reflection = texture(environment_map, R * vec3(1,-1,-1)).rgb;   
 	vec3 specular = reflection * F;
 
-    vec3 irradiance = texture(environment_map, N).rgb;
+
+    vec3 irradiance = textureLod(environment_map,  N * vec3(1,-1,-1), IRRADIANCE_LOD).rgb;
     vec3 diffuse      = irradiance * albedo_color;
     vec3 ambient_color = (kD * diffuse + specular) * ao_f;
     

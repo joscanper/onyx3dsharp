@@ -57,8 +57,9 @@ namespace Onyx3D
             cubemap.SetTexture(CubemapFace.Top, mFrameBuffer[5].Texture);
             cubemap.SetTexture(CubemapFace.Bottom, mFrameBuffer[4].Texture);
 
+			cubemap.GenerateMipmaps();
 
-            cubemap.TextureRight = mFrameBuffer[1].Texture;
+			cubemap.TextureRight = mFrameBuffer[1].Texture;
             cubemap.TextureLeft = mFrameBuffer[3].Texture;
             cubemap.TextureBack = mFrameBuffer[2].Texture;
             cubemap.TextureFront = mFrameBuffer[0].Texture;

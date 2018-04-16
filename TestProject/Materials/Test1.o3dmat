@@ -4,7 +4,7 @@
   <Property
     id="base_color"
     type="color"
-    value="0.4705882, 0.4705882, 0.4705882, 1" />
+    value="0, 0, 0, 1" />
   <Property
     id="albedo"
     type="sampler2d"
@@ -23,18 +23,23 @@
   <Property
     id="occlusion"
     type="sampler2d"
-    value="2000001"
+    value="2000003"
     index="3" />
   <Property
     id="metallic_strength"
     type="float"
-    value="1" />
+    value="0.1" />
   <Property
     id="roughness_strength"
     type="float"
-    value="0.5" />
+    value="0.45" />
   <Property
     id="occlusion_strength"
     type="float"
-    value="0.1" />
+    value="1" />
+  <Property
+    id="environment_map"
+    type="samplerCube"
+    value="17"
+    index="4" />
 </Material>

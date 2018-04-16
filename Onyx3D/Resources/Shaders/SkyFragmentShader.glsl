@@ -81,5 +81,8 @@ void main()
     if (FdotS > 0.9995)
         col = vec3(1,1,1);
     
+	col = col / (col + vec3(1.0));
+    col = pow(col, vec3(1.0/2.2));  
+   
     outColor = vec4(col,1);//vec4(0,0,1,1);
 }

@@ -32,9 +32,14 @@
   <Property
     id="roughness_strength"
     type="float"
-    value="1" />
+    value="0.2" />
   <Property
     id="occlusion_strength"
     type="float"
-    value="1" />
+    value="0.8" />
+  <Property
+    id="environment_map"
+    type="samplerCube"
+    value="17"
+    index="4" />
 </Material>

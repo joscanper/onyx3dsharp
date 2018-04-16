@@ -21,6 +21,7 @@ namespace Onyx3DEditor
 		private Camera mCamera;
 		private GridRenderer mGridRenderer;
         private Shader mTestShader;
+		private ReflectionProbe mReflectionProbe;
 
 		private float mAngle = 0;
 
@@ -66,7 +67,7 @@ namespace Onyx3DEditor
             SceneObject test = new SceneObject("LightProbe");
             test.Parent = mScene.Root;
             test.Transform.LocalPosition = new Vector3(0, 0, 0);
-            ReflectionProbe mReflectionProbe = test.AddComponent<ReflectionProbe>();
+            mReflectionProbe = test.AddComponent<ReflectionProbe>();
             mReflectionProbe.Init(128);
 
             
@@ -88,8 +89,6 @@ namespace Onyx3DEditor
             SetMaterial(m);
 
             cubemapViewer1.Init(mReflectionProbe.Cubemap);
-
-            ((CubemapMaterialProperty)mMaterial.Properties["environment_map"]).Data = mReflectionProbe.Cubemap.Id;
         }
 
         private void SetMaterial(Material mat)

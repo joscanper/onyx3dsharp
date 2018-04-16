@@ -10,7 +10,10 @@ namespace Onyx3D
 	{
 		
 		private SceneObject mRoot;
-		
+
+		private List<MeshRenderer> mSceneRenderers;
+		private List<ReflectionProbe> mReflectionProbes;
+
 
 		public GizmosManager Gizmos { get; private set; }
 
@@ -53,8 +56,11 @@ namespace Onyx3D
 			GL.Viewport(0, 0, w, h);
 			GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
-			List<MeshRenderer> renderers = GetSceneRenderers(scene);
-			PrepareMaterials(renderers, cam.UBO, scene.Lighting.UBO);
+			if (scene.IsDirty) { 
+				mSceneRenderers = GetSceneComponents<MeshRenderer>(scene);
+				mReflectionProbes = GetSceneComponents<ReflectionProbe>(scene);
+			}
+			PrepareMaterials(mSceneRenderers, cam.UBO, scene.Lighting.UBO);
 
             if (scene.Sky != null)
             {
@@ -64,16 +70,14 @@ namespace Onyx3D
             }
 
 
-            Render(renderers);
-
+            Render(mSceneRenderers);
 
             GL.Flush();
-			
 		}
 		
-		private List<MeshRenderer> GetSceneRenderers(Scene scene)
+		private List<T> GetSceneComponents<T>(Scene scene) where T : Component
 		{
-			List<MeshRenderer> rendereres = new List<MeshRenderer>();
+			List<T> rendereres = new List<T>();
 			
 			if (scene.Root == null)
 				return rendereres;
@@ -84,15 +88,14 @@ namespace Onyx3D
 			do
 			{
 				s = objects.Dequeue();
-				List<MeshRenderer> objRenderers = s.GetComponents<MeshRenderer>();
+				List<T> objRenderers = s.GetComponents<T>();
 				if (objRenderers.Count > 0)
 					rendereres.AddRange(objRenderers);
 
-				for (int i = 0; i < s.ChildCount; i++)
+				s.ForEachChild((c) =>
 				{
-					objects.Enqueue(s.GetChild(i));
-				}
-
+					objects.Enqueue(c);
+				});
 				
 			} while (objects.Count > 0);
 
@@ -121,8 +124,38 @@ namespace Onyx3D
 		private void Render(List<MeshRenderer> renderers)
 		{
 			for (int i = 0; i < renderers.Count; ++i)
+			{
+				SetUpReflectionProbe(renderers[i]);
 				renderers[i].Render();
+			}
 		}
+
+		private void SetUpReflectionProbe(MeshRenderer renderer)
+		{
+			if (mReflectionProbes.Count == 0)
+				return;
+
+			CubemapMaterialProperty cubemapProp = renderer.Material.GetProperty<CubemapMaterialProperty>("environment_map");
+			if (cubemapProp == null)
+				return;
+
+			ReflectionProbe reflectionProbe = null;
+			float candidateDist = float.MaxValue;
+			for(int i=0; i < mReflectionProbes.Count; ++i)
+			{
+				float sqrDist = mReflectionProbes[i].Transform.Position.SqrDistance(renderer.Transform.Position);
+				if (sqrDist < candidateDist)
+				{
+					candidateDist = sqrDist;
+					reflectionProbe = mReflectionProbes[i];
+				}
+			}
+
+			if (reflectionProbe != null)
+				cubemapProp.Data = reflectionProbe.Cubemap.Id;
+		}
+
+		
 
 		public void Render(MeshRenderer r, Camera cam)
 		{
