@@ -54,6 +54,7 @@ namespace Onyx3DEditor
             this.panel1 = new System.Windows.Forms.Panel();
             this.groupBoxProperties = new System.Windows.Forms.GroupBox();
             this.buttonApplyChanges = new System.Windows.Forms.Button();
+            this.materialPropertiesControl = new Onyx3DEditor.MaterialPropertiesControl();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripMaterialsComboBox = new System.Windows.Forms.ToolStripComboBox();
             this.toolStripNewMaterialButton = new System.Windows.Forms.ToolStripButton();
@@ -77,7 +78,6 @@ namespace Onyx3DEditor
             this.vScrollBar2 = new System.Windows.Forms.VScrollBar();
             this.textBoxFragmentCode = new System.Windows.Forms.TextBox();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.materialPropertiesControl = new Onyx3DEditor.MaterialPropertiesControl();
             this.cubemapViewer1 = new Onyx3DEditor.CubemapViewer();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -141,6 +141,15 @@ namespace Onyx3DEditor
             this.buttonApplyChanges.TabIndex = 3;
             this.buttonApplyChanges.Text = "Apply";
             this.buttonApplyChanges.UseVisualStyleBackColor = true;
+            // 
+            // materialPropertiesControl
+            // 
+            this.materialPropertiesControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.materialPropertiesControl.Location = new System.Drawing.Point(3, 16);
+            this.materialPropertiesControl.Name = "materialPropertiesControl";
+            this.materialPropertiesControl.Size = new System.Drawing.Size(244, 528);
+            this.materialPropertiesControl.TabIndex = 2;
+            this.materialPropertiesControl.PropertyChanged += new System.EventHandler(this.materialProperties_Changed);
             // 
             // toolStrip1
             // 
@@ -386,21 +395,13 @@ namespace Onyx3DEditor
             this.timer1.Interval = 33;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
-            // materialPropertiesControl
-            // 
-            this.materialPropertiesControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.materialPropertiesControl.Location = new System.Drawing.Point(3, 16);
-            this.materialPropertiesControl.Name = "materialPropertiesControl";
-            this.materialPropertiesControl.Size = new System.Drawing.Size(244, 528);
-            this.materialPropertiesControl.TabIndex = 2;
-            this.materialPropertiesControl.PropertyChanged += new System.EventHandler(this.materialProperties_Changed);
-            // 
             // cubemapViewer1
             // 
             this.cubemapViewer1.Location = new System.Drawing.Point(52, 351);
             this.cubemapViewer1.Name = "cubemapViewer1";
             this.cubemapViewer1.Size = new System.Drawing.Size(520, 134);
             this.cubemapViewer1.TabIndex = 3;
+            this.cubemapViewer1.Visible = false;
             // 
             // MaterialEditor
             // 

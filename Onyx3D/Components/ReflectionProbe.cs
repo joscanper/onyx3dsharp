@@ -33,7 +33,7 @@ namespace Onyx3D
 
 		public override void OnDrawGizmos(GizmosManager gizmos)
 		{
-			gizmos.DrawSphere(Transform.Position, 1, Vector3.One);
+			gizmos.DrawSphere(Transform.Position, 0.5f, Vector3.One);
 		}		
 
 		public override void ReadComponentXmlNode(XmlReader writer)

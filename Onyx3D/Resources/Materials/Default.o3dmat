@@ -10,8 +10,8 @@
   		<Property id="roughness" type="sampler2d" value="200000002" index="2"/>
   		<Property id="occlusion" type="sampler2d" value="200000002" index="3"/>
 
-  		<Property id="metallic_strength" type="float" value="0.25" />
-  		<Property id="roughness_strength" type="float" value="0.5" />
+  		<Property id="metallic_strength" type="float" value="0" />
+  		<Property id="roughness_strength" type="float" value="0.75" />
   		<Property id="occlusion_strength" type="float" value="1" />
     
       <Property id="environment_map" type="samplerCube" value="0" index="4" />

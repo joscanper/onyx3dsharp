@@ -47,7 +47,7 @@ namespace Onyx3DEditor
 			mScene = new Scene();
 			
 			mCamera = new PerspectiveCamera("MainCamera", 1.5f, (float)renderCanvas.Width / (float)renderCanvas.Height);
-			mCamera.Transform.LocalPosition = new Vector3(0, 1, 2);
+			mCamera.Transform.LocalPosition = new Vector3(0, 0.65f, 1.25f);
 			mCamera.Transform.LocalRotation = Quaternion.FromAxisAngle(new Vector3(1, 0, 0), -0.45f);
 			mCamera.Parent = mScene.Root;
             mScene.ActiveCamera = mCamera;
@@ -62,7 +62,7 @@ namespace Onyx3DEditor
 			SceneObject light = new SceneObject("Light");
 			light.AddComponent<Light>();
 			light.Parent = mScene.Root;
-			light.Transform.LocalPosition = Vector3.One * 1;
+			light.Transform.LocalPosition = Vector3.One * 5;
 
             SceneObject test = new SceneObject("LightProbe");
             test.Parent = mScene.Root;
@@ -70,7 +70,6 @@ namespace Onyx3DEditor
             mReflectionProbe = test.AddComponent<ReflectionProbe>();
             mReflectionProbe.Init(128);
 
-            
             SceneObject sky = new SceneObject("test_sky");
             sky.Transform.LocalScale = new Vector3(-1, 1, 1);
             MeshRenderer skyR = sky.AddComponent<MeshRenderer>();
@@ -78,8 +77,17 @@ namespace Onyx3DEditor
             skyR.Material = myOnyxInstance.Resources.GetMaterial(BuiltInMaterial.Sky);
             mScene.Sky = skyR;
 
+            float distance = 2;
+            
+            for (double i=0; i < Math.PI*2; i += Math.PI/5)
+            {
+                double x = Math.Cos(i) * distance;
+                double z = Math.Sin(i) * distance;
+                AddPrimitive(BuiltInMesh.Teapot, "Teapot").Transform.LocalPosition = new Vector3((float)x, 0, (float)z);
+            }
+            
             mReflectionProbe.Bake(myOnyxInstance.Renderer);
-
+            mReflectionProbe.Bake(myOnyxInstance.Renderer);
 
             mObject = new SceneObject("BaseObject");
             mObject.Parent = mScene.Root;
@@ -89,6 +97,13 @@ namespace Onyx3DEditor
             SetMaterial(m);
 
             cubemapViewer1.Init(mReflectionProbe.Cubemap);
+        }
+
+        private SceneObject AddPrimitive(int meshType, string name)
+        {
+            SceneObject primitive = SceneObject.CreatePrimitive(myOnyxInstance.Resources, meshType, name);
+            primitive.Parent = mScene.Root;
+            return primitive;
         }
 
         private void SetMaterial(Material mat)

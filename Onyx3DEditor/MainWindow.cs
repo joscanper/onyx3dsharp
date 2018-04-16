@@ -92,6 +92,8 @@ namespace Onyx3DEditor
 
 
             mScene.Sky = skyR;
+
+            mReflectionProbe.Bake(mOnyxInstance.Renderer);
         }
 
 		private void OnSelectionChanged(List<SceneObject> selected)
@@ -134,13 +136,8 @@ namespace Onyx3DEditor
 
 		private void AddPrimitive(int meshType, string name)
 		{
-			SceneObject primitive = new SceneObject(name);
-			MeshRenderer mesh = primitive.AddComponent<MeshRenderer>();
-			mesh.Mesh = mOnyxInstance.Resources.GetMesh(meshType);
-			primitive.Transform.LocalPosition = new Vector3(0, 0.0f, 0);
-			mesh.Material = mOnyxInstance.Resources.GetMaterial(BuiltInMaterial.Default);
-			primitive.Parent = mScene.Root;
-
+            SceneObject primitive = SceneObject.CreatePrimitive(mOnyxInstance.Resources, meshType, name);
+            primitive.Parent = mScene.Root;
             Selection.ActiveObject = primitive;
         }
 

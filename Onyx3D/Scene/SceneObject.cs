@@ -33,7 +33,7 @@ namespace Onyx3D
 				if (mScene != null)
 					mScene.SetDirty();
 
-				if (value.mScene != null)
+				if (value != null && value.mScene != null)
 					value.mScene.SetDirty();
 
 				mParent = value;
@@ -181,6 +181,17 @@ namespace Onyx3D
             for (int i = 0; i < mComponents.Count; ++i)
                 a.Invoke(mComponents[i]);
         }
+
+        public static SceneObject CreatePrimitive(ResourcesManager resources, int meshType, string name)
+        {
+            SceneObject primitive = new SceneObject(name);
+            MeshRenderer mesh = primitive.AddComponent<MeshRenderer>();
+            mesh.Mesh = resources.GetMesh(meshType);
+            primitive.Transform.LocalPosition = new Vector3(0, 0, 0);
+            mesh.Material = resources.GetMaterial(BuiltInMaterial.Default);
+            return primitive;
+        }
+
 
         // ----------- Serialization ------------
 

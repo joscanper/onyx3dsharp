@@ -56,6 +56,7 @@ namespace Onyx3DEditor
             this.toolStripButtonOpenProject = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonSaveProject = new System.Windows.Forms.ToolStripButton();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.sceneHierarchy = new Onyx3DEditor.SceneHierarchyControl();
             this.toolStripScene = new System.Windows.Forms.ToolStrip();
             this.toolStripButtonChangeScene = new System.Windows.Forms.ToolStripButton();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
@@ -72,12 +73,11 @@ namespace Onyx3DEditor
             this.toolStripCreateTeapot = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripCreateLight = new System.Windows.Forms.ToolStripButton();
+            this.selectedObjectInspector = new Onyx3DEditor.SelectedObjectInspector();
             this.toolStrip3 = new System.Windows.Forms.ToolStrip();
             this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.sceneHierarchy = new Onyx3DEditor.SceneHierarchyControl();
-            this.selectedObjectInspector = new Onyx3DEditor.SelectedObjectInspector();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -172,6 +172,14 @@ namespace Onyx3DEditor
             this.splitContainer1.Size = new System.Drawing.Size(979, 520);
             this.splitContainer1.SplitterDistance = 158;
             this.splitContainer1.TabIndex = 2;
+            // 
+            // sceneHierarchy
+            // 
+            this.sceneHierarchy.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.sceneHierarchy.Location = new System.Drawing.Point(0, 0);
+            this.sceneHierarchy.Name = "sceneHierarchy";
+            this.sceneHierarchy.Size = new System.Drawing.Size(158, 495);
+            this.sceneHierarchy.TabIndex = 4;
             // 
             // toolStripScene
             // 
@@ -358,6 +366,18 @@ namespace Onyx3DEditor
             this.toolStripCreateLight.ToolTipText = "Create Light";
             this.toolStripCreateLight.Click += new System.EventHandler(this.toolStripCreateLight_Click);
             // 
+            // selectedObjectInspector
+            // 
+            this.selectedObjectInspector.AutoScroll = true;
+            this.selectedObjectInspector.AutoSize = true;
+            this.selectedObjectInspector.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.selectedObjectInspector.BackColor = System.Drawing.SystemColors.Control;
+            this.selectedObjectInspector.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.selectedObjectInspector.Location = new System.Drawing.Point(0, 0);
+            this.selectedObjectInspector.Name = "selectedObjectInspector";
+            this.selectedObjectInspector.Size = new System.Drawing.Size(192, 520);
+            this.selectedObjectInspector.TabIndex = 0;
+            // 
             // toolStrip3
             // 
             this.toolStrip3.Dock = System.Windows.Forms.DockStyle.Left;
@@ -396,26 +416,6 @@ namespace Onyx3DEditor
             this.timer1.Enabled = true;
             this.timer1.Interval = 14;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
-            // 
-            // sceneHierarchy
-            // 
-            this.sceneHierarchy.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.sceneHierarchy.Location = new System.Drawing.Point(0, 0);
-            this.sceneHierarchy.Name = "sceneHierarchy";
-            this.sceneHierarchy.Size = new System.Drawing.Size(158, 495);
-            this.sceneHierarchy.TabIndex = 4;
-            // 
-            // selectedObjectInspector
-            // 
-            this.selectedObjectInspector.AutoScroll = true;
-            this.selectedObjectInspector.AutoSize = true;
-            this.selectedObjectInspector.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.selectedObjectInspector.BackColor = System.Drawing.SystemColors.Control;
-            this.selectedObjectInspector.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.selectedObjectInspector.Location = new System.Drawing.Point(0, 0);
-            this.selectedObjectInspector.Name = "selectedObjectInspector";
-            this.selectedObjectInspector.Size = new System.Drawing.Size(192, 520);
-            this.selectedObjectInspector.TabIndex = 0;
             // 
             // MainWindow
             // 
