@@ -12,7 +12,7 @@ layout(std140) uniform CameraData {
 	vec4 cameraPos; 
 };
 
-vec3 sunDir = vec3(0.5,3,0.5);
+vec3 sunDir = vec3(0.5,0.5,0.5);
 
 const vec3 dayGrad[3] = vec3[3](
                                 vec3(0.81,0.86,0.96),
@@ -39,20 +39,22 @@ void main()
     
     
     //dayTime = 0;
+
+    float Y = o_fragpos.y * 2.0f;
     
     vec3 col;
     
-    float dayY = pow(o_fragpos.y * 3,0.45);
+    float dayY = pow(Y * 3,0.45);
     vec3 daycol1 = mix(dayGrad[0], dayGrad[1], clamp(dayY,0,1));
     vec3 daycol2 = mix(dayGrad[1], dayGrad[2], clamp(dayY-1,0,1));
     vec3 daycol = mix(daycol1, daycol2, clamp(dayY-1,0,1));
     
-    float sunsetY = pow(o_fragpos.y * 1,0.8);
+    float sunsetY = pow(Y * 1,0.8);
     vec3 sunsetcol1 = mix(sunsetGrad[0], sunsetGrad[1], clamp(sunsetY,0,1)) * 0.8;
     vec3 sunsetcol2 = mix(sunsetGrad[1], sunsetGrad[2], clamp(sunsetY-1,0,1)) * 0.2;
     vec3 sunsetcol = mix(sunsetcol1, sunsetcol2, clamp(sunsetY-1,0,1));
     
-    float nightY = pow(o_fragpos.y * 3,0.45);
+    float nightY = pow(Y * 3,0.45);
     vec3 nightcol1 = mix(nightGrad[0], nightGrad[1], clamp(nightY,0,1)) * 0.1;
     vec3 nightcol2 = mix(nightGrad[1], nightGrad[2], clamp(nightY-1,0,1)) * 0.1;
     vec3 nightcol = mix(nightcol1, nightcol2, clamp(nightY-1,0,1));

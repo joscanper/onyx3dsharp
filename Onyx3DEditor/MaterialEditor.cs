@@ -46,8 +46,8 @@ namespace Onyx3DEditor
 			mScene = new Scene();
 			
 			mCamera = new PerspectiveCamera("MainCamera", 1.5f, (float)renderCanvas.Width / (float)renderCanvas.Height);
-			mCamera.Transform.LocalPosition = new Vector3(0, 0, 2);
-			//mCamera.Transform.LocalRotation = Quaternion.FromAxisAngle(new Vector3(1, 0, 0), -0.45f);
+			mCamera.Transform.LocalPosition = new Vector3(0, 1, 2);
+			mCamera.Transform.LocalRotation = Quaternion.FromAxisAngle(new Vector3(1, 0, 0), -0.45f);
 			mCamera.Parent = mScene.Root;
             mScene.ActiveCamera = mCamera;
 
@@ -69,9 +69,7 @@ namespace Onyx3DEditor
             ReflectionProbe mReflectionProbe = test.AddComponent<ReflectionProbe>();
             mReflectionProbe.Init(128);
 
-
-
-
+            
             SceneObject sky = new SceneObject("test_sky");
             sky.Transform.LocalScale = new Vector3(-1, 1, 1);
             MeshRenderer skyR = sky.AddComponent<MeshRenderer>();

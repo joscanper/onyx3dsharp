@@ -32,7 +32,7 @@
   <Property
     id="roughness_strength"
     type="float"
-    value="0.75" />
+    value="0.5" />
   <Property
     id="occlusion_strength"
     type="float"
