@@ -9,7 +9,7 @@
       instanceId="876561996">
       <Transform
         position="2, 0.8933107, -1.15"
-        rotation="0, 1.000003, 0, 0.1745324"
+        rotation="0, 1, 0, 0.1745324"
         scale="1, 1, 1" />
       <Component
         className="MeshRenderer">
@@ -221,7 +221,7 @@
       instanceId="751714276">
       <Transform
         position="-5.441566, 2.981382, -5.181775"
-        rotation="0, -1.000011, 0, 0.03490487"
+        rotation="0, -0.999962, 0, 0.03490487"
         scale="2, 5, 2" />
       <Component
         className="MeshRenderer">
@@ -240,6 +240,18 @@
         className="MeshRenderer">
         <Mesh>100000005</Mesh>
         <Material>4000001</Material>
+      </Component>
+    </SceneObject>
+    <SceneObject
+      id="Reflection Probe"
+      instanceId="1056742835">
+      <Transform
+        position="0, 1, 0"
+        rotation="1, 0, 0, 0"
+        scale="1, 1, 1" />
+      <Component
+        className="ReflectionProbe">
+        <Size>128</Size>
       </Component>
     </SceneObject>
   </Root>

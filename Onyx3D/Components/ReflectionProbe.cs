@@ -11,7 +11,9 @@ namespace Onyx3D
 		private Cubemap mCubemap;
 		private CubemapGenerator mCubemapGenerator;
 
-		public float Angle;
+        private int mSize;
+
+        public bool IsBaked { get; private set; }
 		
 		public Cubemap Cubemap { get { return mCubemap; } }
 
@@ -22,13 +24,15 @@ namespace Onyx3D
 
 		public void Init(int size)
 		{
-			mCubemap = new Cubemap();
+            mSize = size;
+            mCubemap = new Cubemap();
 			mCubemapGenerator = new CubemapGenerator(size);
 		}
 
 		public void Bake(RenderManager renderer)
 		{
-			mCubemapGenerator.Generate(renderer, SceneObject.Scene, Transform.Position, ref mCubemap, Angle);
+            IsBaked = true;
+            mCubemapGenerator.Generate(renderer, SceneObject.Scene, Transform.Position, ref mCubemap);
 		}
 
 		public override void OnDrawGizmos(GizmosManager gizmos)
@@ -36,14 +40,18 @@ namespace Onyx3D
 			gizmos.DrawSphere(Transform.Position, 0.5f, Vector3.One);
 		}		
 
-		public override void ReadComponentXmlNode(XmlReader writer)
+		public override void ReadComponentXmlNode(XmlReader reader)
 		{
-			throw new NotImplementedException();
-		}
+            if (reader.Name.Equals("Size"))
+            {
+                mSize = reader.ReadElementContentAsInt();
+                Init(mSize);
+            }
+        }
 
 		public override void WriteComponentXml(XmlWriter writer)
 		{
-			throw new NotImplementedException();
-		}
+            writer.WriteElementString("Size", mSize.ToString());
+        }
 	}
 }

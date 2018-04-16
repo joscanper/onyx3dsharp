@@ -74,7 +74,7 @@ namespace Onyx3D
 
 		public abstract void WriteComponentXml(XmlWriter writer);
 
-		public abstract void ReadComponentXmlNode(XmlReader writer);
+		public abstract void ReadComponentXmlNode(XmlReader reader);
 
 		public static Component GetComponent(XmlReader reader)
 		{

@@ -28,22 +28,22 @@ namespace Onyx3D
             mCamRotations[5] = new Vector3(0,0, -(float)Math.PI / 2.0f);     
         }
 
-        public Cubemap Generate(RenderManager renderMgr, Scene scene, Vector3 position, float yaw = 0)
+        public Cubemap Generate(RenderManager renderMgr, Scene scene, Vector3 position)
         {
 			Cubemap cubemap = new Cubemap();
-            Generate(renderMgr, scene, position, ref cubemap, yaw);
+            Generate(renderMgr, scene, position, ref cubemap);
             return cubemap;
         }
 
-        public void Generate(RenderManager renderMgr, Scene scene, Vector3 position, ref Cubemap cubemap, float yaw = 0)
+        public void Generate(RenderManager renderMgr, Scene scene, Vector3 position, ref Cubemap cubemap)
         {
             
             mCamera.Transform.LocalPosition = position;
-            Vector3 initRotation = new Vector3(0, yaw, 0);
+            mCamera.Transform.LocalRotation = Quaternion.Identity;
 
             for (int i = 0; i < 6; i++)
             {
-                mCamera.Transform.LocalRotation = Quaternion.FromEulerAngles(initRotation + mCamRotations[i]);
+                mCamera.Transform.LocalRotation = Quaternion.FromEulerAngles(mCamRotations[i]);
 
 				mFrameBuffer[i].Bind();
                 renderMgr.Render(scene, mCamera, mFrameBuffer[i].Width, mFrameBuffer[i].Height);

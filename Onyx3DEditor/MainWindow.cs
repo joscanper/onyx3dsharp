@@ -23,8 +23,7 @@ namespace Onyx3DEditor
 		Ray mClickRay;
 		ObjectHandler mObjectHandler;
 		OnyxViewerNavigation mNavigation = new OnyxViewerNavigation();
-		ReflectionProbe mReflectionProbe;
-
+		
         MeshRenderer skyR;
 
 
@@ -75,25 +74,15 @@ namespace Onyx3DEditor
 			// TODO - This could allocate several times
 			selectedObjectInspector.OnInspectorChanged += OnInspectorChanged;
 
-			SceneObject test = new SceneObject("Reflection Probe");
-			test.Parent = mScene.Root;
-			test.Transform.LocalPosition = new Vector3(0, 1, 0);
-			mReflectionProbe = test.AddComponent<ReflectionProbe>();
-			mReflectionProbe.Init(128);
 
-
-            // Sky TEst
-
+            // Sky Test
+            // TODO - Serialize this into the Scene
             SceneObject sky = new SceneObject("test_sky");
             sky.Transform.LocalScale = new Vector3(-1, 1, 1);
             skyR = sky.AddComponent<MeshRenderer>();
             skyR.Mesh = mOnyxInstance.Resources.GetMesh(BuiltInMesh.Sphere);
             skyR.Material = mOnyxInstance.Resources.GetMaterial(BuiltInMaterial.Sky);
-
-
             mScene.Sky = skyR;
-
-            mReflectionProbe.Bake(mOnyxInstance.Renderer);
         }
 
 		private void OnSelectionChanged(List<SceneObject> selected)
@@ -206,10 +195,7 @@ namespace Onyx3DEditor
 			}
 
 			renderCanvas.SwapBuffers();
-			labelLoggerOutput.Text = Logger.Instance.Content;
-
-			mReflectionProbe.Bake(mOnyxInstance.Renderer);
-
+			labelLoggerOutput.Text = Logger.Instance.Content;            
 		
 		}
 

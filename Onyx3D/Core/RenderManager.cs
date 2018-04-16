@@ -59,7 +59,9 @@ namespace Onyx3D
 			if (scene.IsDirty) { 
 				mSceneRenderers = GetSceneComponents<MeshRenderer>(scene);
 				mReflectionProbes = GetSceneComponents<ReflectionProbe>(scene);
-			}
+
+                BakeReflectionProbes();
+            }
 			PrepareMaterials(mSceneRenderers, cam.UBO, scene.Lighting.UBO);
 
             if (scene.Sky != null)
@@ -101,6 +103,18 @@ namespace Onyx3D
 
 			return rendereres;
 		}
+
+        private void BakeReflectionProbes()
+        {
+            for(int i = 0; i < mReflectionProbes.Count; i++)
+            {
+                if (!mReflectionProbes[i].IsBaked)
+                { 
+                    mReflectionProbes[i].Bake(this);
+                    mReflectionProbes[i].Bake(this);
+                }
+            }
+        }
 
 		private HashSet<Material> GetMaterialsFromRenderers(List<MeshRenderer> renderers)
 		{
