@@ -11,6 +11,7 @@ namespace Onyx3D
 		public SceneObject Root;
 		public Camera ActiveCamera;
 		public Lighting Lighting = new Lighting();
+        public MeshRenderer Sky;
 
 		public Scene()
 		{

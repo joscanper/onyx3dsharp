@@ -53,6 +53,7 @@ namespace Onyx3DEditor
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.panel1 = new System.Windows.Forms.Panel();
             this.groupBoxProperties = new System.Windows.Forms.GroupBox();
+            this.buttonApplyChanges = new System.Windows.Forms.Button();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripMaterialsComboBox = new System.Windows.Forms.ToolStripComboBox();
             this.toolStripNewMaterialButton = new System.Windows.Forms.ToolStripButton();
@@ -70,14 +71,14 @@ namespace Onyx3DEditor
             this.textBoxLog = new System.Windows.Forms.TextBox();
             this.renderCanvas = new OpenTK.GLControl();
             this.tabVertex = new System.Windows.Forms.TabPage();
+            this.vScrollBar1 = new System.Windows.Forms.VScrollBar();
             this.textBoxVertexCode = new System.Windows.Forms.TextBox();
             this.tabFragment = new System.Windows.Forms.TabPage();
+            this.vScrollBar2 = new System.Windows.Forms.VScrollBar();
             this.textBoxFragmentCode = new System.Windows.Forms.TextBox();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.vScrollBar1 = new System.Windows.Forms.VScrollBar();
-            this.vScrollBar2 = new System.Windows.Forms.VScrollBar();
             this.materialPropertiesControl = new Onyx3DEditor.MaterialPropertiesControl();
-            this.buttonApplyChanges = new System.Windows.Forms.Button();
+            this.cubemapViewer1 = new Onyx3DEditor.CubemapViewer();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -130,6 +131,16 @@ namespace Onyx3DEditor
             this.groupBoxProperties.TabIndex = 1;
             this.groupBoxProperties.TabStop = false;
             this.groupBoxProperties.Text = "Material Properties";
+            // 
+            // buttonApplyChanges
+            // 
+            this.buttonApplyChanges.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.buttonApplyChanges.Location = new System.Drawing.Point(3, 521);
+            this.buttonApplyChanges.Name = "buttonApplyChanges";
+            this.buttonApplyChanges.Size = new System.Drawing.Size(244, 23);
+            this.buttonApplyChanges.TabIndex = 3;
+            this.buttonApplyChanges.Text = "Apply";
+            this.buttonApplyChanges.UseVisualStyleBackColor = true;
             // 
             // toolStrip1
             // 
@@ -186,6 +197,7 @@ namespace Onyx3DEditor
             // 
             // tabPreview
             // 
+            this.tabPreview.Controls.Add(this.cubemapViewer1);
             this.tabPreview.Controls.Add(this.toolStrip2);
             this.tabPreview.Controls.Add(this.textBoxLog);
             this.tabPreview.Controls.Add(this.renderCanvas);
@@ -312,6 +324,14 @@ namespace Onyx3DEditor
             this.tabVertex.Text = "Vertex Shader";
             this.tabVertex.UseVisualStyleBackColor = true;
             // 
+            // vScrollBar1
+            // 
+            this.vScrollBar1.Dock = System.Windows.Forms.DockStyle.Right;
+            this.vScrollBar1.Location = new System.Drawing.Point(595, 3);
+            this.vScrollBar1.Name = "vScrollBar1";
+            this.vScrollBar1.Size = new System.Drawing.Size(17, 540);
+            this.vScrollBar1.TabIndex = 1;
+            // 
             // textBoxVertexCode
             // 
             this.textBoxVertexCode.AcceptsReturn = true;
@@ -338,6 +358,14 @@ namespace Onyx3DEditor
             this.tabFragment.Text = "Fragment Shader";
             this.tabFragment.UseVisualStyleBackColor = true;
             // 
+            // vScrollBar2
+            // 
+            this.vScrollBar2.Dock = System.Windows.Forms.DockStyle.Right;
+            this.vScrollBar2.Location = new System.Drawing.Point(595, 3);
+            this.vScrollBar2.Name = "vScrollBar2";
+            this.vScrollBar2.Size = new System.Drawing.Size(17, 540);
+            this.vScrollBar2.TabIndex = 2;
+            // 
             // textBoxFragmentCode
             // 
             this.textBoxFragmentCode.AcceptsReturn = true;
@@ -358,22 +386,6 @@ namespace Onyx3DEditor
             this.timer1.Interval = 33;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
-            // vScrollBar1
-            // 
-            this.vScrollBar1.Dock = System.Windows.Forms.DockStyle.Right;
-            this.vScrollBar1.Location = new System.Drawing.Point(595, 3);
-            this.vScrollBar1.Name = "vScrollBar1";
-            this.vScrollBar1.Size = new System.Drawing.Size(17, 540);
-            this.vScrollBar1.TabIndex = 1;
-            // 
-            // vScrollBar2
-            // 
-            this.vScrollBar2.Dock = System.Windows.Forms.DockStyle.Right;
-            this.vScrollBar2.Location = new System.Drawing.Point(595, 3);
-            this.vScrollBar2.Name = "vScrollBar2";
-            this.vScrollBar2.Size = new System.Drawing.Size(17, 540);
-            this.vScrollBar2.TabIndex = 2;
-            // 
             // materialPropertiesControl
             // 
             this.materialPropertiesControl.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -383,15 +395,12 @@ namespace Onyx3DEditor
             this.materialPropertiesControl.TabIndex = 2;
             this.materialPropertiesControl.PropertyChanged += new System.EventHandler(this.materialProperties_Changed);
             // 
-            // buttonApplyChanges
+            // cubemapViewer1
             // 
-            this.buttonApplyChanges.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.buttonApplyChanges.Location = new System.Drawing.Point(3, 521);
-            this.buttonApplyChanges.Name = "buttonApplyChanges";
-            this.buttonApplyChanges.Size = new System.Drawing.Size(244, 23);
-            this.buttonApplyChanges.TabIndex = 3;
-            this.buttonApplyChanges.Text = "Apply";
-            this.buttonApplyChanges.UseVisualStyleBackColor = true;
+            this.cubemapViewer1.Location = new System.Drawing.Point(52, 351);
+            this.cubemapViewer1.Name = "cubemapViewer1";
+            this.cubemapViewer1.Size = new System.Drawing.Size(520, 134);
+            this.cubemapViewer1.TabIndex = 3;
             // 
             // MaterialEditor
             // 
@@ -455,6 +464,7 @@ namespace Onyx3DEditor
         private System.Windows.Forms.VScrollBar vScrollBar1;
         private System.Windows.Forms.VScrollBar vScrollBar2;
         private System.Windows.Forms.Button buttonApplyChanges;
+        private CubemapViewer cubemapViewer1;
     }
 }
 

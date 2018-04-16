@@ -25,6 +25,8 @@ namespace Onyx3DEditor
 		OnyxViewerNavigation mNavigation = new OnyxViewerNavigation();
 		ReflectionProbe mReflectionProbe;
 
+        MeshRenderer skyR;
+
 
 		public MainWindow()
 		{
@@ -73,13 +75,24 @@ namespace Onyx3DEditor
 			// TODO - This could allocate several times
 			selectedObjectInspector.OnInspectorChanged += OnInspectorChanged;
 
-			SceneObject test = new SceneObject("test");
+			SceneObject test = new SceneObject("Reflection Probe");
 			test.Parent = mScene.Root;
 			test.Transform.LocalPosition = new Vector3(0, 1, 0);
 			mReflectionProbe = test.AddComponent<ReflectionProbe>();
 			mReflectionProbe.Init(128);
-			
-		}
+
+
+            // Sky TEst
+
+            SceneObject sky = new SceneObject("test_sky");
+            sky.Transform.LocalScale = new Vector3(-1, 1, 1);
+            skyR = sky.AddComponent<MeshRenderer>();
+            skyR.Mesh = mOnyxInstance.Resources.GetMesh(BuiltInMesh.Sphere);
+            skyR.Material = mOnyxInstance.Resources.GetMaterial(BuiltInMaterial.Sky);
+
+
+            mScene.Sky = skyR;
+        }
 
 		private void OnSelectionChanged(List<SceneObject> selected)
 		{
@@ -180,7 +193,8 @@ namespace Onyx3DEditor
 
             mNavigation.UpdateCamera();
 
-			mOnyxInstance.Renderer.Render(mScene, mNavigation.NavigationCamera, renderCanvas.Width, renderCanvas.Height);
+            
+            mOnyxInstance.Renderer.Render(mScene, mNavigation.NavigationCamera, renderCanvas.Width, renderCanvas.Height);
 			mOnyxInstance.Renderer.Render(mGridRenderer, mNavigation.NavigationCamera);
 
 			mOnyxInstance.Gizmos.DrawLine(mClickRay.Origin, mClickRay.Origin + mClickRay.Direction * 10, Vector3.One);
@@ -199,13 +213,7 @@ namespace Onyx3DEditor
 
 			mReflectionProbe.Bake(mOnyxInstance.Renderer);
 
-			// pictureBoxTest.Image = mReflectionProbe.Cubemap.TextureFront.AsBitmap();
-			//pictureBoxTest2.Image = mReflectionProbe.Cubemap.TextureLeft.AsBitmap();
-			// pictureBoxTest3.Image = mReflectionProbe.Cubemap.TextureBack.AsBitmap();
-			///pictureBoxTest4.Image = mReflectionProbe.Cubemap.TextureRight.AsBitmap();
-			//pictureBoxTest5.Image = mCubemap.TextureFront.AsBitmap();
-			//pictureBoxTest6.Image = mCubemap.TextureFront.AsBitmap();
-
+		
 		}
 
 		#region RenderCanvas callbacks

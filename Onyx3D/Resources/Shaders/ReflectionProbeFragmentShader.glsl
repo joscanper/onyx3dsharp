@@ -26,16 +26,19 @@ void main()
 	
 	vec3 I = normalize(o_fragpos - cameraPos.xyz);
 	vec3 R = reflect(I, normalize(o_normal));
+	vec3 coord = R * vec3(1,-1,-1);
 	
-	/*
+	
 	// Irradiance map
+	/*
 	vec3 R = o_normal;
 	vec3 coord = R * vec3(1,-1,-1);
-	coord.x += rand(o_normal.xy) * 3;
-	coord.y += rand(o_normal.yz) * 3;
+	
+	coord.x += rand(o_normal.xy) -0.5f;
+	coord.z += rand(o_normal.yz) -0.5f;
+	coord.y += rand(o_normal.zx) -0.5f;
 	*/
-
-	vec3 coord = R * vec3(1,-1,-1);
+	
 	
 	fragColor = vec4(texture(cubemap, coord).rgb, 1.0f);
 }

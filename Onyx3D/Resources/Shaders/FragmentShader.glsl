@@ -142,7 +142,7 @@ void main()
         vec3 kS = F;
         vec3 kD = 1.0 - kS;
         kD *= 1.0 - metallic_f;	  
-     
+ 
         vec3 numerator    = NDF * G * F;
         float denominator = 4.0 * max(dot(N, V), 0.0) * max(dot(N, L), 0.0);
         vec3 specular     =  numerator / max(denominator, 0.001);  
@@ -152,42 +152,24 @@ void main()
         Lo += (kD * albedo_color / PI + specular) * radiance * NdotL; 
     }   
 
-
-	// -------------- IBL
-	/*
 	vec3 R = reflect(-V, N);
 	vec3 coord = R * vec3(1,-1,-1);
 
-	// ambient lighting (we now use IBL as the ambient term)
-    vec3 F = fresnelSchlickRoughness(max(dot(N, V), 0.0), F0, roughness);
+    vec3 F = fresnelSchlickRoughness(max(dot(N, V), 0.0), F0, roughness_f);
     
     vec3 kS = F;
     vec3 kD = 1.0 - kS;
-    kD *= 1.0 - metallic;	  
-    
-    vec3 irradiance = texture(irradianceMap, N).rgb;
-    vec3 diffuse      = irradiance * albedo;
-    
-    // sample both the pre-filter map and the BRDF lut and combine them together as per the Split-Sum approximation to get the IBL specular part.
-    const float MAX_REFLECTION_LOD = 4.0;
-    vec3 prefilteredColor = textureLod(prefilterMap, R,  roughness * MAX_REFLECTION_LOD).rgb;    
-    vec2 brdf  = texture(brdfLUT, vec2(max(dot(N, V), 0.0), roughness)).rg;
-    vec3 specular = prefilteredColor * (F * brdf.x + brdf.y);
+    kD *= 1.0 - metallic_f;
 
-    vec3 ambient = (kD * diffuse + specular) * ao;
-    
-    vec3 color = ambient + Lo;
+	vec3 reflection = texture(environment_map, R).rgb;   
+	vec3 specular = reflection * F;
 
-    // HDR tonemapping
-    color = color / (color + vec3(1.0));
-    // gamma correct
-    color = pow(color, vec3(1.0/2.2)); 
-	*/
-	// ----------------
-  
-    vec3 color = ambient.rgb * albedo_color * ao_f + Lo;
-	
-    color = color / (color + vec3(1.0));
+    vec3 irradiance = texture(environment_map, N).rgb;
+    vec3 diffuse      = irradiance * albedo_color;
+    vec3 ambient_color = (kD * diffuse + specular) * ao_f;
+    
+    vec3 color = ambient_color + Lo;
+	color = color / (color + vec3(1.0));
     color = pow(color, vec3(1.0/2.2));  
    
     fragColor = vec4(color, 1.0);

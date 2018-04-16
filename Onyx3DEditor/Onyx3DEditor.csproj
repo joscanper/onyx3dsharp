@@ -62,6 +62,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CubemapViewer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CubemapViewer.Designer.cs">
+      <DependentUpon>CubemapViewer.cs</DependentUpon>
+    </Compile>
     <Compile Include="MainWindow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -124,6 +130,9 @@
       <DependentUpon>TextureSelector.cs</DependentUpon>
     </Compile>
     <Compile Include="Utils.cs" />
+    <EmbeddedResource Include="CubemapViewer.resx">
+      <DependentUpon>CubemapViewer.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MainWindow.resx">
       <DependentUpon>MainWindow.cs</DependentUpon>
     </EmbeddedResource>

@@ -20,7 +20,7 @@ namespace Onyx3D
 		Vector4,
 		Color,
 		Sampler2D,
-		Cubemap
+		SamplerCube
 	};
 
 	public class MaterialProperty {
@@ -48,7 +48,13 @@ namespace Onyx3D
 		}
 	}
 
-	public class Material : GameAsset, IXmlSerializable
+    public class CubemapMaterialProperty : TextureMaterialProperty
+    {
+        public CubemapMaterialProperty(MaterialPropertyType type, int textureId, int index) : base(type, textureId, index) { }
+    }
+
+
+    public class Material : GameAsset, IXmlSerializable
 	{
 		public Shader Shader;
 		public Dictionary<string, MaterialProperty> Properties = new Dictionary<string, MaterialProperty>();
@@ -59,7 +65,14 @@ namespace Onyx3D
 			{
 				switch (mp.Value.Type)
 				{
-					case MaterialPropertyType.Sampler2D:
+                    case MaterialPropertyType.SamplerCube:
+                        CubemapMaterialProperty cmp = (CubemapMaterialProperty)mp.Value;
+                        GL.ActiveTexture(TextureUnit.Texture0 + cmp.DataIndex);
+                        Texture ct = Onyx3DEngine.Instance.Resources.GetTexture(cmp.TextureId);
+                        GL.BindTexture(TextureTarget.TextureCubeMap, ct.Id);
+                        GL.Uniform1(GL.GetUniformLocation(Shader.Program, mp.Key), cmp.DataIndex);
+                        break;
+                    case MaterialPropertyType.Sampler2D:
 						TextureMaterialProperty tmp = (TextureMaterialProperty)mp.Value;
 						GL.ActiveTexture(TextureUnit.Texture0 + tmp.DataIndex);
                         Texture t = Onyx3DEngine.Instance.Resources.GetTexture(tmp.TextureId);
@@ -131,10 +144,10 @@ namespace Onyx3D
                                 Properties.Add(id, new MaterialProperty(MaterialPropertyType.Color, XmlUtils.StringToVector4(value)));
                             else if (type == "sampler2d")
 								Properties.Add(id, new TextureMaterialProperty(MaterialPropertyType.Sampler2D, Convert.ToInt32(value), Convert.ToInt32(reader.GetAttribute("index"))));
-							//else if (type == "samplerCube")
-								//Properties.Add(id, new TextureMaterialProperty(MaterialPropertyType.Sampler2D, Onyx3DEngine.Instance.Resources.GetTexture(BuiltInTexture.Checker), 0));
-							// TODO - More things
-						}
+							else if (type == "samplerCube")
+								Properties.Add(id, new CubemapMaterialProperty(MaterialPropertyType.SamplerCube, Convert.ToInt32(value), Convert.ToInt32(reader.GetAttribute("index"))));
+                            // TODO - More things
+                        }
 						break;
 				}
 			}
@@ -181,6 +194,12 @@ namespace Onyx3D
                         TextureMaterialProperty textureProp = (TextureMaterialProperty)prop.Value;
                         writer.WriteAttributeString("value", textureProp.TextureId.ToString());
                         writer.WriteAttributeString("index", textureProp.DataIndex.ToString());
+                        break;
+                    case MaterialPropertyType.SamplerCube:
+                        writer.WriteAttributeString("type", "samplerCube");
+                        CubemapMaterialProperty cubemapProp = (CubemapMaterialProperty)prop.Value;
+                        writer.WriteAttributeString("value", cubemapProp.TextureId.ToString());
+                        writer.WriteAttributeString("index", cubemapProp.DataIndex.ToString());
                         break;
 					// TODO - More things
 				}

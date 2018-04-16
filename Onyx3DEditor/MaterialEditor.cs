@@ -21,8 +21,9 @@ namespace Onyx3DEditor
 		private Camera mCamera;
 		private GridRenderer mGridRenderer;
         private Shader mTestShader;
+        ReflectionProbe mReflectionProbe;
 
-		private float mAngle = 0;
+        private float mAngle = 0;
 
         public OnyxProjectMaterialAsset SelectedMaterial
         {
@@ -46,16 +47,11 @@ namespace Onyx3DEditor
 			mScene = new Scene();
 			
 			mCamera = new PerspectiveCamera("MainCamera", 1.5f, (float)renderCanvas.Width / (float)renderCanvas.Height);
-			mCamera.Transform.LocalPosition = new Vector3(0, 0.85f, 2);
-			mCamera.Transform.LocalRotation = Quaternion.FromAxisAngle(new Vector3(1, 0, 0), -0.45f);
+			mCamera.Transform.LocalPosition = new Vector3(0, 0, 2);
+			//mCamera.Transform.LocalRotation = Quaternion.FromAxisAngle(new Vector3(1, 0, 0), -0.45f);
 			mCamera.Parent = mScene.Root;
+            mScene.ActiveCamera = mCamera;
 
-			mObject = new SceneObject("BaseObject");
-			mObject.Parent = mScene.Root;
-
-			mRenderer = mObject.AddComponent<MeshRenderer>();
-			mRenderer.Mesh = myOnyxInstance.Resources.GetMesh(BuiltInMesh.Teapot);
-			
 			SceneObject grid = new SceneObject("Grid");
 			//grid.Parent = mScene.Root;
 
@@ -68,10 +64,39 @@ namespace Onyx3DEditor
 			light.Parent = mScene.Root;
 			light.Transform.LocalPosition = Vector3.One * 1;
 
-			SetMaterial(myOnyxInstance.Resources.GetMaterial(BuiltInMaterial.Default));
-		}
+            SceneObject test = new SceneObject("LightProbe");
+            test.Parent = mScene.Root;
+            test.Transform.LocalPosition = new Vector3(0, 0, 0);
+            mReflectionProbe = test.AddComponent<ReflectionProbe>();
+            mReflectionProbe.Init(128);
 
-		private void SetMaterial(Material mat)
+
+
+
+            SceneObject sky = new SceneObject("test_sky");
+            sky.Transform.LocalScale = new Vector3(-1, 1, 1);
+            MeshRenderer skyR = sky.AddComponent<MeshRenderer>();
+            skyR.Mesh = myOnyxInstance.Resources.GetMesh(BuiltInMesh.Sphere);
+            skyR.Material = myOnyxInstance.Resources.GetMaterial(BuiltInMaterial.Sky);
+            mScene.Sky = skyR;
+
+            mReflectionProbe.Bake(myOnyxInstance.Renderer);
+
+
+            mObject = new SceneObject("BaseObject");
+            mObject.Parent = mScene.Root;
+            mRenderer = mObject.AddComponent<MeshRenderer>();
+            mRenderer.Mesh = myOnyxInstance.Resources.GetMesh(BuiltInMesh.Teapot);
+            Material m = myOnyxInstance.Resources.GetMaterial(BuiltInMaterial.Default);
+            
+            SetMaterial(m);
+
+            cubemapViewer1.Init(mReflectionProbe.Cubemap);
+
+            
+        }
+
+        private void SetMaterial(Material mat)
 		{
 			mMaterial = mat;
 			mRenderer.Material = mat;
@@ -111,8 +136,8 @@ namespace Onyx3DEditor
             if (mTestShader != null)
                 mMaterial.Shader = mTestShader;
             
-
-			myOnyxInstance.Renderer.Render(mScene, mCamera, renderCanvas.Width, renderCanvas.Height);
+            mReflectionProbe.Bake(myOnyxInstance.Renderer);
+            myOnyxInstance.Renderer.Render(mScene, mCamera, renderCanvas.Width, renderCanvas.Height);
 
             mMaterial.Shader = originalShader;
 

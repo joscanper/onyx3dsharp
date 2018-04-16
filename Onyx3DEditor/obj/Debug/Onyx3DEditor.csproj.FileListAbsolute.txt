@@ -99,3 +99,7 @@ C:\Users\Josue\Desktop\Onyx3DSharp\Onyx3DEditor\obj\Debug\Onyx3DEditor.csproj.Ge
 C:\Users\Josue\Desktop\Onyx3DSharp\Onyx3DEditor\obj\Debug\Onyx3DEditor.csproj.CoreCompileInputs.cache
 C:\Users\Josue\Desktop\Onyx3DSharp\Onyx3DEditor\obj\Debug\Onyx3DEditor.exe
 C:\Users\Josue\Desktop\Onyx3DSharp\Onyx3DEditor\obj\Debug\Onyx3DEditor.pdb
+C:\Users\MiriamYJosue\Documents\Projects\Onyx3DSharp\Onyx3DEditor\bin\Debug\Resources\Shaders\SkyVertexShader.glsl
+C:\Users\MiriamYJosue\Documents\Projects\Onyx3DSharp\Onyx3DEditor\bin\Debug\Resources\Shaders\SkyFragmentShader.glsl
+C:\Users\MiriamYJosue\Documents\Projects\Onyx3DSharp\Onyx3DEditor\bin\Debug\Resources\Materials\Sky.o3dmat
+C:\Users\MiriamYJosue\Documents\Projects\Onyx3DSharp\Onyx3DEditor\obj\Debug\Onyx3DEditor.CubemapViewer.resources
