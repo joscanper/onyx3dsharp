@@ -20,9 +20,9 @@ namespace Onyx3D
 			Root = new SceneObject("", this);
 		}
 
-		public void SetDirty()
+		public void SetDirty(bool value = true)
 		{
-			IsDirty = true;
+			IsDirty = value;
 		}
 
 		// ------ Serialization ------

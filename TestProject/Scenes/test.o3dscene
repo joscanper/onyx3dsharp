@@ -174,7 +174,7 @@
       <Component
         className="MeshRenderer">
         <Mesh>100000004</Mesh>
-        <Material>400000001</Material>
+        <Material>4000003</Material>
       </Component>
     </SceneObject>
     <SceneObject
@@ -187,7 +187,7 @@
       <Component
         className="MeshRenderer">
         <Mesh>100000004</Mesh>
-        <Material>400000001</Material>
+        <Material>4000003</Material>
       </Component>
     </SceneObject>
     <SceneObject
@@ -200,7 +200,7 @@
       <Component
         className="MeshRenderer">
         <Mesh>100000004</Mesh>
-        <Material>400000001</Material>
+        <Material>4000003</Material>
       </Component>
     </SceneObject>
     <SceneObject
@@ -213,7 +213,7 @@
       <Component
         className="MeshRenderer">
         <Mesh>100000004</Mesh>
-        <Material>400000001</Material>
+        <Material>4000003</Material>
       </Component>
     </SceneObject>
     <SceneObject
@@ -226,7 +226,7 @@
       <Component
         className="MeshRenderer">
         <Mesh>100000005</Mesh>
-        <Material>400000001</Material>
+        <Material>4000003</Material>
       </Component>
     </SceneObject>
     <SceneObject
@@ -252,6 +252,7 @@
       <Component
         className="ReflectionProbe">
         <Size>128</Size>
+        <Dynamic>True</Dynamic>
       </Component>
     </SceneObject>
   </Root>

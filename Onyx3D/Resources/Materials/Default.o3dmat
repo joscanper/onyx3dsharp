@@ -15,5 +15,6 @@
   		<Property id="occlusion_strength" type="float" value="1" />
     
       <Property id="environment_map" type="samplerCube" value="0" index="4" />
+      <Property id="brdfLUT" type="sampler2d" value="200000005" index="5"/>
 	</Properties>
 </Material>

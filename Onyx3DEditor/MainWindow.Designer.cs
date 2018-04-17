@@ -6,10 +6,12 @@ namespace Onyx3DEditor
 {
 	partial class MainWindow
 	{
-		/// <summary>
-		/// Required designer variable.
-		/// </summary>
-		private System.ComponentModel.IContainer components = null;
+
+        private GraphicsMode graphicMode = new OpenTK.Graphics.GraphicsMode(32, 24, 0, 8);
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
 
 		/// <summary>
 		/// Clean up any resources being used.
@@ -49,7 +51,7 @@ namespace Onyx3DEditor
 		{
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWindow));
-            this.renderCanvas = new OpenTK.GLControl();
+            this.renderCanvas = new OpenTK.GLControl(graphicMode);
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripLabel2 = new System.Windows.Forms.ToolStripLabel();
             this.toolStripButtonNewProject = new System.Windows.Forms.ToolStripButton();

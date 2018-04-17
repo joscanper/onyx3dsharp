@@ -122,6 +122,9 @@
     <Compile Include="Utils\XmlUtils.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Resources\Textures\brdf_lut.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\Textures\white.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

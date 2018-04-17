@@ -24,15 +24,17 @@ namespace Onyx3D
 			GL.Enable(EnableCap.DepthTest);
 
 			GL.Enable(EnableCap.Multisample);
+            
 			GL.Hint(HintTarget.MultisampleFilterHintNv, HintMode.Nicest);
 
 			GL.Enable(EnableCap.LineSmooth);
 			GL.Hint(HintTarget.LineSmoothHint, HintMode.Nicest);
 
 			GL.Enable(EnableCap.Blend);
-			GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
+            GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
 
-			GL.ClearColor(Color.SlateGray);
+
+            GL.ClearColor(Color.SlateGray);
 
 			Gizmos = new GizmosManager();
 			Gizmos.Init(onyx3d);
@@ -53,8 +55,9 @@ namespace Onyx3D
 			GL.Viewport(0, 0, w, h);
 			GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
-			if (scene.IsDirty) { 
-				mSceneRenderers = GetSceneComponents<MeshRenderer>(scene);
+			if (scene.IsDirty) {
+                scene.SetDirty(false);
+                mSceneRenderers = GetSceneComponents<MeshRenderer>(scene);
 				mReflectionProbes = GetSceneComponents<ReflectionProbe>(scene);
 
                 BakeReflectionProbes();
@@ -106,7 +109,8 @@ namespace Onyx3D
             for(int i = 0; i < mReflectionProbes.Count; i++)
             {
                 if (!mReflectionProbes[i].IsBaked)
-                { 
+                {
+
                     mReflectionProbes[i].Bake(this);
                     mReflectionProbes[i].Bake(this);
                 }

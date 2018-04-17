@@ -42,4 +42,6 @@
     type="samplerCube"
     value="17"
     index="4" />
+
+    <Property id="brdfLUT" type="sampler2d" value="200000005" index="5"/>
 </Material>

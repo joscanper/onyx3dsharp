@@ -13,7 +13,7 @@
   <Property
     id="metallic"
     type="sampler2d"
-    value="2000008"
+    value="200000002"
     index="1" />
   <Property
     id="roughness"
@@ -23,16 +23,16 @@
   <Property
     id="occlusion"
     type="sampler2d"
-    value="2000008"
+    value="2000002"
     index="3" />
   <Property
     id="metallic_strength"
     type="float"
-    value="1.3" />
+    value="0.8" />
   <Property
     id="roughness_strength"
     type="float"
-    value="0.95" />
+    value="0.8" />
   <Property
     id="occlusion_strength"
     type="float"
@@ -40,6 +40,8 @@
   <Property
     id="environment_map"
     type="samplerCube"
-    value="17"
+    value="34"
     index="4" />
+
+    <Property id="brdfLUT" type="sampler2d" value="200000005" index="5"/>
 </Material>

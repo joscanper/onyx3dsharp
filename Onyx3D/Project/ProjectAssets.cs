@@ -28,7 +28,8 @@ namespace Onyx3D
 		public static int White = 200000002;
 		public static int Black = 200000003;
 		public static int Normal = 200000004;
-	}
+        public static int BRDFLut = 200000005;
+    }
 
 
 	public class BuiltInMaterial

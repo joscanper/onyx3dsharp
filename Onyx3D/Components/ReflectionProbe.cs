@@ -11,6 +11,8 @@ namespace Onyx3D
 		private Cubemap mCubemap;
 		private CubemapGenerator mCubemapGenerator;
 
+        public bool Dynamic;
+
         private int mSize;
 
         public bool IsBaked { get; private set; }
@@ -47,11 +49,16 @@ namespace Onyx3D
                 mSize = reader.ReadElementContentAsInt();
                 Init(mSize);
             }
+            else if (reader.Name.Equals("Dynamic"))
+            {
+                Dynamic = Convert.ToBoolean(reader.ReadElementContentAsString());
+            }
         }
 
 		public override void WriteComponentXml(XmlWriter writer)
 		{
             writer.WriteElementString("Size", mSize.ToString());
+            writer.WriteElementString("Dynamic", Dynamic.ToString());
         }
 	}
 }

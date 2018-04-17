@@ -22,6 +22,7 @@ uniform sampler2D albedo;
 uniform sampler2D metallic;
 uniform sampler2D roughness;
 uniform sampler2D occlusion;
+uniform sampler2D brdfLUT;
 uniform vec4 base_color;
 uniform float metallic_strength;
 uniform float roughness_strength;
@@ -161,13 +162,14 @@ void main()
 
 	vec3 R = reflect(-V, N);
     vec3 F = fresnelSchlickRoughness(max(dot(N, V), 0.0), F0, roughness_f);
-    
+    vec2 envBRDF  = texture(brdfLUT, vec2(max(dot(N, V), 0.0), roughness_f)).rg;
+
     vec3 kS = F;
     vec3 kD = 1.0 - kS;
     kD *= 1.0 - metallic_f;
 
 	vec3 reflection = textureLod(environment_map, R * vec3(1,-1,-1), roughness_f * REFLECTION_LOD).rgb;
-	vec3 specular = reflection * F;
+	vec3 specular = reflection * (F * envBRDF.x + envBRDF.y);
 
     vec3 irradiance = textureLod(environment_map,  N * vec3(1,-1,-1), IRRADIANCE_LOD).rgb;
     vec3 diffuse      = irradiance * albedo_color;

@@ -42,6 +42,7 @@ namespace Onyx3D
             AddAsset(new OnyxProjectAsset("./Resources/Textures/checker.png", BuiltInTexture.Checker));
             AddAsset(new OnyxProjectAsset("./Resources/Textures/white.jpg", BuiltInTexture.White));
             AddAsset(new OnyxProjectAsset("./Resources/Textures/black.jpg", BuiltInTexture.Black));
+            AddAsset(new OnyxProjectAsset("./Resources/Textures/brdf_lut.png", BuiltInTexture.BRDFLut));
 
             // Built-in shaders (from 300000000)
             AddAsset(new OnyxProjectShaderAsset("./Resources/Shaders/VertexShader.glsl", "./Resources/Shaders/FragmentShader.glsl", BuiltInShader.Default));
