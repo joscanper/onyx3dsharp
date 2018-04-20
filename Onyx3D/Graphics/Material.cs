@@ -114,6 +114,21 @@ namespace Onyx3D
 			return Properties[name] as T;
 		}
 
+		public void SetProperty<T>(string name, object data) where T : MaterialProperty
+		{
+			T property;
+			if (!Properties.ContainsKey(name))
+				property = Activator.CreateInstance<T>();
+			else
+				property = (T)Properties[name];
+
+			if (property == null)
+				throw new Exception("Material property missmatch");
+
+			property.Data = data;
+		}
+
+
 		// ------ Serialization ------
 
 		public XmlSchema GetSchema()
@@ -152,7 +167,6 @@ namespace Onyx3D
 								Properties.Add(id, new TextureMaterialProperty(MaterialPropertyType.Sampler2D, Convert.ToInt32(value), Convert.ToInt32(reader.GetAttribute("index"))));
 							else if (type == "samplerCube")
 								Properties.Add(id, new CubemapMaterialProperty(MaterialPropertyType.SamplerCube, Convert.ToInt32(value), Convert.ToInt32(reader.GetAttribute("index"))));
-                            // TODO - More things
                         }
 						break;
 				}
@@ -207,7 +221,6 @@ namespace Onyx3D
                         writer.WriteAttributeString("value", cubemapProp.TextureGuid.ToString());
                         writer.WriteAttributeString("index", cubemapProp.DataIndex.ToString());
                         break;
-					// TODO - More things
 				}
 
 

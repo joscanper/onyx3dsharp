@@ -9,5 +9,10 @@ namespace Onyx3D
 			XmlReader xmlReader = XmlReader.Create(ProjectManager.Instance.Content.GetAsset(BuiltInMaterial.Default).Path);
 			this.ReadXml(xmlReader);
 		}
+
+		public void SetAlbedo(int guid)
+		{
+			SetProperty<TextureMaterialProperty>("albedo", guid);
+		}
 	}
 }

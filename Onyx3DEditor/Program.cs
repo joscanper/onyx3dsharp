@@ -14,7 +14,7 @@ namespace Onyx3DEditor
         static void Main()
         {
 
-            ProjectLoader.Load("../../../TestProject/test2.o3dproj");
+            ProjectLoader.Load("../../../../TestProject/test2.o3dproj");
 
 			Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);

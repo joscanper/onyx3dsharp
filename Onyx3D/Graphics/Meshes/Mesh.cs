@@ -45,7 +45,7 @@ namespace Onyx3D
 		//private int mElemen
 
         public List<Vertex> Vertices = new List<Vertex>();
-        public uint[] Indices;
+        public int[] Indices;
         public Bounds Bounds { get; private set; }
 
         public void GenerateVAO()
@@ -81,7 +81,7 @@ namespace Onyx3D
 			int ebo = 0;
 			if (Indices != null)
 			{
-				uint[] indices = Indices.ToArray();
+				int[] indices = Indices.ToArray();
 				GL.GenBuffers(1, out ebo);
 				GL.BindBuffer(BufferTarget.ElementArrayBuffer, ebo);
 				GL.BufferData(BufferTarget.ElementArrayBuffer, (IntPtr)(indices.Count() * sizeof(uint)), indices, BufferUsageHint.StaticDraw);
@@ -110,7 +110,7 @@ namespace Onyx3D
 				GL.DeleteVertexArray(mVertexArrayObject);
 		}
 
-		// TODO Delete Vertex Array
+		// TODO - Delete Vertex Array
 
 		public void AddFace(Vertex v1, Vertex v2, Vertex v3, Vertex v4)
 		{

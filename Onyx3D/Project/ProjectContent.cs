@@ -90,9 +90,9 @@ namespace Onyx3D
 			return Scenes.Count == 0 ? null : Scenes[0];
 		}
 
-		public OnyxProjectMaterialAsset AddMaterial(string path,  Material mat = null)
+		public OnyxProjectMaterialAsset AddMaterial(string path, bool relative = false, Material mat = null)
 		{
-			OnyxProjectMaterialAsset matAsset = new OnyxProjectMaterialAsset(GetRelativePath(path), Path.GetFileNameWithoutExtension(path), GetNewMaterialId());
+			OnyxProjectMaterialAsset matAsset = new OnyxProjectMaterialAsset(relative ? path : GetRelativePath(path), Path.GetFileNameWithoutExtension(path), GetNewMaterialId());
             if (mat!= null)
 			    mat.LinkedProjectAsset = matAsset;
 			Materials.Add(matAsset);
@@ -100,9 +100,9 @@ namespace Onyx3D
             return matAsset;
 		}
 
-        public OnyxProjectAsset AddTexture(string path, Texture texture = null)
+        public OnyxProjectAsset AddTexture(string path, bool relative = false, Texture texture = null)
         {
-            OnyxProjectAsset textureAsset = new OnyxProjectAsset(GetRelativePath(path), GetNewTextureId());
+            OnyxProjectAsset textureAsset = new OnyxProjectAsset(relative ? path : GetRelativePath(path), GetNewTextureId());
             if (texture != null)
                 texture.LinkedProjectAsset = textureAsset;
             Textures.Add(textureAsset);
@@ -110,10 +110,22 @@ namespace Onyx3D
             return textureAsset;
         }
 
-        // -----
+		public OnyxProjectAsset AddMesh(string path, bool relative = false, Mesh mesh = null)
+		{
+			OnyxProjectAsset meshAsset = new OnyxProjectAsset(relative ? path : GetRelativePath(path), GetNewMeshId());
+			if (mesh != null)
+				mesh.LinkedProjectAsset = meshAsset;
+			Meshes.Add(meshAsset);
+			AddAsset(meshAsset);
+
+			Console.WriteLine("Added Mesh!: " + meshAsset.Guid);
+			return meshAsset;
+		}
+
+		// -----
 
 
-        public static string GetAbsolutePath(string relativePath)
+		public static string GetAbsolutePath(string relativePath)
         {
 
             if (relativePath.StartsWith("./"))

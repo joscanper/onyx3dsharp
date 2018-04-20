@@ -29,8 +29,9 @@ namespace Onyx3DEditor
 
 		public MainWindow()
 		{
-			InitializeComponent();
 			InitializeCanvas();
+			InitializeComponent();
+			
 
 			Selection.OnSelectionChanged += OnSelectionChanged;
 			mNavigation.Bind(renderCanvas);
@@ -67,11 +68,11 @@ namespace Onyx3DEditor
 			mNavigation.CreateCamera();
 
 			mObjectHandler = new ObjectHandler(mOnyxInstance, renderCanvas, mNavigation.NavigationCamera);
-			// TODO - This could allocate several times
+			// TODO - This could allocate several times (when changing scene)
 			mObjectHandler.OnTransformModified += OnTransformModifiedFromObjectHandler;
 
 			sceneHierarchy.SetScene(mScene);
-			// TODO - This could allocate several times
+			// TODO - This could allocate several times (when changing scene)
 			selectedObjectInspector.OnInspectorChanged += OnInspectorChanged;
 
 
@@ -254,7 +255,7 @@ namespace Onyx3DEditor
 
 		private void toolStripButtonMaterials_Click(object sender, EventArgs e)
 		{
-            MaterialEditor matEditor = new MaterialEditor();
+            MaterialEditorWindow matEditor = new MaterialEditorWindow();
             matEditor.MaterialSaved += (OnyxProjectMaterialAsset asset) =>
             {
                 Onyx3DEngine.Instance.Resources.ReloadMaterial(asset.Guid);
@@ -266,7 +267,7 @@ namespace Onyx3DEditor
 
 		private void toolStripButtonTextures_Click(object sender, EventArgs e)
 		{
-			new TextureManager().Show();
+			new TextureManagerWindow().Show();
 		}
 
 		private void toolStripButtonNewProject_Click(object sender, EventArgs e)
@@ -296,7 +297,7 @@ namespace Onyx3DEditor
 
 		private void toolStripButtonChangeScene_Click(object sender, EventArgs e)
 		{
-			SceneSelector ss = new SceneSelector();
+			SceneSelectorWindow ss = new SceneSelectorWindow();
 			ss.OnSceneSelected += OnSceneSelected;
 			ss.Show();
 		}
@@ -400,5 +401,9 @@ namespace Onyx3DEditor
 					DeleteObject(mSelectedSceneObject);
 		}
 
-    }
+		private void toolStripButtonImportModel_Click(object sender, EventArgs e)
+		{
+			new ModelImporterWindow().Show();
+		}
+	}
 }

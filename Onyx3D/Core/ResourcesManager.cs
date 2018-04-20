@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Assimp;
+using Assimp.Configs;
+using System;
 using System.Collections.Generic;
 using System.Xml;
 
@@ -67,6 +69,7 @@ namespace Onyx3D
 
 		private Mesh LoadMesh(OnyxProjectAsset asset)
 		{
+
 			return ObjLoader.Load(asset.AbsolutePath);
 		}
 

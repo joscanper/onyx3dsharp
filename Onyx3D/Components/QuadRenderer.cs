@@ -23,7 +23,7 @@ namespace Onyx3D
             Mesh.Vertices.Add(v3);
             Mesh.Vertices.Add(v4);
 
-            Mesh.Indices = new uint[]
+            Mesh.Indices = new int[]
             {
                 0,
                 3,

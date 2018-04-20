@@ -19,7 +19,7 @@ namespace Onyx3DEditor
 
 		private Control mPropertyControl;
 		private MaterialProperty mProperty;
-		private TextureSelector mTextureSelector;
+		private TextureSelectorWindow mTextureSelector;
 
 		public MaterialPropertyControl()
 		{
@@ -112,7 +112,7 @@ namespace Onyx3DEditor
 
 		private void OnPictureBoxClicked(object sender, EventArgs e)
 		{
-			mTextureSelector = new TextureSelector();
+			mTextureSelector = new TextureSelectorWindow();
 			mTextureSelector.TextureSelected += OnTextureSelected;
 			mTextureSelector.Show();
 		}

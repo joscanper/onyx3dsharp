@@ -1,0 +1,21 @@
+Shader :: Failed to compile FragmentShader shader: 0(173) : error C1031: swizzle mask element not present in operand "yz"
+0(174) : error C1031: swizzle mask element not present in operand "zx"
+
+Shader :: Failed to create program
+Shader :: Failed to compile FragmentShader shader: 0(172) : error C1008: undefined variable "coord"
+0(173) : error C1008: undefined variable "coord"
+0(174) : error C1008: undefined variable "coord"
+
+Shader :: Failed to create program
+Shader :: Failed to compile FragmentShader shader: 0(84) : error C1008: undefined variable "color"
+
+Shader :: Failed to create program
+Shader :: Failed to compile FragmentShader shader: 0(173) : error C0000: syntax error, unexpected ';', expecting ')' at token ";"
+
+Shader :: Failed to create program
+Shader :: Failed to compile FragmentShader shader: 0(173) : error C0000: syntax error, unexpected ';', expecting ')' at token ";"
+
+Shader :: Failed to create program
+Shader :: Failed to compile FragmentShader shader: 0(173) : error C0000: syntax error, unexpected ';', expecting ')' at token ";"
+
+Shader :: Failed to create program

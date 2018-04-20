@@ -95,10 +95,10 @@ namespace Onyx3D
 				}
 			}
 
-			List<uint> meshIndices = new List<uint>();
+			List<int> meshIndices = new List<int>();
 			Mesh m = new Mesh();
-			Dictionary<String, uint> vertmap = new Dictionary<string, uint>();
-			uint index = 0;
+			Dictionary<String, int> vertmap = new Dictionary<string, int>();
+			int index = 0;
 			foreach(FaceIndices fi in indices){
 				Vertex v;
 				

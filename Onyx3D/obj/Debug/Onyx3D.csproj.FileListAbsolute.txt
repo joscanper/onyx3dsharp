@@ -58,7 +58,6 @@ C:\Users\Josue\Desktop\Onyx3DSharp\Onyx3D\bin\Debug\Resources\Models\quad.obj
 C:\Users\Josue\Desktop\Onyx3DSharp\Onyx3D\bin\Debug\Onyx3D.dll
 C:\Users\Josue\Desktop\Onyx3DSharp\Onyx3D\bin\Debug\Onyx3D.pdb
 C:\Users\Josue\Desktop\Onyx3DSharp\Onyx3D\bin\Debug\OpenTK.dll
-C:\Users\Josue\Desktop\Onyx3DSharp\Onyx3D\bin\Debug\WindowsBase.dll
 C:\Users\Josue\Desktop\Onyx3DSharp\Onyx3D\bin\Debug\OpenTK.pdb
 C:\Users\Josue\Desktop\Onyx3DSharp\Onyx3D\bin\Debug\OpenTK.xml
 C:\Users\Josue\Desktop\Onyx3DSharp\Onyx3D\bin\Debug\OpenTK.dll.config
@@ -73,3 +72,8 @@ C:\Users\Josue\Desktop\Onyx3DSharp\Onyx3D\bin\Debug\Resources\Shaders\SkyFragmen
 C:\Users\Josue\Desktop\Onyx3DSharp\Onyx3D\bin\Debug\Resources\Materials\Sky.o3dmat
 C:\Users\MiriamYJosue\Documents\Projects\Onyx3DSharp\Onyx3D\obj\Debug\Onyx3D.csprojResolveAssemblyReference.cache
 C:\Users\MiriamYJosue\Documents\Projects\Onyx3DSharp\Onyx3D\bin\Debug\Resources\Textures\brdf_lut.png
+C:\Users\Josue\Desktop\Onyx3DSharp\Onyx3D\bin\Debug\Resources\Textures\brdf_lut.png
+C:\Users\Josue\Desktop\Onyx3DSharp\Onyx3D\obj\Debug\Onyx3D.csprojResolveAssemblyReference.cache
+C:\Users\Josue\Desktop\Onyx3DSharp\Onyx3D\bin\Debug\WindowsBase.dll
+C:\Users\Josue\Desktop\Onyx3DSharp\Onyx3D\bin\Debug\AssimpNet.dll
+C:\Users\Josue\Desktop\Onyx3DSharp\Onyx3D\bin\Debug\AssimpNet.xml

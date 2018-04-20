@@ -108,3 +108,6 @@ C:\Users\Josue\Desktop\Onyx3DSharp\Onyx3DEditor\bin\Debug\Resources\Shaders\SkyF
 C:\Users\Josue\Desktop\Onyx3DSharp\Onyx3DEditor\bin\Debug\Resources\Materials\Sky.o3dmat
 C:\Users\Josue\Desktop\Onyx3DSharp\Onyx3DEditor\obj\Debug\Onyx3DEditor.CubemapViewer.resources
 C:\Users\MiriamYJosue\Documents\Projects\Onyx3DSharp\Onyx3DEditor\bin\Debug\Resources\Textures\brdf_lut.png
+C:\Users\Josue\Desktop\Onyx3DSharp\Onyx3DEditor\bin\Debug\Resources\Textures\brdf_lut.png
+C:\Users\Josue\Desktop\Onyx3DSharp\Onyx3DEditor\bin\Debug\AssimpNet.dll
+C:\Users\Josue\Desktop\Onyx3DSharp\Onyx3DEditor\bin\Debug\AssimpNet.xml

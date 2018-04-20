@@ -19,6 +19,18 @@ namespace Onyx3D
                     mObject.Material = m;
             }
         }
-    }
+
+		[Category("MeshRenderer")]
+		public int Mesh
+		{
+			get { return mObject.Mesh.LinkedProjectAsset.Guid; }
+			set
+			{
+				Mesh m = Onyx3DEngine.Instance.Resources.GetMesh(value);
+				if (m != null)
+					mObject.Mesh = m;
+			}
+		}
+	}
 }
 

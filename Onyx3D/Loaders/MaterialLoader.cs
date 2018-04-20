@@ -14,9 +14,9 @@ namespace Onyx3D
             return m;
         }
 
-        public static void Save(Material material, string path)
+        public static void Save(Material material, string path, bool relative = true)
         {
-            XmlWriter xmlWriter = XmlWriter.Create(ProjectContent.GetAbsolutePath(path), ProjectContent.DefaultXMLSettings);
+            XmlWriter xmlWriter = XmlWriter.Create(relative ? ProjectContent.GetAbsolutePath(path) : path, ProjectContent.DefaultXMLSettings);
             material.WriteXml(xmlWriter);
             xmlWriter.Close();
         }
