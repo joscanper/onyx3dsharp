@@ -19,7 +19,7 @@ namespace Onyx3D
 		public List<OnyxProjectSceneAsset> Scenes = new List<OnyxProjectSceneAsset>();
 		public List<OnyxProjectAsset> Textures = new List<OnyxProjectAsset>();
 		public List<OnyxProjectMaterialAsset> Materials = new List<OnyxProjectMaterialAsset>();
-		public List<OnyxProjectAsset> Meshes = new List<OnyxProjectAsset>();
+		public List<OnyxProjectMeshAsset> Meshes = new List<OnyxProjectMeshAsset>();
 
 		[XmlIgnore]
 		public Dictionary<int, OnyxProjectAsset> mMappedResources = new Dictionary<int, OnyxProjectAsset>();
@@ -31,12 +31,12 @@ namespace Onyx3D
 			DefaultXMLSettings.Indent = true;
 
 			// Built-in meshes (from 100000000)
-			AddAsset(new OnyxProjectAsset("./Resources/Models/teapot.obj", BuiltInMesh.Teapot));
-			AddAsset(new OnyxProjectAsset("./Resources/Models/cube.obj", BuiltInMesh.Cube));
-			AddAsset(new OnyxProjectAsset("./Resources/Models/cylinder.obj", BuiltInMesh.Cylinder));
-			AddAsset(new OnyxProjectAsset("./Resources/Models/torus.obj", BuiltInMesh.Torus));
-			AddAsset(new OnyxProjectAsset("./Resources/Models/sphere.obj", BuiltInMesh.Sphere));
-            AddAsset(new OnyxProjectAsset("./Resources/Models/quad.obj", BuiltInMesh.Quad));
+			AddAsset(new OnyxProjectMeshAsset("./Resources/Models/teapot.obj", false, BuiltInMesh.Teapot));
+			AddAsset(new OnyxProjectMeshAsset("./Resources/Models/cube.obj", false, BuiltInMesh.Cube));
+			AddAsset(new OnyxProjectMeshAsset("./Resources/Models/cylinder.obj", false, BuiltInMesh.Cylinder));
+			AddAsset(new OnyxProjectMeshAsset("./Resources/Models/torus.obj", false, BuiltInMesh.Torus));
+			AddAsset(new OnyxProjectMeshAsset("./Resources/Models/sphere.obj", false, BuiltInMesh.Sphere));
+            AddAsset(new OnyxProjectMeshAsset("./Resources/Models/quad.obj", false, BuiltInMesh.Quad));
 
             //  Built-in textures (from 200000000)
             AddAsset(new OnyxProjectAsset("./Resources/Textures/checker.png", BuiltInTexture.Checker));
@@ -110,15 +110,13 @@ namespace Onyx3D
             return textureAsset;
         }
 
-		public OnyxProjectAsset AddMesh(string path, bool relative = false, Mesh mesh = null)
+		public OnyxProjectMeshAsset AddMesh(string path, bool relative = false, Mesh mesh = null, bool isModel = false)
 		{
-			OnyxProjectAsset meshAsset = new OnyxProjectAsset(relative ? path : GetRelativePath(path), GetNewMeshId());
+            OnyxProjectMeshAsset meshAsset = new OnyxProjectMeshAsset(relative ? path : GetRelativePath(path), isModel, GetNewMeshId());
 			if (mesh != null)
 				mesh.LinkedProjectAsset = meshAsset;
 			Meshes.Add(meshAsset);
 			AddAsset(meshAsset);
-
-			Console.WriteLine("Added Mesh!: " + meshAsset.Guid);
 			return meshAsset;
 		}
 

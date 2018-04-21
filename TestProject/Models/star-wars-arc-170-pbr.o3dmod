@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModelSupportData xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <ModelFile>Models/star-wars-arc-170-pbr.obj</ModelFile>
+  <Meshes>
+    <int>1000000</int>
+    <int>1000001</int>
+    <int>1000002</int>
+  </Meshes>
+  <Textures />
+  <Materials>
+    <int>4000004</int>
+    <int>4000005</int>
+  </Materials>
+</ModelSupportData>

@@ -70,6 +70,7 @@
   <ItemGroup>
     <Reference Include="AssimpNet, Version=3.3.2.0, Culture=neutral, PublicKeyToken=3edc10cb77b1bca2, processorArchitecture=MSIL">
       <HintPath>..\packages\AssimpNet.3.3.2\lib\net20\AssimpNet.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="OpenTK">
       <HintPath>Packages\OpenTK.GLControl\OpenTK.dll</HintPath>
@@ -122,6 +123,12 @@
       <DependentUpon>MaterialPropertyControl.cs</DependentUpon>
     </Compile>
     <Compile Include="ObjectHandler.cs" />
+    <Compile Include="Onyx3DControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Onyx3DControl.Designer.cs">
+      <DependentUpon>Onyx3DControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="ProjectLoader.cs" />
     <Compile Include="SceneHierarchyControl.cs">
       <SubType>UserControl</SubType>
@@ -185,6 +192,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ModelImporterWindow.resx">
       <DependentUpon>ModelImporterWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Onyx3DControl.resx">
+      <DependentUpon>Onyx3DControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

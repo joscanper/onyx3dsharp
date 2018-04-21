@@ -160,7 +160,26 @@ namespace Onyx3D
 			return components;
 		}
 
-		public void RemoveAllChildren()
+        public List<T> GetComponentsInChildren<T>() where T : Component
+        {
+            List<T> components = new List<T>();
+
+            List<T> myComponents = GetComponents<T>();
+            if (myComponents != null)
+                components.AddRange(myComponents);
+
+            for (int i = 0; i < mChildren.Count; ++i)
+            {
+                List<T> c = mChildren[i].GetComponentsInChildren<T>();
+                if (c.Count > 0)
+                    components.AddRange(c);
+            }
+
+            return components;
+        }
+
+
+        public void RemoveAllChildren()
 		{
 			for (int i = 0; i < ChildCount; ++i)
 				mChildren[i].Parent = null;
@@ -190,6 +209,25 @@ namespace Onyx3D
             primitive.Transform.LocalPosition = new Vector3(0, 0, 0);
             mesh.Material = resources.GetMaterial(BuiltInMaterial.Default);
             return primitive;
+        }
+
+        public Bounds CalculateBoundingBox()
+        {
+            Bounds b = new Bounds();
+            List<MeshRenderer> renderers = GetComponentsInChildren<MeshRenderer>();
+            for(int i=0; i<renderers.Count; ++i)
+            {
+                if (renderers[i].Mesh == null)
+                    continue;
+
+                List<Vertex> vertices = renderers[i].Mesh.Vertices;
+                for (int v = 0; v < vertices.Count; ++v)
+                {
+                    Vector3 worldPos = renderers[i].Transform.LocalToWorld(vertices[v].Position);
+                    b.Encapsulate(worldPos);
+                }
+            }
+            return b;
         }
 
 

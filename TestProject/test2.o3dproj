@@ -61,6 +61,11 @@
         <Path>Textures/roughness.jpg</Path>
         <Guid>2000009</Guid>
       </OnyxProjectAsset>
+      <OnyxProjectAsset>
+        <Dirty>false</Dirty>
+        <Path>Models/Arc170_blinn1.png</Path>
+        <Guid>2000010</Guid>
+      </OnyxProjectAsset>
     </Textures>
     <Materials>
       <OnyxProjectMaterialAsset>
@@ -87,7 +92,38 @@
         <Guid>4000003</Guid>
         <Name>Floor</Name>
       </OnyxProjectMaterialAsset>
+      <OnyxProjectMaterialAsset>
+        <Dirty>false</Dirty>
+        <Path>Models/Physical.o3mat</Path>
+        <Guid>4000004</Guid>
+        <Name>Physical</Name>
+      </OnyxProjectMaterialAsset>
+      <OnyxProjectMaterialAsset>
+        <Dirty>false</Dirty>
+        <Path>Models/Physical1.o3mat</Path>
+        <Guid>4000005</Guid>
+        <Name>Physical1</Name>
+      </OnyxProjectMaterialAsset>
     </Materials>
-    <Meshes />
+    <Meshes>
+      <OnyxProjectMeshAsset>
+        <Dirty>false</Dirty>
+        <Path>Models\star-wars-arc-170-pbr.o3dmod</Path>
+        <Guid>1000000</Guid>
+        <IsFromModel>true</IsFromModel>
+      </OnyxProjectMeshAsset>
+      <OnyxProjectMeshAsset>
+        <Dirty>false</Dirty>
+        <Path>Models\star-wars-arc-170-pbr.o3dmod</Path>
+        <Guid>1000001</Guid>
+        <IsFromModel>true</IsFromModel>
+      </OnyxProjectMeshAsset>
+      <OnyxProjectMeshAsset>
+        <Dirty>false</Dirty>
+        <Path>Models\star-wars-arc-170-pbr.o3dmod</Path>
+        <Guid>1000002</Guid>
+        <IsFromModel>true</IsFromModel>
+      </OnyxProjectMeshAsset>
+    </Meshes>
   </Content>
 </ProjectData>

@@ -8,13 +8,13 @@
       id="Teapot"
       instanceId="876561996">
       <Transform
-        position="2, 0.8933107, -1.15"
+        position="-4.245137, 8.060572, -3.968701"
         rotation="0, 1, 0, 0.1745324"
         scale="1, 1, 1" />
       <Component
         className="MeshRenderer">
-        <Mesh>100000001</Mesh>
-        <Material>4000001</Material>
+        <Mesh>1000002</Mesh>
+        <Material>4000004</Material>
       </Component>
     </SceneObject>
     <SceneObject

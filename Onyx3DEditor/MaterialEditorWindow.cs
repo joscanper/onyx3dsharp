@@ -56,7 +56,7 @@ namespace Onyx3DEditor
 			//grid.Parent = mScene.Root;
 
 			mGridRenderer = grid.AddComponent<GridRenderer>();
-			mGridRenderer.GenerateGridMesh(10, 10, 0.25f, 0.25f);
+			mGridRenderer.GenerateGridMesh(10, 10, 0.25f, 0.25f, Vector3.One);
 			mGridRenderer.Material = myOnyxInstance.Resources.GetMaterial(BuiltInMaterial.Default);
 			
 			SceneObject light = new SceneObject("Light");

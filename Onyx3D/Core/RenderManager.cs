@@ -33,7 +33,8 @@ namespace Onyx3D
 			GL.Enable(EnableCap.Blend);
             GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
 
-
+            GL.Enable(EnableCap.TextureCubeMapSeamless);
+            
             GL.ClearColor(Color.SlateGray);
 
 			Gizmos = new GizmosManager();

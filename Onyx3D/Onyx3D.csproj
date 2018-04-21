@@ -56,6 +56,7 @@
   <ItemGroup>
     <Reference Include="AssimpNet, Version=3.3.2.0, Culture=neutral, PublicKeyToken=3edc10cb77b1bca2, processorArchitecture=MSIL">
       <HintPath>..\packages\AssimpNet.3.3.2\lib\net20\AssimpNet.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="OpenTK, Version=2.0.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -97,6 +98,8 @@
     <Compile Include="Core\ResourcesManager.cs" />
     <Compile Include="Core\Types\Ray.cs" />
     <Compile Include="Core\GizmosManager.cs" />
+    <Compile Include="Graphics\Assimp\AssimpExtension.cs" />
+    <Compile Include="Graphics\Assimp\AssimpLoader.cs" />
     <Compile Include="Graphics\Cubemap.cs" />
     <Compile Include="Graphics\DefaultMaterial.cs" />
     <Compile Include="Graphics\FrameBuffer.cs" />
@@ -107,6 +110,7 @@
     <Compile Include="Graphics\Meshes\Mesh.cs" />
     <Compile Include="Components\MeshRenderer.cs" />
     <Compile Include="Graphics\Meshes\MeshUtils.cs" />
+    <Compile Include="Graphics\Models\ModelSupportData.cs" />
     <Compile Include="Graphics\ObjLoader.cs" />
     <Compile Include="Graphics\Texture.cs" />
     <Compile Include="Graphics\UBO.cs" />

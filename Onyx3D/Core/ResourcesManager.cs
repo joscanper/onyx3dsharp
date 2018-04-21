@@ -69,11 +69,25 @@ namespace Onyx3D
 
 		private Mesh LoadMesh(OnyxProjectAsset asset)
 		{
-
-			return ObjLoader.Load(asset.AbsolutePath);
+            OnyxProjectMeshAsset mAsset = (OnyxProjectMeshAsset)asset;
+            if (mAsset.IsFromModel)
+            {
+                AssimpLoader.ImportMeshes(mAsset.AbsolutePath, (guid, mesh)=>
+                {
+                    mMeshes.Add(guid, mesh);
+                    mMeshes[guid].LinkedProjectAsset = ProjectManager.Instance.Content.GetAsset(guid);
+                });
+                return GetMesh(asset.Guid);
+            }
+            else
+            {
+                // TODO - Legacy, remove when all objects are models
+                return ObjLoader.Load(asset.AbsolutePath);
+            }
 		}
+        
 
-		private Material LoadMaterial(OnyxProjectAsset asset)
+        private Material LoadMaterial(OnyxProjectAsset asset)
 		{
 			return MaterialLoader.Load(asset.AbsolutePath);
 		}
@@ -88,6 +102,8 @@ namespace Onyx3D
 		{
 			return new Texture(asset.AbsolutePath);
 		}
+
+
 	}
 	
 }

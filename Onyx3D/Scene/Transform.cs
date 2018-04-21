@@ -58,6 +58,13 @@ namespace Onyx3D
 			SetDirty();
 		}
 
+        public void FromMatrix(Matrix4 m)
+        {
+            mLocalPosition = new Vector4(m.ExtractTranslation(), 1);
+            mLocalRotation = m.ExtractRotation();
+            mLocalScale = new Vector4(m.ExtractScale(), 1);
+            SetDirty();
+        }
 
 		public Matrix4 CalculateModelMatrix()
 		{

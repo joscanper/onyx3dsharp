@@ -114,4 +114,17 @@ namespace Onyx3D
 		}
 
     };
+
+    [Serializable]
+    public class OnyxProjectMeshAsset : OnyxProjectAsset
+    {
+        public bool IsFromModel;
+
+        public OnyxProjectMeshAsset() { }
+        public OnyxProjectMeshAsset(string path, bool isModel = false, int guid = 0) : base(path, guid)
+        {
+            IsFromModel = isModel;
+        }
+    };
+
 }
