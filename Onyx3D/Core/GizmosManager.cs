@@ -68,6 +68,11 @@ namespace Onyx3D
 			mRenderers.Add(mySphere);
 		}
 
+		public void DrawWireSphere(Sphere s, Vector3 color, int segments = 100)
+		{
+			DrawWireSphere(s.Position, s.Radius, color);
+		}
+
 		public void DrawAxis(Vector3 position)
 		{
 			AxisRenderer myAxis = GetComponent<AxisRenderer>();
