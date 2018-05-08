@@ -6,10 +6,10 @@ namespace Onyx3D
 {
 	public struct Plane
 	{
-		public Vector3 Distance;
+		public float Distance;
 		public Vector3 Normal;
 
-		public Plane(Vector3 distance, Vector3 n)
+		public Plane(float distance, Vector3 n)
 		{
 			Distance = distance;
 			Normal = n;

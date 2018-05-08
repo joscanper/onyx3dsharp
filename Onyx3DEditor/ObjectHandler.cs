@@ -102,9 +102,9 @@ class ObjectHandler
 abstract class HandlerOperator
 {
 
-	private Bounds mXAxisBound;
-	private Bounds mYAxisBound;
-	private Bounds mZAxisBound;
+	protected Sphere mXAxisBound;
+	protected Sphere mYAxisBound;
+	protected Sphere mZAxisBound;
 
 	protected Vector3 SelectedAxis = Vector3.Zero;
 	
@@ -131,16 +131,17 @@ abstract class HandlerOperator
 	public virtual void Update(SceneObject obj)
 	{
 		Vector3 position = obj.Transform.Position;
-		mXAxisBound.SetMinMax(position + Vector3.UnitX - Vector3.One * 0.1f, position + Vector3.UnitX + Vector3.One * 0.1f);
-		mYAxisBound.SetMinMax(position + Vector3.UnitY - Vector3.One * 0.1f, position + Vector3.UnitY + Vector3.One * 0.1f);
-		mZAxisBound.SetMinMax(position + Vector3.UnitZ - Vector3.One * 0.1f, position + Vector3.UnitZ + Vector3.One * 0.1f);
+		mXAxisBound.Set(position + Vector3.UnitX, 0.25f);
+		mYAxisBound.Set(position + Vector3.UnitY, 0.25f);
+		mZAxisBound.Set(position + Vector3.UnitZ, 0.25f);
 	}
 
 	virtual public void DrawGizmos(SceneObject obj, GizmosManager gizmos)
 	{
-		gizmos.DrawBox(mXAxisBound.Center, Vector3.One * 0.25f, SelectedAxis == Vector3.UnitX ? Vector3.UnitY : Vector3.Zero);
-		gizmos.DrawBox(mYAxisBound.Center, Vector3.One * 0.25f, SelectedAxis == Vector3.UnitY ? Vector3.UnitY : Vector3.Zero);
-		gizmos.DrawBox(mZAxisBound.Center, Vector3.One * 0.25f, SelectedAxis == Vector3.UnitZ ? Vector3.UnitY : Vector3.Zero);
+		gizmos.DrawWireSphere(mXAxisBound, SelectedAxis == Vector3.UnitX ? Vector3.UnitY : Vector3.Zero);
+		gizmos.DrawWireSphere(mYAxisBound, SelectedAxis == Vector3.UnitY ? Vector3.UnitY : Vector3.Zero);
+		gizmos.DrawWireSphere(mZAxisBound, SelectedAxis == Vector3.UnitZ ? Vector3.UnitY : Vector3.Zero);
+
 	}
 
 	virtual public void CheckSelectedAxis(SceneObject obj, Ray ray)
@@ -269,53 +270,89 @@ class ObjectHandlerScale : HandlerOperator
 class ObjectHandlerRotate : HandlerOperator
 {
 
-
+	private Quaternion mRotation;
 
 	private Vector3 closestPoint;
 
+	private Vector3 initHitPoint;
+
 	protected override void OnHandleStart(SceneObject obj)
 	{
-	
+		mRotation = obj.Transform.LocalRotation;
+		
 	}
 
 	public override void DrawGizmos(SceneObject obj, GizmosManager gizmos)
 	{
 		base.DrawGizmos(obj, gizmos);
 
-		gizmos.DrawCircle(obj.Transform.Position, 0.5f, Vector3.UnitY, Vector3.UnitY);
-		gizmos.DrawCircle(obj.Transform.Position, 0.5f, Vector3.UnitZ, Vector3.UnitZ);		
-		gizmos.DrawCircle(obj.Transform.Position, 0.5f, Vector3.UnitX, Vector3.UnitX);
+		Vector3 up = obj.Transform.Up;
+		Vector3 right = obj.Transform.Right;
+		Vector3 forward = obj.Transform.Forward;
 
-		gizmos.DrawLine(obj.Transform.Position + obj.Transform.Right * 0.5f, obj.Transform.Position + obj.Transform.Right, Vector3.UnitZ);
-		gizmos.DrawLine(obj.Transform.Position + obj.Transform.Up * 0.5f, obj.Transform.Position + obj.Transform.Up, Vector3.UnitX);
-		gizmos.DrawLine(obj.Transform.Position + obj.Transform.Forward * 0.5f, obj.Transform.Position + obj.Transform.Forward, Vector3.UnitY);
+		gizmos.DrawCircle(obj.Transform.Position + up, 0.25f, Vector3.UnitY, up);
+		gizmos.DrawCircle(obj.Transform.Position + right, 0.25f, Vector3.UnitX, right);		
+		gizmos.DrawCircle(obj.Transform.Position + forward, 0.25f, Vector3.UnitZ, forward);
 
-		gizmos.DrawWireSphere(obj.Transform.Position + Vector3.UnitX, 0.05f, Vector3.UnitZ);
-		gizmos.DrawWireSphere(obj.Transform.Position + Vector3.UnitY, 0.05f, Vector3.UnitX);
-		gizmos.DrawWireSphere(obj.Transform.Position + Vector3.UnitZ, 0.05f, Vector3.UnitY);
+		gizmos.DrawLine(obj.Transform.Position + right * 0.5f, obj.Transform.Position + right, Vector3.UnitX);
+		gizmos.DrawLine(obj.Transform.Position + up * 0.5f, obj.Transform.Position + up, Vector3.UnitY);
+		gizmos.DrawLine(obj.Transform.Position + forward * 0.5f, obj.Transform.Position + forward, Vector3.UnitZ);
+
+		gizmos.DrawWireSphere(obj.Transform.Position + right, 0.05f, Vector3.UnitX);
+		gizmos.DrawWireSphere(obj.Transform.Position + up, 0.05f, Vector3.UnitY);
+		gizmos.DrawWireSphere(obj.Transform.Position + forward, 0.05f, Vector3.UnitZ);
 
 		gizmos.DrawLine(obj.Transform.Position, closestPoint, Vector3.One);
+	}
+
+	public override void Update(SceneObject obj)
+	{
+		base.Update(obj);
+		Vector3 position = obj.Transform.Position;
+		mXAxisBound.Set(position + obj.Transform.Up, 0.25f);
+		mYAxisBound.Set(position + obj.Transform.Right, 0.25f);
+		mZAxisBound.Set(position + obj.Transform.Forward, 0.25f);
 	}
 
 	public override void Handle(SceneObject obj, Ray ray)
 	{
 		
+			
 		Ray axisRay = new Ray(obj.Transform.Position, SelectedAxis);
-
 		closestPoint = axisRay.ClosestPointTo(ray);
 		Vector3 dirToClosest = (closestPoint - obj.Transform.Position) * SelectedAxis;
-		//Vector3 axisPoint = (obj.Transform.Position + SelectedAxis);
-		//Quaternion prevAngle = obj.Transform.LocalRotation;
-		float angleOffset = Vector3.CalculateAngle(SelectedAxis, dirToClosest);
+
+		Vector3 hitPoint = GetAxisPlaneHitPoint(obj.Transform.Position, ray);
 		
 
-		obj.Transform.LocalRotation += Quaternion.FromEulerAngles(SelectedAxis * angleOffset);
+		Console.WriteLine(dirToClosest);
+
+		//Vector3 axisPoint = (obj.Transform.Position + SelectedAxis);
+		//Quaternion prevAngle = obj.Transform.LocalRotation;
+		float angleOffset = dirToClosest.Length * 0.5f * Vector3.Dot(SelectedAxis, dirToClosest);
+
+		Console.WriteLine(angleOffset);
+		
+		
+		obj.Transform.LocalRotation = mRotation * Quaternion.FromEulerAngles(SelectedAxis * (angleOffset - 0.5f)); 
+	}
+
+	private Vector3 GetAxisPlaneHitPoint(Vector3 position, Ray ray)
+	{
+		Plane p = new Plane((position * SelectedAxis).Length, -SelectedAxis);
+		if (p.IntersectsRay(ray, out float dist))
+		{
+			return ray.Origin - ray.Direction.Normalized() * dist;
+		}
+		return Vector3.Zero;
 	}
 
 	public override void CheckSelectedAxis(SceneObject obj, Ray ray)
 	{
 
 		base.CheckSelectedAxis(obj, ray);
+
+		initHitPoint = GetAxisPlaneHitPoint(obj.Transform.Position, ray);
 
 		/*
 		if (SelectedAxis == Vector3.UnitX) SelectedAxis = Vector3.UnitY;
