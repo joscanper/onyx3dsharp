@@ -57,9 +57,11 @@
     <Reference Include="AssimpNet, Version=3.3.2.0, Culture=neutral, PublicKeyToken=3edc10cb77b1bca2, processorArchitecture=MSIL">
       <HintPath>..\packages\AssimpNet.3.3.2\lib\net20\AssimpNet.dll</HintPath>
     </Reference>
-    <Reference Include="OpenTK, Version=2.0.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>Packages\OpenTK.GLControl\OpenTK.dll</HintPath>
+    <Reference Include="OpenTK, Version=3.0.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
+      <HintPath>..\packages\OpenTK.3.0.0-git00044\lib\net20\OpenTK.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenTK.GLControl, Version=3.0.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
+      <HintPath>..\packages\OpenTK.GLControl.3.0.0-git00044\lib\net20\OpenTK.GLControl.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -84,7 +86,7 @@
     <Compile Include="Components\QuadRenderer.cs" />
     <Compile Include="Components\ReflectionProbe.cs" />
     <Compile Include="Core\EngineComponent.cs" />
-    <Compile Include="Core\Extensions\QuaterionExtension.cs" />
+    <Compile Include="Core\Extensions\QuaternionExtension.cs" />
     <Compile Include="Core\Extensions\Vector3Extension.cs" />
     <Compile Include="Core\Onyx3DInstance.cs" />
     <Compile Include="Core\SceneManager.cs" />
@@ -97,6 +99,7 @@
     <Compile Include="Core\ResourcesManager.cs" />
     <Compile Include="Core\Types\Ray.cs" />
     <Compile Include="Core\GizmosManager.cs" />
+    <Compile Include="Core\Types\Sphere.cs" />
     <Compile Include="Graphics\Cubemap.cs" />
     <Compile Include="Graphics\DefaultMaterial.cs" />
     <Compile Include="Graphics\FrameBuffer.cs" />
@@ -124,6 +127,7 @@
     <Compile Include="Project\ProjectContent.cs" />
     <Compile Include="Project\ProjectData.cs" />
     <Compile Include="Project\ProjectManager.cs" />
+    <None Include="OpenTK.dll.config" />
     <None Include="Resources\Shaders\SkyVertexShader.glsl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

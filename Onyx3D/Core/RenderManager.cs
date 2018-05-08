@@ -31,7 +31,7 @@ namespace Onyx3D
 			GL.Hint(HintTarget.LineSmoothHint, HintMode.Nicest);
 
 			GL.Enable(EnableCap.Blend);
-            GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
+            GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
 
 
             GL.ClearColor(Color.SlateGray);
