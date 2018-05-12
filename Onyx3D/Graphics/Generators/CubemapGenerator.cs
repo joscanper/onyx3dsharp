@@ -24,8 +24,8 @@ namespace Onyx3D
             mCamRotations[1] = new Vector3(0, (float)Math.PI / 2.0f, 0);                                
             mCamRotations[2] = new Vector3(0, (float)Math.PI, 0);                                       
             mCamRotations[3] = new Vector3(0, -(float)Math.PI / 2.0f, 0);                               
-            mCamRotations[4] = new Vector3(0, 0, (float)Math.PI / 2.0f);								
-            mCamRotations[5] = new Vector3(0,0, -(float)Math.PI / 2.0f);     
+            mCamRotations[4] = new Vector3((float)Math.PI / 2.0f, 0, 0);								
+            mCamRotations[5] = new Vector3(-(float)Math.PI / 2.0f, 0, 0);     
         }
 
         public Cubemap Generate(RenderManager renderMgr, Scene scene, Vector3 position)

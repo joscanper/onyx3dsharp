@@ -101,7 +101,7 @@ namespace Onyx3DEditor
 		private void RotateCamera()
 		{
 			NavigationCamera.Parent.Transform.Rotate(Quaternion.FromEulerAngles(new Vector3(0,-MouseOffset.X * RotationFactor, 0)));
-			NavigationCamera.Transform.Rotate(Quaternion.FromEulerAngles(new Vector3(0, 0,-MouseOffset.Y * RotationFactor)));
+			NavigationCamera.Transform.Rotate(Quaternion.FromEulerAngles(new Vector3(-MouseOffset.Y * RotationFactor, 0, 0)));
 		}
 
 		#region Mouse Interaction
