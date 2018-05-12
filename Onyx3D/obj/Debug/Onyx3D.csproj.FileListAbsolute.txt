@@ -79,3 +79,4 @@ C:\Users\MiriamYJosue\Documents\Projects\Onyx3DSharp\Onyx3D\bin\Debug\OpenTK.pdb
 C:\Users\MiriamYJosue\Documents\Projects\Onyx3DSharp\Onyx3D\bin\Debug\OpenTK.xml
 C:\Users\MiriamYJosue\Documents\Projects\Onyx3DSharp\Onyx3D\obj\Debug\Onyx3D.dll
 C:\Users\MiriamYJosue\Documents\Projects\Onyx3DSharp\Onyx3D\obj\Debug\Onyx3D.pdb
+C:\Users\MiriamYJosue\Documents\Projects\Onyx3DSharp\Onyx3D\obj\Debug\Onyx3D.csprojResolveAssemblyReference.cache

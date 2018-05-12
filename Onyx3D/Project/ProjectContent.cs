@@ -20,8 +20,9 @@ namespace Onyx3D
 		public List<OnyxProjectAsset> Textures = new List<OnyxProjectAsset>();
 		public List<OnyxProjectMaterialAsset> Materials = new List<OnyxProjectMaterialAsset>();
 		public List<OnyxProjectMeshAsset> Meshes = new List<OnyxProjectMeshAsset>();
+        public List<OnyxProjectAsset> Templates = new List<OnyxProjectAsset>();
 
-		[XmlIgnore]
+        [XmlIgnore]
 		public Dictionary<int, OnyxProjectAsset> mMappedResources = new Dictionary<int, OnyxProjectAsset>();
 
 		public void Init()
@@ -63,7 +64,8 @@ namespace Onyx3D
 			AddAssets(Materials);
 			AddAssets(Textures);
 			AddAssets(Meshes);
-		}
+            AddAssets(Templates);
+        }
 
 
 		public void AddAssets<T>(List<T> assets) where T : OnyxProjectAsset
@@ -120,10 +122,20 @@ namespace Onyx3D
 			return meshAsset;
 		}
 
-		// -----
+        public OnyxProjectAsset AddTemplate(string path, bool relative = false, Template tmp = null)
+        {
+            OnyxProjectAsset templateAsset = new OnyxProjectAsset(relative ? path : GetRelativePath(path),  GetNewTemplateId());
+            if (tmp != null)
+                tmp.LinkedProjectAsset = templateAsset;
+            Templates.Add(templateAsset);
+            AddAsset(templateAsset);
+            return templateAsset;
+        }
+
+        // -----
 
 
-		public static string GetAbsolutePath(string relativePath)
+        public static string GetAbsolutePath(string relativePath)
         {
 
             if (relativePath.StartsWith("./"))
@@ -163,6 +175,12 @@ namespace Onyx3D
 		{
 			return GetNewId(Textures, ContentIds.Textures);
         }
+
+        private int GetNewTemplateId()
+        {
+            return GetNewId(Templates, ContentIds.Templates);
+        }
+
 
         private int GetNewId<T>(List<T> list, int start) where T : OnyxProjectAsset
         {

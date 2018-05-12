@@ -49,7 +49,8 @@ namespace Onyx3D
 		public static int Textures = 2000000;
 		public static int Shaders = 3000000;
 		public static int Materials = 4000000;
-	}
+        public static int Templates = 5000000;
+    }
 
 	[Serializable]
 	public class OnyxProjectAsset

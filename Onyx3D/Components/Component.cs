@@ -42,6 +42,11 @@ namespace Onyx3D
 
 		public virtual Type GetInspectorType() { return null; }
 
+        public Component Clone()
+        {
+            return (Component)this.MemberwiseClone();
+        }
+
 		// ---- Serialization ----
 
 		public XmlSchema GetSchema() { return null; }

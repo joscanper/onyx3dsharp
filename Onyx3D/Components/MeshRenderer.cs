@@ -22,7 +22,7 @@ namespace Onyx3D
         public Material Material;
         public Bounds Bounds { get; private set; }
 
-		public virtual void Render()
+        public virtual void Render()
         {
             SetUpMaterial();
 			SetUpMVP(Material.Shader.Program);

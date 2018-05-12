@@ -63,7 +63,7 @@ namespace Onyx3D
 	
 		public void UpdateUBO(Scene scene)
 		{
-			List<Light> ligths = scene.Root.GetComponentInChildren<Light>();
+			List<Light> ligths = scene.Root.GetComponentsInChildren<Light>();
 
 			mUBufferData.AmbientColor = new Vector4(Ambient, 1.0f);
 			mUBufferData.PointLightsNum = 0;

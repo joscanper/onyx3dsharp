@@ -67,7 +67,7 @@ namespace Onyx3DEditor
                 mPreview.RemoveAllComponents();
             }
 
-            mPreview = ParsePreviewNode(mCurrentModel.RootNode);
+            mPreview = ParseNode(mCurrentModel.RootNode, true);
             Bounds bounds = mPreview.CalculateBoundingBox();
             float scale = ModelScale / bounds.Size.Length;
             mPreview.Transform.LocalScale = Vector3.One * scale;
@@ -90,12 +90,15 @@ namespace Onyx3DEditor
 
 
             ModelSupportDataLoader.Save(mSupportFile);
+
+            ImportTemplate();
         }
+
         
-        private SceneObject ParsePreviewNode(Assimp.Node node)
+        private SceneObject ParseNode(Assimp.Node node, bool preview)
         {
             
-            SceneObject mySceneObject = new SceneObject("Model");
+            SceneObject mySceneObject = new SceneObject(node.Name);
             mySceneObject.Transform.FromMatrix(node.Transform.ToOnyx3D());
 
             if (node.HasMeshes)
@@ -103,44 +106,42 @@ namespace Onyx3DEditor
                 for(int i=0; i < node.MeshCount; ++i)
                 { 
                     MeshRenderer meshRenderer = mySceneObject.AddComponent<MeshRenderer>();
-                    meshRenderer.Mesh = mCurrentModel.Meshes[node.MeshIndices[i]].ToOnyx3D();
-                    meshRenderer.Material = new DefaultMaterial();
+                    if (preview)
+                    {
+                        meshRenderer.Mesh = mCurrentModel.Meshes[node.MeshIndices[i]].ToOnyx3D();
+                        meshRenderer.Material = new DefaultMaterial();
+                    }else
+                    {
+                        meshRenderer.Mesh = onyx3DControl.OnyxInstance.Resources.GetMesh(mLoadedMeshes[node.MeshIndices[i]]);
+                        meshRenderer.Material = onyx3DControl.OnyxInstance.Resources.GetMaterial(BuiltInMaterial.Default);
+                    }
                 }
             }
 
             foreach (Assimp.Node child in node.Children)
             {
-                SceneObject childSceneObject = ParsePreviewNode(child);
+                SceneObject childSceneObject = ParseNode(child, preview);
                 childSceneObject.Parent = mySceneObject;
             }
 
             return mySceneObject;
         }
-        
 
-        private SceneObject ParseNode(Assimp.Node node)
+
+        private void ImportTemplate()
         {
-            SceneObject mySceneObject = new SceneObject("Model");
-            mySceneObject.Transform.FromMatrix(node.Transform.ToOnyx3D());
+            SceneObject root = ParseNode(mCurrentModel.RootNode, false);
 
-            if (node.HasMeshes)
-            {
-                MeshRenderer meshRenderer = mySceneObject.AddComponent<MeshRenderer>();
-                meshRenderer.Mesh = onyx3DControl.OnyxInstance.Resources.GetMesh(mLoadedMeshes[node.MeshIndices[0]]);
-                meshRenderer.Material = onyx3DControl.OnyxInstance.Resources.GetMaterial(BuiltInMaterial.Default);
-            }
+            string templatePath = Path.Combine(Path.GetDirectoryName(mSupportFile.AbsolutePath), Path.GetFileNameWithoutExtension(mSupportFile.ModelFile) + ".o3dtemp");
+            Template template = new Template(root);
+            TemplateLoader.Save(template, templatePath);
 
-            foreach(Assimp.Node child in node.Children)
-            {
-                SceneObject childSceneObject = ParseNode(child);
-                childSceneObject.Parent = mySceneObject;
-            }
+            OnyxProjectAsset asset =  ProjectManager.Instance.Content.AddTemplate(templatePath, false, template);
 
-            return mySceneObject;   
+            labelTemplate.Text = "\n Imported Template : " + asset.Guid;
         }
-        
 
-		private void ImportMaterialTextures(string directoryPath, Assimp.Material assimpMaterial, Onyx3D.DefaultMaterial onyxMaterial)
+        private void ImportMaterialTextures(string directoryPath, Assimp.Material assimpMaterial, Onyx3D.DefaultMaterial onyxMaterial)
 		{
 			if (assimpMaterial.HasTextureDiffuse)
 			{

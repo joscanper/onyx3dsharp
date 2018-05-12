@@ -13,11 +13,12 @@ namespace Onyx3D
 		private Dictionary<int, Texture> mTextures = new Dictionary<int, Texture>();
 		private Dictionary<int, Material> mMaterials = new Dictionary<int, Material>();
 		private Dictionary<int, Shader> mShaders = new Dictionary<int, Shader>();
+        private Dictionary<int, Template> mTemplates = new Dictionary<int, Template>();
 
-		// ----------------------------------------------------------------  Getters
+        // ----------------------------------------------------------------  Getters
 
-       
-		private T GetResource<T>(int id, Dictionary<int, T> map, Func<OnyxProjectAsset, T> loadFallback, int defaultAsset) where T : GameAsset
+
+        private T GetResource<T>(int id, Dictionary<int, T> map, Func<OnyxProjectAsset, T> loadFallback, int defaultAsset) where T : GameAsset
 		{
 
 			if (!map.ContainsKey(id))
@@ -59,6 +60,11 @@ namespace Onyx3D
 		{
 			return GetResource(id, mShaders, LoadShader, BuiltInShader.Default);
 		}
+
+        public Template GetTemplate(int id)
+        {
+            return GetResource(id, mTemplates, LoadTemplate, 0);
+        }
 
         public void ReloadMaterial(int id)
         {
@@ -103,8 +109,13 @@ namespace Onyx3D
 			return new Texture(asset.AbsolutePath);
 		}
 
+        private Template LoadTemplate(OnyxProjectAsset asset)
+        {
+            return TemplateLoader.Load(asset.AbsolutePath);
+        }
 
-	}
-	
+
+    }
+
 }
 

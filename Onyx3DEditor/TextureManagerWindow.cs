@@ -44,32 +44,33 @@ namespace Onyx3DEditor
 
 		private void toolStripButtonOpen_Click(object sender, EventArgs e)
 		{
-			string filePath = OpenFileSelector(ProjectManager.Instance.CurrentProjectPath);
-			if (filePath.Length > 0)
-				CreateNewTexture(filePath);
-		}
+			string[] filePaths = OpenFileSelector(ProjectManager.Instance.CurrentProjectPath);
+			if (filePaths != null)
+            { 
+                foreach(string filePath in filePaths)
+                    mCurrentTexture = ProjectManager.Instance.Content.AddTexture(filePath);
 
-		private string OpenFileSelector(string initPath)
+                UpdateTextureInfo();
+                FillTexturesList();
+            }
+        }
+
+		private string[] OpenFileSelector(string initPath)
 		{
 			OpenFileDialog openFileDialog1 = new OpenFileDialog();
 			openFileDialog1.InitialDirectory = initPath;
 			openFileDialog1.Filter = "PNG files (*.png)|*.png|JPG files (*.jpg)|*.jpg";//All files (*.*)|*.*
 			openFileDialog1.FilterIndex = 2;
 			openFileDialog1.RestoreDirectory = true;
+            openFileDialog1.Multiselect = true;
 			if (openFileDialog1.ShowDialog() == DialogResult.OK)
 			{
-				return openFileDialog1.FileName;
+				return openFileDialog1.FileNames;
 			}
-			return "";
+			return null;
 		}
 
-		private void CreateNewTexture(string path)
-		{
-            mCurrentTexture = ProjectManager.Instance.Content.AddTexture(path);
-
-			UpdateTextureInfo();
-			FillTexturesList();
-		}
+		
 
 		private void UpdateTextureInfo()
 		{
@@ -118,9 +119,9 @@ namespace Onyx3DEditor
 
 		private void buttonOpen_Click(object sender, EventArgs e)
 		{
-			string filePath = OpenFileSelector(textBoxFilePath.Text);
-			if (filePath.Length > 0) {
-				textBoxFilePath.Text = filePath;
+			string[] filePaths = OpenFileSelector(textBoxFilePath.Text);
+			if (filePaths != null) {
+				//textBoxFilePath.Text = filePath;
 				LoadTexturePreview();
 			}
 		}

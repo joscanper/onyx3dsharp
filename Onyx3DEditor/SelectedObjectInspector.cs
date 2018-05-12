@@ -31,14 +31,17 @@ namespace Onyx3DEditor
 			textBoxName.Text = obj.Id;
 			tableLayoutPanel.Controls.Add(textBoxName, 0, 0);
 
+            if (obj.GetType() == typeof(TemplateProxy))
+                AddInspector(new TemplateProxyInspector((TemplateProxy)obj));
 
-			// Transform inspector
-			AddInspector(new TransformInspector(obj.Transform));
-			
-			//tableLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, propGrid.Size.Height));
+            // Transform inspector
+            AddInspector(new TransformInspector(obj.Transform));
+
+            
+            //tableLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, propGrid.Size.Height));
 
 
-			obj.ForEachComponent((c) =>
+            obj.ForEachComponent((c) =>
 			{
 				Type inspectorType = c.GetInspectorType();
 				if (inspectorType != null)
