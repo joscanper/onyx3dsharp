@@ -89,6 +89,7 @@
     <Compile Include="Core\Extensions\Vector3Extension.cs" />
     <Compile Include="Core\Onyx3DInstance.cs" />
     <Compile Include="Core\SceneManager.cs" />
+    <Compile Include="Core\Template.cs" />
     <Compile Include="Core\Types\Plane.cs" />
     <Compile Include="Core\Types\Bounds.cs" />
     <Compile Include="Core\Types\GameAsset.cs" />
@@ -119,9 +120,11 @@
     <Compile Include="Inspectors\LightInspector.cs" />
     <Compile Include="Inspectors\MeshRendererInspector.cs" />
     <Compile Include="Inspectors\SceneInspector.cs" />
+    <Compile Include="Inspectors\TemplateProxyInspector.cs" />
     <Compile Include="Inspectors\TransformInspector.cs" />
     <Compile Include="Inspectors\Vector3Inspector.cs" />
     <Compile Include="Loaders\MaterialLoader.cs" />
+    <Compile Include="Loaders\TemplateLoader.cs" />
     <Compile Include="Physics\Physics.cs" />
     <Compile Include="Physics\RaycastHit.cs" />
     <Compile Include="Project\ProjectAssets.cs" />
@@ -148,6 +151,7 @@
     <Compile Include="Graphics\Shader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Core\Singleton.cs" />
+    <Compile Include="Scene\TemplateProxy.cs" />
     <Compile Include="Scene\Transform.cs" />
     <Compile Include="Utils\XmlUtils.cs" />
   </ItemGroup>
