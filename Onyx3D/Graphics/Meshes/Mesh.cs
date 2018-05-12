@@ -17,8 +17,9 @@ namespace Onyx3D
         public Vector3 Color;
         public Vector3 Normal;
         public Vector2 TexCoord;
+        public Matrix3 TBN;
 
-        public Vertex(Vector3 pos) : this(pos, Vector3.One, Vector3.Zero, Vector2.Zero){}
+        public Vertex(Vector3 pos) : this(pos, Vector3.One, Vector3.Zero, Vector2.Zero) {}
 
 		public Vertex(Vector3 pos, Vector3 col) : this(pos, col, Vector3.Zero, Vector2.Zero) {}
 
@@ -30,7 +31,8 @@ namespace Onyx3D
 			Color = col;
 			Normal = normal;
 			TexCoord = texcoord;
-		}
+            TBN = Matrix3.Identity;
+        }
 	}
 
 	[Serializable]
@@ -76,9 +78,12 @@ namespace Onyx3D
 			//TexCoord
 			GL.VertexAttribPointer(3, 2, VertexAttribPointerType.Float, false, sizeOfVertex, Marshal.SizeOf(vertices[0].Position) + Marshal.SizeOf(vertices[0].Color) + Marshal.SizeOf(vertices[0].Normal));
 			GL.EnableVertexAttribArray(3);
+            //TBN
+            GL.VertexAttribPointer(4, 3*3, VertexAttribPointerType.Float, false, sizeOfVertex, Marshal.SizeOf(vertices[0].Position) + Marshal.SizeOf(vertices[0].Color) + Marshal.SizeOf(vertices[0].Normal) + Marshal.SizeOf(vertices[0].TexCoord));
+            GL.EnableVertexAttribArray(4);
 
 
-			int ebo = 0;
+            int ebo = 0;
 			if (Indices != null)
 			{
 				int[] indices = Indices.ToArray();

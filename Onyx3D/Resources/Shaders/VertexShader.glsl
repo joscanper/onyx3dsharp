@@ -8,6 +8,7 @@ layout (location = 0) in vec3 position;
 layout (location = 1) in vec3 color;
 layout (location = 2) in vec3 normal;
 layout (location = 3) in vec2 texcoord;
+layout (location = 4) in mat3 tbn;
 
 uniform mat4 NM;
 uniform mat4 M;
@@ -16,6 +17,9 @@ out vec3 o_color;
 out vec3 o_normal;
 out vec3 o_fragpos;
 out vec2 o_uv;
+out vec3 o_tangent_fragpos;
+out vec3 o_tangent_campos;
+
 
 //#include OnyxShaderCamera
 //#include OnyxShaderLighting
@@ -63,4 +67,7 @@ void main()
 	vec4 worldPos = M * vec4(position, 1.0f);
 	o_fragpos = worldPos.xyz;
 	gl_Position = P * V * worldPos;
+
+	o_tangent_fragpos = o_TBN * o_fragpos;
+	o_tangent_campos = o_TBN * cameraPos;
 }
