@@ -19,12 +19,12 @@ namespace Onyx3D
 		{
 			hitDist = 0;
 			float denom = Vector3.Dot(Normal, r.Direction);
-			if (denom > 1e-6)
-			{
-				Vector3 pl = (Distance * Normal) - r.Direction;
+			//if (denom > 1e-6)
+			//{
+				Vector3 pl = (Distance * Normal) - r.Origin;
 				hitDist = Vector3.Dot(pl, Normal) / denom;
-				return (hitDist >= 0);
-			}
+				return true;
+			//}
 
 			return false;
 		}

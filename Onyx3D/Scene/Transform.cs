@@ -125,6 +125,11 @@ namespace Onyx3D
 			return (new Vector4(point, 1)  * mBakedModelM).Xyz;
 		}
 
+		public Vector3 WorldToLocal(Vector3 point)
+		{
+			return (mBakedModelM.Inverted() * new Vector4(point, 1)).Xyz;
+		}
+
 		public void SetDirty()
 		{
 			mBakedModelM = CalculateModelMatrix();
