@@ -24,7 +24,7 @@ namespace Onyx3D
 			
 		}
 
-		public void Init(int size)
+        public void Init(int size)
 		{
             mSize = size;
             mCubemap = new Cubemap();

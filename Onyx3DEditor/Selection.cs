@@ -30,7 +30,7 @@ public static class Selection
 			if (OnSelectionChanged != null)
 				OnSelectionChanged(Selected);
 		}
-		get { return Selected.Count > 0 ? Selected[0] : null; }
+		get { return Selected != null && Selected.Count > 0 ? Selected[0] : null; }
 	}
 
 }

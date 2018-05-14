@@ -33,7 +33,8 @@ namespace Onyx3D
 			GL.Enable(EnableCap.Blend);
             GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
 
-
+            GL.Enable(EnableCap.TextureCubeMapSeamless);
+            
             GL.ClearColor(Color.SlateGray);
 
 			Gizmos = new GizmosManager();
@@ -57,8 +58,8 @@ namespace Onyx3D
 
 			if (scene.IsDirty) {
                 scene.SetDirty(false);
-                mSceneRenderers = GetSceneComponents<MeshRenderer>(scene);
-				mReflectionProbes = GetSceneComponents<ReflectionProbe>(scene);
+                mSceneRenderers = scene.Root.GetComponentsInChildren<MeshRenderer>();
+				mReflectionProbes = scene.Root.GetComponentsInChildren<ReflectionProbe>();
 
                 BakeReflectionProbes();
             }
@@ -75,33 +76,6 @@ namespace Onyx3D
             Render(mSceneRenderers);
 
             GL.Flush();
-		}
-		
-		private List<T> GetSceneComponents<T>(Scene scene) where T : Component
-		{
-			List<T> rendereres = new List<T>();
-			
-			if (scene.Root == null)
-				return rendereres;
-
-            Queue<SceneObject> objects = new Queue<SceneObject>();
-            objects.Enqueue(scene.Root);
-			SceneObject s;
-			do
-			{
-				s = objects.Dequeue();
-				List<T> objRenderers = s.GetComponents<T>();
-				if (objRenderers.Count > 0)
-					rendereres.AddRange(objRenderers);
-
-				s.ForEachChild((c) =>
-				{
-					objects.Enqueue(c);
-				});
-				
-			} while (objects.Count > 0);
-
-			return rendereres;
 		}
 
         private void BakeReflectionProbes()

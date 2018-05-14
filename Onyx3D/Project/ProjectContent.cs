@@ -19,9 +19,10 @@ namespace Onyx3D
 		public List<OnyxProjectSceneAsset> Scenes = new List<OnyxProjectSceneAsset>();
 		public List<OnyxProjectAsset> Textures = new List<OnyxProjectAsset>();
 		public List<OnyxProjectMaterialAsset> Materials = new List<OnyxProjectMaterialAsset>();
-		public List<OnyxProjectAsset> Meshes = new List<OnyxProjectAsset>();
+		public List<OnyxProjectMeshAsset> Meshes = new List<OnyxProjectMeshAsset>();
+        public List<OnyxProjectAsset> Templates = new List<OnyxProjectAsset>();
 
-		[XmlIgnore]
+        [XmlIgnore]
 		public Dictionary<int, OnyxProjectAsset> mMappedResources = new Dictionary<int, OnyxProjectAsset>();
 
 		public void Init()
@@ -31,12 +32,12 @@ namespace Onyx3D
 			DefaultXMLSettings.Indent = true;
 
 			// Built-in meshes (from 100000000)
-			AddAsset(new OnyxProjectAsset("./Resources/Models/teapot.obj", BuiltInMesh.Teapot));
-			AddAsset(new OnyxProjectAsset("./Resources/Models/cube.obj", BuiltInMesh.Cube));
-			AddAsset(new OnyxProjectAsset("./Resources/Models/cylinder.obj", BuiltInMesh.Cylinder));
-			AddAsset(new OnyxProjectAsset("./Resources/Models/torus.obj", BuiltInMesh.Torus));
-			AddAsset(new OnyxProjectAsset("./Resources/Models/sphere.obj", BuiltInMesh.Sphere));
-            AddAsset(new OnyxProjectAsset("./Resources/Models/quad.obj", BuiltInMesh.Quad));
+			AddAsset(new OnyxProjectMeshAsset("./Resources/Models/teapot.obj", false, BuiltInMesh.Teapot));
+			AddAsset(new OnyxProjectMeshAsset("./Resources/Models/cube.obj", false, BuiltInMesh.Cube));
+			AddAsset(new OnyxProjectMeshAsset("./Resources/Models/cylinder.obj", false, BuiltInMesh.Cylinder));
+			AddAsset(new OnyxProjectMeshAsset("./Resources/Models/torus.obj", false, BuiltInMesh.Torus));
+			AddAsset(new OnyxProjectMeshAsset("./Resources/Models/sphere.obj", false, BuiltInMesh.Sphere));
+            AddAsset(new OnyxProjectMeshAsset("./Resources/Models/quad.obj", false, BuiltInMesh.Quad));
 
             //  Built-in textures (from 200000000)
             AddAsset(new OnyxProjectAsset("./Resources/Textures/checker.png", BuiltInTexture.Checker));
@@ -63,7 +64,8 @@ namespace Onyx3D
 			AddAssets(Materials);
 			AddAssets(Textures);
 			AddAssets(Meshes);
-		}
+            AddAssets(Templates);
+        }
 
 
 		public void AddAssets<T>(List<T> assets) where T : OnyxProjectAsset
@@ -110,22 +112,30 @@ namespace Onyx3D
             return textureAsset;
         }
 
-		public OnyxProjectAsset AddMesh(string path, bool relative = false, Mesh mesh = null)
+		public OnyxProjectMeshAsset AddMesh(string path, bool relative = false, Mesh mesh = null, bool isModel = false)
 		{
-			OnyxProjectAsset meshAsset = new OnyxProjectAsset(relative ? path : GetRelativePath(path), GetNewMeshId());
+            OnyxProjectMeshAsset meshAsset = new OnyxProjectMeshAsset(relative ? path : GetRelativePath(path), isModel, GetNewMeshId());
 			if (mesh != null)
 				mesh.LinkedProjectAsset = meshAsset;
 			Meshes.Add(meshAsset);
 			AddAsset(meshAsset);
-
-			Console.WriteLine("Added Mesh!: " + meshAsset.Guid);
 			return meshAsset;
 		}
 
-		// -----
+        public OnyxProjectAsset AddTemplate(string path, bool relative = false, Template tmp = null)
+        {
+            OnyxProjectAsset templateAsset = new OnyxProjectAsset(relative ? path : GetRelativePath(path),  GetNewTemplateId());
+            if (tmp != null)
+                tmp.LinkedProjectAsset = templateAsset;
+            Templates.Add(templateAsset);
+            AddAsset(templateAsset);
+            return templateAsset;
+        }
+
+        // -----
 
 
-		public static string GetAbsolutePath(string relativePath)
+        public static string GetAbsolutePath(string relativePath)
         {
 
             if (relativePath.StartsWith("./"))
@@ -165,6 +175,12 @@ namespace Onyx3D
 		{
 			return GetNewId(Textures, ContentIds.Textures);
         }
+
+        private int GetNewTemplateId()
+        {
+            return GetNewId(Templates, ContentIds.Templates);
+        }
+
 
         private int GetNewId<T>(List<T> list, int start) where T : OnyxProjectAsset
         {

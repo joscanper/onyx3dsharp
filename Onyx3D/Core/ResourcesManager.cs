@@ -13,11 +13,12 @@ namespace Onyx3D
 		private Dictionary<int, Texture> mTextures = new Dictionary<int, Texture>();
 		private Dictionary<int, Material> mMaterials = new Dictionary<int, Material>();
 		private Dictionary<int, Shader> mShaders = new Dictionary<int, Shader>();
+        private Dictionary<int, Template> mTemplates = new Dictionary<int, Template>();
 
-		// ----------------------------------------------------------------  Getters
+        // ----------------------------------------------------------------  Getters
 
-       
-		private T GetResource<T>(int id, Dictionary<int, T> map, Func<OnyxProjectAsset, T> loadFallback, int defaultAsset) where T : GameAsset
+
+        private T GetResource<T>(int id, Dictionary<int, T> map, Func<OnyxProjectAsset, T> loadFallback, int defaultAsset) where T : GameAsset
 		{
 
 			if (!map.ContainsKey(id))
@@ -60,6 +61,11 @@ namespace Onyx3D
 			return GetResource(id, mShaders, LoadShader, BuiltInShader.Default);
 		}
 
+        public Template GetTemplate(int id)
+        {
+            return GetResource(id, mTemplates, LoadTemplate, 0);
+        }
+
         public void ReloadMaterial(int id)
         {
             ReloadResource(id, mMaterials, LoadMaterial);
@@ -69,11 +75,25 @@ namespace Onyx3D
 
 		private Mesh LoadMesh(OnyxProjectAsset asset)
 		{
-
-			return ObjLoader.Load(asset.AbsolutePath);
+            OnyxProjectMeshAsset mAsset = (OnyxProjectMeshAsset)asset;
+            if (mAsset.IsFromModel)
+            {
+                AssimpLoader.ImportMeshes(mAsset.AbsolutePath, (guid, mesh)=>
+                {
+                    mMeshes.Add(guid, mesh);
+                    mMeshes[guid].LinkedProjectAsset = ProjectManager.Instance.Content.GetAsset(guid);
+                });
+                return GetMesh(asset.Guid);
+            }
+            else
+            {
+                // TODO - Legacy, remove when all objects are models
+                return ObjLoader.Load(asset.AbsolutePath);
+            }
 		}
+        
 
-		private Material LoadMaterial(OnyxProjectAsset asset)
+        private Material LoadMaterial(OnyxProjectAsset asset)
 		{
 			return MaterialLoader.Load(asset.AbsolutePath);
 		}
@@ -88,7 +108,14 @@ namespace Onyx3D
 		{
 			return new Texture(asset.AbsolutePath);
 		}
-	}
-	
+
+        private Template LoadTemplate(OnyxProjectAsset asset)
+        {
+            return TemplateLoader.Load(asset.AbsolutePath);
+        }
+
+
+    }
+
 }
 

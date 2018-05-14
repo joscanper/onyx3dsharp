@@ -1,14 +1,20 @@
 ﻿using OpenTK;
+using System.Xml;
+using System.Xml.Serialization;
+using System;
+using System.Xml.Schema;
 
 namespace Onyx3D
 {
-	public class Transform
+	public class Transform : IXmlSerializable
 	{
 		public SceneObject SceneObject;
 		
 		private Vector4 mLocalScale = Vector4.One;
 		private Vector4 mLocalPosition = Vector4.UnitW;
 		private Quaternion mLocalRotation = Quaternion.Identity;
+
+        private Matrix4 mOffset = Matrix4.Identity;
 
 		private Matrix4 mBakedModelM;
         private Matrix4 mBakedNormalM;
@@ -46,6 +52,16 @@ namespace Onyx3D
 			}
 		}
 
+        public Matrix4 Offset
+        {
+            get { return mOffset; }
+            set
+            {
+                mOffset = value;
+                SetDirty();
+            }
+        }
+
 		public Vector3 Position { get { return mBakedPosition.Xyz; } }
 
 		public Matrix4 ModelMatrix { get { return mBakedModelM; } }
@@ -58,6 +74,13 @@ namespace Onyx3D
 			SetDirty();
 		}
 
+        public void FromMatrix(Matrix4 m)
+        {
+            mLocalPosition = new Vector4(m.ExtractTranslation(), 1);
+            mLocalRotation = m.ExtractRotation();
+            mLocalScale = new Vector4(m.ExtractScale(), 1);
+            SetDirty();
+        }
 
 		public Matrix4 CalculateModelMatrix()
 		{
@@ -69,7 +92,10 @@ namespace Onyx3D
 			if (SceneObject.Parent != null)
 				model *= SceneObject.Parent.Transform.CalculateModelMatrix() ;
 
-			return model;
+            if (Offset != Matrix4.Identity)
+                model *= Offset;
+
+            return model;
 		}
 
 		Matrix4 GetScaleMatrix()
@@ -151,5 +177,29 @@ namespace Onyx3D
 				SceneObject.GetChild(i).Transform.SetDirty();
 			}
 		}
-	}
+
+        // --------------------- Serialization
+
+        public XmlSchema GetSchema()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void ReadXml(XmlReader reader)
+        {
+            LocalPosition = XmlUtils.StringToVector3(reader.GetAttribute("position"));
+            Vector4 rotation = XmlUtils.StringToVector4(reader.GetAttribute("rotation"));
+            LocalRotation = Quaternion.FromAxisAngle(rotation.Xyz, rotation.W);
+            LocalScale = XmlUtils.StringToVector3(reader.GetAttribute("scale"));
+        }
+
+        public void WriteXml(XmlWriter writer)
+        {
+            writer.WriteStartElement("Transform");
+            writer.WriteAttributeString("position", XmlUtils.Vector3ToString(LocalPosition));
+            writer.WriteAttributeString("rotation", XmlUtils.Vector4ToString(LocalRotation.ToAxisAngle()));
+            writer.WriteAttributeString("scale", XmlUtils.Vector3ToString(LocalScale));
+            writer.WriteEndElement();
+        }
+    }
 }

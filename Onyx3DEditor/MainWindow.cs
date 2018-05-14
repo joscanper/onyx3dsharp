@@ -29,11 +29,11 @@ namespace Onyx3DEditor
 
 		public MainWindow()
 		{
-			InitializeCanvas();
-			InitializeComponent();
 			
+			InitializeComponent();
+            InitializeCanvas();
 
-			Selection.OnSelectionChanged += OnSelectionChanged;
+            Selection.OnSelectionChanged += OnSelectionChanged;
 			mNavigation.Bind(renderCanvas);
 
             KeyPreview = true;
@@ -61,7 +61,7 @@ namespace Onyx3DEditor
 
 			SceneObject grid = new SceneObject("Grid");
 			mGridRenderer = grid.AddComponent<GridRenderer>();
-			mGridRenderer.GenerateGridMesh(100, 100, 0.25f, 0.25f);
+			mGridRenderer.GenerateGridMesh(100, 100, 0.25f, 0.25f, Vector3.One);
 			mGridRenderer.Material = mOnyxInstance.Resources.GetMaterial(BuiltInMaterial.Unlit);
 			mGridRenderer.Material.Properties["color"].Data = new Vector4(1, 1, 1, 0.1f);
 
@@ -121,6 +121,7 @@ namespace Onyx3DEditor
 
             o.Destroy();
             o = null;
+            mScene.SetDirty();
 			Selection.ActiveObject = null;
 		}
 
@@ -364,7 +365,13 @@ namespace Onyx3DEditor
             Selection.ActiveObject = light;
         }
 
-   
+        private void toolStripCreateTemplate_Click(object sender, EventArgs e)
+        {
+            TemplateProxy tmp = new TemplateProxy("Template");
+            tmp.Parent = mScene.Root;
+            Selection.ActiveObject = tmp;
+        }
+
         private void toolStripButtonMove_Click(object sender, EventArgs e)
 		{
 			toolStripButtonScale.Checked = false;
@@ -405,5 +412,7 @@ namespace Onyx3DEditor
 		{
 			new ModelImporterWindow().Show();
 		}
-	}
+
+        
+    }
 }

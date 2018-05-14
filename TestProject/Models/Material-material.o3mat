@@ -8,7 +8,7 @@
   <Property
     id="albedo"
     type="sampler2d"
-    value="2000010"
+    value="200000001"
     index="0" />
   <Property
     id="metallic"
@@ -18,7 +18,7 @@
   <Property
     id="roughness"
     type="sampler2d"
-    value="2000010"
+    value="200000002"
     index="2" />
   <Property
     id="occlusion"
@@ -28,19 +28,19 @@
   <Property
     id="metallic_strength"
     type="float"
-    value="0.2" />
+    value="0" />
   <Property
     id="roughness_strength"
     type="float"
-    value="0.5" />
+    value="0.75" />
   <Property
     id="occlusion_strength"
     type="float"
-    value="0.8" />
+    value="1" />
   <Property
     id="environment_map"
     type="samplerCube"
-    value="27"
+    value="0"
     index="4" />
   <Property
     id="brdfLUT"

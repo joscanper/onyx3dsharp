@@ -12,7 +12,7 @@ layout(std140) uniform CameraData {
 	vec4 cameraPos; 
 };
 
-vec3 sunDir = vec3(0.5,0.5,0.5);
+vec3 sunDir = vec3(0.5,2,0.5);
 
 const vec3 dayGrad[3] = vec3[3](
                                 vec3(0.81,0.86,0.96),

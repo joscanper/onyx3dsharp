@@ -14,7 +14,7 @@ namespace Onyx3D
 	
 		private List<Component> mComponents = new List<Component>();
 		private SceneObject mParent;
-		private List<SceneObject> mChildren = new List<SceneObject>();
+		protected List<SceneObject> mChildren = new List<SceneObject>();
 		private Scene mScene;
 
 		public string Id;
@@ -142,28 +142,47 @@ namespace Onyx3D
 			return components;
 		}
 
-		public List<T> GetComponentInChildren<T>() where T:Component
+		public T GetComponentInChildren<T>() where T:Component
 		{
 			List<T> components = new List<T>();
 
 			T myComponent = GetComponent<T>();
-			if (myComponent != null)
-				components.Add(myComponent);
+            if (myComponent != null)
+                return myComponent;
 
 			for (int i = 0; i < mChildren.Count; ++i)
 			{
-				List<T> c = mChildren[i].GetComponentInChildren<T>();
-				if (c.Count > 0)
-					components.AddRange(c);
+				T c = mChildren[i].GetComponentInChildren<T>();
+                if (c != null)
+                    return c;
 			}
-
-			return components;
+            
+            return null;
 		}
 
-		public void RemoveAllChildren()
+        public List<T> GetComponentsInChildren<T>() where T : Component
+        {
+            List<T> components = new List<T>();
+
+            List<T> myComponents = GetComponents<T>();
+            if (myComponents != null)
+                components.AddRange(myComponents);
+
+            for (int i = 0; i < mChildren.Count; ++i)
+            {
+                List<T> c = mChildren[i].GetComponentsInChildren<T>();
+                if (c.Count > 0)
+                    components.AddRange(c);
+            }
+
+            return components;
+        }
+
+
+        public void RemoveAllChildren()
 		{
-			for (int i = 0; i < ChildCount; ++i)
-				mChildren[i].Parent = null;
+            for (int i = 0; i < ChildCount; ++i)
+                GetChild(i).Destroy();
 
 			mChildren.Clear();
 			if (mScene != null)
@@ -192,6 +211,43 @@ namespace Onyx3D
             return primitive;
         }
 
+        public Bounds CalculateBoundingBox()
+        {
+            Bounds b = new Bounds();
+            List<MeshRenderer> renderers = GetComponentsInChildren<MeshRenderer>();
+            for(int i=0; i<renderers.Count; ++i)
+            {
+                if (renderers[i].Mesh == null)
+                    continue;
+
+                List<Vertex> vertices = renderers[i].Mesh.Vertices;
+                for (int v = 0; v < vertices.Count; ++v)
+                {
+                    Vector3 worldPos = renderers[i].Transform.LocalToWorld(vertices[v].Position);
+                    b.Encapsulate(worldPos);
+                }
+            }
+            return b;
+        }
+
+        public SceneObject Clone()
+        {
+            SceneObject newObj = new SceneObject(this.Id, this.Scene);
+
+            ForEachComponent((component) => {
+                Component c = component.Clone();
+                newObj.AddComponent(c);
+            });
+
+            ForEachChild((child) =>
+            {
+                SceneObject newChild = child.Clone();
+                newChild.Parent = newObj;
+            });
+
+            return newObj;
+        }
+
 
         // ----------- Serialization ------------
 
@@ -200,7 +256,7 @@ namespace Onyx3D
 			throw new System.NotImplementedException();
 		}
 
-		public void ReadXml(XmlReader reader)
+        public virtual void ReadXml(XmlReader reader)
 		{
 
 			Id = reader.GetAttribute("id");
@@ -221,12 +277,16 @@ namespace Onyx3D
 							obj.Parent = this;
 						}
 
-						if (reader.Name.Equals("Transform"))
-						{ 
-							Transform.LocalPosition = XmlUtils.StringToVector3(reader.GetAttribute("position"));
-							Vector4 rotation = XmlUtils.StringToVector4(reader.GetAttribute("rotation"));
-							Transform.LocalRotation = Quaternion.FromAxisAngle(rotation.Xyz, rotation.W);
-							Transform.LocalScale = XmlUtils.StringToVector3(reader.GetAttribute("scale"));
+                        if (reader.Name.Equals("TemplateProxy"))
+                        {
+                            TemplateProxy tmp = new TemplateProxy("", Scene);
+                            tmp.ReadXml(reader);
+                            tmp.Parent = this;
+                        }
+
+                        if (reader.Name.Equals("Transform"))
+						{
+                            Transform.ReadXml(reader);
 						}
 
 						if (reader.Name.Equals("Component"))
@@ -247,19 +307,14 @@ namespace Onyx3D
 
 		}
 
-		public void WriteXml(XmlWriter writer)
+		public virtual void WriteXml(XmlWriter writer)
 		{
 
 			writer.WriteStartElement("SceneObject");
 			writer.WriteAttributeString("id", Id);
 			writer.WriteAttributeString("instanceId", InstanceId.ToString());
 
-			writer.WriteStartElement("Transform");
-			writer.WriteAttributeString("position", XmlUtils.Vector3ToString(Transform.LocalPosition));
-			writer.WriteAttributeString("rotation", XmlUtils.Vector4ToString(Transform.LocalRotation.ToAxisAngle()));
-			writer.WriteAttributeString("scale", XmlUtils.Vector3ToString(Transform.LocalScale));
-			writer.WriteEndElement();
-
+            Transform.WriteXml(writer);
 
 			foreach (Component c in Components)
 				c.WriteXml(writer);
