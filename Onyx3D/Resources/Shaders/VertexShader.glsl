@@ -8,7 +8,8 @@ layout (location = 0) in vec3 position;
 layout (location = 1) in vec3 color;
 layout (location = 2) in vec3 normal;
 layout (location = 3) in vec2 texcoord;
-layout (location = 4) in mat3 tbn;
+layout (location = 4) in vec3 tangent;
+layout (location = 4) in vec3 bitangent;
 
 uniform mat4 NM;
 uniform mat4 M;
@@ -17,8 +18,9 @@ out vec3 o_color;
 out vec3 o_normal;
 out vec3 o_fragpos;
 out vec2 o_uv;
-out vec3 o_tangent_fragpos;
-out vec3 o_tangent_campos;
+out mat3 o_tbn;
+//out vec3 o_tangent_fragpos;
+//out vec3 o_tangent_campos;
 
 
 //#include OnyxShaderCamera
@@ -58,6 +60,8 @@ layout(std140) uniform LightingData {
 };
 
 */
+
+
 void main()
 {
 	o_color = color;
@@ -66,8 +70,15 @@ void main()
 
 	vec4 worldPos = M * vec4(position, 1.0f);
 	o_fragpos = worldPos.xyz;
+	
+	o_tbn = mat3(
+		vec3(NM * vec4(tangent, 0.0)), 
+		vec3(NM * vec4(bitangent, 0.0)), 
+		o_normal);
+
 	gl_Position = P * V * worldPos;
 
-	o_tangent_fragpos = o_TBN * o_fragpos;
-	o_tangent_campos = o_TBN * cameraPos;
+	
+	//o_tangent_fragpos = tbn * o_fragpos.zyx;
+	//o_tangent_campos = tbn * cameraPos.xyz;
 }

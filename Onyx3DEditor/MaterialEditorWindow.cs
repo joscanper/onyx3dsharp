@@ -286,7 +286,7 @@ namespace Onyx3DEditor
 		private void timer1_Tick(object sender, EventArgs e)
 		{
 			mAngle+= 0.05f;
-			mObject.Transform.LocalRotation = Quaternion.FromEulerAngles(mAngle, 0, 0);
+			mObject.Transform.LocalRotation = Quaternion.FromEulerAngles(0, mAngle, 0);
 			renderCanvas.Refresh();
 		}
 

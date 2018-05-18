@@ -13,6 +13,7 @@ in vec3 o_color;
 in vec3 o_normal;
 in vec3 o_fragpos;
 in vec2 o_uv;
+in mat3 o_tbn;
 
 out vec4 fragColor;
 
@@ -22,12 +23,15 @@ uniform sampler2D albedo;
 uniform sampler2D metallic;
 uniform sampler2D roughness;
 uniform sampler2D occlusion;
+uniform sampler2D normal;
+uniform samplerCube environment_map;
 uniform sampler2D brdfLUT;
+
 uniform vec4 base_color;
 uniform float metallic_strength;
 uniform float roughness_strength;
 uniform float occlusion_strength;
-uniform samplerCube environment_map;
+uniform float normal_strength;
 
 
 // ------------------------------- Camera UBO
@@ -114,6 +118,7 @@ vec3 fresnelSchlickRoughness(float cosTheta, vec3 F0, float roughness)
     return F0 + (max(vec3(1.0 - roughness), F0) - F0) * pow(1.0 - cosTheta, 5.0);
 }   
 
+
 void main()
 {		
 	vec3 albedo_color = (texture(albedo, o_uv) * base_color).rgb;
@@ -123,7 +128,9 @@ void main()
 	float ao_f = texture(occlusion, o_uv).r * occlusion_strength;
 
 	vec3 WorldPos = o_fragpos;
-    vec3 N = normalize(o_normal);
+    vec3 N = normalize(texture(normal, o_uv).rgb * 2.0 - 1.0);
+	N = normalize(o_tbn * N) * normal_strength;
+	
     vec3 V = normalize(cameraPos.xyz - WorldPos);
 
     vec3 F0 = vec3(0.1); 

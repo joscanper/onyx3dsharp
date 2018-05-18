@@ -11,6 +11,13 @@ namespace Onyx3D
 	public static class ObjLoader
 	{
 
+		public class Face
+		{
+			public FaceIndices[] Indices = new FaceIndices[3];
+			public Vector3 Tangent;
+			public Vector3 Bitangent;
+		}
+
 		public class FaceIndices
 		{
 			public string VertexId = "";
@@ -21,17 +28,17 @@ namespace Onyx3D
 
 		public static Mesh Load(string path)
 		{
-			
+
 			if (!File.Exists(path))
 			{
 				throw new FileNotFoundException("Unable to open \"" + path + "\", does not exist.");
 			}
-			
+
 			List<Vector4> vertices = new List<Vector4>();
 			List<Vector3> textureVertices = new List<Vector3>();
 			List<Vector3> normals = new List<Vector3>();
-			List<FaceIndices> indices = new List<FaceIndices>();
-			
+			//List<FaceIndices> indices = new List<FaceIndices>();
+			List<Face> faces = new List<Face>();
 
 			using (StreamReader streamReader = new StreamReader(path))
 			{
@@ -65,6 +72,9 @@ namespace Onyx3D
 
 						// face
 						case "f":
+
+							Face face = new Face();
+							int i = 0;
 							foreach (string w in words)
 							{
 								if (w.Length == 0)
@@ -85,8 +95,43 @@ namespace Onyx3D
 								if (comps.Length > 2)
 									fi.NormalIndex = int.Parse(comps[2]) - 1;
 
-								indices.Add(fi);
+								face.Indices[i] = fi;
+								i++;
 							}
+
+							// Calculate face Tangent/Bitangent
+							Vector4 pos1 = vertices[face.Indices[0].VertexIndex];
+							Vector4 pos2 = vertices[face.Indices[1].VertexIndex];
+							Vector4 pos3 = vertices[face.Indices[2].VertexIndex];
+
+							Vector3 uv1 = textureVertices[face.Indices[0].TextureCoordIndex];
+							Vector3 uv2 = textureVertices[face.Indices[1].TextureCoordIndex];
+							Vector3 uv3 = textureVertices[face.Indices[2].TextureCoordIndex];
+
+							Vector4 edge1 = pos2 - pos1;
+							Vector4 edge2 = pos3 - pos1;
+							Vector3 deltaUV1 = uv2 - uv1;
+							Vector3 deltaUV2 = uv3 - uv1;
+
+							float f = 1.0f / (deltaUV1.X * deltaUV2.Y - deltaUV2.X * deltaUV1.Y);
+
+							Vector3 tangent = new Vector3();
+							tangent.X = f * (deltaUV2.Y * edge1.X - deltaUV1.Y * edge2.X);
+							tangent.Y = f * (deltaUV2.Y * edge1.Y - deltaUV1.Y * edge2.Y);
+							tangent.Z = f * (deltaUV2.Y * edge1.Z - deltaUV1.Y * edge2.Z);
+							tangent.Normalize();
+
+							Vector3 bitangent = new Vector3();
+							bitangent.X = f * (-deltaUV2.X * edge1.X + deltaUV1.X * edge2.X);
+							bitangent.Y = f * (-deltaUV2.X * edge1.Y + deltaUV1.X * edge2.Y);
+							bitangent.Z = f * (-deltaUV2.X * edge1.Z + deltaUV1.X * edge2.Z);
+							bitangent.Normalize();
+
+							face.Tangent = tangent;
+							face.Bitangent = bitangent;
+
+							faces.Add(face);
+
 							break;
 
 						default:
@@ -99,22 +144,37 @@ namespace Onyx3D
 			Mesh m = new Mesh();
 			Dictionary<String, int> vertmap = new Dictionary<string, int>();
 			int index = 0;
-			foreach(FaceIndices fi in indices){
-				Vertex v;
-				
-				if (vertmap.ContainsKey(fi.VertexId))
+
+			foreach (Face face in faces)
+			{
+				foreach (FaceIndices fi in face.Indices)
 				{
-					meshIndices.Add(vertmap[fi.VertexId]);
-				}
-				else
-				{
-					v = new Vertex(vertices[fi.VertexIndex].Xyz);
-					if (fi.NormalIndex >= 0) v.Normal = normals[fi.NormalIndex];
-					if (fi.TextureCoordIndex >= 0) v.TexCoord = textureVertices[fi.TextureCoordIndex].Xy;
-					m.Vertices.Add(v);
-					vertmap.Add(fi.VertexId, index);
-					meshIndices.Add(index);
-					index++;
+					Vertex v;
+
+					if (vertmap.ContainsKey(fi.VertexId))
+					{
+						int vindex = vertmap[fi.VertexId];
+						v = m.Vertices[vindex];
+						v.Tangent += face.Tangent;
+						v.Bitangent += face.Bitangent;
+						v.Tangent = v.Tangent.Normalized();
+						v.Bitangent = v.Bitangent.Normalized();
+						m.Vertices[vindex] = v;
+
+						meshIndices.Add(vindex);
+					}
+					else
+					{
+						v = new Vertex(vertices[fi.VertexIndex].Xyz);
+						v.Tangent = face.Tangent;
+						v.Bitangent = face.Bitangent;
+						if (fi.NormalIndex >= 0) v.Normal = normals[fi.NormalIndex];
+						if (fi.TextureCoordIndex >= 0) v.TexCoord = textureVertices[fi.TextureCoordIndex].Xy;
+						m.Vertices.Add(v);
+						vertmap.Add(fi.VertexId, index);
+						meshIndices.Add(index);
+						index++;
+					}
 				}
 			}
 

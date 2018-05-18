@@ -3,18 +3,20 @@
   <Name>Default</Name>
 	<Shader>300000001</Shader>
 
-	<Properties>
-		<Property id="base_color" type="color" value="1,1,1,1"/>
-		<Property id="albedo" type="sampler2d" value="200000001" index="0"/>
+	<Properties>  
+      <Property id="base_color" type="color" value="1,1,1,1"/>
+    
+		  <Property id="albedo" type="sampler2d" value="200000001" index="0"/>
   		<Property id="metallic" type="sampler2d" value="200000002" index="1"/>
   		<Property id="roughness" type="sampler2d" value="200000002" index="2"/>
   		<Property id="occlusion" type="sampler2d" value="200000002" index="3"/>
+      <Property id="normal" type="sampler2d" value="200000003" index="4"/>
 
   		<Property id="metallic_strength" type="float" value="0" />
   		<Property id="roughness_strength" type="float" value="0.75" />
   		<Property id="occlusion_strength" type="float" value="1" />
     
-      <Property id="environment_map" type="samplerCube" value="0" index="4" />
-      <Property id="brdfLUT" type="sampler2d" value="200000005" index="5"/>
+      <Property id="environment_map" type="samplerCube" value="0" index="5" />
+      <Property id="brdfLUT" type="sampler2d" value="200000005" index="6"/>
 	</Properties>
 </Material>

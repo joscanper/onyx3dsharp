@@ -8,8 +8,8 @@ namespace Onyx3D
 {
 	public class RenderManager : EngineComponent
 	{
-		private List<MeshRenderer> mSceneRenderers;
-		private List<ReflectionProbe> mReflectionProbes;
+		private List<MeshRenderer> mSceneRenderers = new List<MeshRenderer>();
+		private List<ReflectionProbe> mReflectionProbes = new List<ReflectionProbe>();
 
 
 		public GizmosManager Gizmos { get; private set; }
@@ -56,7 +56,8 @@ namespace Onyx3D
 			GL.Viewport(0, 0, w, h);
 			GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
-			if (scene.IsDirty) {
+			if (scene.IsDirty)
+			{
                 scene.SetDirty(false);
                 mSceneRenderers = scene.Root.GetComponentsInChildren<MeshRenderer>();
 				mReflectionProbes = scene.Root.GetComponentsInChildren<ReflectionProbe>();

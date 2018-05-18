@@ -26,6 +26,11 @@
     value="200000002"
     index="3" />
   <Property
+    id="normal"
+    type="sampler2d"
+    value="200000002"
+    index="4" />
+  <Property
     id="metallic_strength"
     type="float"
     value="0.2" />
@@ -41,10 +46,10 @@
     id="environment_map"
     type="samplerCube"
     value="27"
-    index="4" />
+    index="5" />
   <Property
     id="brdfLUT"
     type="sampler2d"
     value="200000005"
-    index="5" />
+    index="6" />
 </Material>

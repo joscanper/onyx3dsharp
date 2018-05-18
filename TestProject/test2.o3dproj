@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ProjectData xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<ProjectData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Version>0</Version>
   <Content>
     <Scenes>
@@ -66,6 +66,11 @@
         <Path>Models/Arc170_blinn1.png</Path>
         <Guid>2000010</Guid>
       </OnyxProjectAsset>
+      <OnyxProjectAsset>
+        <Dirty>false</Dirty>
+        <Path>Textures/darktiles1_normal-DX.png</Path>
+        <Guid>2000011</Guid>
+      </OnyxProjectAsset>
     </Textures>
     <Materials>
       <OnyxProjectMaterialAsset>
@@ -125,5 +130,6 @@
         <IsFromModel>true</IsFromModel>
       </OnyxProjectMeshAsset>
     </Meshes>
+    <Templates />
   </Content>
 </ProjectData>

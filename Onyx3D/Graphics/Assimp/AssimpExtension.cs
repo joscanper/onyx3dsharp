@@ -49,9 +49,8 @@ namespace Onyx3D
                     newVertex.Normal = mesh.Normals[vi].ToOnyx3D();
                     if (mesh.HasTangentBasis)
                     {
-                        Vector3 Bitangent = mesh.BiTangents[vi].ToOnyx3D();
-                        Vector3 Tangent = mesh.Tangents[vi].ToOnyx3D();
-                        newVertex.TBN = Matrix3.Transpose(new Matrix3(Tangent, Bitangent, newVertex.Normal));
+						newVertex.Bitangent = mesh.BiTangents[vi].ToOnyx3D();
+						newVertex.Tangent = mesh.Tangents[vi].ToOnyx3D();	
                     }
                 }
                 

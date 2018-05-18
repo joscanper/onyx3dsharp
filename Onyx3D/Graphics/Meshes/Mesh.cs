@@ -17,9 +17,10 @@ namespace Onyx3D
         public Vector3 Color;
         public Vector3 Normal;
         public Vector2 TexCoord;
-        public Matrix3 TBN;
+        public Vector3 Tangent;
+		public Vector3 Bitangent;
 
-        public Vertex(Vector3 pos) : this(pos, Vector3.One, Vector3.Zero, Vector2.Zero) {}
+		public Vertex(Vector3 pos) : this(pos, Vector3.One, Vector3.Zero, Vector2.Zero) {}
 
 		public Vertex(Vector3 pos, Vector3 col) : this(pos, col, Vector3.Zero, Vector2.Zero) {}
 
@@ -31,7 +32,8 @@ namespace Onyx3D
 			Color = col;
 			Normal = normal;
 			TexCoord = texcoord;
-            TBN = Matrix3.Identity;
+			Tangent = normal;
+			Bitangent = normal;
         }
 	}
 
@@ -78,12 +80,14 @@ namespace Onyx3D
 			//TexCoord
 			GL.VertexAttribPointer(3, 2, VertexAttribPointerType.Float, false, sizeOfVertex, Marshal.SizeOf(vertices[0].Position) + Marshal.SizeOf(vertices[0].Color) + Marshal.SizeOf(vertices[0].Normal));
 			GL.EnableVertexAttribArray(3);
-            //TBN
-            GL.VertexAttribPointer(4, 3*3, VertexAttribPointerType.Float, false, sizeOfVertex, Marshal.SizeOf(vertices[0].Position) + Marshal.SizeOf(vertices[0].Color) + Marshal.SizeOf(vertices[0].Normal) + Marshal.SizeOf(vertices[0].TexCoord));
+            //Tangent
+            GL.VertexAttribPointer(4, 3, VertexAttribPointerType.Float, false, sizeOfVertex, Marshal.SizeOf(vertices[0].Position) + Marshal.SizeOf(vertices[0].Color) + Marshal.SizeOf(vertices[0].Normal) + Marshal.SizeOf(vertices[0].TexCoord));
             GL.EnableVertexAttribArray(4);
+			//Bitangent
+			GL.VertexAttribPointer(5, 3, VertexAttribPointerType.Float, false, sizeOfVertex, Marshal.SizeOf(vertices[0].Position) + Marshal.SizeOf(vertices[0].Color) + Marshal.SizeOf(vertices[0].Normal) + Marshal.SizeOf(vertices[0].TexCoord) + Marshal.SizeOf(vertices[0].Tangent));
+			GL.EnableVertexAttribArray(5);
 
-
-            int ebo = 0;
+			int ebo = 0;
 			if (Indices != null)
 			{
 				int[] indices = Indices.ToArray();
