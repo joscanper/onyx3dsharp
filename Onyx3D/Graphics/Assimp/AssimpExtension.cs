@@ -46,11 +46,11 @@ namespace Onyx3D
                 }
                 if (mesh.HasNormals)
                 {
-                    newVertex.Normal = mesh.Normals[vi].ToOnyx3D();
+                    newVertex.Normal = mesh.Normals[vi].ToOnyx3D().Normalized();
                     if (mesh.HasTangentBasis)
                     {
-						newVertex.Bitangent = mesh.BiTangents[vi].ToOnyx3D();
-						newVertex.Tangent = mesh.Tangents[vi].ToOnyx3D();	
+						newVertex.Bitangent = mesh.BiTangents[vi].ToOnyx3D().Normalized();
+						newVertex.Tangent = mesh.Tangents[vi].ToOnyx3D().Normalized();	
                     }
                 }
                 

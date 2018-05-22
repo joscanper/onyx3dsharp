@@ -31,7 +31,6 @@ uniform vec4 base_color;
 uniform float metallic_strength;
 uniform float roughness_strength;
 uniform float occlusion_strength;
-uniform float normal_strength;
 
 
 // ------------------------------- Camera UBO
@@ -129,8 +128,7 @@ void main()
 
 	vec3 WorldPos = o_fragpos;
     vec3 N = normalize(texture(normal, o_uv).rgb * 2.0 - 1.0);
-	N = normalize(o_tbn * N) * normal_strength;
-	
+	N = normalize(o_tbn * N);
     vec3 V = normalize(cameraPos.xyz - WorldPos);
 
     vec3 F0 = vec3(0.1); 

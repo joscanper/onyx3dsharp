@@ -72,8 +72,8 @@ void main()
 	o_fragpos = worldPos.xyz;
 	
 	o_tbn = mat3(
-		vec3(NM * vec4(tangent, 0.0)), 
-		vec3(NM * vec4(bitangent, 0.0)), 
+		normalize(vec3(NM * vec4(tangent, 0.0))), 
+		normalize(vec3(NM * vec4(bitangent, 0.0))), 
 		o_normal);
 
 	gl_Position = P * V * worldPos;
