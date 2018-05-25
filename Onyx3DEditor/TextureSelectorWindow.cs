@@ -38,8 +38,9 @@ namespace Onyx3DEditor
             AddTexture(ProjectManager.Instance.Content.GetAsset(BuiltInTexture.Checker));
             AddTexture(ProjectManager.Instance.Content.GetAsset(BuiltInTexture.Black));
             AddTexture(ProjectManager.Instance.Content.GetAsset(BuiltInTexture.White));
+			AddTexture(ProjectManager.Instance.Content.GetAsset(BuiltInTexture.Normal));
 
-            foreach (OnyxProjectAsset t in ProjectManager.Instance.Content.Textures)
+			foreach (OnyxProjectAsset t in ProjectManager.Instance.Content.Textures)
                 AddTexture(t);
 			
 		}

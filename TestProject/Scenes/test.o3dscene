@@ -1,110 +1,43 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Scene>
   <Lighting>
-    <Ambient>0.1176471, 0.1176471, 0.1176471</Ambient>
+    <Ambient>0, 0, 0</Ambient>
   </Lighting>
   <Root>
     <SceneObject
-      id="Teapot"
-      instanceId="876561996">
+      id="Reflection Probe"
+      instanceId="1056742835">
       <Transform
-        position="-4.245137, 8.060572, -3.968701"
-        rotation="0, 1, 0, 0.1745324"
+        position="-0.4569289, 0.600695, 0.2391375"
+        rotation="1, 0, 0, 0"
         scale="1, 1, 1" />
       <Component
-        className="MeshRenderer">
-        <Mesh>1000002</Mesh>
-        <Material>4000004</Material>
+        className="ReflectionProbe">
+        <Size>128</Size>
+        <Dynamic>True</Dynamic>
       </Component>
     </SceneObject>
     <SceneObject
-      id="Light (Green)"
-      instanceId="1725594512">
+      id="Light"
+      instanceId="1151164289">
       <Transform
-        position="2.031118, 1.280694, 1.516819"
+        position="-0.6938555, 0.1434467, -0.2446911"
         rotation="1, 0, 0, 0"
         scale="1, 1, 1" />
       <Component
         className="Light">
         <Type>1</Type>
-        <Color>0.4117647, 0.4117647, 0.4117647, 1</Color>
-        <Intensity>10</Intensity>
-      </Component>
-    </SceneObject>
-    <SceneObject
-      id="Light (Blue)"
-      instanceId="1720234294">
-      <Transform
-        position="-2.5, 0.8, 1.5"
-        rotation="0, 0.9999999, 0, 1.570796"
-        scale="1, 1, 1" />
-      <Component
-        className="Light">
-        <Type>1</Type>
-        <Color>0.8784314, 0.8784314, 0.8784314, 1</Color>
-        <Intensity>0.1</Intensity>
-      </Component>
-    </SceneObject>
-    <SceneObject
-      id="Light (Red)"
-      instanceId="2014542505">
-      <Transform
-        position="-2.5, 0.8, -1.5"
-        rotation="1, 0, 0, 0"
-        scale="1, 1, 1" />
-      <Component
-        className="Light">
-        <Type>1</Type>
-        <Color>0.8784314, 0.8784314, 0.8784314, 1</Color>
-        <Intensity>0.1</Intensity>
-      </Component>
-    </SceneObject>
-    <SceneObject
-      id="Sphere"
-      instanceId="1750496848">
-      <Transform
-        position="-3.5, 1.25, 0"
-        rotation="0, 0.9999999, 0, 1.570796"
-        scale="1, 1, 1" />
-      <Component
-        className="MeshRenderer">
-        <Mesh>100000002</Mesh>
-        <Material>4000001</Material>
-      </Component>
-    </SceneObject>
-    <SceneObject
-      id="Sphere"
-      instanceId="1750496858">
-      <Transform
-        position="-3.5, 1.25, 1.5"
-        rotation="0, 0.9999999, 0, 2.094395"
-        scale="1, 1, 1" />
-      <Component
-        className="MeshRenderer">
-        <Mesh>100000002</Mesh>
-        <Material>4000000</Material>
-      </Component>
-    </SceneObject>
-    <SceneObject
-      id="Sphere"
-      instanceId="1750496860">
-      <Transform
-        position="-3.5, 1.25, -1.5"
-        rotation="0, 1, 0, 0.2624321"
-        scale="1, 1, 1" />
-      <Component
-        className="MeshRenderer">
-        <Mesh>100000002</Mesh>
-        <Material>4000002</Material>
+        <Color>1, 1, 0, 1</Color>
+        <Intensity>1</Intensity>
       </Component>
     </SceneObject>
     <SceneObject
       id="Quad"
-      instanceId="38249952">
+      instanceId="1573945559">
       <Transform
-        position="-0.5, 0.5, 0"
+        position="-0.9968817, 0, 0"
         rotation="1, 0, 0, 0"
-        scale="10, 10, 10" />
+        scale="1, 1, 1" />
       <Component
         className="MeshRenderer">
         <Mesh>100000006</Mesh>
@@ -112,147 +45,55 @@
       </Component>
     </SceneObject>
     <SceneObject
-      id="Light"
-      instanceId="1370593142">
+      id="Quad"
+      instanceId="1648820650">
       <Transform
-        position="-2.5, 0.8, 0"
-        rotation="1, 0, 0, 0"
-        scale="1, 1, 1" />
-      <Component
-        className="Light">
-        <Type>1</Type>
-        <Color>0.8784314, 0.8784314, 0.8784314, 1</Color>
-        <Intensity>0.1</Intensity>
-      </Component>
-    </SceneObject>
-    <SceneObject
-      id="Cylinder"
-      instanceId="751714200">
-      <Transform
-        position="-3.5, 0.1, 0"
+        position="-0.9968817, 0, 0.9934103"
         rotation="1, 0, 0, 0"
         scale="1, 1, 1" />
       <Component
         className="MeshRenderer">
-        <Mesh>100000005</Mesh>
-        <Material>400000001</Material>
+        <Mesh>100000006</Mesh>
+        <Material>4000003</Material>
       </Component>
     </SceneObject>
     <SceneObject
-      id="Cylinder"
-      instanceId="751714202">
+      id="Quad"
+      instanceId="1648820651">
       <Transform
-        position="-3.5, 0.1, 1.5"
+        position="-1.983598, 0, 0.9937019"
         rotation="1, 0, 0, 0"
         scale="1, 1, 1" />
       <Component
         className="MeshRenderer">
-        <Mesh>100000005</Mesh>
-        <Material>400000001</Material>
+        <Mesh>100000006</Mesh>
+        <Material>4000003</Material>
       </Component>
     </SceneObject>
     <SceneObject
-      id="Cylinder"
-      instanceId="751714204">
+      id="Quad"
+      instanceId="1648820652">
       <Transform
-        position="-3.5, 0.1, -1.5"
+        position="-1.983598, 0, -0.0007433295"
         rotation="1, 0, 0, 0"
         scale="1, 1, 1" />
       <Component
         className="MeshRenderer">
-        <Mesh>100000005</Mesh>
-        <Material>400000001</Material>
-      </Component>
-    </SceneObject>
-    <SceneObject
-      id="Cube"
-      instanceId="751714236">
-      <Transform
-        position="-8, 3, -2.5"
-        rotation="1, 0, 0, 0"
-        scale="5, 5, 5" />
-      <Component
-        className="MeshRenderer">
-        <Mesh>100000004</Mesh>
+        <Mesh>100000006</Mesh>
         <Material>4000003</Material>
       </Component>
     </SceneObject>
     <SceneObject
-      id="Cube"
-      instanceId="751714238">
+      id="Teapot"
+      instanceId="45340862">
       <Transform
-        position="-8, 3, 2.5"
+        position="-1.466275, 0.222587, 0.5443252"
         rotation="1, 0, 0, 0"
-        scale="5, 5, 5" />
+        scale="0.5483724, 0.5483724, 0.5483724" />
       <Component
         className="MeshRenderer">
-        <Mesh>100000004</Mesh>
-        <Material>4000003</Material>
-      </Component>
-    </SceneObject>
-    <SceneObject
-      id="Cube"
-      instanceId="751714240">
-      <Transform
-        position="-3, 3, -7.5"
-        rotation="1, 0, 0, 0"
-        scale="5, 5, 5" />
-      <Component
-        className="MeshRenderer">
-        <Mesh>100000004</Mesh>
-        <Material>4000003</Material>
-      </Component>
-    </SceneObject>
-    <SceneObject
-      id="Cube"
-      instanceId="751714242">
-      <Transform
-        position="2, 3, -7.5"
-        rotation="1, 0, 0, 0"
-        scale="5, 5, 5" />
-      <Component
-        className="MeshRenderer">
-        <Mesh>100000004</Mesh>
-        <Material>4000003</Material>
-      </Component>
-    </SceneObject>
-    <SceneObject
-      id="Cylinder"
-      instanceId="751714276">
-      <Transform
-        position="-5.441566, 2.981382, -5.181775"
-        rotation="0, -0.999962, 0, 0.03490487"
-        scale="2, 5, 2" />
-      <Component
-        className="MeshRenderer">
-        <Mesh>100000005</Mesh>
-        <Material>4000003</Material>
-      </Component>
-    </SceneObject>
-    <SceneObject
-      id="Cylinder"
-      instanceId="751714278">
-      <Transform
-        position="2, 0.5074954, -1.15"
-        rotation="1, 0, 0, 0"
-        scale="2, 0.05, 2" />
-      <Component
-        className="MeshRenderer">
-        <Mesh>100000005</Mesh>
-        <Material>4000001</Material>
-      </Component>
-    </SceneObject>
-    <SceneObject
-      id="Reflection Probe"
-      instanceId="1056742835">
-      <Transform
-        position="0, 1, 0"
-        rotation="1, 0, 0, 0"
-        scale="1, 1, 1" />
-      <Component
-        className="ReflectionProbe">
-        <Size>128</Size>
-        <Dynamic>True</Dynamic>
+        <Mesh>100000001</Mesh>
+        <Material>4000009</Material>
       </Component>
     </SceneObject>
   </Root>

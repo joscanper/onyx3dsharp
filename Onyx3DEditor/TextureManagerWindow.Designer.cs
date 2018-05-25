@@ -172,14 +172,15 @@
 			this.buttonApply.UseVisualStyleBackColor = true;
 			this.buttonApply.Click += new System.EventHandler(this.buttonApply_Click);
 			// 
-			// TextureManager
+			// TextureManagerWindow
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(690, 532);
 			this.Controls.Add(this.splitContainer1);
-			this.Name = "TextureManager";
+			this.Name = "TextureManagerWindow";
 			this.Text = "TextureManager";
+			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.TextureManagerWindow_FormClosed);
 			((System.ComponentModel.ISupportInitialize)(this.pictureBoxPreview)).EndInit();
 			this.toolStrip1.ResumeLayout(false);
 			this.toolStrip1.PerformLayout();

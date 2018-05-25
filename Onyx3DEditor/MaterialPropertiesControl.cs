@@ -21,6 +21,14 @@ namespace Onyx3DEditor
 			InitializeComponent();
 		}
 
+		public void Clear()
+		{
+			textBoxGuid.Text = "";
+			textBoxName.Text = "";
+
+			tableLayoutPanelProperties.Controls.Clear();
+		}
+
 		public void Fill(Material mat)
 		{
 			mMaterial = mat;

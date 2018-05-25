@@ -109,6 +109,7 @@ namespace Onyx3DEditor
 			RenderScene();
 		}
 
+
 		private void OnTransformModifiedFromObjectHandler()
 		{
 			selectedObjectInspector.Fill(mSelectedSceneObject);
@@ -244,7 +245,7 @@ namespace Onyx3DEditor
 		private void timer1_Tick(object sender, EventArgs e)
 		{
 			//myTeapot.Transform.Rotate(new Vector3(0, 0.1f, 0));
-			//renderCanvas.Refresh();
+			renderCanvas.Refresh();
 			//mReflectionProbe.Angle += 0.01f;
 		}
 
@@ -404,8 +405,7 @@ namespace Onyx3DEditor
 
 		private void MainWindow_KeyDown(object sender, KeyEventArgs e)
 		{
-			if (e.KeyCode == Keys.Delete)
-					DeleteObject(mSelectedSceneObject);
+			
 		}
 
 		private void toolStripButtonImportModel_Click(object sender, EventArgs e)
@@ -413,6 +413,21 @@ namespace Onyx3DEditor
 			new ModelImporterWindow().Show();
 		}
 
-        
-    }
+		private void duplicateSceneObjectToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			if (Selection.ActiveObject == null)
+				return;
+
+			SceneObject clone = Selection.ActiveObject.Clone();
+			clone.Parent = Selection.ActiveObject.Parent;
+			clone.Transform.Copy(Selection.ActiveObject.Transform);
+			Selection.ActiveObject = clone;
+		}
+
+		private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			if (Selection.ActiveObject != null)
+				DeleteObject(Selection.ActiveObject);
+		}
+	}
 }

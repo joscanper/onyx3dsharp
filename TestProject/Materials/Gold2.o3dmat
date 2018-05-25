@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Material>
+  <Shader>300000001</Shader>
+  <Property
+    id="base_color"
+    type="color"
+    value="0.9882353, 0.5960785, 0.01176471, 1" />
+  <Property
+    id="albedo"
+    type="sampler2d"
+    value="2000008"
+    index="0" />
+  <Property
+    id="metallic"
+    type="sampler2d"
+    value="200000002"
+    index="1" />
+  <Property
+    id="roughness"
+    type="sampler2d"
+    value="2000008"
+    index="2" />
+  <Property
+    id="occlusion"
+    type="sampler2d"
+    value="200000002"
+    index="3" />
+  <Property
+    id="normal"
+    type="sampler2d"
+    value="200000004"
+    index="4" />
+  <Property
+    id="metallic_strength"
+    type="float"
+    value="1.3" />
+  <Property
+    id="roughness_strength"
+    type="float"
+    value="0.14" />
+  <Property
+    id="occlusion_strength"
+    type="float"
+    value="1" />
+  <Property
+    id="environment_map"
+    type="samplerCube"
+    value="15"
+    index="5" />
+  <Property
+    id="brdfLUT"
+    type="sampler2d"
+    value="200000005"
+    index="6" />
+</Material>

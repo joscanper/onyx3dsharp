@@ -73,12 +73,13 @@ namespace Onyx3D
 			DrawWireSphere(s.Position, s.Radius, color);
 		}
 
-		public void DrawAxis(Vector3 position)
+		public void DrawAxis(Vector3 position, float scale = 1)
 		{
 			AxisRenderer myAxis = GetComponent<AxisRenderer>();
 			myAxis.Material = Onyx3D.Resources.GetMaterial(BuiltInMaterial.UnlitVertexColor);
 			mRenderers.Add(myAxis);
 
+			myAxis.Transform.LocalScale = Vector3.One * scale;
 			myAxis.Transform.LocalPosition = position;
 		}
 

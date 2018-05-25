@@ -102,8 +102,9 @@
     <Compile Include="Core\Types\Ray.cs" />
     <Compile Include="Core\GizmosManager.cs" />
     <Compile Include="Core\Types\Sphere.cs" />
-	<Compile Include="Graphics\Assimp\AssimpExtension.cs" />
-    <Compile Include="Graphics\Assimp\AssimpLoader.cs" />    <Compile Include="Graphics\Cubemap.cs" />
+    <Compile Include="Graphics\Assimp\AssimpExtension.cs" />
+    <Compile Include="Graphics\Assimp\AssimpLoader.cs" />
+    <Compile Include="Graphics\Cubemap.cs" />
     <Compile Include="Graphics\DefaultMaterial.cs" />
     <Compile Include="Graphics\FrameBuffer.cs" />
     <Compile Include="Graphics\Generators\CubemapGenerator.cs" />
@@ -160,6 +161,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\Textures\brdf_lut.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Textures\normal.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Textures\white.jpg">

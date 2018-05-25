@@ -62,7 +62,7 @@ namespace Onyx3DEditor
 			openFileDialog1.Filter = "PNG files (*.png)|*.png|JPG files (*.jpg)|*.jpg";//All files (*.*)|*.*
 			openFileDialog1.FilterIndex = 2;
 			openFileDialog1.RestoreDirectory = true;
-            openFileDialog1.Multiselect = true;
+            //openFileDialog1.Multiselect = true;
 			if (openFileDialog1.ShowDialog() == DialogResult.OK)
 			{
 				return openFileDialog1.FileNames;
@@ -120,12 +120,17 @@ namespace Onyx3DEditor
 		private void buttonOpen_Click(object sender, EventArgs e)
 		{
 			string[] filePaths = OpenFileSelector(textBoxFilePath.Text);
+			
 			if (filePaths != null) {
 				//textBoxFilePath.Text = filePath;
 				LoadTexturePreview();
 			}
 		}
-		
+
+		private void TextureManagerWindow_FormClosed(object sender, FormClosedEventArgs e)
+		{
+			ProjectManager.Instance.Save();
+		}
 	}
 
 }

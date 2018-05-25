@@ -51,7 +51,7 @@
 			this.tableLayoutPanelProperties.Location = new System.Drawing.Point(0, 0);
 			this.tableLayoutPanelProperties.Name = "tableLayoutPanelProperties";
 			this.tableLayoutPanelProperties.RowCount = 1;
-			this.tableLayoutPanelProperties.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 150F));
+			this.tableLayoutPanelProperties.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 449F));
 			this.tableLayoutPanelProperties.Size = new System.Drawing.Size(150, 449);
 			this.tableLayoutPanelProperties.TabIndex = 0;
 			// 
@@ -98,7 +98,7 @@
 			this.label1.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.label1.Location = new System.Drawing.Point(3, 0);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(46, 25);
+			this.label1.Size = new System.Drawing.Size(45, 25);
 			this.label1.TabIndex = 0;
 			this.label1.Text = "Guid";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -109,7 +109,7 @@
 			this.label2.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.label2.Location = new System.Drawing.Point(3, 25);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(46, 25);
+			this.label2.Size = new System.Drawing.Size(45, 25);
 			this.label2.TabIndex = 1;
 			this.label2.Text = "Name";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -117,18 +117,18 @@
 			// textBoxGuid
 			// 
 			this.textBoxGuid.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.textBoxGuid.Location = new System.Drawing.Point(55, 3);
+			this.textBoxGuid.Location = new System.Drawing.Point(54, 3);
 			this.textBoxGuid.Name = "textBoxGuid";
 			this.textBoxGuid.ReadOnly = true;
-			this.textBoxGuid.Size = new System.Drawing.Size(92, 20);
+			this.textBoxGuid.Size = new System.Drawing.Size(93, 20);
 			this.textBoxGuid.TabIndex = 2;
 			// 
 			// textBoxName
 			// 
 			this.textBoxName.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.textBoxName.Location = new System.Drawing.Point(55, 28);
+			this.textBoxName.Location = new System.Drawing.Point(54, 28);
 			this.textBoxName.Name = "textBoxName";
-			this.textBoxName.Size = new System.Drawing.Size(92, 20);
+			this.textBoxName.Size = new System.Drawing.Size(93, 20);
 			this.textBoxName.TabIndex = 3;
 			this.textBoxName.TextChanged += new System.EventHandler(this.textBoxName_TextChanged);
 			// 

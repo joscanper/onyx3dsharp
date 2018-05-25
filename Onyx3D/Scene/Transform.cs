@@ -178,6 +178,14 @@ namespace Onyx3D
 			}
 		}
 
+		public void Copy(Transform other)
+		{
+			mLocalPosition = other.mLocalPosition;
+			mLocalScale = other.mLocalScale;
+			mLocalRotation = other.mLocalRotation;
+			SetDirty();
+		}
+
         // --------------------- Serialization
 
         public XmlSchema GetSchema()

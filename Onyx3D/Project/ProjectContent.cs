@@ -43,10 +43,12 @@ namespace Onyx3D
             AddAsset(new OnyxProjectAsset("./Resources/Textures/checker.png", BuiltInTexture.Checker));
             AddAsset(new OnyxProjectAsset("./Resources/Textures/white.jpg", BuiltInTexture.White));
             AddAsset(new OnyxProjectAsset("./Resources/Textures/black.jpg", BuiltInTexture.Black));
-            AddAsset(new OnyxProjectAsset("./Resources/Textures/brdf_lut.png", BuiltInTexture.BRDFLut));
+			AddAsset(new OnyxProjectAsset("./Resources/Textures/normal.jpg", BuiltInTexture.Normal));
+			AddAsset(new OnyxProjectAsset("./Resources/Textures/brdf_lut.png", BuiltInTexture.BRDFLut));
+			
 
-            // Built-in shaders (from 300000000)
-            AddAsset(new OnyxProjectShaderAsset("./Resources/Shaders/VertexShader.glsl", "./Resources/Shaders/FragmentShader.glsl", BuiltInShader.Default));
+			// Built-in shaders (from 300000000)
+			AddAsset(new OnyxProjectShaderAsset("./Resources/Shaders/VertexShader.glsl", "./Resources/Shaders/FragmentShader.glsl", BuiltInShader.Default));
 			AddAsset(new OnyxProjectShaderAsset("./Resources/Shaders/VertexShader.glsl", "./Resources/Shaders/UnlitFragmentShader.glsl", BuiltInShader.Unlit));
 			AddAsset(new OnyxProjectShaderAsset("./Resources/Shaders/VertexShader.glsl", "./Resources/Shaders/UnlitVertexColorFragmentShader.glsl", BuiltInShader.UnlitVertexColor));
 			AddAsset(new OnyxProjectShaderAsset("./Resources/Shaders/VertexShader.glsl", "./Resources/Shaders/ReflectionProbeFragmentShader.glsl", BuiltInShader.ReflectionProbe));
@@ -132,10 +134,10 @@ namespace Onyx3D
             return templateAsset;
         }
 
-        // -----
+		// -----
 
 
-        public static string GetAbsolutePath(string relativePath)
+		public static string GetAbsolutePath(string relativePath)
         {
 
             if (relativePath.StartsWith("./"))

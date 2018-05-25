@@ -71,26 +71,48 @@
         <Path>Textures/darktiles1_normal-DX.png</Path>
         <Guid>2000011</Guid>
       </OnyxProjectAsset>
+      <OnyxProjectAsset>
+        <Dirty>false</Dirty>
+        <Path>Textures/spider1_color.jpg</Path>
+        <Guid>2000012</Guid>
+      </OnyxProjectAsset>
+      <OnyxProjectAsset>
+        <Dirty>false</Dirty>
+        <Path>Textures/electric_motor_vintage_dif.png</Path>
+        <Guid>2000013</Guid>
+      </OnyxProjectAsset>
+      <OnyxProjectAsset>
+        <Dirty>false</Dirty>
+        <Path>Textures/electric_motor_vintage_nor.png</Path>
+        <Guid>2000014</Guid>
+      </OnyxProjectAsset>
+      <OnyxProjectAsset>
+        <Dirty>false</Dirty>
+        <Path>Textures/electric_motor_vintage_spec.png</Path>
+        <Guid>2000015</Guid>
+      </OnyxProjectAsset>
+      <OnyxProjectAsset>
+        <Dirty>false</Dirty>
+        <Path>Textures/electric_motor_vintage_roughness.png</Path>
+        <Guid>2000016</Guid>
+      </OnyxProjectAsset>
+      <OnyxProjectAsset>
+        <Dirty>false</Dirty>
+        <Path>Textures/spider1_color.jpg</Path>
+        <Guid>2000017</Guid>
+      </OnyxProjectAsset>
+      <OnyxProjectAsset>
+        <Dirty>false</Dirty>
+        <Path>Textures/spider1_nmap.jpg</Path>
+        <Guid>2000018</Guid>
+      </OnyxProjectAsset>
+      <OnyxProjectAsset>
+        <Dirty>false</Dirty>
+        <Path>Textures/snow-normal-mapping_640v640.jpg</Path>
+        <Guid>2000019</Guid>
+      </OnyxProjectAsset>
     </Textures>
     <Materials>
-      <OnyxProjectMaterialAsset>
-        <Dirty>false</Dirty>
-        <Path>Materials/Test1.o3dmat</Path>
-        <Guid>4000000</Guid>
-        <Name>Marble</Name>
-      </OnyxProjectMaterialAsset>
-      <OnyxProjectMaterialAsset>
-        <Dirty>false</Dirty>
-        <Path>Materials/Test2.o3dmat</Path>
-        <Guid>4000001</Guid>
-        <Name>Gold</Name>
-      </OnyxProjectMaterialAsset>
-      <OnyxProjectMaterialAsset>
-        <Dirty>false</Dirty>
-        <Path>Materials/Test3.o3dmat</Path>
-        <Guid>4000002</Guid>
-        <Name>Box</Name>
-      </OnyxProjectMaterialAsset>
       <OnyxProjectMaterialAsset>
         <Dirty>false</Dirty>
         <Path>Materials/Floor.o3dmat</Path>
@@ -105,9 +127,27 @@
       </OnyxProjectMaterialAsset>
       <OnyxProjectMaterialAsset>
         <Dirty>false</Dirty>
-        <Path>Models/Physical1.o3mat</Path>
-        <Guid>4000005</Guid>
-        <Name>Physical1</Name>
+        <Path>Models/default.o3mat</Path>
+        <Guid>4000006</Guid>
+        <Name>default</Name>
+      </OnyxProjectMaterialAsset>
+      <OnyxProjectMaterialAsset>
+        <Dirty>false</Dirty>
+        <Path>Models/electric_motor_vintage.o3mat</Path>
+        <Guid>4000007</Guid>
+        <Name>electric_motor_vintage</Name>
+      </OnyxProjectMaterialAsset>
+      <OnyxProjectMaterialAsset>
+        <Dirty>false</Dirty>
+        <Path>Models/default.o3mat</Path>
+        <Guid>4000008</Guid>
+        <Name>default</Name>
+      </OnyxProjectMaterialAsset>
+      <OnyxProjectMaterialAsset>
+        <Dirty>false</Dirty>
+        <Path>Materials/Gold2.o3dmat</Path>
+        <Guid>4000009</Guid>
+        <Name>Gold2</Name>
       </OnyxProjectMaterialAsset>
     </Materials>
     <Meshes>
@@ -129,7 +169,41 @@
         <Guid>1000002</Guid>
         <IsFromModel>true</IsFromModel>
       </OnyxProjectMeshAsset>
+      <OnyxProjectMeshAsset>
+        <Dirty>false</Dirty>
+        <Path>Models\spider.o3dmod</Path>
+        <Guid>1000003</Guid>
+        <IsFromModel>true</IsFromModel>
+      </OnyxProjectMeshAsset>
+      <OnyxProjectMeshAsset>
+        <Dirty>false</Dirty>
+        <Path>Models\electric_motor_vintage.o3dmod</Path>
+        <Guid>1000004</Guid>
+        <IsFromModel>true</IsFromModel>
+      </OnyxProjectMeshAsset>
+      <OnyxProjectMeshAsset>
+        <Dirty>false</Dirty>
+        <Path>Models\spider.o3dmod</Path>
+        <Guid>1000005</Guid>
+        <IsFromModel>true</IsFromModel>
+      </OnyxProjectMeshAsset>
     </Meshes>
-    <Templates />
+    <Templates>
+      <OnyxProjectAsset>
+        <Dirty>false</Dirty>
+        <Path>Models/spider.o3dtemp</Path>
+        <Guid>5000000</Guid>
+      </OnyxProjectAsset>
+      <OnyxProjectAsset>
+        <Dirty>false</Dirty>
+        <Path>Models/electric_motor_vintage.o3dtemp</Path>
+        <Guid>5000001</Guid>
+      </OnyxProjectAsset>
+      <OnyxProjectAsset>
+        <Dirty>false</Dirty>
+        <Path>Models/spider.o3dtemp</Path>
+        <Guid>5000002</Guid>
+      </OnyxProjectAsset>
+    </Templates>
   </Content>
 </ProjectData>

@@ -309,5 +309,20 @@ namespace Onyx3DEditor
             MaterialSaved?.Invoke(SelectedMaterial);
         }
 
-    }
+		private void toolStripDeleteMaterialButton_Click(object sender, EventArgs e)
+		{
+			if (SelectedMaterial != null)
+			{
+				if (MessageBox.Show("Are you sure?", "Delete Material", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+				{
+					if (ProjectManager.Instance.Content.Materials.Remove(SelectedMaterial))
+					{
+						materialPropertiesControl.Clear();
+						UpdateMaterialList(0);
+					}
+				}
+			}
+				
+		}
+	}
 }

@@ -21,7 +21,12 @@ class ObjectHandler
 	private Camera mCamera;
 	private SceneObject mObject;
 	private HandlerOperator mOperator = new ObjectHandlerTranslate();
+	private float mScale;
 
+	public float Scale
+	{
+		get { return mScale; }
+	}
 	
 	public bool IsHandling
 	{
@@ -62,7 +67,7 @@ class ObjectHandler
 			Ray clickRay = mCamera.ScreenPointToRay(e.X, e.Y, mRenderCanvas.Width, mRenderCanvas.Height);
 			
 			if (IsHandling)
-				mOperator.Handle(mObject, clickRay);
+				mOperator.Handle(mObject, clickRay, mScale);
 			else
 				mOperator.CheckHandleStart(mObject, clickRay);
 		}
@@ -90,8 +95,11 @@ class ObjectHandler
 		if (mObject == null)
 			return;
 
-		mOperator.Update(mObject);
-		mOperator.DrawGizmos(mObject, mOnyx3DInstance.Gizmos);
+		if (!IsHandling)
+			mScale = Vector3.Distance(mCamera.Transform.Position, mObject.Transform.Position) * 0.25f;
+
+		mOperator.Update(mObject, mScale);
+		mOperator.DrawGizmos(mObject, mOnyx3DInstance.Gizmos, mScale);
 	}
 
 }
@@ -128,16 +136,21 @@ abstract class HandlerOperator
 		SelectedAxis = Vector3.Zero;
 	}
 
-	public virtual void Update(SceneObject obj)
+	public virtual void Update(SceneObject obj, float scale)
 	{
 		Vector3 position = obj.Transform.Position;
-		mXAxisBound.Set(position + Vector3.UnitX, 0.25f);
-		mYAxisBound.Set(position + Vector3.UnitY, 0.25f);
-		mZAxisBound.Set(position + Vector3.UnitZ, 0.25f);
+		mXAxisBound.Set(position + Vector3.UnitX * scale, 0.25f);
+		mYAxisBound.Set(position + Vector3.UnitY * scale, 0.25f);
+		mZAxisBound.Set(position + Vector3.UnitZ * scale, 0.25f);
 	}
 
-	virtual public void DrawGizmos(SceneObject obj, GizmosManager gizmos)
+	virtual public void DrawGizmos(SceneObject obj, GizmosManager gizmos, float scale)
 	{
+
+		mXAxisBound.Radius = scale * 0.15f;
+		mYAxisBound.Radius = scale * 0.15f;
+		mZAxisBound.Radius = scale * 0.15f;
+
 		gizmos.DrawWireSphere(mXAxisBound, SelectedAxis == Vector3.UnitX ? Vector3.UnitY : Vector3.Zero);
 		gizmos.DrawWireSphere(mYAxisBound, SelectedAxis == Vector3.UnitY ? Vector3.UnitY : Vector3.Zero);
 		gizmos.DrawWireSphere(mZAxisBound, SelectedAxis == Vector3.UnitZ ? Vector3.UnitY : Vector3.Zero);
@@ -154,7 +167,7 @@ abstract class HandlerOperator
 			SelectedAxis = Vector3.UnitZ;
 	}
 
-	abstract public void Handle(SceneObject obj, Ray ray);
+	abstract public void Handle(SceneObject obj, Ray ray, float scale);
 	virtual protected void OnHandleStart(SceneObject obj) { }
 }
 
@@ -163,18 +176,18 @@ abstract class HandlerOperator
 class ObjectHandlerTranslate : HandlerOperator
 {
 
-	public override void DrawGizmos(SceneObject obj, GizmosManager gizmos)
+	public override void DrawGizmos(SceneObject obj, GizmosManager gizmos, float scale)
 	{
-		base.DrawGizmos(obj, gizmos);
-		gizmos.DrawAxis(obj.Transform.Position);
+		base.DrawGizmos(obj, gizmos, scale);
+		gizmos.DrawAxis(obj.Transform.Position, scale);
 	}
 
-	public override void Handle(SceneObject obj, Ray ray)
+	public override void Handle(SceneObject obj, Ray ray, float scale)
 	{
 		Ray axisRay = new Ray(obj.Transform.Position, SelectedAxis);
 
 		Vector3 closestPointToAxis = axisRay.ClosestPointTo(ray);
-		Vector3 axisPoint = (obj.Transform.Position + SelectedAxis);
+		Vector3 axisPoint = (obj.Transform.Position + SelectedAxis  * scale);
 
 		Vector3 offset = axisPoint - closestPointToAxis;
 		obj.Transform.LocalPosition -= offset;
@@ -197,46 +210,44 @@ class ObjectHandlerScale : HandlerOperator
 
 	}
 
-	public override void DrawGizmos(SceneObject obj, GizmosManager gizmos)
+	public override void DrawGizmos(SceneObject obj, GizmosManager gizmos, float scale)
 	{
-		base.DrawGizmos(obj, gizmos);
+		base.DrawGizmos(obj, gizmos, scale);
 
 		gizmos.DrawBox(mXYZAxisBound.Center, Vector3.One * 0.1f, Vector3.One);
 
-		gizmos.DrawLine(obj.Transform.Position, obj.Transform.Position + Vector3.UnitX, Vector3.UnitX);
-		gizmos.DrawLine(obj.Transform.Position, obj.Transform.Position + Vector3.UnitY, Vector3.UnitY);
-		gizmos.DrawLine(obj.Transform.Position, obj.Transform.Position + Vector3.UnitZ, Vector3.UnitZ);
-		gizmos.DrawBox(obj.Transform.Position + Vector3.UnitX, Vector3.One * 0.1f, Vector3.UnitX);
-		gizmos.DrawBox(obj.Transform.Position + Vector3.UnitY, Vector3.One * 0.1f, Vector3.UnitY);
-		gizmos.DrawBox(obj.Transform.Position + Vector3.UnitZ, Vector3.One * 0.1f, Vector3.UnitZ);
+		gizmos.DrawLine(obj.Transform.Position, obj.Transform.Position + Vector3.UnitX * scale, Vector3.UnitX);
+		gizmos.DrawLine(obj.Transform.Position, obj.Transform.Position + Vector3.UnitY * scale, Vector3.UnitY);
+		gizmos.DrawLine(obj.Transform.Position, obj.Transform.Position + Vector3.UnitZ * scale, Vector3.UnitZ);
+		gizmos.DrawBox(obj.Transform.Position + Vector3.UnitX * scale, Vector3.One * 0.1f * scale, Vector3.UnitX);
+		gizmos.DrawBox(obj.Transform.Position + Vector3.UnitY * scale, Vector3.One * 0.1f * scale, Vector3.UnitY);
+		gizmos.DrawBox(obj.Transform.Position + Vector3.UnitZ * scale, Vector3.One * 0.1f * scale, Vector3.UnitZ);
 	}
 
-	public override void Handle(SceneObject obj, Ray ray)
+	public override void Handle(SceneObject obj, Ray ray, float scale)
 	{
 		
-		Vector3 scale = mScale;
-
-
+		Vector3 newScale = mScale;
 		Vector3 closestPointToAxis = GetClosestPointToAxis(obj, ray, SelectedAxis);
 		if (SelectedAxis == Vector3.One)
 		{
 			float scaleY = closestPointToAxis.Y / mInitAxisPoint.Y;
-			scale = new Vector3(scaleY);
+			newScale = new Vector3(scaleY);
 		}
 		else
 		{
-			scale = new Vector3(
+			newScale = new Vector3(
 				SelectedAxis == Vector3.UnitX ? closestPointToAxis.X / mInitAxisPoint.X : 1.0f,
 				SelectedAxis == Vector3.UnitY ? closestPointToAxis.Y / mInitAxisPoint.Y : 1.0f,
 				SelectedAxis == Vector3.UnitZ ? closestPointToAxis.Z / mInitAxisPoint.Z : 1.0f);
 		}
-		obj.Transform.LocalScale = mScale * scale;
+		obj.Transform.LocalScale = mScale * newScale;
 	}
 
 
-	public override void Update(SceneObject obj)
+	public override void Update(SceneObject obj, float scale)
 	{
-		base.Update(obj);
+		base.Update(obj, scale);
 
 		mXYZAxisBound.SetMinMax(obj.Transform.Position - Vector3.One * 0.1f, obj.Transform.Position + Vector3.One * 0.1f);
 	}
@@ -284,9 +295,9 @@ class ObjectHandlerRotate : HandlerOperator
 		mRotation = obj.Transform.LocalRotation;
 	}
 
-	public override void DrawGizmos(SceneObject obj, GizmosManager gizmos)
+	public override void DrawGizmos(SceneObject obj, GizmosManager gizmos, float scale)
 	{
-		base.DrawGizmos(obj, gizmos);
+		base.DrawGizmos(obj, gizmos, scale);
 
 		Vector3 up = Vector3.UnitY;
 		Vector3 right = Vector3.UnitX;
@@ -313,9 +324,9 @@ class ObjectHandlerRotate : HandlerOperator
 		gizmos.DrawLine(obj.Transform.Position, obj.Transform.Position + hitDir * 2, Vector3.UnitX);
 	}
 
-	public override void Update(SceneObject obj)
+	public override void Update(SceneObject obj, float scale)
 	{
-		base.Update(obj);
+		base.Update(obj, scale);
 		Vector3 position = obj.Transform.Position;
 		
 		mXAxisBound.Set(position + Vector3.UnitY, 0.25f);
@@ -324,7 +335,7 @@ class ObjectHandlerRotate : HandlerOperator
 		
 	}
 
-	public override void Handle(SceneObject obj, Ray ray)
+	public override void Handle(SceneObject obj, Ray ray, float scale)
 	{
 		
 			
