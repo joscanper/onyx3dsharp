@@ -19,15 +19,14 @@ namespace Onyx3D
 			if (fwd == Vector3.Zero)
 				fwd = Vector3.Cross(up, Vector3.UnitX);
 			Vector3 right = Vector3.Cross(fwd, up);
-			Matrix3 m = new Matrix3(right, up, fwd);
-			
+			Matrix3 m = new Matrix3(right.Normalized(), up.Normalized(), fwd.Normalized());
+
 			float angleStep = (float)Math.PI * 2.0f / segments;
 			for(int i = 0; i <= segments; ++i)
 			{
 				float x = (float)Math.Cos(angleStep * i) * radius;
 				float y = (float)Math.Sin(angleStep * i) * radius;
 
-				
 				Mesh.Vertices.Add(new Vertex(new Vector3(x, 0, y) * m, color));
 			}
 
