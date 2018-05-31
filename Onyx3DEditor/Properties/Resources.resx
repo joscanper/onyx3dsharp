@@ -127,26 +127,26 @@
   <data name="if_folder-open_21164" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\if_folder-open_21164.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="trash" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\trash.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="if_move_118639" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\if_move_118639.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="if_stock_save_20659" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\if_stock_save_20659.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="if_plug_extension_62666" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\if_plug_extension_62666.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="stock_draw-sphere" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\stock_draw-sphere.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="if_plug_extension_62666" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\if_plug_extension_62666.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="if_stock_save_20659" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\if_stock_save_20659.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="if_fullscreen_118670" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\if_fullscreen_118670.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="apps-16" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\apps-16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="if_shape_square_16447" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\if_shape_square_16447.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="stock_3d-texture-and-shading" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\stock_3d-texture-and-shading.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -160,14 +160,17 @@
   <data name="if_object-rotate-right_23488" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\if_object-rotate-right_23488.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="if_stock_draw-cylinder_21550" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\if_stock_draw-cylinder_21550.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="if_shape_square_16447" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\if_shape_square_16447.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="stock_draw-torus" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\stock_draw-torus.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="if_stock_draw-cube_21540" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\if_stock_draw-cube_21540.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="if_stock_draw-cylinder_21550" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\if_stock_draw-cylinder_21550.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="stock_3d-texture" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\stock_3d-texture.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -178,7 +181,7 @@
   <data name="if_teapot_93284" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\if_teapot_93284.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="trash" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\trash.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="if_stock_draw-sphere-16_94068" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\if_stock_draw-sphere-16_94068.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

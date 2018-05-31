@@ -173,6 +173,16 @@ namespace Onyx3DEditor.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap if_stock_draw_sphere_16_94068 {
+            get {
+                object obj = ResourceManager.GetObject("if_stock_draw-sphere-16_94068", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap if_stock_save_20659 {
             get {
                 object obj = ResourceManager.GetObject("if_stock_save_20659", resourceCulture);

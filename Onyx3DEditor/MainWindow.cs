@@ -429,5 +429,14 @@ namespace Onyx3DEditor
 			if (Selection.ActiveObject != null)
 				DeleteObject(Selection.ActiveObject);
 		}
+
+		private void toolStripCreateReflectionProbe_Click(object sender, EventArgs e)
+		{
+			SceneObject obj = new SceneObject("ReflectionProbe", mScene);
+			obj.Parent = mScene.Root;
+			obj.Transform.LocalPosition = new Vector3(0, 0, 0);
+			ReflectionProbe mReflectionProbe = obj.AddComponent<ReflectionProbe>();
+			mReflectionProbe.Init(64);
+		}
 	}
 }
