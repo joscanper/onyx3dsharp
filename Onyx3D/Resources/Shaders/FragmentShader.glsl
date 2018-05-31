@@ -55,6 +55,18 @@ struct Light {
 	float quadratic;
 };
 
+struct LightCalculationData {
+	vec3 radiance;
+	vec3 albedo;
+	vec3 N;
+	float roughness;
+	float metallic;
+	vec3 F0;
+	vec3 V;
+	vec3 L;
+	vec3 H;
+};
+
 layout(std140) uniform LightingData { 
 	vec4 ambient;
     
@@ -97,6 +109,7 @@ float GeometrySchlickGGX(float NdotV, float roughness)
 	
     return num / denom;
 }
+
 float GeometrySmith(vec3 N, vec3 V, vec3 L, float roughness)
 {
     float NdotV = max(dot(N, V), 0.0);
@@ -117,6 +130,84 @@ vec3 fresnelSchlickRoughness(float cosTheta, vec3 F0, float roughness)
     return F0 + (max(vec3(1.0 - roughness), F0) - F0) * pow(1.0 - cosTheta, 5.0);
 }   
 
+vec3 CookTorranceBDRF(LightCalculationData data)
+{
+        float NDF = DistributionGGX(data.N, data.H, data.roughness);        
+        float G   = GeometrySmith(data.N, data.V, data.L, data.roughness);      
+        vec3 F    = fresnelSchlick(max(dot(data.H, data.V), 0.0), data.F0);       
+        
+        vec3 kS = F;
+        vec3 kD = 1.0 - kS;
+        kD *= 1.0 - data.metallic;	  
+ 
+		float NdotV = max(dot(data.N, data.V), 0.0);
+        float NdotL = max(dot(data.N, data.L), 0.0);         
+
+        vec3 numerator    = NDF * G * F;
+        float denominator = 4.0 * NdotV * NdotL;
+        vec3 specular     =  numerator / max(denominator, 0.001);  
+
+        return (kD * data.albedo / PI + specular) * data.radiance * NdotL; 
+}
+
+vec3 calculateSpotLights(LightCalculationData lightData, vec3 worldPos)
+{
+	vec3 Lo= vec3(0.0);
+	for(int i = 0; i < spotLightsNum; ++i) 
+    {
+		vec3 lightPos = spotLight[i].position.xyz;
+
+        lightData.L = normalize(lightPos - worldPos);
+        lightData.H = normalize(lightData.V + lightData.L);
+
+		float theta     = dot(lightData.L, normalize(-spotLight[i].direction.xyz));
+		float epsilon   = 0.91 - 0.82;
+		float intensity = clamp((theta - 0.82) / epsilon, 0.0, 1.0);    
+		
+		float distance    = length(lightPos - worldPos);
+        float attenuation = 1.0 / (distance * distance);
+
+        lightData.radiance     = spotLight[i].color.rgb * attenuation * spotLight[i].intensity * intensity;
+        
+		Lo += CookTorranceBDRF(lightData);
+    }   
+	return Lo;
+}
+
+vec3 calculateDirectionalLights(LightCalculationData lightData)
+{
+	vec3 Lo= vec3(0.0);
+	for(int i = 0; i < dirLightsNum; ++i) 
+    {
+        lightData.L = normalize(-dirLight[i].direction.xyz);
+        lightData.H = normalize(lightData.V + lightData.L);
+        lightData.radiance = dirLight[i].color.rgb;
+
+		Lo += CookTorranceBDRF(lightData);
+        
+    }   
+	return Lo;
+}
+
+
+vec3 calculatePointLights(LightCalculationData lightData, vec3 worldPos)
+{
+	vec3 Lo= vec3(0.0);
+	for(int i = 0; i < pointLightsNum; ++i) 
+    {
+		vec3 lightPos = pointLight[i].position.xyz;
+        lightData.L = normalize(lightPos - worldPos);
+        lightData.H = normalize(lightData.V + lightData.L);
+		
+        float distance    = length(lightPos - worldPos);
+        float attenuation = 1.0 / (distance * distance);
+        lightData.radiance = pointLight[i].color.rgb * attenuation * pointLight[i].intensity;
+        
+		Lo += CookTorranceBDRF(lightData);
+    }   
+	return Lo;
+}
+
 
 void main()
 {		
@@ -125,46 +216,25 @@ void main()
 	float metallic_f = texture(metallic, o_uv).r * metallic_strength;
 	float roughness_f = max(texture(roughness, o_uv).r * roughness_strength, 0.001f);
 	float ao_f = texture(occlusion, o_uv).r * occlusion_strength;
-
-	vec3 WorldPos = o_fragpos;
+	
+	vec3 F0 = mix(vec3(0.04), albedo_color, metallic_f);
+	vec3 V = normalize(cameraPos.xyz - o_fragpos);
     vec3 N = normalize(texture(normal, o_uv).rgb * 2.0 - 1.0);
-	N = normalize(o_tbn * N);
-    vec3 V = normalize(cameraPos.xyz - WorldPos);
-
-    vec3 F0 = vec3(0.1); 
-    F0 = mix(F0, albedo_color, metallic_f);
+	N = normalize(o_tbn * N);    
 	           
     // reflectance equation
     vec3 Lo = vec3(0.0);
-    for(int i = 0; i < pointLightsNum; ++i) 
-    {
-        // calculate per-light radiance
-		vec3 lightPos = pointLight[i].position.xyz;
-        vec3 L = normalize(lightPos - WorldPos);
-        vec3 H = normalize(V + L);
-		
-        float distance    = length(lightPos - WorldPos);
-        float attenuation = 1.0 / (distance * distance);
-        vec3 radiance     = pointLight[i].color.rgb * attenuation * pointLight[i].intensity;
-        
-        // cook-torrance brdf
-        float NDF = DistributionGGX(N, H, roughness_f);        
-        float G   = GeometrySmith(N, V, L, roughness_f);      
-        vec3 F    = fresnelSchlick(max(dot(H, V), 0.0), F0);       
-        
-        vec3 kS = F;
-        vec3 kD = 1.0 - kS;
-        kD *= 1.0 - metallic_f;	  
- 
-        vec3 numerator    = NDF * G * F;
-        float denominator = 4.0 * max(dot(N, V), 0.0) * max(dot(N, L), 0.0);
-        vec3 specular     =  numerator / max(denominator, 0.001);  
-		
-        // add to outgoing radiance Lo
-        float NdotL = max(dot(N, L), 0.0);                
-        Lo += (kD * albedo_color / PI + specular) * radiance * NdotL; 
-    }   
-
+	LightCalculationData lightData;
+	lightData.F0 = F0;
+	lightData.V = V;
+	lightData.N = N;
+	lightData.roughness = roughness_f;
+	lightData.metallic = metallic_f;
+	lightData.albedo = albedo_color;
+	Lo += calculateDirectionalLights(lightData);
+	Lo += calculatePointLights(lightData, o_fragpos);
+	Lo += calculateSpotLights(lightData, o_fragpos);
+    
 	vec3 R = reflect(-V, N);
     vec3 F = fresnelSchlickRoughness(max(dot(N, V), 0.0), F0, roughness_f);
     vec2 envBRDF  = texture(brdfLUT, vec2(max(dot(N, V), 0.0), roughness_f)).rg;
@@ -178,7 +248,7 @@ void main()
 
     vec3 irradiance = textureLod(environment_map,  N * vec3(1,-1,-1), IRRADIANCE_LOD).rgb;
     vec3 diffuse      = irradiance * albedo_color;
-    vec3 ambient_color = (kD * diffuse + specular) * ao_f;
+    vec3 ambient_color = ambient.xyz + (kD * diffuse + specular) * ao_f;
     
     vec3 color = ambient_color + Lo;
 	color = color / (color + vec3(1.0));

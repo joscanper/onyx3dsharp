@@ -8,7 +8,6 @@ namespace Onyx3D
 	
 	public enum LightType
 	{
-		None,
 		Point,
 		Spot,
 		Directional,
@@ -23,8 +22,32 @@ namespace Onyx3D
 
         public override void OnDrawGizmos(GizmosManager gizmos)
         {
-            gizmos.DrawWireSphere(Transform.Position, 0.1f, Color.Xyz, 20);
-        }
+			
+			gizmos.DrawWireSphere(Transform.Position, 0.1f, Color.Xyz, 20);
+
+			if (Type == LightType.Directional)
+			{
+				gizmos.DrawCircle(Transform.Position, 0.1f, Color.Xyz, Transform.Forward);
+				gizmos.DrawLine(Transform.Position + Transform.Right * 0.1f, Transform.Position + Transform.Right * 0.1f + Transform.Forward, Color.Xyz);
+				gizmos.DrawLine(Transform.Position - Transform.Right * 0.1f, Transform.Position - Transform.Right * 0.1f + Transform.Forward, Color.Xyz);
+				gizmos.DrawLine(Transform.Position + Transform.Up * 0.1f, Transform.Position + Transform.Up * 0.1f + Transform.Forward, Color.Xyz);
+				gizmos.DrawLine(Transform.Position - Transform.Up * 0.1f, Transform.Position - Transform.Up * 0.1f + Transform.Forward, Color.Xyz);
+			}
+
+
+			if (Type == LightType.Spot)
+			{
+				float endRadius = 0.5f;
+				
+				gizmos.DrawCircle(Transform.Position + Transform.Forward, endRadius, Color.Xyz, Transform.Forward);
+				
+				gizmos.DrawLine(Transform.Position, Transform.Position + Transform.Right * endRadius + Transform.Forward, Color.Xyz);
+				gizmos.DrawLine(Transform.Position, Transform.Position - Transform.Right * endRadius + Transform.Forward, Color.Xyz);
+				gizmos.DrawLine(Transform.Position, Transform.Position + Transform.Up * endRadius + Transform.Forward, Color.Xyz);
+				gizmos.DrawLine(Transform.Position, Transform.Position - Transform.Up * endRadius + Transform.Forward, Color.Xyz);
+			}
+
+		}
 
 		public override Type GetInspectorType()
 		{
