@@ -247,7 +247,7 @@ namespace Onyx3DEditor
 		private void timer1_Tick(object sender, EventArgs e)
 		{
 			//myTeapot.Transform.Rotate(new Vector3(0, 0.1f, 0));
-			renderCanvas.Refresh();
+			//renderCanvas.Refresh();
 			//mReflectionProbe.Angle += 0.01f;
 		}
 

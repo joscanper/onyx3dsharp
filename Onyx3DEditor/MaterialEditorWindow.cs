@@ -12,16 +12,14 @@ namespace Onyx3DEditor
 
         private bool canDraw = false;
 
-		private Onyx3DInstance myOnyxInstance;
+		//private Onyx3DInstance myOnyxInstance;
 		
-		private Scene mScene;
+		
         private SceneObject mObject;
 		private Material mMaterial;
         private MeshRenderer mRenderer;
-		private Camera mCamera;
-		private GridRenderer mGridRenderer;
         private Shader mTestShader;
-		private ReflectionProbe mReflectionProbe;
+		
 
 		private float mAngle = 0;
 
@@ -33,69 +31,49 @@ namespace Onyx3DEditor
         public MaterialEditorWindow()
         {
             InitializeComponent();
-			InitializeCanvas();
 		}
-
+		private void MaterialEditorWindow_Shown(object sender, System.EventArgs e)
+		{
+			if (!DesignMode)
+			{
+				onyx3DControl.Init();
+				InitScene();
+				InitUI();
+			}
+		}
 
 		private void InitScene()
 		{
-			myOnyxInstance = new Onyx3DInstance();
-			myOnyxInstance.Init();
 
-			//RebuildShader();
-
-			mScene = new Scene();
-			
-			mCamera = new PerspectiveCamera("MainCamera", 1.5f, (float)renderCanvas.Width / (float)renderCanvas.Height);
-			mCamera.Transform.LocalPosition = new Vector3(0, 0.65f, 1.25f);
-			mCamera.Transform.LocalRotation = Quaternion.FromAxisAngle(new Vector3(1, 0, 0), -0.45f);
-			mCamera.Parent = mScene.Root;
-            mScene.ActiveCamera = mCamera;
-
-			SceneObject grid = new SceneObject("Grid");
-			//grid.Parent = mScene.Root;
-
-			mGridRenderer = grid.AddComponent<GridRenderer>();
-			mGridRenderer.GenerateGridMesh(10, 10, 0.25f, 0.25f, Vector3.One);
-			mGridRenderer.Material = myOnyxInstance.Resources.GetMaterial(BuiltInMaterial.Default);
-			
-			SceneObject light = new SceneObject("Light");
-			light.AddComponent<Light>();
-			light.Parent = mScene.Root;
-			light.Transform.LocalPosition = Vector3.One * 5;
-
-            SceneObject test = new SceneObject("LightProbe");
-            test.Parent = mScene.Root;
-            test.Transform.LocalPosition = new Vector3(0, 0, 0);
-            mReflectionProbe = test.AddComponent<ReflectionProbe>();
-            mReflectionProbe.Init(128);
-			
-            float distance = 2;
-            
-            for (double i=0; i < Math.PI*2; i += Math.PI/5)
-            {
-                double x = Math.Cos(i) * distance;
-                double z = Math.Sin(i) * distance;
-                AddPrimitive(BuiltInMesh.Teapot, "Teapot").Transform.LocalPosition = new Vector3((float)x, 0, (float)z);
-            }
-            
-            mReflectionProbe.Bake(myOnyxInstance.Renderer);
-            mReflectionProbe.Bake(myOnyxInstance.Renderer);
-
-            mObject = new SceneObject("BaseObject");
-            mObject.Parent = mScene.Root;
-            mRenderer = mObject.AddComponent<MeshRenderer>();
-            mRenderer.Mesh = myOnyxInstance.Resources.GetMesh(BuiltInMesh.Teapot);
-            Material m = myOnyxInstance.Resources.GetMaterial(BuiltInMaterial.Default);
+			mObject = new SceneObject("BaseObject");
+            mObject.Parent = onyx3DControl.Scene.Root;
+			mObject.Transform.LocalPosition = new Vector3(0, 0.5f, 0);
+			mRenderer = mObject.AddComponent<MeshRenderer>();
+            mRenderer.Mesh = onyx3DControl.OnyxInstance.Resources.GetMesh(BuiltInMesh.Sphere);
+            Material m = onyx3DControl.OnyxInstance.Resources.GetMaterial(BuiltInMaterial.Default);
             SetMaterial(m);
 
-            cubemapViewer1.Init(mReflectionProbe.Cubemap);
-        }
+			onyx3DControl.BakeReflection();
 
-        private SceneObject AddPrimitive(int meshType, string name)
+			SceneObject floor = new SceneObject("Floor");
+			floor.Parent = onyx3DControl.Scene.Root;
+			floor.Transform.LocalPosition = new Vector3(0, 0, 0);
+			floor.Transform.LocalScale = new Vector3(4, 4, 4);
+			MeshRenderer floorMesh = floor.AddComponent<MeshRenderer>();
+			floorMesh.Mesh = onyx3DControl.OnyxInstance.Resources.GetMesh(BuiltInMesh.Quad);
+			floorMesh.Material = onyx3DControl.OnyxInstance.Resources.GetMaterial(BuiltInMaterial.Default);
+
+			onyx3DControl.Camera.Transform.Translate(
+				onyx3DControl.Camera.Transform.Forward * 0.5f  + onyx3DControl.Camera.Transform.Up * 0.25f
+				);
+
+			//cubemapViewer1.Init(mReflectionProbe.Cubemap);
+		}
+
+		private SceneObject AddPrimitive(int meshType, string name)
         {
-            SceneObject primitive = SceneObject.CreatePrimitive(myOnyxInstance.Resources, meshType, name);
-            primitive.Parent = mScene.Root;
+            SceneObject primitive = SceneObject.CreatePrimitive(onyx3DControl.OnyxInstance.Resources, meshType, name);
+            primitive.Parent = onyx3DControl.Scene.Root;
             return primitive;
         }
 
@@ -126,32 +104,7 @@ namespace Onyx3DEditor
 			
 			textBoxLog.Text = Logger.Instance.Content;
 		}
-		
 
-		private void RenderScene()
-		{
-
-            renderCanvas.MakeCurrent();
-
-			mCamera.Update();
-
-            Shader originalShader = mMaterial.Shader;
-            if (mTestShader != null)
-                mMaterial.Shader = mTestShader;
-            
-
-			myOnyxInstance.Renderer.Render(mScene, mCamera, renderCanvas.Width, renderCanvas.Height);
-
-            mMaterial.Shader = originalShader;
-
-
-            if (toolStripButtonGrid.CheckState == CheckState.Checked)
-				mGridRenderer.Render();
-
-			renderCanvas.SwapBuffers();
-		}
-
-	
 		private string SelectMaterialFile()
 		{
 			SaveFileDialog saveFileDialog1 = new SaveFileDialog();
@@ -191,28 +144,6 @@ namespace Onyx3DEditor
 
 		// --------------------------------------------------------------------
 
-
-		#region RenderCanvas callbacks
-
-		private void renderCanvas_Load(object sender, EventArgs e)
-        {
-
-			InitScene();
-			InitUI();
-			canDraw = true;
-
-		}
-
-		private void renderCanvas_Paint(object sender, PaintEventArgs e)
-        {
-			if (!canDraw)
-				return;
-
-			RenderScene();
-        }
-
-		#endregion
-
 		#region UI callbacks
 
 		private void toolStripNewMaterialButton_Click(object sender, EventArgs e)
@@ -240,37 +171,37 @@ namespace Onyx3DEditor
 
 		private void toolStripButtonCube_Click(object sender, EventArgs e)
 		{
-			mRenderer.Mesh = myOnyxInstance.Resources.GetMesh(BuiltInMesh.Cube);
-			renderCanvas.Refresh();
+			mRenderer.Mesh = onyx3DControl.OnyxInstance.Resources.GetMesh(BuiltInMesh.Cube);
+			onyx3DControl.Refresh();
 		}
 
 		private void toolStripButtonSphere_Click(object sender, EventArgs e)
 		{
-			mRenderer.Mesh = myOnyxInstance.Resources.GetMesh(BuiltInMesh.Sphere);
-			renderCanvas.Refresh();
+			mRenderer.Mesh = onyx3DControl.OnyxInstance.Resources.GetMesh(BuiltInMesh.Sphere);
+			onyx3DControl.Refresh();
 		}
 		
 		private void toolStripButtonTorus_Click(object sender, EventArgs e)
 		{
-			mRenderer.Mesh = myOnyxInstance.Resources.GetMesh(BuiltInMesh.Torus);
-			renderCanvas.Refresh();
+			mRenderer.Mesh = onyx3DControl.OnyxInstance.Resources.GetMesh(BuiltInMesh.Torus);
+			onyx3DControl.Refresh();
 		}
 
 		private void toolStripButtonCylinder_Click(object sender, EventArgs e)
 		{
-			mRenderer.Mesh = myOnyxInstance.Resources.GetMesh(BuiltInMesh.Cylinder);
-			renderCanvas.Refresh();
+			mRenderer.Mesh = onyx3DControl.OnyxInstance.Resources.GetMesh(BuiltInMesh.Cylinder);
+			onyx3DControl.Refresh();
 		}
 
 		private void toolStripButtonTeapot_Click(object sender, EventArgs e)
 		{
-			mRenderer.Mesh = myOnyxInstance.Resources.GetMesh(BuiltInMesh.Teapot);
-			renderCanvas.Refresh();
+			mRenderer.Mesh = onyx3DControl.OnyxInstance.Resources.GetMesh(BuiltInMesh.Teapot);
+			onyx3DControl.Refresh();
 		}
 
 		private void materialProperties_Changed(object sender, EventArgs e)
 		{
-			renderCanvas.Refresh();
+			onyx3DControl.Refresh();
 			//UpdateMaterialList(mMaterial.LinkedProjectAsset.Guid);
             toolStripMaterialsComboBox.SelectedItem = ((OnyxProjectMaterialAsset)mMaterial.LinkedProjectAsset).Name;
 		}
@@ -280,20 +211,20 @@ namespace Onyx3DEditor
 		{
 			mAngle+= 0.05f;
 			mObject.Transform.LocalRotation = Quaternion.FromEulerAngles(0, mAngle, 0);
-			renderCanvas.Refresh();
+			onyx3DControl.Refresh();
 		}
 
 		#endregion
 
 		private void toolStripButtonGrid_Click(object sender, EventArgs e)
 		{
-			//mDrawGrid = false;
+			onyx3DControl.DrawGrid = !onyx3DControl.DrawGrid;
 		}
 
 		private void toolStripMaterialsComboBox_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			int id = SelectedMaterial.Guid;
-			SetMaterial(myOnyxInstance.Resources.GetMaterial(id));
+			SetMaterial(onyx3DControl.OnyxInstance.Resources.GetMaterial(id));
 		}
 
 		private void toolStripSaveMaterialButton_Click(object sender, EventArgs e)

@@ -18,10 +18,12 @@ namespace Onyx3DEditor
         public Onyx3DInstance OnyxInstance;
         public Scene Scene;
         public Camera Camera;
+		public bool DrawGrid;
 
         private SceneObject mCamPivot;
 
         private GridRenderer mGridRenderer;
+		private ReflectionProbe mReflectionProbe;
 
         public Onyx3DControl()
         {
@@ -35,8 +37,6 @@ namespace Onyx3DEditor
             OnyxInstance.Init();
 
             InitializeBasicScene();
-
-            renderTimer.Enabled = true;
         }
 
         public void InitializeBasicScene()
@@ -67,10 +67,16 @@ namespace Onyx3DEditor
             SceneObject test = new SceneObject("ReflectionProbe");
             test.Parent = Scene.Root;
             test.Transform.LocalPosition = new Vector3(0, 0, 0);
-            ReflectionProbe mReflectionProbe = test.AddComponent<ReflectionProbe>();
+            mReflectionProbe = test.AddComponent<ReflectionProbe>();
             mReflectionProbe.Init(64);
-            
-        }
+
+			mReflectionProbe.Bake(OnyxInstance.Renderer);
+		}
+
+		public void BakeReflection()
+		{
+			mReflectionProbe.Bake(OnyxInstance.Renderer);
+		}
 
         private void RenderScene()
         {
@@ -80,7 +86,8 @@ namespace Onyx3DEditor
             { 
                 Scene.ActiveCamera.Update();
                 OnyxInstance.Renderer.Render(Scene, Scene.ActiveCamera, renderCanvas.Width, renderCanvas.Height);
-                OnyxInstance.Renderer.Render(mGridRenderer, Scene.ActiveCamera);
+				if (DrawGrid)
+					OnyxInstance.Renderer.Render(mGridRenderer, Scene.ActiveCamera);
             }
 
             renderCanvas.SwapBuffers();
@@ -91,7 +98,10 @@ namespace Onyx3DEditor
             if (!mCanDraw)
                 return;
 
-            RenderScene();
+			//mReflectionProbe.Bake(OnyxInstance.Renderer);
+
+
+			RenderScene();
         }
 
         private void renderCanvas_Load(object sender, EventArgs e)
@@ -99,14 +109,6 @@ namespace Onyx3DEditor
             mCanDraw = (LicenseManager.UsageMode == LicenseUsageMode.Runtime);
             renderCanvas.Refresh();
         }
-
-        private void timer_Tick(object sender, EventArgs e)
-        {
-            if (!mCanDraw)
-                return;
-
-            mCamPivot.Transform.Rotate(new Vector3(0, 0.01f, 0));
-            renderCanvas.Refresh();
-        }
+		
     }
 }

@@ -54,13 +54,8 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.renderTimer = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
-            // 
-            // renderTimer
-            // 
-            this.renderTimer.Interval = 16;
-            this.renderTimer.Tick += new System.EventHandler(this.timer_Tick);
+            
             // 
             // Onyx3DControl
             // 
@@ -75,6 +70,6 @@
         #endregion
 
         private OpenTK.GLControl renderCanvas;
-        private System.Windows.Forms.Timer renderTimer;
+        
     }
 }

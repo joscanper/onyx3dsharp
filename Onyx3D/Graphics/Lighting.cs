@@ -48,7 +48,7 @@ namespace Onyx3D
 		private LightingUBufferData mUBufferData = new LightingUBufferData();
 		private UBO<LightingUBufferData> mLightingUBO;
 
-		public Vector3 Ambient = Vector3.One * 0.15f; 
+		public Vector3 Ambient = Vector3.Zero; 
 
 		public UBO<LightingUBufferData> UBO { get { return mLightingUBO; } }
 
