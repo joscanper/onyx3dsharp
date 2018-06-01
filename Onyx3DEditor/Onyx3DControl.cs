@@ -70,13 +70,6 @@ namespace Onyx3DEditor
             ReflectionProbe mReflectionProbe = test.AddComponent<ReflectionProbe>();
             mReflectionProbe.Init(64);
             
-            SceneObject sky = new SceneObject("test_sky");
-            sky.Transform.LocalScale = new Vector3(-1, 1, 1);
-            MeshRenderer skyR = sky.AddComponent<MeshRenderer>();
-            skyR.Mesh = OnyxInstance.Resources.GetMesh(BuiltInMesh.Sphere);
-            skyR.Material = OnyxInstance.Resources.GetMaterial(BuiltInMaterial.Sky);
-            Scene.Sky = skyR;
-            
         }
 
         private void RenderScene()

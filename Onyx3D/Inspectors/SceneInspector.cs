@@ -28,6 +28,20 @@ namespace Onyx3D
 		}
 
 
+		[Category("Sky")]
+		public Sky.ShadingType Type
+		{
+			get { return mObject.Sky.Type; }
+			set { mObject.Sky.Type = value; }
+		}
+
+		[Category("Sky")]
+		public Color Color
+		{
+			get { return mObject.Sky.Color; }
+			set { mObject.Sky.Color = value; }
+		}
+
 		public override void Apply()
 		{
 			mObject.Lighting.Ambient = new Vector3(ambientColor.R / 255.0f, ambientColor.G / 255.0f, ambientColor.B / 255.0f);
@@ -35,7 +49,7 @@ namespace Onyx3D
 
 		public override int GetFieldCount()
 		{
-			return 2;
+			return 8;
 		}
 	}
 }

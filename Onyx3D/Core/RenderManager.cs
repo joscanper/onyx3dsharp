@@ -50,11 +50,12 @@ namespace Onyx3D
 		{
 			
 			cam.UpdateUBO();
+
 			scene.Lighting.UpdateUBO(scene);
 
 
 			GL.Viewport(0, 0, w, h);
-			GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
+			GL.Clear(ClearBufferMask.DepthBufferBit);
 
 			if (scene.IsDirty)
 			{
@@ -66,17 +67,27 @@ namespace Onyx3D
             }
 			PrepareMaterials(mSceneRenderers, cam.UBO, scene.Lighting.UBO);
 
-            if (scene.Sky != null)
-            {
-                GL.DepthMask(false);
-                Render(scene.Sky, cam);
-                GL.DepthMask(true);
-            }
-
+			RenderSky(scene, cam);
 
             Render(mSceneRenderers);
 
             GL.Flush();
+		}
+
+		private void RenderSky(Scene scene, Camera cam)
+		{
+			scene.Sky.Prepare();
+			if (scene.Sky.Type == Sky.ShadingType.Procedural)
+			{ 
+				GL.DepthMask(false);
+				Render(scene.Sky.SkyMesh, cam);
+				GL.DepthMask(true);
+			}
+			else
+			{
+				GL.ClearColor(scene.Sky.Color);
+				GL.Clear(ClearBufferMask.ColorBufferBit);
+			}
 		}
 
         private void BakeReflectionProbes()

@@ -78,12 +78,14 @@ namespace Onyx3DEditor
 
             // Sky Test
             // TODO - Serialize this into the Scene
-            SceneObject sky = new SceneObject("test_sky");
+			/* 
+		    SceneObject sky = new SceneObject("test_sky");
             sky.Transform.LocalScale = new Vector3(-1, 1, 1);
             skyR = sky.AddComponent<MeshRenderer>();
             skyR.Mesh = mOnyxInstance.Resources.GetMesh(BuiltInMesh.Sphere);
             skyR.Material = mOnyxInstance.Resources.GetMaterial(BuiltInMaterial.Sky);
             mScene.Sky = skyR;
+			*/
         }
 
 		private void OnSelectionChanged(List<SceneObject> selected)

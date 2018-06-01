@@ -116,6 +116,7 @@
     <Compile Include="Graphics\Meshes\MeshUtils.cs" />
     <Compile Include="Graphics\Models\ModelSupportData.cs" />
     <Compile Include="Graphics\ObjLoader.cs" />
+    <Compile Include="Graphics\Sky.cs" />
     <Compile Include="Graphics\Texture.cs" />
     <Compile Include="Graphics\UBO.cs" />
     <Compile Include="Inspectors\Converters\VectorConverter.cs" />

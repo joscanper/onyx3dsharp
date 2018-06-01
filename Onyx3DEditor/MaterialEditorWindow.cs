@@ -69,14 +69,7 @@ namespace Onyx3DEditor
             test.Transform.LocalPosition = new Vector3(0, 0, 0);
             mReflectionProbe = test.AddComponent<ReflectionProbe>();
             mReflectionProbe.Init(128);
-
-            SceneObject sky = new SceneObject("test_sky");
-            sky.Transform.LocalScale = new Vector3(-1, 1, 1);
-            MeshRenderer skyR = sky.AddComponent<MeshRenderer>();
-            skyR.Mesh = myOnyxInstance.Resources.GetMesh(BuiltInMesh.Sphere);
-            skyR.Material = myOnyxInstance.Resources.GetMaterial(BuiltInMaterial.Sky);
-            mScene.Sky = skyR;
-
+			
             float distance = 2;
             
             for (double i=0; i < Math.PI*2; i += Math.PI/5)
