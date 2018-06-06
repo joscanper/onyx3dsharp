@@ -25,7 +25,7 @@ namespace Onyx3DEditor
 
         public OnyxProjectMaterialAsset SelectedMaterial
         {
-            get { return ProjectManager.Instance.Content.Materials[toolStripMaterialsComboBox.SelectedIndex]; }
+            get { return ProjectManager.Instance.Content.Materials[materialViewList1.SelectedIndex]; }
         }
 		
         public MaterialEditorWindow()
@@ -89,8 +89,6 @@ namespace Onyx3DEditor
 		{
 			textBoxVertexCode.Text = mMaterial.Shader.VertexCode;
 			textBoxFragmentCode.Text = mMaterial.Shader.FragmentCode;
-
-			UpdateMaterialList(0);
 		}
 
 		
@@ -129,18 +127,6 @@ namespace Onyx3DEditor
 			return "";
 		}
 
-		private void UpdateMaterialList(int selected)
-		{
-			toolStripMaterialsComboBox.Items.Clear();
-			int i = 0;
-			foreach(OnyxProjectMaterialAsset m in ProjectManager.Instance.Content.Materials)
-			{
-				toolStripMaterialsComboBox.Items.Add(m.Name);
-				if (m.Guid == selected)
-					toolStripMaterialsComboBox.SelectedIndex = i;
-				i++;
-			}
-		}
 
 		// --------------------------------------------------------------------
 
@@ -157,7 +143,7 @@ namespace Onyx3DEditor
             MaterialLoader.Save(material, material.LinkedProjectAsset.Path);
 
 			SetMaterial(material);
-			UpdateMaterialList(material.LinkedProjectAsset.Guid);
+			materialViewList1.UpdateMaterialList(material.LinkedProjectAsset.Guid);
 		}
 
 		private void tabControlMain_SelectedIndexChanged(object sender, EventArgs e)
@@ -203,7 +189,7 @@ namespace Onyx3DEditor
 		{
 			onyx3DControl.Refresh();
 			//UpdateMaterialList(mMaterial.LinkedProjectAsset.Guid);
-            toolStripMaterialsComboBox.SelectedItem = ((OnyxProjectMaterialAsset)mMaterial.LinkedProjectAsset).Name;
+			//materialViewList1.SelectedItem = ((OnyxProjectMaterialAsset)mMaterial.LinkedProjectAsset).Name;
 		}
 
 
@@ -221,7 +207,7 @@ namespace Onyx3DEditor
 			onyx3DControl.DrawGrid = !onyx3DControl.DrawGrid;
 		}
 
-		private void toolStripMaterialsComboBox_SelectedIndexChanged(object sender, EventArgs e)
+		private void materialViewList_SelectedChanged(object sender, EventArgs e)
 		{
 			int id = SelectedMaterial.Guid;
 			SetMaterial(onyx3DControl.OnyxInstance.Resources.GetMaterial(id));
@@ -231,6 +217,7 @@ namespace Onyx3DEditor
 		{
 			MaterialLoader.Save(mMaterial, mMaterial.LinkedProjectAsset.Path);
             MaterialSaved?.Invoke(SelectedMaterial);
+			materialViewList1.UpdateMaterial(SelectedMaterial.Guid);
         }
 
 		private void toolStripDeleteMaterialButton_Click(object sender, EventArgs e)
@@ -242,7 +229,7 @@ namespace Onyx3DEditor
 					if (ProjectManager.Instance.Content.Materials.Remove(SelectedMaterial))
 					{
 						materialPropertiesControl.Clear();
-						UpdateMaterialList(0);
+						materialViewList1.UpdateMaterialList(0);
 					}
 				}
 			}

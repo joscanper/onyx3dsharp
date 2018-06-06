@@ -111,6 +111,11 @@
         <Path>Textures/snow-normal-mapping_640v640.jpg</Path>
         <Guid>2000019</Guid>
       </OnyxProjectAsset>
+      <OnyxProjectAsset>
+        <Dirty>false</Dirty>
+        <Path>Textures/Dirty_gold_01_Normal_preview.jpg</Path>
+        <Guid>2000020</Guid>
+      </OnyxProjectAsset>
     </Textures>
     <Materials>
       <OnyxProjectMaterialAsset>

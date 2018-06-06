@@ -7,7 +7,15 @@ namespace Onyx3D
 {
 	public class Scene : IXmlSerializable
 	{
-	
+		private Onyx3DInstance mContext;
+		public Onyx3DInstance Context
+		{
+			get
+			{
+				return mContext != null ? mContext : Onyx3DEngine.Instance;
+			}
+		}
+
 		public SceneObject Root;
 		public Camera ActiveCamera;
 		public Lighting Lighting = new Lighting();
@@ -17,16 +25,18 @@ namespace Onyx3D
 
 		public bool IsDirty { get; private set; }
 
-		public Scene()
+		public Scene(Onyx3DInstance context = null)
 		{
+			mContext = context;
 			Root = new SceneObject("", this);
 		}
 
-		public void SetDirty(bool value = true)
+		public void SetDirty(bool isDirty = true)
 		{
-			IsDirty = value;
+			IsDirty = isDirty;
 		}
 
+		
 		// ------ Serialization ------
 
 		public XmlSchema GetSchema()

@@ -13,15 +13,14 @@ namespace Onyx3DEditor
 {
     public partial class Onyx3DControl : UserControl
     {
-        private bool mCanDraw;
-
+        
         public Onyx3DInstance OnyxInstance;
         public Scene Scene;
         public Camera Camera;
 		public bool DrawGrid;
 
-        private SceneObject mCamPivot;
-
+		private bool mCanDraw;
+		private SceneObject mCamPivot;
         private GridRenderer mGridRenderer;
 		private ReflectionProbe mReflectionProbe;
 
@@ -42,9 +41,9 @@ namespace Onyx3DEditor
         public void InitializeBasicScene()
         {
             
-            Scene = new Scene();
-
-            Camera = new PerspectiveCamera("MainCamera", 1.5f, (float)renderCanvas.Width / (float)renderCanvas.Height);
+            Scene = new Scene(OnyxInstance);
+			
+			Camera = new PerspectiveCamera("MainCamera", 1.5f, (float)renderCanvas.Width / (float)renderCanvas.Height);
             Camera.Transform.LocalPosition = new Vector3(0, 0.65f, 1.25f);
             Camera.Transform.LocalRotation = OpenTK.Quaternion.FromAxisAngle(new Vector3(1, 0, 0), -0.45f);
             
@@ -60,11 +59,12 @@ namespace Onyx3DEditor
             mGridRenderer.Material = OnyxInstance.Resources.GetMaterial(BuiltInMaterial.UnlitVertexColor);
 
             SceneObject light = new SceneObject("Light");
-            light.AddComponent<Light>();
+			Light lightC = light.AddComponent<Light>();
             light.Parent = Scene.Root;
-            light.Transform.LocalPosition = Vector3.One * 5;
-            
-            SceneObject test = new SceneObject("ReflectionProbe");
+            light.Transform.LocalPosition = new Vector3(1,2,1);
+			lightC.Intensity = 5;
+
+			SceneObject test = new SceneObject("ReflectionProbe");
             test.Parent = Scene.Root;
             test.Transform.LocalPosition = new Vector3(0, 0, 0);
             mReflectionProbe = test.AddComponent<ReflectionProbe>();

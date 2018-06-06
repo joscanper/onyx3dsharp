@@ -24,8 +24,6 @@ namespace Onyx3DEditor
 		ObjectHandler mObjectHandler;
 		OnyxViewerNavigation mNavigation = new OnyxViewerNavigation();
 		
-        MeshRenderer skyR;
-
 
 		public MainWindow()
 		{
@@ -74,18 +72,7 @@ namespace Onyx3DEditor
 			sceneHierarchy.SetScene(mScene);
 			// TODO - This could allocate several times (when changing scene)
 			selectedObjectInspector.OnInspectorChanged += OnInspectorChanged;
-
-
-            // Sky Test
-            // TODO - Serialize this into the Scene
-			/* 
-		    SceneObject sky = new SceneObject("test_sky");
-            sky.Transform.LocalScale = new Vector3(-1, 1, 1);
-            skyR = sky.AddComponent<MeshRenderer>();
-            skyR.Mesh = mOnyxInstance.Resources.GetMesh(BuiltInMesh.Sphere);
-            skyR.Material = mOnyxInstance.Resources.GetMaterial(BuiltInMaterial.Sky);
-            mScene.Sky = skyR;
-			*/
+			
         }
 
 		private void OnSelectionChanged(List<SceneObject> selected)
@@ -439,6 +426,13 @@ namespace Onyx3DEditor
 			obj.Transform.LocalPosition = new Vector3(0, 0, 0);
 			ReflectionProbe mReflectionProbe = obj.AddComponent<ReflectionProbe>();
 			mReflectionProbe.Init(64);
+		}
+
+		private void bakeToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			renderCanvas.MakeCurrent();
+			mOnyxInstance.Renderer.RefreshReflectionProbes();
+			renderCanvas.Refresh();
 		}
 	}
 }

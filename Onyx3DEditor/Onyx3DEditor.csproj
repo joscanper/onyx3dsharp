@@ -86,114 +86,125 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CubemapViewer.cs">
+    <Compile Include="Controls\CubemapViewer.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="CubemapViewer.Designer.cs">
+    <Compile Include="Controls\CubemapViewer.Designer.cs">
       <DependentUpon>CubemapViewer.cs</DependentUpon>
     </Compile>
-    <Compile Include="ModelAssetOperation.cs">
+    <Compile Include="MaterialPreviewRenderer.cs" />
+    <Compile Include="Controls\MaterialViewList.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="ModelAssetOperation.Designer.cs">
+    <Compile Include="Controls\MaterialViewList.Designer.cs">
+      <DependentUpon>MaterialViewList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ModelAssetOperation.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\ModelAssetOperation.Designer.cs">
       <DependentUpon>ModelAssetOperation.cs</DependentUpon>
     </Compile>
-    <Compile Include="ModelImporterWindow.cs">
+    <Compile Include="Windows\ModelImporterWindow.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ModelImporterWindow.Designer.cs">
+    <Compile Include="Windows\ModelImporterWindow.Designer.cs">
       <DependentUpon>ModelImporterWindow.cs</DependentUpon>
     </Compile>
-    <Compile Include="MainWindow.cs">
+    <Compile Include="Windows\MainWindow.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MainWindow.Designer.cs">
+    <Compile Include="Windows\MainWindow.Designer.cs">
       <DependentUpon>MainWindow.cs</DependentUpon>
     </Compile>
-    <Compile Include="MaterialPropertiesControl.cs">
+    <Compile Include="Controls\MaterialPropertiesControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="MaterialPropertiesControl.Designer.cs">
+    <Compile Include="Controls\MaterialPropertiesControl.Designer.cs">
       <DependentUpon>MaterialPropertiesControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="MaterialPropertyControl.cs">
+    <Compile Include="Controls\MaterialPropertyControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="MaterialPropertyControl.Designer.cs">
+    <Compile Include="Controls\MaterialPropertyControl.Designer.cs">
       <DependentUpon>MaterialPropertyControl.cs</DependentUpon>
     </Compile>
     <Compile Include="ObjectHandler.cs" />
-    <Compile Include="Onyx3DControl.cs">
+    <Compile Include="Controls\Onyx3DControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Onyx3DControl.Designer.cs">
+    <Compile Include="Controls\Onyx3DControl.Designer.cs">
       <DependentUpon>Onyx3DControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="PreviewRenderer.cs" />
     <Compile Include="ProjectLoader.cs" />
-    <Compile Include="SceneHierarchyControl.cs">
+    <Compile Include="Controls\SceneHierarchyControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="SceneHierarchyControl.Designer.cs">
+    <Compile Include="Controls\SceneHierarchyControl.Designer.cs">
       <DependentUpon>SceneHierarchyControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="SelectedObjectInspector.cs">
+    <Compile Include="Controls\SelectedObjectInspector.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="SelectedObjectInspector.Designer.cs">
+    <Compile Include="Controls\SelectedObjectInspector.Designer.cs">
       <DependentUpon>SelectedObjectInspector.cs</DependentUpon>
     </Compile>
     <Compile Include="OnyxViewerNavigation.cs" />
-    <Compile Include="MaterialEditorWindow.cs">
+    <Compile Include="Windows\MaterialEditorWindow.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MaterialEditorWindow.Designer.cs">
+    <Compile Include="Windows\MaterialEditorWindow.Designer.cs">
       <DependentUpon>MaterialEditorWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SceneSelectorWindow.cs">
+    <Compile Include="Windows\SceneSelectorWindow.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="SceneSelectorWindow.Designer.cs">
+    <Compile Include="Windows\SceneSelectorWindow.Designer.cs">
       <DependentUpon>SceneSelectorWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="SceneTreeNode.cs" />
     <Compile Include="Selection.cs" />
-    <Compile Include="TextureManagerWindow.cs">
+    <Compile Include="Windows\TextureManagerWindow.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="TextureManagerWindow.Designer.cs">
+    <Compile Include="Windows\TextureManagerWindow.Designer.cs">
       <DependentUpon>TextureManagerWindow.cs</DependentUpon>
     </Compile>
-    <Compile Include="TextureSelectorWindow.cs">
+    <Compile Include="Windows\TextureSelectorWindow.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="TextureSelectorWindow.Designer.cs">
+    <Compile Include="Windows\TextureSelectorWindow.Designer.cs">
       <DependentUpon>TextureSelectorWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="Utils.cs" />
-    <EmbeddedResource Include="CubemapViewer.resx">
+    <EmbeddedResource Include="Controls\CubemapViewer.resx">
       <DependentUpon>CubemapViewer.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MainWindow.resx">
+    <EmbeddedResource Include="Windows\MainWindow.resx">
       <DependentUpon>MainWindow.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MaterialEditorWindow.resx">
+    <EmbeddedResource Include="Windows\MaterialEditorWindow.resx">
       <DependentUpon>MaterialEditorWindow.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MaterialPropertiesControl.resx">
+    <EmbeddedResource Include="Controls\MaterialPropertiesControl.resx">
       <DependentUpon>MaterialPropertiesControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MaterialPropertyControl.resx">
+    <EmbeddedResource Include="Controls\MaterialPropertyControl.resx">
       <DependentUpon>MaterialPropertyControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ModelAssetOperation.resx">
+    <EmbeddedResource Include="Controls\MaterialViewList.resx">
+      <DependentUpon>MaterialViewList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\ModelAssetOperation.resx">
       <DependentUpon>ModelAssetOperation.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ModelImporterWindow.resx">
+    <EmbeddedResource Include="Windows\ModelImporterWindow.resx">
       <DependentUpon>ModelImporterWindow.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Onyx3DControl.resx">
+    <EmbeddedResource Include="Controls\Onyx3DControl.resx">
       <DependentUpon>Onyx3DControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -206,19 +217,19 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="SceneHierarchyControl.resx">
+    <EmbeddedResource Include="Controls\SceneHierarchyControl.resx">
       <DependentUpon>SceneHierarchyControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="SceneSelectorWindow.resx">
+    <EmbeddedResource Include="Windows\SceneSelectorWindow.resx">
       <DependentUpon>SceneSelectorWindow.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="SelectedObjectInspector.resx">
+    <EmbeddedResource Include="Controls\SelectedObjectInspector.resx">
       <DependentUpon>SelectedObjectInspector.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="TextureManagerWindow.resx">
+    <EmbeddedResource Include="Windows\TextureManagerWindow.resx">
       <DependentUpon>TextureManagerWindow.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="TextureSelectorWindow.resx">
+    <EmbeddedResource Include="Windows\TextureSelectorWindow.resx">
       <DependentUpon>TextureSelectorWindow.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="app.config" />

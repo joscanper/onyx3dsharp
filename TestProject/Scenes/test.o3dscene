@@ -8,7 +8,7 @@
       id="Reflection Probe"
       instanceId="1056742835">
       <Transform
-        position="-0.4569289, 0.600695, 0.2391375"
+        position="-1.481206, 0.9605549, 0.5526775"
         rotation="1, 0, 0, 0"
         scale="1, 1, 1" />
       <Component
@@ -21,14 +21,14 @@
       id="Light"
       instanceId="1151164289">
       <Transform
-        position="-0.6938555, 0.1434467, -0.2446911"
-        rotation="1, 0, 0, 0"
+        position="-0.7821541, 0.4952078, -0.584349"
+        rotation="0.9999999, 0, 0, 0.7853983"
         scale="1, 1, 1" />
       <Component
         className="Light">
         <Type>1</Type>
-        <Color>1, 1, 0, 1</Color>
-        <Intensity>1</Intensity>
+        <Color>0.7529412, 0.7529412, 0.7529412, 1</Color>
+        <Intensity>2</Intensity>
       </Component>
     </SceneObject>
     <SceneObject
@@ -87,13 +87,40 @@
       id="Teapot"
       instanceId="45340862">
       <Transform
-        position="-1.466275, 0.222587, 0.5443252"
+        position="-1.466275, 0.222587, 0.6621158"
         rotation="1, 0, 0, 0"
         scale="0.5483724, 0.5483724, 0.5483724" />
       <Component
         className="MeshRenderer">
         <Mesh>100000001</Mesh>
         <Material>4000009</Material>
+      </Component>
+    </SceneObject>
+    <SceneObject
+      id="Sphere"
+      instanceId="587614123">
+      <Transform
+        position="-1.550888, 0.1466005, -0.2033214"
+        rotation="1, 0, 0, 0"
+        scale="0.25, 0.25, 0.25" />
+      <Component
+        className="MeshRenderer">
+        <Mesh>100000002</Mesh>
+        <Material>4000009</Material>
+      </Component>
+    </SceneObject>
+    <SceneObject
+      id="Light"
+      instanceId="32889737">
+      <Transform
+        position="-1.306786, 1.295149, -1.170211"
+        rotation="0.9999999, 0, 0, 0.7853983"
+        scale="1, 1, 1" />
+      <Component
+        className="Light">
+        <Type>1</Type>
+        <Color>0.7529412, 0.7529412, 0.7529412, 1</Color>
+        <Intensity>2</Intensity>
       </Component>
     </SceneObject>
   </Root>

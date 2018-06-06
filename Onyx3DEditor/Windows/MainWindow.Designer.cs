@@ -70,7 +70,10 @@ namespace Onyx3DEditor
 			this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
 			this.duplicateSceneObjectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripDropDownButton2 = new System.Windows.Forms.ToolStripDropDownButton();
+			this.bakeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+			this.sceneHierarchy = new Onyx3DEditor.SceneHierarchyControl();
 			this.toolStripScene = new System.Windows.Forms.ToolStrip();
 			this.toolStripButtonChangeScene = new System.Windows.Forms.ToolStripButton();
 			this.splitContainer2 = new System.Windows.Forms.SplitContainer();
@@ -90,14 +93,11 @@ namespace Onyx3DEditor
 			this.toolStripCreateReflectionProbe = new System.Windows.Forms.ToolStripButton();
 			this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
 			this.toolStripCreateTemplate = new System.Windows.Forms.ToolStripButton();
+			this.selectedObjectInspector = new Onyx3DEditor.SelectedObjectInspector();
 			this.toolStrip3 = new System.Windows.Forms.ToolStrip();
 			this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
 			this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
 			this.timer1 = new System.Windows.Forms.Timer(this.components);
-			this.sceneHierarchy = new Onyx3DEditor.SceneHierarchyControl();
-			this.selectedObjectInspector = new Onyx3DEditor.SelectedObjectInspector();
-			this.toolStripDropDownButton2 = new System.Windows.Forms.ToolStripDropDownButton();
-			this.bakeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStrip1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
 			this.splitContainer1.Panel1.SuspendLayout();
@@ -202,6 +202,24 @@ namespace Onyx3DEditor
 			this.deleteToolStripMenuItem.Text = "Delete";
 			this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
 			// 
+			// toolStripDropDownButton2
+			// 
+			this.toolStripDropDownButton2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			this.toolStripDropDownButton2.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.bakeToolStripMenuItem});
+			this.toolStripDropDownButton2.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButton2.Image")));
+			this.toolStripDropDownButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.toolStripDropDownButton2.Name = "toolStripDropDownButton2";
+			this.toolStripDropDownButton2.Size = new System.Drawing.Size(64, 22);
+			this.toolStripDropDownButton2.Text = "Lighting";
+			// 
+			// bakeToolStripMenuItem
+			// 
+			this.bakeToolStripMenuItem.Name = "bakeToolStripMenuItem";
+			this.bakeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.bakeToolStripMenuItem.Text = "Bake";
+			this.bakeToolStripMenuItem.Click += new System.EventHandler(this.bakeToolStripMenuItem_Click);
+			// 
 			// splitContainer1
 			// 
 			this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -221,6 +239,14 @@ namespace Onyx3DEditor
 			this.splitContainer1.Size = new System.Drawing.Size(979, 520);
 			this.splitContainer1.SplitterDistance = 158;
 			this.splitContainer1.TabIndex = 2;
+			// 
+			// sceneHierarchy
+			// 
+			this.sceneHierarchy.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.sceneHierarchy.Location = new System.Drawing.Point(0, 0);
+			this.sceneHierarchy.Name = "sceneHierarchy";
+			this.sceneHierarchy.Size = new System.Drawing.Size(158, 495);
+			this.sceneHierarchy.TabIndex = 4;
 			// 
 			// toolStripScene
 			// 
@@ -434,6 +460,18 @@ namespace Onyx3DEditor
 			this.toolStripCreateTemplate.Text = "toolStripButton3";
 			this.toolStripCreateTemplate.Click += new System.EventHandler(this.toolStripCreateTemplate_Click);
 			// 
+			// selectedObjectInspector
+			// 
+			this.selectedObjectInspector.AutoScroll = true;
+			this.selectedObjectInspector.AutoSize = true;
+			this.selectedObjectInspector.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.selectedObjectInspector.BackColor = System.Drawing.SystemColors.Control;
+			this.selectedObjectInspector.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.selectedObjectInspector.Location = new System.Drawing.Point(0, 0);
+			this.selectedObjectInspector.Name = "selectedObjectInspector";
+			this.selectedObjectInspector.Size = new System.Drawing.Size(192, 520);
+			this.selectedObjectInspector.TabIndex = 0;
+			// 
 			// toolStrip3
 			// 
 			this.toolStrip3.Dock = System.Windows.Forms.DockStyle.Left;
@@ -472,43 +510,6 @@ namespace Onyx3DEditor
 			this.timer1.Enabled = true;
 			this.timer1.Interval = 14;
 			this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
-			// 
-			// sceneHierarchy
-			// 
-			this.sceneHierarchy.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.sceneHierarchy.Location = new System.Drawing.Point(0, 0);
-			this.sceneHierarchy.Name = "sceneHierarchy";
-			this.sceneHierarchy.Size = new System.Drawing.Size(158, 495);
-			this.sceneHierarchy.TabIndex = 4;
-			// 
-			// selectedObjectInspector
-			// 
-			this.selectedObjectInspector.AutoScroll = true;
-			this.selectedObjectInspector.AutoSize = true;
-			this.selectedObjectInspector.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.selectedObjectInspector.BackColor = System.Drawing.SystemColors.Control;
-			this.selectedObjectInspector.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.selectedObjectInspector.Location = new System.Drawing.Point(0, 0);
-			this.selectedObjectInspector.Name = "selectedObjectInspector";
-			this.selectedObjectInspector.Size = new System.Drawing.Size(192, 520);
-			this.selectedObjectInspector.TabIndex = 0;
-			// 
-			// toolStripDropDownButton2
-			// 
-			this.toolStripDropDownButton2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-			this.toolStripDropDownButton2.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.bakeToolStripMenuItem});
-			this.toolStripDropDownButton2.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButton2.Image")));
-			this.toolStripDropDownButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.toolStripDropDownButton2.Name = "toolStripDropDownButton2";
-			this.toolStripDropDownButton2.Size = new System.Drawing.Size(64, 22);
-			this.toolStripDropDownButton2.Text = "Lighting";
-			// 
-			// bakeToolStripMenuItem
-			// 
-			this.bakeToolStripMenuItem.Name = "bakeToolStripMenuItem";
-			this.bakeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-			this.bakeToolStripMenuItem.Text = "Bake";
 			// 
 			// MainWindow
 			// 

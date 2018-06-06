@@ -63,7 +63,7 @@ namespace Onyx3D
                 mSceneRenderers = scene.Root.GetComponentsInChildren<MeshRenderer>();
 				mReflectionProbes = scene.Root.GetComponentsInChildren<ReflectionProbe>();
 
-                BakeReflectionProbes();
+                BakeReflectionProbes(false);
             }
 			PrepareMaterials(mSceneRenderers, cam.UBO, scene.Lighting.UBO);
 
@@ -76,7 +76,8 @@ namespace Onyx3D
 
 		private void RenderSky(Scene scene, Camera cam)
 		{
-			scene.Sky.Prepare();
+			scene.Sky.Prepare(scene.Context);
+
 			if (scene.Sky.Type == Sky.ShadingType.Procedural)
 			{ 
 				GL.DepthMask(false);
@@ -90,11 +91,11 @@ namespace Onyx3D
 			}
 		}
 
-        private void BakeReflectionProbes()
+        private void BakeReflectionProbes(bool forced)
         {
             for(int i = 0; i < mReflectionProbes.Count; i++)
             {
-                if (!mReflectionProbes[i].IsBaked)
+                if (!mReflectionProbes[i].IsBaked || forced)
                 {
 
                     mReflectionProbes[i].Bake(this);
@@ -159,6 +160,11 @@ namespace Onyx3D
 		{
 			r.Material.Shader.BindUBO(cam.UBO);
             r.Render();
+		}
+
+		public void RefreshReflectionProbes()
+		{
+			BakeReflectionProbes(true);
 		}
 	}
 }
