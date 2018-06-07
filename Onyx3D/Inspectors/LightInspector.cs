@@ -8,11 +8,9 @@ namespace Onyx3D
 {
 	public class LightInspector : Inspector<Light>
 	{
-		Color lightColor;
 		
 		public LightInspector(Light light) : base(light)
 		{
-			lightColor = Color.FromArgb((int)(light.Color.X * 255), (int)(light.Color.Y * 255), (int)(light.Color.Z * 255));
 		}
 
 
@@ -23,12 +21,11 @@ namespace Onyx3D
 			set { mObject.Type = value; }
 		}
 
-
 		[Category("Light")]
 		public Color Color
 		{
-			get { return lightColor; }
-			set { lightColor = value; }
+			get { return mObject.Color.ToColor(); }
+			set { mObject.Color = value.ToVector(); }
 		}
 
 		[Category("Light")]
@@ -41,7 +38,6 @@ namespace Onyx3D
 
 		public override void Apply()
 		{
-			mObject.Color = new Vector4(lightColor.R / 255.0f, lightColor.G / 255.0f, lightColor.B / 255.0f, 1.0f);
 		}
 
 		public override int GetFieldCount()

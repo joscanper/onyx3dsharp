@@ -87,8 +87,9 @@
     <Compile Include="Components\QuadRenderer.cs" />
     <Compile Include="Components\ReflectionProbe.cs" />
     <Compile Include="Core\EngineComponent.cs" />
+    <Compile Include="Core\Extensions\ColorExtension.cs" />
     <Compile Include="Core\Extensions\QuaternionExtension.cs" />
-    <Compile Include="Core\Extensions\Vector3Extension.cs" />
+    <Compile Include="Core\Extensions\VectorExtension.cs" />
     <Compile Include="Core\Onyx3DInstance.cs" />
     <Compile Include="Core\SceneManager.cs" />
     <Compile Include="Core\Template.cs" />

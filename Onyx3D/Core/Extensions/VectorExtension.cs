@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using OpenTK;
 
 public static class Vector3Extension
@@ -23,5 +24,25 @@ public static class Vector3Extension
 		}
 		return angle;
 	}
+
+	public static Color ToColor(this Vector3 v)
+	{
+		return Color.FromArgb((int)(v.X * 255.0f), (int)(v.Y * 255.0f), (int)(v.Z * 255.0f));
+	}
 }
 
+public static class Vector4Extension
+{
+
+	public static float SqrDistance(this Vector4 v1, Vector4 v2)
+	{
+		Vector4 dir = v1 - v2;
+		return dir.LengthSquared;
+	}
+
+	public static Color ToColor(this Vector4 v)
+	{
+		return Color.FromArgb((int)(v.W * 255.0f), (int)(v.X * 255.0f), (int)(v.Y * 255.0f), (int)(v.Z * 255.0f));
+	}
+
+}

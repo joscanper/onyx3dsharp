@@ -97,10 +97,14 @@ namespace Onyx3DEditor
 		{
 			ColorDialog colorPicker = new ColorDialog();
 			colorPicker.SolidColorOnly = false;
+			colorPicker.FullOpen = true;
+			Vector4 currentColor = (Vector4)mProperty.Data;
+			colorPicker.Color = currentColor.ToColor();
+
 			if (colorPicker.ShowDialog() == DialogResult.OK)
 			{
 				Color c = colorPicker.Color;
-				mProperty.Data = new Vector4(c.R / 255.0f, c.G / 255.0f, c.B / 255.0f, c.A / 255.0f);
+				mProperty.Data = c.ToVector();
 
 				PictureBox cb = (PictureBox)mPropertyControl;
 				cb.BackColor = c;
