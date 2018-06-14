@@ -37,6 +37,7 @@
 			this.label2 = new System.Windows.Forms.Label();
 			this.label3 = new System.Windows.Forms.Label();
 			this.label4 = new System.Windows.Forms.Label();
+			this.buttonEditMaterial = new System.Windows.Forms.Button();
 			((System.ComponentModel.ISupportInitialize)(this.materialPreviewPictureBox)).BeginInit();
 			this.groupBox1.SuspendLayout();
 			this.tableLayoutPanel1.SuspendLayout();
@@ -63,6 +64,7 @@
 			// 
 			// groupBox1
 			// 
+			this.groupBox1.Controls.Add(this.buttonEditMaterial);
 			this.groupBox1.Controls.Add(this.tableLayoutPanel1);
 			this.groupBox1.Controls.Add(this.materialPreviewPictureBox);
 			this.groupBox1.Location = new System.Drawing.Point(4, 68);
@@ -147,6 +149,16 @@
 			this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.label4.Visible = false;
 			// 
+			// buttonEditMaterial
+			// 
+			this.buttonEditMaterial.BackgroundImage = global::Onyx3DEditor.Properties.Resources.stock_3d_texture_and_shading;
+			this.buttonEditMaterial.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+			this.buttonEditMaterial.Location = new System.Drawing.Point(8, 21);
+			this.buttonEditMaterial.Name = "buttonEditMaterial";
+			this.buttonEditMaterial.Size = new System.Drawing.Size(23, 23);
+			this.buttonEditMaterial.TabIndex = 3;
+			this.buttonEditMaterial.UseVisualStyleBackColor = true;
+			// 
 			// MeshRendererInspectorControl
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -177,5 +189,6 @@
 		private System.Windows.Forms.Label label2;
 		private System.Windows.Forms.Label label3;
 		private System.Windows.Forms.Label label4;
+		private System.Windows.Forms.Button buttonEditMaterial;
 	}
 }

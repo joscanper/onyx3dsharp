@@ -8,7 +8,7 @@ namespace Onyx3DEditor
 	{
 		void Apply();
 
-		int GetFieldCount();
+		int GetInspectorHeight();
 	}
 
 	public class PropertyInspector<T> : IPropertyInspector
@@ -28,7 +28,7 @@ namespace Onyx3DEditor
 
 		public virtual void Apply() {}
 
-		public virtual int GetFieldCount() { return 5; }
+		public virtual int GetInspectorHeight() { return 10; }
 	}
 
 }

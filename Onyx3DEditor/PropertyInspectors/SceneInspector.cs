@@ -47,9 +47,9 @@ namespace Onyx3DEditor
 			mObject.Lighting.Ambient = new Vector3(ambientColor.R / 255.0f, ambientColor.G / 255.0f, ambientColor.B / 255.0f);
 		}
 
-		public override int GetFieldCount()
+		public override int GetInspectorHeight()
 		{
-			return 8;
+			return 100;
 		}
 	}
 }

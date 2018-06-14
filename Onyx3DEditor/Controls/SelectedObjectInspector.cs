@@ -42,34 +42,36 @@ namespace Onyx3DEditor
 			tableLayoutPanel.Controls.Add(textBoxName, 0, 0);
 
             if (obj.GetType() == typeof(TemplateProxy))
-                CreatePropertyInspector(new TemplateProxyInspector((TemplateProxy)obj), 50);
+                CreatePropertyInspector(new TemplateProxyInspector((TemplateProxy)obj));
 
             // Transform inspector
-            PropertyGrid transformInspector = CreatePropertyInspector(new TransformInspector(obj.Transform), 70);
+            PropertyGrid transformInspector = CreatePropertyInspector(new TransformInspector(obj.Transform));
 			tableLayoutPanel.Controls.Add(transformInspector);
-
-			//tableLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, propGrid.Size.Height));
-
 
 			obj.ForEachComponent((c) =>
 			{
 				Type inspectorType = mInspectors[c.GetType()];
 				if (inspectorType != null)
 				{
-					InspectorControl inspector = (InspectorControl)Activator.CreateInstance(inspectorType, c);
-					Control control;
+					
+					object objectToInspect = Activator.CreateInstance(inspectorType, c);
+					InspectorControl inspectorControl = null;
+					if (objectToInspect is InspectorControl)
+						inspectorControl = (InspectorControl)Activator.CreateInstance(inspectorType, c);
 
-					if (inspector == null)
+					Control control;
+					if (inspectorControl == null && objectToInspect is IPropertyInspector)
 					{
-						control = CreatePropertyInspector(c, 50);
+						control = CreatePropertyInspector((IPropertyInspector)objectToInspect);
 					}
 					else
 					{
-						control = (Control)inspector;
-						inspector.InspectorChanged += OnObjectInspectorChanged;
+						control = inspectorControl;
+						inspectorControl.InspectorChanged += OnObjectInspectorChanged;
 					}
 
-					tableLayoutPanel.Controls.Add(control);
+					if (control != null)
+						tableLayoutPanel.Controls.Add(control);
 				}
 			});
 
@@ -85,11 +87,11 @@ namespace Onyx3DEditor
 			textBoxName.Text = "SCENE NAME HERE!";
 			tableLayoutPanel.Controls.Add(textBoxName, 0, 0);
 
-			PropertyGrid sceneInspector = CreatePropertyInspector(new SceneInspector(scene), 100);
+			PropertyGrid sceneInspector = CreatePropertyInspector(new SceneInspector(scene));
 			tableLayoutPanel.Controls.Add(sceneInspector);
 		}
 
-		private PropertyGrid CreatePropertyInspector(object obj, int height)
+		private PropertyGrid CreatePropertyInspector(IPropertyInspector obj)
 		{
 			PropertyGrid propGrid = new PropertyGrid();
 			propGrid.SelectedObject = obj;
@@ -97,7 +99,7 @@ namespace Onyx3DEditor
 			propGrid.HelpVisible = false;
 			propGrid.Width = this.Width;
 			propGrid.ToolbarVisible = false;
-			propGrid.Height = height;
+			propGrid.Height = obj.GetInspectorHeight();
 			return propGrid;
 		}
 		

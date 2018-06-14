@@ -47,5 +47,10 @@ namespace Onyx3DEditor
 			mObject.LocalRotation = mObject.LocalRotation.FromDegEulerAngles(Rotation.Object);
 		}
 
+		public override int GetInspectorHeight()
+		{
+			return 70;
+		}
+
 	}
 }
