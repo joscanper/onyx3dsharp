@@ -121,14 +121,14 @@
   <data name="light-bulb" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\light-bulb.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="bullet" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\bullet.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="stock_draw-sphere (1)" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\stock_draw-sphere (1).png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="if_folder-open_21164" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\if_folder-open_21164.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="trash" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\trash.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="if_move_118639" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\if_move_118639.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -163,11 +163,17 @@
   <data name="if_shape_square_16447" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\if_shape_square_16447.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="if_stock_draw-cube_21540" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\if_stock_draw-cube_21540.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="if_stock_draw-sphere-16_94068" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\if_stock_draw-sphere-16_94068.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="stock_draw-torus" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\stock_draw-torus.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="if_stock_draw-cube_21540" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\if_stock_draw-cube_21540.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="trash" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\trash.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="if_stock_draw-cylinder_21550" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\if_stock_draw-cylinder_21550.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -181,7 +187,7 @@
   <data name="if_teapot_93284" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\if_teapot_93284.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="if_stock_draw-sphere-16_94068" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\if_stock_draw-sphere-16_94068.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="toggle_plus" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\toggle_plus.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

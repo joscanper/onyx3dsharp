@@ -86,11 +86,33 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Attributes\ComponentInspector.cs" />
     <Compile Include="Controls\CubemapViewer.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Controls\CubemapViewer.Designer.cs">
       <DependentUpon>CubemapViewer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Inspector\InspectorControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Inspector\InspectorControl.Designer.cs">
+      <DependentUpon>InspectorControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Inspector\AssetField.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Inspector\AssetField.Designer.cs">
+      <DependentUpon>AssetField.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Inspector\MeshRendererInspectorControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Inspector\MeshRendererInspectorControl.Designer.cs">
+      <DependentUpon>MeshRendererInspectorControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="IAssetSelector.cs">
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="MaterialPreviewRenderer.cs" />
     <Compile Include="Controls\MaterialViewList.cs">
@@ -105,6 +127,12 @@
     <Compile Include="Controls\ModelAssetOperation.Designer.cs">
       <DependentUpon>ModelAssetOperation.cs</DependentUpon>
     </Compile>
+    <Compile Include="PropertyInspectors\Converters\VectorConverter.cs" />
+    <Compile Include="PropertyInspectors\PropertyInspector.cs" />
+    <Compile Include="PropertyInspectors\SceneInspector.cs" />
+    <Compile Include="PropertyInspectors\TemplateProxyInspector.cs" />
+    <Compile Include="PropertyInspectors\TransformInspector.cs" />
+    <Compile Include="PropertyInspectors\Vector3Inspector.cs" />
     <Compile Include="Windows\ModelImporterWindow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -173,6 +201,12 @@
     <Compile Include="Windows\TextureManagerWindow.Designer.cs">
       <DependentUpon>TextureManagerWindow.cs</DependentUpon>
     </Compile>
+    <Compile Include="Windows\MaterialSelectorWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Windows\MaterialSelectorWindow.Designer.cs">
+      <DependentUpon>MaterialSelectorWindow.cs</DependentUpon>
+    </Compile>
     <Compile Include="Windows\TextureSelectorWindow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -182,6 +216,12 @@
     <Compile Include="Utils.cs" />
     <EmbeddedResource Include="Controls\CubemapViewer.resx">
       <DependentUpon>CubemapViewer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\Inspector\AssetField.resx">
+      <DependentUpon>AssetField.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\Inspector\MeshRendererInspectorControl.resx">
+      <DependentUpon>MeshRendererInspectorControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Windows\MainWindow.resx">
       <DependentUpon>MainWindow.cs</DependentUpon>
@@ -228,6 +268,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Windows\TextureManagerWindow.resx">
       <DependentUpon>TextureManagerWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Windows\MaterialSelectorWindow.resx">
+      <DependentUpon>MaterialSelectorWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Windows\TextureSelectorWindow.resx">
       <DependentUpon>TextureSelectorWindow.cs</DependentUpon>
@@ -323,6 +366,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\if_stock_draw-sphere-16_94068.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bullet.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\toggle_plus.gif" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\AssimpNet.3.3.2\build\AssimpNet.targets" Condition="Exists('..\packages\AssimpNet.3.3.2\build\AssimpNet.targets')" />

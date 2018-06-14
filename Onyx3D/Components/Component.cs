@@ -39,9 +39,7 @@ namespace Onyx3D
 		public virtual void OnDirtyTransform() { }
 
         public virtual void OnDrawGizmos(GizmosManager gizmos) { }
-
-		public virtual Type GetInspectorType() { return null; }
-
+		
         public Component Clone()
         {
             return (Component)this.MemberwiseClone();

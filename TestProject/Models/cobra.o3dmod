@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ModelSupportData xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<ModelSupportData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <ModelFile>Models/cobra.obj</ModelFile>
   <Meshes>
+    <int>1000004</int>
+    <int>1000005</int>
     <int>1000006</int>
     <int>1000007</int>
     <int>1000008</int>
-    <int>1000009</int>
-    <int>1000010</int>
   </Meshes>
   <Textures />
   <Materials>

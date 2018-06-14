@@ -1,11 +1,11 @@
-﻿using OpenTK;
+﻿
 using Onyx3D;
-using System;
+using Onyx3DEditor.Controls;
 using System.ComponentModel;
 
-namespace Onyx3D
+namespace Onyx3DEditor
 {
-	public class TransformInspector  : Inspector<Transform>
+	public class TransformInspector  : PropertyInspector<Transform>
 	{
 		Vector3Inspector position;
 		Vector3Inspector scale;
@@ -19,17 +19,13 @@ namespace Onyx3D
 			
 		}
 		
-		
-
 		[Category("Transform")]
-		[TypeConverter(typeof(Vector3Converter))]
 		public Vector3Inspector Position {
 			get { return position; }
 			set { position = value; }
 		}
 
 		[Category("Transform")]
-		[TypeConverter(typeof(Vector3Converter))]
 		public Vector3Inspector Scale
 		{
 			get { return scale; }
@@ -37,7 +33,6 @@ namespace Onyx3D
 		}
 
 		[Category("Transform")]
-		[TypeConverter(typeof(Vector3Converter))]
 		public Vector3Inspector Rotation
 		{
 			get { return rotation; }
@@ -52,9 +47,5 @@ namespace Onyx3D
 			mObject.LocalRotation = mObject.LocalRotation.FromDegEulerAngles(Rotation.Object);
 		}
 
-		public override int GetFieldCount()
-		{
-			return 4;
-		}
 	}
 }

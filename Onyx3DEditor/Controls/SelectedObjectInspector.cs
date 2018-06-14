@@ -1,30 +1,40 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 using Onyx3D;
+using Onyx3DEditor.Controls;
+using System.Reflection;
 
 namespace Onyx3DEditor
 {
 	public partial class SelectedObjectInspector : UserControl
 	{
-		public Action OnInspectorChanged;
+		public EventHandler InspectorChanged;
+		private Dictionary<Type, Type> mInspectors = new Dictionary<Type, Type>();
 		
 		public SelectedObjectInspector()
 		{
 			InitializeComponent();
+			RegisterInspectors(this.GetType().Assembly);
+		}
+
+		private void RegisterInspectors(Assembly assembly)
+		{
+			foreach (Type type in assembly.GetTypes())
+			{
+				object[] props = type.GetCustomAttributes(typeof(ComponentInspector), true);
+				if (props.Length > 0)
+				{
+					ComponentInspector inspectorAtt = (ComponentInspector)props[0];
+					mInspectors[inspectorAtt.ComponentType] = type;	
+				}
+			}
 		}
 
 		public void Fill(SceneObject obj)
 		{
-
 			Clear();
-
 
 			// Name
 			textBoxName.Visible = true;
@@ -32,22 +42,34 @@ namespace Onyx3DEditor
 			tableLayoutPanel.Controls.Add(textBoxName, 0, 0);
 
             if (obj.GetType() == typeof(TemplateProxy))
-                AddInspector(new TemplateProxyInspector((TemplateProxy)obj));
+                CreatePropertyInspector(new TemplateProxyInspector((TemplateProxy)obj), 50);
 
             // Transform inspector
-            AddInspector(new TransformInspector(obj.Transform));
+            PropertyGrid transformInspector = CreatePropertyInspector(new TransformInspector(obj.Transform), 70);
+			tableLayoutPanel.Controls.Add(transformInspector);
 
-            
-            //tableLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, propGrid.Size.Height));
+			//tableLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, propGrid.Size.Height));
 
 
-            obj.ForEachComponent((c) =>
+			obj.ForEachComponent((c) =>
 			{
-				Type inspectorType = c.GetInspectorType();
+				Type inspectorType = mInspectors[c.GetType()];
 				if (inspectorType != null)
 				{
-					IInspector inspector = (IInspector)Activator.CreateInstance(inspectorType, c);
-					AddInspector(inspector);
+					InspectorControl inspector = (InspectorControl)Activator.CreateInstance(inspectorType, c);
+					Control control;
+
+					if (inspector == null)
+					{
+						control = CreatePropertyInspector(c, 50);
+					}
+					else
+					{
+						control = (Control)inspector;
+						inspector.InspectorChanged += OnObjectInspectorChanged;
+					}
+
+					tableLayoutPanel.Controls.Add(control);
 				}
 			});
 
@@ -63,20 +85,20 @@ namespace Onyx3DEditor
 			textBoxName.Text = "SCENE NAME HERE!";
 			tableLayoutPanel.Controls.Add(textBoxName, 0, 0);
 
-			AddInspector(new SceneInspector(scene));
+			PropertyGrid sceneInspector = CreatePropertyInspector(new SceneInspector(scene), 100);
+			tableLayoutPanel.Controls.Add(sceneInspector);
 		}
 
-		private void AddInspector(IInspector inspector)
+		private PropertyGrid CreatePropertyInspector(object obj, int height)
 		{
 			PropertyGrid propGrid = new PropertyGrid();
-			propGrid.SelectedObject = inspector;
-			propGrid.PropertyValueChanged += OnObjectInspectorChanged;
+			propGrid.SelectedObject = obj;
+			propGrid.PropertyValueChanged += OnObjectPropertyInspectorChanged;
 			propGrid.HelpVisible = false;
 			propGrid.Width = this.Width;
 			propGrid.ToolbarVisible = false;
-			propGrid.Height = inspector.GetFieldCount() * 20;
-
-			tableLayoutPanel.Controls.Add(propGrid);
+			propGrid.Height = height;
+			return propGrid;
 		}
 		
 		public void Clear()
@@ -86,21 +108,27 @@ namespace Onyx3DEditor
 			tableLayoutPanel.RowStyles.Clear();
 
 			textBoxName.Visible = false;
+
 		}
 
-		private void OnObjectInspectorChanged(object s, PropertyValueChangedEventArgs e)
+		private void OnObjectInspectorChanged(object s, EventArgs e)
+		{
+			InspectorChanged?.Invoke(this, e);
+		}
+
+		private void OnObjectPropertyInspectorChanged(object s, PropertyValueChangedEventArgs e)
 		{
 			PropertyGrid propGrid = s as PropertyGrid;
-			IInspector inspector = propGrid.SelectedObject as IInspector;
+			IPropertyInspector inspector = propGrid.SelectedObject as IPropertyInspector;
 			propGrid.Refresh();
 			inspector.Apply();
-			OnInspectorChanged();
+			InspectorChanged?.Invoke(this, e);
 		}
 
 		private void textBoxName_TextChanged(object sender, EventArgs e)
 		{
 			Selection.ActiveObject.Id = textBoxName.Text;
-			OnInspectorChanged();
+			InspectorChanged?.Invoke(this, e);
 		}
 	}
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
@@ -15,6 +16,8 @@ namespace Onyx3DEditor
 		private static readonly int mPreviewSize = 80;
 		private MaterialPreviewRenderer mPreview;
 		private int mSelectedIndex;
+
+		private List<OnyxProjectMaterialAsset> mMaterials = new List<OnyxProjectMaterialAsset>();
 
 
 		public int SelectedIndex
@@ -33,6 +36,11 @@ namespace Onyx3DEditor
 				mSelectedIndex = value;
 			}
 		}
+
+		public OnyxProjectMaterialAsset SelectedMaterial
+		{
+			get { return mMaterials[SelectedIndex]; }
+		}
 		
 		public MaterialViewList()
 		{
@@ -41,6 +49,8 @@ namespace Onyx3DEditor
 		
 		public void UpdateMaterialList(int selectedGuid)
 		{
+			mMaterials.Clear();
+
 			listViewMaterials.Items.Clear();
 			listViewMaterials.SelectedIndices.Clear();
 			listViewMaterials.LargeImageList = new ImageList();
@@ -60,6 +70,8 @@ namespace Onyx3DEditor
 				if (t.Guid == selectedGuid)
 					listViewMaterials.SelectedIndices.Add(i);
 
+				mMaterials.Add(t);
+
 				i++;
 			}
 		}
@@ -70,7 +82,7 @@ namespace Onyx3DEditor
 			mPreview.SetMaterial(guid);
 			mPreview.Render();
 			Bitmap preview = mPreview.AsBitmap();
-			preview.RotateFlip(RotateFlipType.RotateNoneFlipY);
+			
 			
 			return preview;
 		}

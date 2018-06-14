@@ -4,9 +4,9 @@ using System;
 using System.ComponentModel;
 using System.Drawing;
 
-namespace Onyx3D
+namespace Onyx3DEditor
 {
-	public class SceneInspector : Inspector<Scene>
+	public class SceneInspector : PropertyInspector<Scene>
 	{
 		Color ambientColor;
 

@@ -95,7 +95,9 @@ namespace Onyx3DEditor
 
 		public Bitmap AsBitmap()
 		{
-			return mFrameBuffer.Texture.AsBitmap();
+			Bitmap bitmap = mFrameBuffer.Texture.AsBitmap();
+			bitmap.RotateFlip(RotateFlipType.RotateNoneFlipY);
+			return bitmap;
 		}
 	}
 }

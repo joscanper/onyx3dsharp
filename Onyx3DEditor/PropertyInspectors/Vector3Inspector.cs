@@ -1,9 +1,11 @@
 ﻿using OpenTK;
 
-namespace Onyx3D
-{ 
+using System.ComponentModel;
 
-	public class Vector3Inspector : Inspector<Vector3>
+namespace Onyx3DEditor
+{
+	[TypeConverter(typeof(Vector3Converter))]
+	public class Vector3Inspector : PropertyInspector<Vector3>
 	{
 
 		public Vector3Inspector(Vector3 v) : base(v) { }

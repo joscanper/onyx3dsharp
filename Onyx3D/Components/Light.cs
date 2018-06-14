@@ -48,12 +48,7 @@ namespace Onyx3D
 			}
 
 		}
-
-		public override Type GetInspectorType()
-		{
-			return typeof(LightInspector);
-		}
-
+		
 		// ---- Serialization ----
 
 		public override void ReadComponentXmlNode(XmlReader reader)

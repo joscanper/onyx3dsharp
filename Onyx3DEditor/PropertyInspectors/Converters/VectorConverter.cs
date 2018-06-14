@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
-using System.Linq;
-using System.Text;
+
 
 using OpenTK;
 
-namespace Onyx3D
+namespace Onyx3DEditor
 {
 	public class Vector3Converter : TypeConverter
 	{
@@ -57,5 +55,6 @@ namespace Onyx3D
 			props.Add(TypeDescriptor.GetProperties(value, attributes).Find("Z", true));
 			return TypeDescriptor.GetProperties(value, attributes);
 		}
+
 	}
 }

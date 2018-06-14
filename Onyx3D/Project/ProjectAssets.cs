@@ -63,12 +63,13 @@ namespace Onyx3D
         }
 
 		public string Path;
-
 		public int Guid;
+		public string Name;
+
 
 		public OnyxProjectAsset() { }
 
-		public OnyxProjectAsset(string path, int guid = 0)
+		public OnyxProjectAsset(string path, int guid = 0, string name = "")
 		{
 			Path = path;
 			Guid = guid;
@@ -94,25 +95,18 @@ namespace Onyx3D
 	[Serializable]
 	public class OnyxProjectSceneAsset : OnyxProjectAsset
 	{
-		public string Name;
-
+		
 		public OnyxProjectSceneAsset() { }
-		public OnyxProjectSceneAsset(string path, string name = "", int guid = 0) : base(path, guid)
-		{
-			Name = name;
-		}
+		public OnyxProjectSceneAsset(string path, string name = "", int guid = 0) : base(path, guid, name) { }
+	
 	};
 
 	[Serializable]
 	public class OnyxProjectMaterialAsset : OnyxProjectAsset
 	{
-		public string Name;
-
 		public OnyxProjectMaterialAsset() { }
-		public OnyxProjectMaterialAsset(string path, string name = "", int guid = 0) : base(path, guid)
-		{
-			Name = name;
-		}
+		public OnyxProjectMaterialAsset(string path, string name = "", int guid = 0) : base(path, guid, name) { }
+		
 
     };
 

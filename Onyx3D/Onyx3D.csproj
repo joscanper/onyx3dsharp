@@ -120,14 +120,6 @@
     <Compile Include="Graphics\Sky.cs" />
     <Compile Include="Graphics\Texture.cs" />
     <Compile Include="Graphics\UBO.cs" />
-    <Compile Include="Inspectors\Converters\VectorConverter.cs" />
-    <Compile Include="Inspectors\Inspector.cs" />
-    <Compile Include="Inspectors\LightInspector.cs" />
-    <Compile Include="Inspectors\MeshRendererInspector.cs" />
-    <Compile Include="Inspectors\SceneInspector.cs" />
-    <Compile Include="Inspectors\TemplateProxyInspector.cs" />
-    <Compile Include="Inspectors\TransformInspector.cs" />
-    <Compile Include="Inspectors\Vector3Inspector.cs" />
     <Compile Include="Loaders\MaterialLoader.cs" />
     <Compile Include="Loaders\TemplateLoader.cs" />
     <Compile Include="Physics\Physics.cs" />

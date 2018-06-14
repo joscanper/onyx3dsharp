@@ -83,13 +83,7 @@ namespace Onyx3D
 
 			Bounds = bounds;
 		}
-
-        public override Type GetInspectorType()
-        {
-            return typeof(MeshRendererInspector);
-        }
-
-
+	
         // ------ Serialization ------
 
         public override void ReadComponentXmlNode(XmlReader reader)

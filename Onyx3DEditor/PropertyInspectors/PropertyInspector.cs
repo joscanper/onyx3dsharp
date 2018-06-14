@@ -1,17 +1,17 @@
 ﻿
 using System.ComponentModel;
 
-namespace Onyx3D
+namespace Onyx3DEditor
 {
 
-	public interface IInspector
+	public interface IPropertyInspector
 	{
 		void Apply();
 
 		int GetFieldCount();
 	}
 
-	public class Inspector<T> : IInspector
+	public class PropertyInspector<T> : IPropertyInspector
 	{
 		protected T mObject;
 
@@ -21,7 +21,7 @@ namespace Onyx3D
 			get { return mObject; }
 		}
 
-		public Inspector(T obj)
+		public PropertyInspector(T obj)
 		{
 			mObject = obj;
 		}

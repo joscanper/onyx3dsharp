@@ -71,7 +71,7 @@ namespace Onyx3DEditor
 
 			sceneHierarchy.SetScene(mScene);
 			// TODO - This could allocate several times (when changing scene)
-			selectedObjectInspector.OnInspectorChanged += OnInspectorChanged;
+			selectedObjectInspector.InspectorChanged += OnInspectorChanged;
 			
         }
 
@@ -93,7 +93,7 @@ namespace Onyx3DEditor
 			RenderScene();
 		}
 
-		private void OnInspectorChanged()
+		private void OnInspectorChanged(object sender, EventArgs args)
 		{
 			RenderScene();
 		}

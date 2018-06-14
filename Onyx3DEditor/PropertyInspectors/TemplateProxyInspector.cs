@@ -1,9 +1,10 @@
 ﻿
+using Onyx3D;
 using System.ComponentModel;
 
-namespace Onyx3D
+namespace Onyx3DEditor
 {
-    public class TemplateProxyInspector : Inspector<TemplateProxy>
+    public class TemplateProxyInspector : PropertyInspector<TemplateProxy>
     {
         public TemplateProxyInspector(TemplateProxy obj) : base(obj)
         {
