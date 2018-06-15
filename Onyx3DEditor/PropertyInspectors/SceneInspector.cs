@@ -42,6 +42,13 @@ namespace Onyx3DEditor
 			set { mObject.Sky.Color = value; }
 		}
 
+		[Category("Sky")]
+		public float Time
+		{
+			get { return mObject.Sky.Time; }
+			set { mObject.Sky.Time = value; }
+		}
+
 		public override void Apply()
 		{
 			mObject.Lighting.Ambient = new Vector3(ambientColor.R / 255.0f, ambientColor.G / 255.0f, ambientColor.B / 255.0f);

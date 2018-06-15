@@ -128,6 +128,7 @@
       <DependentUpon>ModelAssetOperation.cs</DependentUpon>
     </Compile>
     <Compile Include="PropertyInspectors\Converters\VectorConverter.cs" />
+    <Compile Include="PropertyInspectors\LightInspector.cs" />
     <Compile Include="PropertyInspectors\PropertyInspector.cs" />
     <Compile Include="PropertyInspectors\SceneInspector.cs" />
     <Compile Include="PropertyInspectors\TemplateProxyInspector.cs" />

@@ -209,6 +209,26 @@ vec3 calculatePointLights(LightCalculationData lightData, vec3 worldPos)
 }
 
 
+vec3 _Uncharted(vec3 x)
+{
+  const float A = 0.15;
+  const float B = 0.50;
+  const float C = 0.10;
+  const float D = 0.20;
+  const float E = 0.02;
+  const float F = 0.30;
+  const float W = 11.2;
+  return ((x*(A*x+C*B)+D*E)/(x*(A*x+B)+D*F))-E/F;
+}
+
+vec3 Uncharted(vec3 color)
+{
+  const float W = 11.2;
+  const float ExposureBias = 5.0f;
+  return _Uncharted(ExposureBias*color) / _Uncharted(vec3(W));
+}
+
+
 void main()
 {		
 	vec3 albedo_color = (texture(albedo, o_uv) * base_color).rgb;
@@ -250,9 +270,7 @@ void main()
     vec3 diffuse      = irradiance * albedo_color;
     vec3 ambient_color = ambient.xyz + (kD * diffuse + specular) * ao_f;
     
-    vec3 color = ambient_color + Lo;
-	color = color / (color + vec3(1.0));
-    color = pow(color, vec3(1.0/2.2));  
+    vec3 color = ambient_color + Lo;  
    
-    fragColor = vec4(color, 1.0);
+    fragColor = vec4(Uncharted(color), 1.0);
 }  

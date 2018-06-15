@@ -1,12 +1,22 @@
 ﻿
 using OpenTK;
 using System.Drawing;
+using System.Runtime.InteropServices;
 
 namespace Onyx3D
 {
-	
+
+	[StructLayout(LayoutKind.Sequential)]
+	public struct SkyUBufferData
+	{
+		public float Time;
+	}
+
 	public class Sky
 	{
+		private SkyUBufferData mUBufferData = new SkyUBufferData();
+		private UBO<SkyUBufferData> mSkyUBO;
+
 		public enum ShadingType
 		{
 			SolidColor,
@@ -15,9 +25,15 @@ namespace Onyx3D
 
 		public ShadingType Type = ShadingType.Procedural;
 		public Color Color = Color.SlateGray;
-		public float Time = 0.5f;
+		public float Time = 0.25f;
 
 		public MeshRenderer SkyMesh;
+
+
+		public Sky()
+		{
+			mSkyUBO = new UBO<SkyUBufferData>(mUBufferData, "SkyData");
+		}
 
 		public void Prepare(Onyx3DInstance context)
 		{
@@ -32,13 +48,22 @@ namespace Onyx3D
 					SkyMesh.Material = context.Resources.GetMaterial(BuiltInMaterial.Sky);
 				}
 
-				// TODO - Set material properties;
+				UpdateUBO();
+				SkyMesh.Material.Shader.BindUBO(mSkyUBO);
 			}
 			else if (SkyMesh != null)
 			{
 				SkyMesh.SceneObject.Destroy();
 				SkyMesh = null;
 			}
+
+			
+		}
+
+		public void UpdateUBO()
+		{
+			mUBufferData.Time = Time;
+			mSkyUBO.Update(mUBufferData);
 		}
 	}
 }

@@ -6,13 +6,21 @@ in vec3 o_fragpos;
 in vec3 o_normal;
 in vec2 o_uv;
 
+float PI = 3.14159265359;
+float sunThreshold = 0.9995;
+float sunIntensity = 2000;
+
 layout(std140) uniform CameraData { 
 	mat4 V; 
 	mat4 P; 
 	vec4 cameraPos; 
 };
 
-vec3 sunDir = vec3(0.5,2,0.5);
+layout(std140) uniform SkyData { 
+	float dayTime;
+};
+
+//vec3 sunDir = vec3(0.5,2,0.5);
 
 const vec3 dayGrad[3] = vec3[3](
                                 vec3(0.81,0.86,0.96),
@@ -34,8 +42,32 @@ const vec3 nightGrad[3] = vec3[3](
                                 vec3(0.00,0.06,0.13)
                                 );
 
+								
+
+vec3 _Uncharted(vec3 x)
+{
+  const float A = 0.15;
+  const float B = 0.50;
+  const float C = 0.10;
+  const float D = 0.20;
+  const float E = 0.02;
+  const float F = 0.30;
+  const float W = 11.2;
+  return ((x*(A*x+C*B)+D*E)/(x*(A*x+B)+D*F))-E/F;
+}
+
+vec3 Uncharted(vec3 color)
+{
+  const float W = 11.2;
+  const float ExposureBias = 5.0f;
+  return _Uncharted(ExposureBias*color) / _Uncharted(vec3(W));
+}
+
 void main()
 {
+	
+	float radians = dayTime * PI / 0.5f;
+	vec3 sunDir = vec3(cos(radians), sin(radians), 0);
     
     
     //dayTime = 0;
@@ -62,27 +94,23 @@ void main()
     vec3 dirToSun = normalize(sunDir);
     vec3 dirToFrag = normalize(o_fragpos);
     float FdotS = max(dot(dirToSun, dirToFrag),0);
-    float dayTime = dot(vec3(0,1,0), dirToSun);
+    float fixedDayTime = dot(vec3(0,1,0), dirToSun);
     
     float sunHeight = clamp(1-dot(dirToSun, vec3(0,1,0)),0,1);
     float fragHeight = clamp(1-dot(dirToFrag, vec3(0,1,0)),0,1);
     float UPdotS = pow(fragHeight * sunHeight,30);
     
-    float fixedDayTime = pow(dayTime,0.8);
-    if (dayTime > 0)
-        col = mix(sunsetcol, daycol, fixedDayTime);
+    if (dayTime < 1)
+		col = mix(sunsetcol, daycol, fixedDayTime);
     else
-        col = mix(sunsetcol, nightcol, fixedDayTime);
+        col = mix(sunsetcol, nightcol, pow(fixedDayTime, 0.5f));
     
     col = mix(col, pow(col,vec3(0.7)), max(FdotS,0));
     col = mix(col, col+FdotS/1.5, pow(FdotS,350) + UPdotS * pow(FdotS,10));
     
-    //col = vec3(UPdotS,0,0);
-    if (FdotS > 0.9995)
-        col = vec3(1,1,1);
-    
-	col = col / (col + vec3(1.0));
-    col = pow(col, vec3(1.0/2.2));  
+   // col = vec3(UPdotS,0,0);
+    if (FdotS > sunThreshold)
+        col += (FdotS - sunThreshold) * sunIntensity;
    
-    outColor = vec4(col,1);//vec4(0,0,1,1);
+    outColor = vec4(Uncharted(col),1);
 }
