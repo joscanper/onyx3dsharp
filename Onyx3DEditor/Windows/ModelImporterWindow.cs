@@ -26,8 +26,11 @@ namespace Onyx3DEditor
 
         private void ModelImporterWindow_Shown(object sender, System.EventArgs e)
         {
-            if (!DesignMode)
-                onyx3DControl.Init();
+			if (!DesignMode)
+			{
+				onyx3DControl.Init();
+				onyx3DControl.DrawGrid = true;
+			}
         }
 
         private void buttonOpen_Click(object sender, System.EventArgs e)
@@ -72,7 +75,11 @@ namespace Onyx3DEditor
             float scale = ModelScale / bounds.Size.Length;
             mPreview.Transform.LocalScale = Vector3.One * scale;
             mPreview.Parent = onyx3DControl.Scene.Root;
-        }
+
+			sceneHierarchyControl1.SetObject(mPreview);
+
+			onyx3DControl.Refresh();
+		}
 
 		private void buttonImport_Click(object sender, System.EventArgs e)
 		{
@@ -92,6 +99,8 @@ namespace Onyx3DEditor
             ModelSupportDataLoader.Save(mSupportFile);
 
             ImportTemplate();
+
+			ProjectLoader.Save();
         }
 
         
@@ -108,7 +117,8 @@ namespace Onyx3DEditor
                     MeshRenderer meshRenderer = mySceneObject.AddComponent<MeshRenderer>();
                     if (preview)
                     {
-                        meshRenderer.Mesh = mCurrentModel.Meshes[node.MeshIndices[i]].ToOnyx3D();
+						mCurrentModel.Meshes[node.MeshIndices[i]].Name = node.Name;
+						meshRenderer.Mesh = mCurrentModel.Meshes[node.MeshIndices[i]].ToOnyx3D();
                         meshRenderer.Material = new DefaultMaterial();
                     }else
                     {
@@ -173,7 +183,7 @@ namespace Onyx3DEditor
 				ImportMaterialTextures(directoryPath, mCurrentModel.Materials[i], onyxMaterial);
 
 				string newMaterialPath = Path.Combine(directoryPath, mCurrentModel.Materials[i].Name + ".o3mat");
-				MaterialLoader.Save(onyxMaterial, newMaterialPath, false);
+				AssetLoader<Onyx3D.Material>.Save(onyxMaterial, newMaterialPath, false);
 				OnyxProjectAsset asset = ProjectManager.Instance.Content.AddMaterial(newMaterialPath, false, onyxMaterial);
 
                 // TODO - Check asset operation
@@ -190,7 +200,10 @@ namespace Onyx3DEditor
             for (int i=0; i<mCurrentModel.MeshCount; ++i)
 			{
 				Onyx3D.Mesh onyxMesh = mCurrentModel.Meshes[i].ToOnyx3D();
-                OnyxProjectAsset asset = ProjectManager.Instance.Content.AddMesh(mSupportFile.FilePath, true, onyxMesh, true);
+				
+				string meshPath = Path.GetDirectoryName(mSupportFile.FilePath) + "/" + mCurrentModel.Meshes[i].Name + ".o3dmesh";
+				AssetLoader<Onyx3D.Mesh>.Save(onyxMesh, meshPath, true);
+				OnyxProjectAsset asset = ProjectManager.Instance.Content.AddMesh(meshPath, true, onyxMesh);
                 mLoadedMeshes[i] = asset.Guid;
 
                 // TODO - Check asset operation

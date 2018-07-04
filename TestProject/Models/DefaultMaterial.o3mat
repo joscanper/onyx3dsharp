@@ -28,7 +28,7 @@
   <Property
     id="normal"
     type="sampler2d"
-    value="200000003"
+    value="200000004"
     index="4" />
   <Property
     id="metallic_strength"

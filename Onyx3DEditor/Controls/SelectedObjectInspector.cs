@@ -39,7 +39,7 @@ namespace Onyx3DEditor
 			// Name
 			textBoxName.Visible = true;
 			textBoxName.Text = obj.Id;
-			tableLayoutPanel.Controls.Add(textBoxName, 0, 0);
+			//tableLayoutPanel.Controls.Add(textBoxName, 0, 0);
 
             if (obj.GetType() == typeof(TemplateProxy))
                 CreatePropertyInspector(new TemplateProxyInspector((TemplateProxy)obj));
@@ -50,6 +50,9 @@ namespace Onyx3DEditor
 
 			obj.ForEachComponent((c) =>
 			{
+				if (!mInspectors.ContainsKey(c.GetType()))
+					return;
+
 				Type inspectorType = mInspectors[c.GetType()];
 				if (inspectorType != null)
 				{
@@ -85,7 +88,7 @@ namespace Onyx3DEditor
 			// Name
 			textBoxName.Visible = true;
 			textBoxName.Text = "SCENE NAME HERE!";
-			tableLayoutPanel.Controls.Add(textBoxName, 0, 0);
+			//tableLayoutPanel.Controls.Add(textBoxName, 0, 0);
 
 			PropertyGrid sceneInspector = CreatePropertyInspector(new SceneInspector(scene));
 			tableLayoutPanel.Controls.Add(sceneInspector);
@@ -105,6 +108,12 @@ namespace Onyx3DEditor
 		
 		public void Clear()
 		{
+			while (tableLayoutPanel.Controls.Count > 0)
+			{
+				Control c = tableLayoutPanel.Controls[0];
+				c.Dispose();
+			}
+
 			tableLayoutPanel.Controls.Clear();
 			tableLayoutPanel.RowCount = 2;
 			tableLayoutPanel.RowStyles.Clear();
@@ -129,8 +138,12 @@ namespace Onyx3DEditor
 
 		private void textBoxName_TextChanged(object sender, EventArgs e)
 		{
+			if (Selection.ActiveObject == null)
+				return;
+
 			Selection.ActiveObject.Id = textBoxName.Text;
 			InspectorChanged?.Invoke(this, e);
 		}
+
 	}
 }

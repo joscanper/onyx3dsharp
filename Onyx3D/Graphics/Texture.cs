@@ -9,7 +9,7 @@ using System.Drawing.Imaging;
 
 namespace Onyx3D
 {
-	public class Texture : GameAsset
+	public class Texture : GameAsset, IDisposable
 	{
 		private string mPath;
 		private int mId;
@@ -44,7 +44,6 @@ namespace Onyx3D
 			GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
 			GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)TextureWrapMode.Repeat);
 			GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)TextureWrapMode.Repeat);
-
 		}
 
 		public Texture(string file)
@@ -84,6 +83,11 @@ namespace Onyx3D
 			
 			bitmap.UnlockBits(bits);
 			return bitmap;
+		}
+
+		public void Dispose()
+		{
+			GL.DeleteTexture(mId);
 		}
 	}
 }

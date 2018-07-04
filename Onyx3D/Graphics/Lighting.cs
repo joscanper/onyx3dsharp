@@ -43,7 +43,7 @@ namespace Onyx3D
 	}
 
 
-	public class Lighting : IXmlSerializable
+	public class Lighting : IXmlSerializable, IDisposable
 	{
 		private LightingUBufferData mUBufferData = new LightingUBufferData();
 		private UBO<LightingUBufferData> mLightingUBO;
@@ -117,6 +117,12 @@ namespace Onyx3D
 			// TODO - Add more things
 
 			return data;
+		}
+
+		public void Dispose()
+		{
+			mLightingUBO.Dispose();
+			mLightingUBO = null;
 		}
 
 

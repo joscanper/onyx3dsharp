@@ -24,6 +24,8 @@ namespace Onyx3DEditor
         private GridRenderer mGridRenderer;
 		private ReflectionProbe mReflectionProbe;
 
+		public GLControl RenderCanvas { get { return renderCanvas; } }
+
         public Onyx3DControl()
         {
             InitializeCanvas();
@@ -33,8 +35,6 @@ namespace Onyx3DEditor
         public void Init()
         {
             OnyxInstance = new Onyx3DInstance();
-            OnyxInstance.Init();
-
             InitializeBasicScene();
         }
 

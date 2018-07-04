@@ -27,6 +27,16 @@ namespace Onyx3DEditor
             UpdateScene();
         }
 
+		public void SetObject(SceneObject obj)
+		{
+			mScene = null;
+			treeViewScene.Nodes.Clear();
+			TreeNode root = new TreeNode(obj.Id);
+			AddSceneObjectToTreeNode(root, obj, true);
+			treeViewScene.Nodes.Add(root);
+			treeViewScene.ExpandAll();
+		}
+
 		public void UpdateScene()
 		{
 			treeViewScene.Nodes.Clear();

@@ -140,7 +140,7 @@ namespace Onyx3DEditor
 				return;
 
 			ProjectManager.Instance.Content.AddMaterial(matPath, false, material);
-            MaterialLoader.Save(material, material.LinkedProjectAsset.Path);
+			AssetLoader<Material>.Save(material, material.LinkedProjectAsset.Path);
 
 			SetMaterial(material);
 			materialViewList1.UpdateMaterialList(material.LinkedProjectAsset.Guid);
@@ -215,7 +215,7 @@ namespace Onyx3DEditor
 
 		private void toolStripSaveMaterialButton_Click(object sender, EventArgs e)
 		{
-			MaterialLoader.Save(mMaterial, mMaterial.LinkedProjectAsset.Path);
+			AssetLoader<Material>.Save(mMaterial, mMaterial.LinkedProjectAsset.Path);
             MaterialSaved?.Invoke(SelectedMaterial);
 			materialViewList1.UpdateMaterial(SelectedMaterial.Guid);
         }

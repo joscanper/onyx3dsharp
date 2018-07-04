@@ -7,12 +7,14 @@ namespace Onyx3DEditor.Controls.Inspector
 	public partial class MeshRendererInspectorControl : InspectorControl
 	{
 		MeshRenderer mRenderer;
-		MaterialPreviewRenderer mPreview;
+		SingleMeshPreviewRenderer mPreview;
 
 		public MeshRendererInspectorControl(MeshRenderer renderer)
 		{
 			mRenderer = renderer;
 			InitializeComponent();
+
+			meshAssetField.AssetChanged += new EventHandler(OnMeshSelected);
 			materialAssetField.AssetChanged += new EventHandler(OnMaterialSelected);
 		}
 
@@ -24,12 +26,13 @@ namespace Onyx3DEditor.Controls.Inspector
 
 		private void UpdateMaterial()
 		{
+			meshAssetField.Fill<MeshSelectorWindow>("Mesh", mRenderer.Mesh);
 			materialAssetField.Fill<MaterialSelectorWindow>("Material", mRenderer.Material);
 			
 
 			if (mPreview == null) { 
-				mPreview = new MaterialPreviewRenderer();
-				mPreview.Init(materialPreviewPictureBox.Width, materialPreviewPictureBox.Height);
+				mPreview = new SingleMeshPreviewRenderer();
+				mPreview.Init(materialPreviewPictureBox.Width, materialPreviewPictureBox.Height, this.Handle);
 			}
 			mPreview.SetMaterial(mRenderer.Material.LinkedProjectAsset.Guid);
 			mPreview.Render();
@@ -44,9 +47,23 @@ namespace Onyx3DEditor.Controls.Inspector
 			InspectorChanged?.Invoke(this, e);
 		}
 
+		private void OnMeshSelected(object sender, EventArgs e)
+		{
+			mRenderer.Mesh = Onyx3DEngine.Instance.Resources.GetMesh(meshAssetField.SelectedAssetGuid);
+			InspectorChanged?.Invoke(this, e);
+		}
+
 		private void materialPreviewPictureBox_Click(object sender, EventArgs e)
 		{
 			materialAssetField.SearchAsset();
+		}
+
+		protected override void OnHandleDestroyed(EventArgs e)
+		{
+			base.OnHandleDestroyed(e);
+
+			mPreview.Dispose();
+			mPreview = null;
 		}
 	}
 }

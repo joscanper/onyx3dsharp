@@ -6,6 +6,9 @@ using System.Runtime.InteropServices;
 
 using OpenTK;
 using OpenTK.Graphics.OpenGL4;
+using System.Xml.Serialization;
+using System.Xml.Schema;
+using System.Xml;
 
 namespace Onyx3D
 {
@@ -38,7 +41,7 @@ namespace Onyx3D
 	}
 
 	[Serializable]
-	public class Mesh : GameAsset
+	public class Mesh : GameAsset, IXmlSerializable
 	{
 		
         private int mVertexArrayObject;
@@ -153,6 +156,80 @@ namespace Onyx3D
 				bbox.Encapsulate(v.Position);
 			
 			return bbox;
+		}
+
+
+		// ------ Serialization ------
+
+
+		public XmlSchema GetSchema()
+		{
+			throw new NotImplementedException();
+		}
+
+		public void ReadXml(XmlReader reader)
+		{
+			Vertices.Clear();
+			List<int> indices = new List<int>();
+			while (reader.Read())
+			{
+				switch (reader.NodeType)
+				{
+					case XmlNodeType.Element:
+						if (reader.Name == "Vertex")
+						{
+							Vertex v = new Vertex();
+							v.Position = XmlUtils.StringToVector3(reader.GetAttribute("position"));
+							v.Normal = XmlUtils.StringToVector3(reader.GetAttribute("normal"));
+							v.Tangent = XmlUtils.StringToVector3(reader.GetAttribute("tangent"));
+							v.Color = XmlUtils.StringToVector3(reader.GetAttribute("color"));
+							v.TexCoord = XmlUtils.StringToVector2(reader.GetAttribute("texcoord"));
+							Vertices.Add(v);
+						}
+						if (reader.Name == "Index")
+						{
+							int index = Convert.ToInt32(reader.GetAttribute("i"));
+							indices.Add(index);
+						}
+						break;
+				}
+			}
+			Indices = indices.ToArray();
+		}
+
+		public void WriteXml(XmlWriter writer)
+		{
+			writer.WriteStartElement("Mesh");
+
+			writer.WriteStartElement("Vertices");
+
+			foreach (Vertex v in Vertices)
+			{
+				writer.WriteStartElement("Vertex");
+
+				writer.WriteAttributeString("position", XmlUtils.Vector3ToString(v.Position));
+				writer.WriteAttributeString("normal", XmlUtils.Vector3ToString(v.Normal));
+				writer.WriteAttributeString("texcoord", XmlUtils.Vector2ToString(v.TexCoord));
+				writer.WriteAttributeString("color", XmlUtils.Vector3ToString(v.Color));
+				writer.WriteAttributeString("tangent", XmlUtils.Vector3ToString(v.Tangent));
+
+				writer.WriteEndElement();
+			}
+
+			writer.WriteEndElement();
+
+			writer.WriteStartElement("Indices");
+
+			foreach (int i in Indices)
+			{
+				writer.WriteStartElement("Index");
+				writer.WriteAttributeString("i", i.ToString());
+				writer.WriteEndElement();
+			}
+
+			writer.WriteEndElement();
+
+			writer.WriteEndElement();
 		}
 	}
 

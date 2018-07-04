@@ -40,8 +40,7 @@ namespace Onyx3DEditor
 		private void InitScene()
 		{
 			mOnyxInstance = Onyx3DEngine.Instance;
-			mOnyxInstance.Init();
-
+			
 			
 			mSceneAsset = ProjectManager.Instance.Content.GetInitScene();
 			if (mSceneAsset == null)
@@ -50,7 +49,7 @@ namespace Onyx3DEditor
 			}
 			else
 			{
-				mScene = SceneLoader.Load(ProjectContent.GetAbsolutePath(mSceneAsset.Path));
+				mScene = AssetLoader<Scene>.Load(ProjectContent.GetAbsolutePath(mSceneAsset.Path), mOnyxInstance);
 			}
 
 			// Test objects
@@ -142,7 +141,7 @@ namespace Onyx3DEditor
 
 				if (saveFileDialog1.ShowDialog() == DialogResult.OK)
 				{
-					SceneLoader.Save(mScene, saveFileDialog1.FileName);
+					AssetLoader<Scene>.Save(mScene, saveFileDialog1.FileName);
 					try
 					{
 						mSceneAsset = new OnyxProjectSceneAsset(saveFileDialog1.FileName);
@@ -158,7 +157,7 @@ namespace Onyx3DEditor
 			}
 			else
 			{
-				SceneLoader.Save(mScene, ProjectContent.GetAbsolutePath(mSceneAsset.Path));
+				AssetLoader<Scene>.Save(mScene, mSceneAsset.Path);
 			}
 		}
 
@@ -310,7 +309,7 @@ namespace Onyx3DEditor
 				{
 					if ((myStream = openFileDialog1.OpenFile()) != null)
 					{
-						mScene = SceneLoader.Load(openFileDialog1.FileName);
+						mScene = AssetLoader<Scene>.Load(openFileDialog1.FileName);
 						renderCanvas.Refresh();
 					}
 				}

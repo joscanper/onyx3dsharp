@@ -11,26 +11,27 @@ namespace Onyx3D
 {
 	public class UBO
 	{
+		protected static Queue<int> mAvailableBindingPoints = new Queue<int>();
+		protected static int mLastGeneratedBindingPoint;
+
 		protected int mUniformBufferObject;
 		protected int mBindingPoint;
 		protected string mBlockName;
 
 		public string BlockName { get { return mBlockName; } }
 		public int BindingPoint { get { return mBindingPoint; } }
-
-		public static int CurrentBindingPoint;
 	}
 
-	public class UBO<T> : UBO
+	public class UBO<T> : UBO, IDisposable
 	{
+
 	
 		public UBO(T data, string blockName)
 		{
-			CurrentBindingPoint++;
 
 			GL.GenBuffers(1, out mUniformBufferObject);
 			mBlockName = blockName;
-			mBindingPoint = CurrentBindingPoint;
+			mBindingPoint = GetBindingPoint();
 			// Fill the buffer with data at the chosen binding point
 			GL.BindBufferBase(BufferRangeTarget.UniformBuffer, mBindingPoint, mUniformBufferObject);
 
@@ -42,18 +43,32 @@ namespace Onyx3D
 
 			Marshal.FreeHGlobal(pnt);
 		}
+
+		private int GetBindingPoint()
+		{
+			if (mAvailableBindingPoints.Any())
+				return mAvailableBindingPoints.Dequeue();
+			else
+				return ++mLastGeneratedBindingPoint;
+		}
 		
 		public void Update(T data)
 		{
 			int dataSize = Marshal.SizeOf(data);
 			IntPtr pnt = Marshal.AllocHGlobal(dataSize);
 			Marshal.StructureToPtr(data, pnt, false);
-
+			
 			GL.BindBuffer(BufferTarget.UniformBuffer, mUniformBufferObject);
 			GL.BufferSubData(BufferTarget.UniformBuffer, (IntPtr)0, dataSize, pnt);
 			Marshal.FreeHGlobal(pnt);
 			GL.UnmapBuffer(BufferTarget.UniformBuffer);
 		}
-		
+	
+		public void Dispose()
+		{
+			
+			mAvailableBindingPoints.Enqueue(mBindingPoint);
+			GL.DeleteBuffer(mUniformBufferObject);
+		}
 	}
 }

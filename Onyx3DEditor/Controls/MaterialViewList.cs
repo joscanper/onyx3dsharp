@@ -14,7 +14,7 @@ namespace Onyx3DEditor
 		public event EventHandler SelectedChanged;
 
 		private static readonly int mPreviewSize = 80;
-		private MaterialPreviewRenderer mPreview;
+		private SingleMeshPreviewRenderer mPreview;
 		private int mSelectedIndex;
 
 		private List<OnyxProjectMaterialAsset> mMaterials = new List<OnyxProjectMaterialAsset>();
@@ -92,8 +92,8 @@ namespace Onyx3DEditor
 		
 			if (!DesignMode)
 			{
-				mPreview = new MaterialPreviewRenderer();
-				mPreview.Init(mPreviewSize, mPreviewSize);
+				mPreview = new SingleMeshPreviewRenderer();
+				mPreview.Init(mPreviewSize, mPreviewSize, this.Handle);
 				mPreview.Render();
 				UpdateMaterialList(0);
 			}
@@ -131,6 +131,15 @@ namespace Onyx3DEditor
 
 				i++;
 			}
+		}
+
+
+		protected override void OnHandleDestroyed(EventArgs e)
+		{
+			base.OnHandleDestroyed(e);
+
+			mPreview.Dispose();
+			mPreview = null;
 		}
 	}
 }

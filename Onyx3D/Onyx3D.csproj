@@ -120,7 +120,7 @@
     <Compile Include="Graphics\Sky.cs" />
     <Compile Include="Graphics\Texture.cs" />
     <Compile Include="Graphics\UBO.cs" />
-    <Compile Include="Loaders\MaterialLoader.cs" />
+    <Compile Include="Loaders\AssetLoader.cs" />
     <Compile Include="Loaders\TemplateLoader.cs" />
     <Compile Include="Physics\Physics.cs" />
     <Compile Include="Physics\RaycastHit.cs" />
@@ -141,7 +141,6 @@
     <Compile Include="Scene\Axis.cs" />
     <Compile Include="Scene\Camera.cs" />
     <Compile Include="Scene\Scene.cs" />
-    <Compile Include="Loaders\SceneLoader.cs" />
     <Compile Include="Scene\SceneObject.cs" />
     <Compile Include="Core\Logger.cs" />
     <Compile Include="Graphics\Material.cs" />

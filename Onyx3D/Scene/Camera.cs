@@ -72,7 +72,14 @@ namespace Onyx3D
 
         public abstract Ray ViewportPointToRay(Vector2 viewportPoint);
 
-    }
+		public override void Dispose()
+		{
+			base.Dispose();
+
+			mCameraUBO.Dispose();
+			mCameraUBO = null;
+		}
+	}
 
 
 	[Serializable]

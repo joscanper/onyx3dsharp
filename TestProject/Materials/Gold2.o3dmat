@@ -33,7 +33,7 @@
   <Property
     id="metallic_strength"
     type="float"
-    value="1" />
+    value="1.3" />
   <Property
     id="roughness_strength"
     type="float"
@@ -45,7 +45,7 @@
   <Property
     id="environment_map"
     type="samplerCube"
-    value="64"
+    value="72"
     index="5" />
   <Property
     id="brdfLUT"

@@ -62,7 +62,7 @@ namespace Onyx3DEditor
 					if ((myStream = openFileDialog1.OpenFile()) != null)
 					{
 						string path = openFileDialog1.FileName;
-						Scene scene = SceneLoader.Load(path);
+						Scene scene = AssetLoader<Scene>.Load(path);
 
 						OnyxProjectSceneAsset asset = new OnyxProjectSceneAsset(path, Path.GetFileName(path), 0);
 						ProjectManager.Instance.Content.Scenes.Add(asset);

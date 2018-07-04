@@ -111,10 +111,16 @@
     <Compile Include="Controls\Inspector\MeshRendererInspectorControl.Designer.cs">
       <DependentUpon>MeshRendererInspectorControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\MeshViewList.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\MeshViewList.Designer.cs">
+      <DependentUpon>MeshViewList.cs</DependentUpon>
+    </Compile>
     <Compile Include="IAssetSelector.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MaterialPreviewRenderer.cs" />
+    <Compile Include="SingleMeshPreviewRenderer.cs" />
     <Compile Include="Controls\MaterialViewList.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -134,6 +140,12 @@
     <Compile Include="PropertyInspectors\TemplateProxyInspector.cs" />
     <Compile Include="PropertyInspectors\TransformInspector.cs" />
     <Compile Include="PropertyInspectors\Vector3Inspector.cs" />
+    <Compile Include="Windows\MeshSelectorWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Windows\MeshSelectorWindow.Designer.cs">
+      <DependentUpon>MeshSelectorWindow.cs</DependentUpon>
+    </Compile>
     <Compile Include="Windows\ModelImporterWindow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -224,6 +236,9 @@
     <EmbeddedResource Include="Controls\Inspector\MeshRendererInspectorControl.resx">
       <DependentUpon>MeshRendererInspectorControl.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Controls\MeshViewList.resx">
+      <DependentUpon>MeshViewList.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Windows\MainWindow.resx">
       <DependentUpon>MainWindow.cs</DependentUpon>
     </EmbeddedResource>
@@ -241,6 +256,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\ModelAssetOperation.resx">
       <DependentUpon>ModelAssetOperation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Windows\MeshSelectorWindow.resx">
+      <DependentUpon>MeshSelectorWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Windows\ModelImporterWindow.resx">
       <DependentUpon>ModelImporterWindow.cs</DependentUpon>

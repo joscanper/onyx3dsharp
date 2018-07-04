@@ -45,6 +45,8 @@ namespace Onyx3D
             return (Component)this.MemberwiseClone();
         }
 
+		public virtual void OnDestroy() { }
+
 		// ---- Serialization ----
 
 		public XmlSchema GetSchema() { return null; }

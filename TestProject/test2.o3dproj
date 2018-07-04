@@ -154,61 +154,20 @@
         <Guid>4000009</Guid>
         <Name>Gold2</Name>
       </OnyxProjectMaterialAsset>
+      <OnyxProjectMaterialAsset>
+        <Dirty>false</Dirty>
+        <Path>Models/default.o3mat</Path>
+        <Guid>4000010</Guid>
+      </OnyxProjectMaterialAsset>
     </Materials>
     <Meshes>
       <OnyxProjectMeshAsset>
         <Dirty>false</Dirty>
-        <Path>Models\star-wars-arc-170-pbr.o3dmod</Path>
+        <Path>Models/spider1MESH.o3dmesh</Path>
         <Guid>1000000</Guid>
-        <IsFromModel>true</IsFromModel>
-      </OnyxProjectMeshAsset>
-      <OnyxProjectMeshAsset>
-        <Dirty>false</Dirty>
-        <Path>Models\star-wars-arc-170-pbr.o3dmod</Path>
-        <Guid>1000001</Guid>
-        <IsFromModel>true</IsFromModel>
-      </OnyxProjectMeshAsset>
-      <OnyxProjectMeshAsset>
-        <Dirty>false</Dirty>
-        <Path>Models\star-wars-arc-170-pbr.o3dmod</Path>
-        <Guid>1000002</Guid>
-        <IsFromModel>true</IsFromModel>
-      </OnyxProjectMeshAsset>
-      <OnyxProjectMeshAsset>
-        <Dirty>false</Dirty>
-        <Path>Models\spider.o3dmod</Path>
-        <Guid>1000003</Guid>
-        <IsFromModel>true</IsFromModel>
-      </OnyxProjectMeshAsset>
-      <OnyxProjectMeshAsset>
-        <Dirty>false</Dirty>
-        <Path>Models\electric_motor_vintage.o3dmod</Path>
-        <Guid>1000004</Guid>
-        <IsFromModel>true</IsFromModel>
-      </OnyxProjectMeshAsset>
-      <OnyxProjectMeshAsset>
-        <Dirty>false</Dirty>
-        <Path>Models\spider.o3dmod</Path>
-        <Guid>1000005</Guid>
-        <IsFromModel>true</IsFromModel>
+        <IsFromModel>false</IsFromModel>
       </OnyxProjectMeshAsset>
     </Meshes>
-    <Templates>
-      <OnyxProjectAsset>
-        <Dirty>false</Dirty>
-        <Path>Models/spider.o3dtemp</Path>
-        <Guid>5000000</Guid>
-      </OnyxProjectAsset>
-      <OnyxProjectAsset>
-        <Dirty>false</Dirty>
-        <Path>Models/electric_motor_vintage.o3dtemp</Path>
-        <Guid>5000001</Guid>
-      </OnyxProjectAsset>
-      <OnyxProjectAsset>
-        <Dirty>false</Dirty>
-        <Path>Models/spider.o3dtemp</Path>
-        <Guid>5000002</Guid>
-      </OnyxProjectAsset>
-    </Templates>
+    <Templates />
   </Content>
 </ProjectData>

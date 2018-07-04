@@ -19,7 +19,7 @@ namespace Onyx3D
         Front
     };
 
-    public class Cubemap
+    public class Cubemap : IDisposable
     {
         IntPtr data;
 
@@ -47,8 +47,6 @@ namespace Onyx3D
 			GL.GetTextureImage(t.Id, 0, PixelFormat.Rgba, PixelType.UnsignedByte, 32 * t.Width * t.Height, data);
 			GL.BindTexture(TextureTarget.TextureCubeMap, mId);
 			GL.TexImage2D(TextureTarget.TextureCubeMapPositiveX + (int)face, 0, PixelInternalFormat.Rgba, t.Width, t.Height, 0, PixelFormat.Rgba, PixelType.UnsignedByte, data);
-
-			//TODO - Free memory here?
 		}
 
 		public void GenerateMipmaps()
@@ -62,6 +60,11 @@ namespace Onyx3D
         public Texture TextureBack { set; get; }
         public Texture TextureTop { set; get; }
         public Texture TextureBottom { set; get; }
+
+		public void Dispose()
+		{
+			GL.DeleteTexture(mId);
+		}
 
     }
 

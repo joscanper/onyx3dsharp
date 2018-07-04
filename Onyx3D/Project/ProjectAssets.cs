@@ -69,7 +69,7 @@ namespace Onyx3D
 
 		public OnyxProjectAsset() { }
 
-		public OnyxProjectAsset(string path, int guid = 0, string name = "")
+		public OnyxProjectAsset(string path, string name = "", int guid = 0)
 		{
 			Path = path;
 			Guid = guid;
@@ -85,7 +85,7 @@ namespace Onyx3D
 
 		public OnyxProjectShaderAsset() { }
 
-		public OnyxProjectShaderAsset(string pathV, string pathF, int guid = 0) : base("", guid)
+		public OnyxProjectShaderAsset(string pathV, string pathF, int guid = 0) : base("", "", guid)
 		{
 			PathVertex = pathV;
 			PathFragment = pathF;
@@ -97,7 +97,7 @@ namespace Onyx3D
 	{
 		
 		public OnyxProjectSceneAsset() { }
-		public OnyxProjectSceneAsset(string path, string name = "", int guid = 0) : base(path, guid, name) { }
+		public OnyxProjectSceneAsset(string path, string name = "", int guid = 0) : base(path, name, guid) { }
 	
 	};
 
@@ -105,7 +105,7 @@ namespace Onyx3D
 	public class OnyxProjectMaterialAsset : OnyxProjectAsset
 	{
 		public OnyxProjectMaterialAsset() { }
-		public OnyxProjectMaterialAsset(string path, string name = "", int guid = 0) : base(path, guid, name) { }
+		public OnyxProjectMaterialAsset(string path, string name = "", int guid = 0) : base(path, name, guid) { }
 		
 
     };
@@ -113,13 +113,12 @@ namespace Onyx3D
     [Serializable]
     public class OnyxProjectMeshAsset : OnyxProjectAsset
     {
-        public bool IsFromModel;
-
+		public bool IsFromModel; // TODO - Remove this once we have all the built-in meshes in propietary format
         public OnyxProjectMeshAsset() { }
-        public OnyxProjectMeshAsset(string path, bool isModel = false, int guid = 0) : base(path, guid)
-        {
-            IsFromModel = isModel;
-        }
+        public OnyxProjectMeshAsset(string path, string name = "", int guid = 0, bool fromModel = false) : base(path, name, guid)
+		{
+			IsFromModel = fromModel;
+		}
     };
 
 }

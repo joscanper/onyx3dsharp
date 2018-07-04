@@ -8,11 +8,16 @@ using System.Text;
 using System.Windows.Forms;
 using Onyx3D;
 using OpenTK;
+using OpenTK.Graphics;
+using OpenTK.Platform;
 
 namespace Onyx3DEditor
 {
-	public class PreviewRenderer 
+	public class PreviewRenderer : IDisposable
 	{
+		private IWindowInfo mWindowInfo;
+		private GraphicsContext mContext;
+
 		private FrameBuffer mFrameBuffer;
 		public Onyx3DInstance OnyxInstance;
 		public Scene Scene;
@@ -28,11 +33,15 @@ namespace Onyx3DEditor
 			
 		}
 
-		public void Init(int w, int h)
+		public void Init(int w, int h, IntPtr handle)
 		{
-			OnyxInstance = new Onyx3DInstance();
-			OnyxInstance.Init();
 
+			mWindowInfo = Utilities.CreateWindowsWindowInfo(handle);
+			mContext = new GraphicsContext(new GraphicsMode(new ColorFormat(), 32, 32, 8), mWindowInfo);
+			mContext.MakeCurrent(mWindowInfo);
+			((IGraphicsContextInternal)mContext).LoadAll();
+
+			OnyxInstance = new Onyx3DInstance();
 			mFrameBuffer = new FrameBuffer(w, h);
 
 			InitializeBasicScene();
@@ -80,7 +89,8 @@ namespace Onyx3DEditor
 
 		public void Render()
 		{
-			
+
+			mContext.MakeCurrent(mWindowInfo);
 			if (OnyxInstance != null)
 			{
 				mFrameBuffer.Bind();
@@ -88,16 +98,29 @@ namespace Onyx3DEditor
 				if (DrawGrid)
 					OnyxInstance.Renderer.Render(mGridRenderer, Scene.ActiveCamera);
 				mFrameBuffer.Unbind();
-			}
-			
+			}	
 		}
-		
 
 		public Bitmap AsBitmap()
 		{
 			Bitmap bitmap = mFrameBuffer.Texture.AsBitmap();
 			bitmap.RotateFlip(RotateFlipType.RotateNoneFlipY);
 			return bitmap;
+		}
+
+		public void Dispose()
+		{
+			mFrameBuffer.Dispose();
+			Scene.Dispose();
+			Camera.Dispose();
+			mWindowInfo.Dispose();
+			mContext.Dispose();
+
+			mFrameBuffer = null;
+			Scene = null;
+			Camera = null;
+			mWindowInfo = null;
+			mContext = null;
 		}
 	}
 }

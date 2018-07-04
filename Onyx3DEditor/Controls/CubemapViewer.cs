@@ -19,7 +19,6 @@ namespace Onyx3DEditor
             InitializeComponent();
         }
 
-       
         public void Init(Cubemap cubemap)
         {
             mCubemap = cubemap;

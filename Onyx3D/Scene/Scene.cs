@@ -1,11 +1,12 @@
 ﻿
+using System;
 using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Serialization;
 
 namespace Onyx3D
 {
-	public class Scene : IXmlSerializable
+	public class Scene : IXmlSerializable, IDisposable
 	{
 		private Onyx3DInstance mContext;
 		public Onyx3DInstance Context
@@ -34,6 +35,17 @@ namespace Onyx3D
 		public void SetDirty(bool isDirty = true)
 		{
 			IsDirty = isDirty;
+		}
+
+		public void Dispose()
+		{
+			Root.ForEachChild((c) =>
+			{
+				c.Destroy();
+			});
+
+			Sky.Dispose();
+			Lighting.Dispose();
 		}
 
 		

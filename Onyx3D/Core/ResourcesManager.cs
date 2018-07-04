@@ -43,7 +43,9 @@ namespace Onyx3D
 
         public Mesh GetMesh(int id)
 		{
-			return GetResource(id, mMeshes, LoadMesh, BuiltInMesh.Cube);
+			Mesh m = GetResource(id, mMeshes, LoadMesh, BuiltInMesh.Cube);
+			m.GenerateVAO();
+			return m;
 		}
 
 		public Material GetMaterial(int id)
@@ -78,24 +80,25 @@ namespace Onyx3D
             OnyxProjectMeshAsset mAsset = (OnyxProjectMeshAsset)asset;
             if (mAsset.IsFromModel)
             {
-                AssimpLoader.ImportMeshes(mAsset.AbsolutePath, (guid, mesh)=>
+				return ObjLoader.Load(asset.AbsolutePath);
+				/*
+				AssimpLoader.ImportMeshes(mAsset.AbsolutePath, (guid, mesh)=>
                 {
                     mMeshes.Add(guid, mesh);
                     mMeshes[guid].LinkedProjectAsset = ProjectManager.Instance.Content.GetAsset(guid);
                 });
-                return GetMesh(asset.Guid);
+                return GetMesh(asset.Guid);*/
             }
             else
             {
-                // TODO - Legacy, remove when all objects are models
-                return ObjLoader.Load(asset.AbsolutePath);
-            }
+				return AssetLoader<Mesh>.Load(asset.AbsolutePath);
+			}
 		}
         
 
         private Material LoadMaterial(OnyxProjectAsset asset)
 		{
-			return MaterialLoader.Load(asset.AbsolutePath);
+			return AssetLoader<Material>.Load(asset.AbsolutePath);
 		}
 
 		private Shader LoadShader(OnyxProjectAsset asset)

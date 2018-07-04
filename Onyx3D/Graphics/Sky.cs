@@ -1,5 +1,6 @@
 ﻿
 using OpenTK;
+using System;
 using System.Drawing;
 using System.Runtime.InteropServices;
 
@@ -12,10 +13,12 @@ namespace Onyx3D
 		public float Time;
 	}
 
-	public class Sky
+	public class Sky : IDisposable
 	{
 		private SkyUBufferData mUBufferData = new SkyUBufferData();
 		private UBO<SkyUBufferData> mSkyUBO;
+
+		public UBO<SkyUBufferData> UBO { get { return mSkyUBO; } }
 
 		public enum ShadingType
 		{
@@ -64,6 +67,12 @@ namespace Onyx3D
 		{
 			mUBufferData.Time = Time;
 			mSkyUBO.Update(mUBufferData);
+		}
+
+		public void Dispose()
+		{
+			mSkyUBO.Dispose();
+			mSkyUBO = null;
 		}
 	}
 }

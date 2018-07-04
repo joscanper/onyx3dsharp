@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
-using OpenTK;
 using OpenTK.Graphics.OpenGL;
 
 namespace Onyx3D
 {
-	public class FrameBuffer
+	public class FrameBuffer : IDisposable
 	{
 		
 		uint mFrameBufferId = 0;
@@ -28,11 +24,9 @@ namespace Onyx3D
 
 		public FrameBuffer(int w, int h)
 		{
-			
 			GL.GenFramebuffers(1, out mFrameBufferId);
 			GL.BindFramebuffer(FramebufferTarget.Framebuffer, mFrameBufferId);
 
-			
 			Texture = new Texture(w, h);
 			
 			GL.GenRenderbuffers(1, out mDepthId);
@@ -51,6 +45,7 @@ namespace Onyx3D
 				Logger.Instance.Append("Framebuffer failed status : " + result.ToString());
 		}
 
+
 		public void Bind()
 		{
 			GL.BindFramebuffer(FramebufferTarget.Framebuffer, mFrameBufferId);
@@ -62,5 +57,13 @@ namespace Onyx3D
 			GL.BindFramebuffer(FramebufferTarget.Framebuffer, 0);
 		}
 
+		public void Dispose()
+		{
+			GL.DeleteFramebuffer(mFrameBufferId);
+			GL.DeleteRenderbuffer(mDepthId);
+
+			Texture.Dispose();
+			Texture = null;
+		}
 	}
 }

@@ -9,7 +9,7 @@ using System.Xml.Serialization;
 namespace Onyx3D
 {
 	
-	public class SceneObject : Object, IXmlSerializable
+	public class SceneObject : Object, IXmlSerializable, IDisposable
 	{
 	
 		private List<Component> mComponents = new List<Component>();
@@ -19,6 +19,7 @@ namespace Onyx3D
 
 		public string Id;
 		public Transform Transform;
+		public bool Active = true;
 
 		public List<Component> Components { get { return mComponents; } }
 
@@ -77,6 +78,7 @@ namespace Onyx3D
 
         public void Destroy()
         {
+			Dispose();
             mComponents.Clear();
             mChildren.Clear();
             mScene = null;
@@ -152,6 +154,9 @@ namespace Onyx3D
 
 			for (int i = 0; i < mChildren.Count; ++i)
 			{
+				if (!mChildren[i].Active)
+					continue;
+
 				T c = mChildren[i].GetComponentInChildren<T>();
                 if (c != null)
                     return c;
@@ -170,7 +175,10 @@ namespace Onyx3D
 
             for (int i = 0; i < mChildren.Count; ++i)
             {
-                List<T> c = mChildren[i].GetComponentsInChildren<T>();
+				if (!mChildren[i].Active)
+					continue;
+
+				List<T> c = mChildren[i].GetComponentsInChildren<T>();
                 if (c.Count > 0)
                     components.AddRange(c);
             }
@@ -249,9 +257,17 @@ namespace Onyx3D
         }
 
 
-        // ----------- Serialization ------------
+		public virtual void Dispose()
+		{
+			ForEachComponent((component) =>
+			{
+				component.OnDestroy();
+			});
+		}
 
-        public XmlSchema GetSchema()
+		// ----------- Serialization ------------
+
+		public XmlSchema GetSchema()
 		{
 			throw new System.NotImplementedException();
 		}
@@ -325,5 +341,7 @@ namespace Onyx3D
 
 			writer.WriteEndElement();
 		}
+
+		
 	}
 }

@@ -40,7 +40,15 @@ namespace Onyx3D
 		public override void OnDrawGizmos(GizmosManager gizmos)
 		{
 			gizmos.DrawSphere(Transform.Position, 0.5f, Vector3.One);
-		}		
+		}
+		
+		public override void OnDestroy()
+		{
+			base.OnDestroy();
+
+			mCubemapGenerator.Dispose();
+			mCubemap.Dispose();
+		}
 
 		public override void ReadComponentXmlNode(XmlReader reader)
 		{
@@ -60,5 +68,6 @@ namespace Onyx3D
             writer.WriteElementString("Size", mSize.ToString());
             writer.WriteElementString("Dynamic", Dynamic.ToString());
         }
+
 	}
 }

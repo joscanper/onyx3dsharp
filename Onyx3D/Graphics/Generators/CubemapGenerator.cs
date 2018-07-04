@@ -4,7 +4,7 @@ using System;
 
 namespace Onyx3D
 {
-    public class CubemapGenerator
+    public class CubemapGenerator : IDisposable
     {
       
 
@@ -28,12 +28,13 @@ namespace Onyx3D
             mCamRotations[5] = new Vector3(-(float)Math.PI / 2.0f, 0, 0);     
         }
 
-        public Cubemap Generate(RenderManager renderMgr, Scene scene, Vector3 position)
-        {
-			Cubemap cubemap = new Cubemap();
-            Generate(renderMgr, scene, position, ref cubemap);
-            return cubemap;
-        }
+		public void Dispose()
+		{
+			for (int i = 0; i < 6; ++i)
+				mFrameBuffer[i].Dispose();
+
+			mCamera.Dispose();
+		}
 
         public void Generate(RenderManager renderMgr, Scene scene, Vector3 position, ref Cubemap cubemap)
         {
@@ -65,7 +66,6 @@ namespace Onyx3D
             cubemap.TextureFront = mFrameBuffer[0].Texture;
             cubemap.TextureTop = mFrameBuffer[5].Texture;
             cubemap.TextureBottom = mFrameBuffer[4].Texture;
-            
         }
     }
 }

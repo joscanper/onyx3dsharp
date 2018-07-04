@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Scene>
   <Lighting>
-    <Ambient>0, 0, 0</Ambient>
+    <Ambient>0.03921569, 0.03921569, 0.03921569</Ambient>
   </Lighting>
   <Root>
     <SceneObject
@@ -87,12 +87,12 @@
       id="Teapot"
       instanceId="45340862">
       <Transform
-        position="-1.466275, 0.222587, 0.6621158"
-        rotation="1, 0, 0, 0"
-        scale="0.5483724, 0.5483724, 0.5483724" />
+        position="-1.432643, -0.019539, 0.6197639"
+        rotation="0, 0.9999849, 0, 0.8698576"
+        scale="0.0141152, 0.0141152, 0.0141152" />
       <Component
         className="MeshRenderer">
-        <Mesh>100000001</Mesh>
+        <Mesh>1000000</Mesh>
         <Material>4000009</Material>
       </Component>
     </SceneObject>
@@ -118,9 +118,9 @@
         scale="1, 1, 1" />
       <Component
         className="Light">
-        <Type>1</Type>
-        <Color>0.7529412, 0.7529412, 0.7529412, 1</Color>
-        <Intensity>2</Intensity>
+        <Type>2</Type>
+        <Color>1, 1, 1, 1</Color>
+        <Intensity>10</Intensity>
       </Component>
     </SceneObject>
   </Root>
