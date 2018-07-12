@@ -9,29 +9,32 @@ public static class Selection
 {
 	public static Action<List<SceneObject>> OnSelectionChanged;
 
-	private static List<SceneObject> mSelected = new List<SceneObject>();
-
-	public static List<SceneObject> Selected
-	{
-		get { return mSelected; }
-		set
-		{
-			mSelected = value;
-			if (OnSelectionChanged != null)
-				OnSelectionChanged(Selected);
-		}
-	}
+	public static List<SceneObject> Selected { get; } = new List<SceneObject>();
 
 	public static SceneObject ActiveObject
 	{
 		set
 		{
-			Selected = new List<SceneObject>() { value };
-			if (OnSelectionChanged != null)
-				OnSelectionChanged(Selected);
+			Selected.Clear();
+			Selected.Add(value);
+			OnSelectionChanged?.Invoke(Selected);
 		}
-		get { return Selected != null && Selected.Count > 0 ? Selected[0] : null; }
+		get { return Selected != null && Selected.Count > 0 ? Selected[Selected.Count - 1] : null; }
 	}
 
+
+	public static void Add(SceneObject obj)
+	{
+		Selected.Remove(obj);
+		Selected.Add(obj);
+		OnSelectionChanged?.Invoke(Selected);
+	}
+
+
+	public static void Clear()
+	{
+		Selected.Clear();
+		OnSelectionChanged?.Invoke(Selected);
+	}
 }
 

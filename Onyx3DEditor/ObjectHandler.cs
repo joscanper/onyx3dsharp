@@ -67,7 +67,7 @@ class ObjectHandler
 			Ray clickRay = mCamera.ScreenPointToRay(e.X, e.Y, mRenderCanvas.Width, mRenderCanvas.Height);
 			
 			if (IsHandling)
-				mOperator.Handle(mObject, clickRay, mScale);
+				mOperator.Handle( clickRay, mScale);
 			else
 				mOperator.CheckHandleStart(mObject, clickRay);
 		}
@@ -167,7 +167,7 @@ abstract class HandlerOperator
 			SelectedAxis = Vector3.UnitZ;
 	}
 
-	abstract public void Handle(SceneObject obj, Ray ray, float scale);
+	abstract public void Handle(Ray ray, float scale);
 	virtual protected void OnHandleStart(SceneObject obj) { }
 }
 
@@ -182,15 +182,29 @@ class ObjectHandlerTranslate : HandlerOperator
 		gizmos.DrawAxis(obj.Transform.Position, scale);
 	}
 
-	public override void Handle(SceneObject obj, Ray ray, float scale)
+	public override void Handle(Ray ray, float scale)
 	{
+		SceneObject obj = Selection.ActiveObject;
+
 		Ray axisRay = new Ray(obj.Transform.Position, SelectedAxis);
 
 		Vector3 closestPointToAxis = axisRay.ClosestPointTo(ray);
 		Vector3 axisPoint = (obj.Transform.Position + SelectedAxis  * scale);
 
 		Vector3 offset = axisPoint - closestPointToAxis;
-		obj.Transform.LocalPosition -= offset;
+		if (Control.ModifierKeys.HasFlag(Keys.Control))
+		{
+			offset.X = (float)Math.Round(offset.X * 4f) / 4f;
+			offset.Y = (float)Math.Round(offset.Y * 4f) / 4f;
+			offset.Z = (float)Math.Round(offset.Z * 4f) / 4f;
+		}
+
+		//obj.Transform.LocalPosition -= offset;
+		foreach (SceneObject selObj in Selection.Selected)
+		{
+			if (!Selection.Selected.Contains(selObj.Parent))
+				selObj.Transform.LocalPosition -= offset;
+		}
 
 	}
 }
@@ -224,9 +238,10 @@ class ObjectHandlerScale : HandlerOperator
 		gizmos.DrawBox(obj.Transform.Position + Vector3.UnitZ * scale, Vector3.One * 0.1f * scale, Vector3.UnitZ);
 	}
 
-	public override void Handle(SceneObject obj, Ray ray, float scale)
+	public override void Handle( Ray ray, float scale)
 	{
-		
+		SceneObject obj = Selection.ActiveObject;
+
 		Vector3 newScale = mScale;
 		Vector3 closestPointToAxis = GetClosestPointToAxis(obj, ray, SelectedAxis);
 		if (SelectedAxis == Vector3.One)
@@ -241,6 +256,10 @@ class ObjectHandlerScale : HandlerOperator
 				SelectedAxis == Vector3.UnitY ? closestPointToAxis.Y / mInitAxisPoint.Y : 1.0f,
 				SelectedAxis == Vector3.UnitZ ? closestPointToAxis.Z / mInitAxisPoint.Z : 1.0f);
 		}
+
+		//foreach (SceneObject selObj in Selection.Selected)
+		//	selObj.Transform.LocalScale = mScale * newScale;
+
 		obj.Transform.LocalScale = mScale * newScale;
 	}
 
@@ -335,10 +354,10 @@ class ObjectHandlerRotate : HandlerOperator
 		
 	}
 
-	public override void Handle(SceneObject obj, Ray ray, float scale)
+	public override void Handle(Ray ray, float scale)
 	{
-		
-			
+		SceneObject obj = Selection.ActiveObject;
+
 		Ray axisRay = new Ray(obj.Transform.Position, SelectedAxis);
 		closestPoint = axisRay.ClosestPointTo(ray);
 		Vector3 dirToClosest = (closestPoint - obj.Transform.Position) * SelectedAxis;
@@ -353,7 +372,11 @@ class ObjectHandlerRotate : HandlerOperator
 		
 		float angleOffset = initDir.CalculateAngleTo(hitDir, SelectedAxis); //dirToClosest.Length * 0.5f * Vector3.Dot(SelectedAxis, dirToClosest);
 		Vector4 rotation = obj.Transform.GetRotationMatrix() * (new Vector4(SelectedAxis * angleOffset, 1));
-		obj.Transform.LocalRotation = mRotation * Quaternion.FromEulerAngles(rotation.Xyz);
+
+		//obj.Transform.LocalRotation = mRotation * Quaternion.FromEulerAngles(rotation.Xyz);
+
+		foreach (SceneObject selObj in Selection.Selected)
+			selObj.Transform.LocalRotation = mRotation * Quaternion.FromEulerAngles(rotation.Xyz);
 
 		mRotation = obj.Transform.LocalRotation;
 		initDir = hitDir;

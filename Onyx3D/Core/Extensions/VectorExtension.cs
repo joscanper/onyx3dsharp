@@ -29,6 +29,17 @@ public static class Vector3Extension
 	{
 		return Color.FromArgb((int)(v.X * 255.0f), (int)(v.Y * 255.0f), (int)(v.Z * 255.0f));
 	}
+
+	public static float Max(this Vector3 v)
+	{
+		return Math.Max(v.X, Math.Max(v.Y,v.Z));
+	}
+
+
+	public static float Min(this Vector3 v)
+	{
+		return Math.Min(v.X, Math.Max(v.Y, v.Z));
+	}
 }
 
 public static class Vector4Extension

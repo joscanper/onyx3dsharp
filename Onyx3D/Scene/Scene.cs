@@ -6,7 +6,7 @@ using System.Xml.Serialization;
 
 namespace Onyx3D
 {
-	public class Scene : IXmlSerializable, IDisposable
+	public class Scene : GameAsset, IXmlSerializable, IDisposable
 	{
 		private Onyx3DInstance mContext;
 		public Onyx3DInstance Context

@@ -26,31 +26,7 @@ namespace Onyx3D
 		public SceneObject Parent
 		{
 			get { return mParent; }
-			set
-			{
-				if (mParent != null)
-					mParent.mChildren.Remove(this);
-
-				if (mScene != null)
-					mScene.SetDirty();
-
-				if (value != null && value.mScene != null)
-					value.mScene.SetDirty();
-
-				mParent = value;
-				if (value != null)
-				{
-					value.mChildren.Add(this);
-					mScene = value.Scene;
-				}
-				else
-				{
-					if (mScene != null)
-						Parent = mScene.Root;
-				}
-
-				Transform.SetDirty();
-			}
+			set { SetParent(value); }
 		}
 
 		public Scene Scene
@@ -82,7 +58,7 @@ namespace Onyx3D
             mComponents.Clear();
             mChildren.Clear();
             mScene = null;
-            Parent = null;    
+			SetParent(null);
         }
 
 		public bool RemoveComponent(Component c)
@@ -241,8 +217,9 @@ namespace Onyx3D
         public SceneObject Clone()
         {
             SceneObject newObj = new SceneObject(this.Id, this.Scene);
-
-            ForEachComponent((component) => {
+			newObj.Transform.Copy(Transform);
+			
+			ForEachComponent((component) => {
                 Component c = component.Clone();
                 newObj.AddComponent(c);
             });
@@ -250,8 +227,8 @@ namespace Onyx3D
             ForEachChild((child) =>
             {
                 SceneObject newChild = child.Clone();
-                newChild.Parent = newObj;
-            });
+				newChild.Parent = newObj;
+			});
 
             return newObj;
         }
@@ -263,6 +240,40 @@ namespace Onyx3D
 			{
 				component.OnDestroy();
 			});
+		}
+
+		public void SetParent(SceneObject parent, bool keepWorldPos = true)
+		{
+
+			Vector3 worldPos = Transform.Position;
+
+			if (mParent != null)
+				mParent.mChildren.Remove(this);
+
+			if (mScene != null)
+				mScene.SetDirty();
+
+			if (parent != null && parent.mScene != null)
+				parent.mScene.SetDirty();
+
+			mParent = parent;
+			if (parent != null)
+			{
+				parent.mChildren.Add(this);
+				mScene = parent.Scene;
+
+				if (keepWorldPos)
+					Transform.LocalPosition = parent.Transform.WorldToLocal(worldPos);
+			}
+			else
+			{
+				if (mScene != null)
+					mParent = mScene.Root;
+			}
+
+			
+			Transform.SetDirty();
+			
 		}
 
 		// ----------- Serialization ------------

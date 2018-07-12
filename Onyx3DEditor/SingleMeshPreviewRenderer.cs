@@ -46,8 +46,10 @@ namespace Onyx3DEditor
 
 		public void SetMesh(int guid)
 		{
+			
 			mRenderer.Mesh = OnyxInstance.Resources.GetMesh(guid);
-			float scale = 2.0f / mRenderer.Bounds.Size.Length;
+			float scale = 1.25f / mRenderer.Mesh.Bounds.Size.Max();
+
 			mRenderer.Transform.LocalScale = Vector3.One * scale;
 		}
 

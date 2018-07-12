@@ -70,10 +70,13 @@ namespace Onyx3DEditor
 			this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
 			this.duplicateSceneObjectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.setParentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripDropDownButton2 = new System.Windows.Forms.ToolStripDropDownButton();
 			this.bakeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
 			this.sceneHierarchy = new Onyx3DEditor.SceneHierarchyControl();
+			this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripScene = new System.Windows.Forms.ToolStrip();
 			this.toolStripButtonChangeScene = new System.Windows.Forms.ToolStripButton();
 			this.splitContainer2 = new System.Windows.Forms.SplitContainer();
@@ -98,11 +101,14 @@ namespace Onyx3DEditor
 			this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
 			this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
 			this.timer1 = new System.Windows.Forms.Timer(this.components);
+			this.clearParentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.groupObjectsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStrip1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
 			this.splitContainer1.Panel1.SuspendLayout();
 			this.splitContainer1.Panel2.SuspendLayout();
 			this.splitContainer1.SuspendLayout();
+			this.contextMenuStrip1.SuspendLayout();
 			this.toolStripScene.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
 			this.splitContainer2.Panel1.SuspendLayout();
@@ -179,7 +185,10 @@ namespace Onyx3DEditor
 			this.toolStripDropDownButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
 			this.toolStripDropDownButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.duplicateSceneObjectToolStripMenuItem,
-            this.deleteToolStripMenuItem});
+            this.deleteToolStripMenuItem,
+            this.setParentToolStripMenuItem,
+            this.clearParentToolStripMenuItem,
+            this.groupObjectsToolStripMenuItem});
 			this.toolStripDropDownButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButton1.Image")));
 			this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
@@ -190,7 +199,7 @@ namespace Onyx3DEditor
 			// 
 			this.duplicateSceneObjectToolStripMenuItem.Name = "duplicateSceneObjectToolStripMenuItem";
 			this.duplicateSceneObjectToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D)));
-			this.duplicateSceneObjectToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
+			this.duplicateSceneObjectToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
 			this.duplicateSceneObjectToolStripMenuItem.Text = "Duplicate";
 			this.duplicateSceneObjectToolStripMenuItem.Click += new System.EventHandler(this.duplicateSceneObjectToolStripMenuItem_Click);
 			// 
@@ -198,9 +207,17 @@ namespace Onyx3DEditor
 			// 
 			this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
 			this.deleteToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.Delete;
-			this.deleteToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
+			this.deleteToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
 			this.deleteToolStripMenuItem.Text = "Delete";
 			this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
+			// 
+			// setParentToolStripMenuItem
+			// 
+			this.setParentToolStripMenuItem.Name = "setParentToolStripMenuItem";
+			this.setParentToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.P)));
+			this.setParentToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.setParentToolStripMenuItem.Text = "Set Parent";
+			this.setParentToolStripMenuItem.Click += new System.EventHandler(this.setParentToolStripMenuItem_Click);
 			// 
 			// toolStripDropDownButton2
 			// 
@@ -216,7 +233,7 @@ namespace Onyx3DEditor
 			// bakeToolStripMenuItem
 			// 
 			this.bakeToolStripMenuItem.Name = "bakeToolStripMenuItem";
-			this.bakeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.bakeToolStripMenuItem.Size = new System.Drawing.Size(99, 22);
 			this.bakeToolStripMenuItem.Text = "Bake";
 			this.bakeToolStripMenuItem.Click += new System.EventHandler(this.bakeToolStripMenuItem_Click);
 			// 
@@ -242,11 +259,25 @@ namespace Onyx3DEditor
 			// 
 			// sceneHierarchy
 			// 
+			this.sceneHierarchy.ContextMenuStrip = this.contextMenuStrip1;
 			this.sceneHierarchy.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.sceneHierarchy.Location = new System.Drawing.Point(0, 0);
 			this.sceneHierarchy.Name = "sceneHierarchy";
 			this.sceneHierarchy.Size = new System.Drawing.Size(158, 495);
 			this.sceneHierarchy.TabIndex = 4;
+			// 
+			// contextMenuStrip1
+			// 
+			this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItem1});
+			this.contextMenuStrip1.Name = "contextMenuStrip1";
+			this.contextMenuStrip1.Size = new System.Drawing.Size(178, 26);
+			// 
+			// toolStripMenuItem1
+			// 
+			this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+			this.toolStripMenuItem1.Size = new System.Drawing.Size(177, 22);
+			this.toolStripMenuItem1.Text = "Convert Into Prefab";
 			// 
 			// toolStripScene
 			// 
@@ -511,6 +542,23 @@ namespace Onyx3DEditor
 			this.timer1.Interval = 14;
 			this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
 			// 
+			// clearParentToolStripMenuItem
+			// 
+			this.clearParentToolStripMenuItem.Name = "clearParentToolStripMenuItem";
+			this.clearParentToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.P)));
+			this.clearParentToolStripMenuItem.Size = new System.Drawing.Size(211, 22);
+			this.clearParentToolStripMenuItem.Text = "Clear Parent";
+			this.clearParentToolStripMenuItem.Click += new System.EventHandler(this.clearParentToolStripMenuItem_Click_1);
+			// 
+			// groupObjectsToolStripMenuItem
+			// 
+			this.groupObjectsToolStripMenuItem.Name = "groupObjectsToolStripMenuItem";
+			this.groupObjectsToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.G)));
+			this.groupObjectsToolStripMenuItem.Size = new System.Drawing.Size(211, 22);
+			this.groupObjectsToolStripMenuItem.Text = "Group Objects";
+			this.groupObjectsToolStripMenuItem.Click += new System.EventHandler(this.groupObjectsToolStripMenuItem_Click);
+			// 
 			// MainWindow
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -529,6 +577,7 @@ namespace Onyx3DEditor
 			this.splitContainer1.Panel2.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
 			this.splitContainer1.ResumeLayout(false);
+			this.contextMenuStrip1.ResumeLayout(false);
 			this.toolStripScene.ResumeLayout(false);
 			this.toolStripScene.PerformLayout();
 			this.splitContainer2.Panel1.ResumeLayout(false);
@@ -587,5 +636,10 @@ namespace Onyx3DEditor
 		private ToolStripButton toolStripCreateReflectionProbe;
 		private ToolStripDropDownButton toolStripDropDownButton2;
 		private ToolStripMenuItem bakeToolStripMenuItem;
+		private ToolStripMenuItem setParentToolStripMenuItem;
+		private ContextMenuStrip contextMenuStrip1;
+		private ToolStripMenuItem toolStripMenuItem1;
+		private ToolStripMenuItem clearParentToolStripMenuItem;
+		private ToolStripMenuItem groupObjectsToolStripMenuItem;
 	}
 }

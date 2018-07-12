@@ -159,6 +159,16 @@
         <Path>Models/default.o3mat</Path>
         <Guid>4000010</Guid>
       </OnyxProjectMaterialAsset>
+      <OnyxProjectMaterialAsset>
+        <Dirty>false</Dirty>
+        <Path>Models/DefaultMaterial.o3mat</Path>
+        <Guid>4000011</Guid>
+      </OnyxProjectMaterialAsset>
+      <OnyxProjectMaterialAsset>
+        <Dirty>false</Dirty>
+        <Path>Models/DefaultMaterial.o3mat</Path>
+        <Guid>4000012</Guid>
+      </OnyxProjectMaterialAsset>
     </Materials>
     <Meshes>
       <OnyxProjectMeshAsset>
@@ -167,7 +177,78 @@
         <Guid>1000000</Guid>
         <IsFromModel>false</IsFromModel>
       </OnyxProjectMeshAsset>
+      <OnyxProjectMeshAsset>
+        <Dirty>false</Dirty>
+        <Path>Models/body_mesh_Cube.018.o3dmesh</Path>
+        <Guid>1000001</Guid>
+        <IsFromModel>false</IsFromModel>
+      </OnyxProjectMeshAsset>
+      <OnyxProjectMeshAsset>
+        <Dirty>false</Dirty>
+        <Path>Models/chrome_metal_mesh_Cube.022.o3dmesh</Path>
+        <Guid>1000002</Guid>
+        <IsFromModel>false</IsFromModel>
+      </OnyxProjectMeshAsset>
+      <OnyxProjectMeshAsset>
+        <Dirty>false</Dirty>
+        <Path>Models/windshield_mesh_Cube.006.o3dmesh</Path>
+        <Guid>1000003</Guid>
+        <IsFromModel>false</IsFromModel>
+      </OnyxProjectMeshAsset>
+      <OnyxProjectMeshAsset>
+        <Dirty>false</Dirty>
+        <Path>Models/interior_mesh_Cube.016.o3dmesh</Path>
+        <Guid>1000004</Guid>
+        <IsFromModel>false</IsFromModel>
+      </OnyxProjectMeshAsset>
+      <OnyxProjectMeshAsset>
+        <Dirty>false</Dirty>
+        <Path>Models/undercarriage_mesh_Cube.012.o3dmesh</Path>
+        <Guid>1000005</Guid>
+        <IsFromModel>false</IsFromModel>
+      </OnyxProjectMeshAsset>
+      <OnyxProjectMeshAsset>
+        <Dirty>false</Dirty>
+        <Path>Models/body_mesh_Cube.018.o3dmesh</Path>
+        <Guid>1000006</Guid>
+        <IsFromModel>false</IsFromModel>
+      </OnyxProjectMeshAsset>
+      <OnyxProjectMeshAsset>
+        <Dirty>false</Dirty>
+        <Path>Models/chrome_metal_mesh_Cube.022.o3dmesh</Path>
+        <Guid>1000007</Guid>
+        <IsFromModel>false</IsFromModel>
+      </OnyxProjectMeshAsset>
+      <OnyxProjectMeshAsset>
+        <Dirty>false</Dirty>
+        <Path>Models/windshield_mesh_Cube.006.o3dmesh</Path>
+        <Guid>1000008</Guid>
+        <IsFromModel>false</IsFromModel>
+      </OnyxProjectMeshAsset>
+      <OnyxProjectMeshAsset>
+        <Dirty>false</Dirty>
+        <Path>Models/interior_mesh_Cube.016.o3dmesh</Path>
+        <Guid>1000009</Guid>
+        <IsFromModel>false</IsFromModel>
+      </OnyxProjectMeshAsset>
+      <OnyxProjectMeshAsset>
+        <Dirty>false</Dirty>
+        <Path>Models/undercarriage_mesh_Cube.012.o3dmesh</Path>
+        <Guid>1000010</Guid>
+        <IsFromModel>false</IsFromModel>
+      </OnyxProjectMeshAsset>
     </Meshes>
-    <Templates />
+    <Templates>
+      <OnyxProjectAsset>
+        <Dirty>false</Dirty>
+        <Path>Models/cobra.o3dtemp</Path>
+        <Guid>5000000</Guid>
+      </OnyxProjectAsset>
+      <OnyxProjectAsset>
+        <Dirty>false</Dirty>
+        <Path>Models/cobra.o3dtemp</Path>
+        <Guid>5000001</Guid>
+      </OnyxProjectAsset>
+    </Templates>
   </Content>
 </ProjectData>

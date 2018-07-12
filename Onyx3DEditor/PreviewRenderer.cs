@@ -15,9 +15,7 @@ namespace Onyx3DEditor
 {
 	public class PreviewRenderer : IDisposable
 	{
-		private IWindowInfo mWindowInfo;
-		private GraphicsContext mContext;
-
+		
 		private FrameBuffer mFrameBuffer;
 		public Onyx3DInstance OnyxInstance;
 		public Scene Scene;
@@ -35,12 +33,7 @@ namespace Onyx3DEditor
 
 		public void Init(int w, int h, IntPtr handle)
 		{
-
-			mWindowInfo = Utilities.CreateWindowsWindowInfo(handle);
-			mContext = new GraphicsContext(new GraphicsMode(new ColorFormat(), 32, 32, 8), mWindowInfo);
-			mContext.MakeCurrent(mWindowInfo);
-			((IGraphicsContextInternal)mContext).LoadAll();
-
+			
 			OnyxInstance = new Onyx3DInstance();
 			mFrameBuffer = new FrameBuffer(w, h);
 
@@ -50,7 +43,7 @@ namespace Onyx3DEditor
 		public virtual void InitializeBasicScene()
 		{
 
-			Scene = new Scene();
+			Scene = new Scene(OnyxInstance);
 
 			Camera = new PerspectiveCamera("MainCamera", 1.5f, (float)mFrameBuffer.Width / (float)mFrameBuffer.Height);
 			Camera.Transform.LocalPosition = new Vector3(0, 0.65f, 1.25f);
@@ -89,8 +82,7 @@ namespace Onyx3DEditor
 
 		public void Render()
 		{
-
-			mContext.MakeCurrent(mWindowInfo);
+			//OnyxInstance.Context.MakeCurrent();
 			if (OnyxInstance != null)
 			{
 				mFrameBuffer.Bind();
@@ -113,14 +105,10 @@ namespace Onyx3DEditor
 			mFrameBuffer.Dispose();
 			Scene.Dispose();
 			Camera.Dispose();
-			mWindowInfo.Dispose();
-			mContext.Dispose();
 
 			mFrameBuffer = null;
 			Scene = null;
 			Camera = null;
-			mWindowInfo = null;
-			mContext = null;
 		}
 	}
 }

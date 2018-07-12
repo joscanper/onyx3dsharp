@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 using Onyx3D;
@@ -14,6 +10,7 @@ namespace Onyx3DEditor
 	public partial class SceneHierarchyControl : UserControl
 	{
         private Scene mScene;
+		private TreeNode mPrevSelected;
 
 		public SceneHierarchyControl()
 		{
@@ -60,6 +57,8 @@ namespace Onyx3DEditor
 
 		private void OnSelectionChanged(List<SceneObject> obj)
 		{
+			mPrevSelected = treeViewScene.SelectedNode;
+
 			if (treeViewScene.SelectedNode != null)
 				treeViewScene.SelectedNode.BackColor = SystemColors.Window;
 
@@ -67,10 +66,12 @@ namespace Onyx3DEditor
 			{ 
 				treeViewScene.SelectedNode = null;
 			}
-
-            UpdateScene();
-            SearchAndHighlightObject(treeViewScene.Nodes[0]);
 			
+			if (mScene.IsDirty)
+				UpdateScene();
+
+			SearchAndHighlightObject(treeViewScene.Nodes[0]);
+
 		}
 
 		private bool SearchAndHighlightObject(TreeNode tn)
@@ -83,16 +84,20 @@ namespace Onyx3DEditor
 
 				if (node.BoundSceneObject == Selection.ActiveObject)
 				{
-					node.BackColor = Color.Gray;
+					node.BackColor = Color.Orange;
 					treeViewScene.SelectedNode = node;
-					treeViewScene.Focus();
-					return true;
+				}
+				else if(Selection.Selected.Contains(node.BoundSceneObject))
+				{
+					node.BackColor = Color.Gray;
 				}
 				else
 				{
-					if (SearchAndHighlightObject(node))
-						return true;
+					node.BackColor = Color.Transparent;
+
 				}
+
+				SearchAndHighlightObject(node);
 			}
 
 			return false;
@@ -103,16 +108,33 @@ namespace Onyx3DEditor
 		{
 			if (e.Node.GetType() != typeof(SceneTreeNode))
 			{
-				Selection.Selected = null;
+				Selection.Clear();
 				return;
 			}
-
-			SceneTreeNode sceneTreeeNode = (SceneTreeNode)e.Node;
-			if (sceneTreeeNode != null)
+			
+			SceneTreeNode sceneTreeNode = (SceneTreeNode)e.Node;
+			if (sceneTreeNode != null)
 			{
-				Selection.ActiveObject = sceneTreeeNode.BoundSceneObject;
+				mPrevSelected = sceneTreeNode;
+
+				if (ModifierKeys.HasFlag(Keys.Control))
+				{
+					Selection.Add(sceneTreeNode.BoundSceneObject);
+				}
+				else
+				{
+					Selection.ActiveObject = sceneTreeNode.BoundSceneObject;
+				}
 			}
+
 		}
 
-    }
+		protected override void OnHandleDestroyed(EventArgs e)
+		{
+			base.OnHandleDestroyed(e);
+
+			Selection.OnSelectionChanged -= OnSelectionChanged;
+		}
+
+	}
 }

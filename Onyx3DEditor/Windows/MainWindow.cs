@@ -39,6 +39,7 @@ namespace Onyx3DEditor
 
 		private void InitScene()
 		{
+			Onyx3DEngine.InitMain(renderCanvas.Context, renderCanvas.WindowInfo);
 			mOnyxInstance = Onyx3DEngine.Instance;
 			
 			
@@ -181,7 +182,12 @@ namespace Onyx3DEditor
 			if (mSelectedSceneObject != null)
 			{
 				mObjectHandler.Update();
-				//myOnyxInstance.Gizmos.DrawBox(mSelectedSceneObject.GetComponent<MeshRenderer>().Bounds, Vector3.Zero);
+
+				foreach (SceneObject obj in Selection.Selected)
+				{
+					Bounds b = obj.GetComponent<MeshRenderer>().Bounds;
+					mOnyxInstance.Gizmos.DrawBox(b.Center, b.Size, Color.White.ToVector().Xyz);
+				}
 //				mOnyxInstance.Gizmos.DrawCircle(1, mSelectedSceneObject.Transform.Position, Vector3.One, Vector3.UnitY);
 			}
 
@@ -214,7 +220,14 @@ namespace Onyx3DEditor
 				RaycastHit hit = new RaycastHit();
 				if (Physics.Raycast(mClickRay, out hit, mScene))
 				{
-					Selection.ActiveObject = hit.Object;
+					if (Control.ModifierKeys.HasFlag(Keys.Control))
+					{
+						Selection.Add(hit.Object);
+					}
+					else
+					{
+						Selection.ActiveObject = hit.Object;
+					}
 				}
 				else
 				{
@@ -408,7 +421,7 @@ namespace Onyx3DEditor
 
 			SceneObject clone = Selection.ActiveObject.Clone();
 			clone.Parent = Selection.ActiveObject.Parent;
-			clone.Transform.Copy(Selection.ActiveObject.Transform);
+			
 			Selection.ActiveObject = clone;
 		}
 
@@ -425,6 +438,7 @@ namespace Onyx3DEditor
 			obj.Transform.LocalPosition = new Vector3(0, 0, 0);
 			ReflectionProbe mReflectionProbe = obj.AddComponent<ReflectionProbe>();
 			mReflectionProbe.Init(64);
+			Selection.ActiveObject = obj;
 		}
 
 		private void bakeToolStripMenuItem_Click(object sender, EventArgs e)
@@ -432,6 +446,49 @@ namespace Onyx3DEditor
 			renderCanvas.MakeCurrent();
 			mOnyxInstance.Renderer.RefreshReflectionProbes();
 			renderCanvas.Refresh();
+		}
+
+		private void setParentToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			if (Selection.ActiveObject == null)
+				return;
+
+			foreach (SceneObject obj in Selection.Selected)
+			{
+				if (obj != Selection.ActiveObject)
+					obj.Parent = Selection.ActiveObject;
+			}
+			sceneHierarchy.UpdateScene();
+		}
+		
+
+		private void clearParentToolStripMenuItem_Click_1(object sender, EventArgs e)
+		{
+			if (Selection.ActiveObject == null)
+				return;
+
+			foreach (SceneObject obj in Selection.Selected)
+			{
+				obj.Parent = mScene.Root;
+			}
+
+			sceneHierarchy.UpdateScene();
+		}
+
+		private void groupObjectsToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			if (Selection.ActiveObject == null)
+				return;
+			
+			SceneObject newObj = new SceneObject("New Group", mScene);
+			newObj.Transform.LocalPosition = Selection.ActiveObject.Transform.LocalPosition;
+			newObj.Parent = Selection.ActiveObject.Parent;
+			foreach (SceneObject obj in Selection.Selected)
+			{
+				obj.Parent = newObj;
+			}
+
+			Selection.ActiveObject = newObj;
 		}
 	}
 }

@@ -62,7 +62,14 @@ namespace Onyx3D
             }
         }
 
-		public Vector3 Position { get { return mBakedPosition.Xyz; } }
+		public Vector3 Position {
+			get { return mBakedPosition.Xyz; }
+			set
+			{
+				mLocalPosition = new Vector4(WorldToLocal(value), 1);
+				SetDirty();
+			}
+		}
 
 		public Matrix4 ModelMatrix { get { return mBakedModelM; } }
 
@@ -153,7 +160,7 @@ namespace Onyx3D
 
 		public Vector3 WorldToLocal(Vector3 point)
 		{
-			return (mBakedModelM.Inverted() * new Vector4(point, 1)).Xyz;
+			return (new Vector4(point, 1) * mBakedModelM.Inverted()).Xyz;
 		}
 
 		public void SetDirty()

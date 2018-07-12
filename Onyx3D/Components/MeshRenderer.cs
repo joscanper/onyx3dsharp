@@ -64,12 +64,24 @@ namespace Onyx3D
 
 		private void UpdateBounds()
 		{
+			if (Mesh == null)
+			{
+				Bounds = new Bounds();
+				return;
+			}
 
 			if (Transform == null)
 			{
 				Bounds = Mesh.Bounds;
 				return;
 			}
+
+			/*
+			Bounds bounds = Mesh.Bounds;
+			bounds.Center = Transform.LocalToWorld(bounds.Center);
+			bounds.Max = Transform.LocalToWorld(bounds.Max);
+			bounds.Min = Transform.LocalToWorld(bounds.Min);
+			*/
 
 			Bounds bounds = new Bounds();
 			Vector3 initPos = Transform.LocalToWorld(Vector3.Zero);
@@ -81,6 +93,8 @@ namespace Onyx3D
 					bounds.Encapsulate(Transform.LocalToWorld(v.Position));
 			}
 
+			bounds.Center = initPos;
+			
 			Bounds = bounds;
 		}
 	
