@@ -80,15 +80,15 @@ namespace Onyx3D
 			Mesh myMesh = new Mesh();
 
 		
-			Vector3 frontTL = new Vector3(position.X - size.X / 2.0f, position.X - size.Y / 2.0f, position.X - size.Y / 2.0f);
-			Vector3 frontBL = new Vector3(position.X - size.X / 2.0f, position.X + size.Y / 2.0f, position.X - size.Y / 2.0f);
-			Vector3 frontTR = new Vector3(position.X + size.X / 2.0f, position.X - size.Y / 2.0f, position.X - size.Y / 2.0f);
-			Vector3 frontBR = new Vector3(position.X + size.X / 2.0f, position.X + size.Y / 2.0f, position.X - size.Y / 2.0f);
+			Vector3 frontTL = new Vector3(position.X - size.X / 2.0f, position.Y - size.Y / 2.0f, position.Z - size.Z / 2.0f);
+			Vector3 frontBL = new Vector3(position.X - size.X / 2.0f, position.Y + size.Y / 2.0f, position.Z - size.Z / 2.0f);
+			Vector3 frontTR = new Vector3(position.X + size.X / 2.0f, position.Y - size.Y / 2.0f, position.Z - size.Z / 2.0f);
+			Vector3 frontBR = new Vector3(position.X + size.X / 2.0f, position.Y + size.Y / 2.0f, position.Z - size.Z / 2.0f);
 
-			Vector3 backTL = new Vector3(position.X - size.X / 2.0f, position.X - size.Y / 2.0f, position.X + size.Y / 2.0f);
-			Vector3 backBL = new Vector3(position.X - size.X / 2.0f, position.X + size.Y / 2.0f, position.X + size.Y / 2.0f);
-			Vector3 backTR = new Vector3(position.X + size.X / 2.0f, position.X - size.Y / 2.0f, position.X + size.Y / 2.0f);
-			Vector3 backBR = new Vector3(position.X + size.X / 2.0f, position.X + size.Y / 2.0f, position.X + size.Y / 2.0f);
+			Vector3 backTL = new Vector3(position.X - size.X / 2.0f, position.Y - size.Y / 2.0f, -position.Z + size.Z / 2.0f);
+			Vector3 backBL = new Vector3(position.X - size.X / 2.0f, position.Y + size.Y / 2.0f, -position.Z + size.Z / 2.0f);
+			Vector3 backTR = new Vector3(position.X + size.X / 2.0f, position.Y - size.Y / 2.0f, -position.Z + size.Z / 2.0f);
+			Vector3 backBR = new Vector3(position.X + size.X / 2.0f, position.Y + size.Y / 2.0f, -position.Z + size.Z / 2.0f);
 
             // Front rect
             Vector3 normal = new Vector3(0, 0, 1);

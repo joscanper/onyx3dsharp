@@ -44,7 +44,6 @@ namespace Onyx3D
 			return mChildren[index];
 		}
 		
-
 		public SceneObject(string id, Scene scene = null, int instanceId = 0) : base(instanceId)
         {
             Id = id;
@@ -274,6 +273,23 @@ namespace Onyx3D
 			
 			Transform.SetDirty();
 			
+		}
+
+		public Bounds CalculateBounds()
+		{
+			MeshRenderer mr = GetComponent<MeshRenderer>();
+			if (mr != null)
+			{
+				//TODO - Get from children an encapsulate to form a bound that contains all mesh renderers
+				return mr.Bounds;
+			}
+			else
+			{
+				Bounds b = new Bounds();
+				b.Center = Transform.Position;
+				b.SetMinMax(b.Center - Vector3.One * 0.25f, b.Center+ Vector3.One * 0.25f);
+				return b;
+			}
 		}
 
 		// ----------- Serialization ------------

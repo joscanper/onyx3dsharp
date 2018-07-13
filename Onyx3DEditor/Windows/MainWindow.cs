@@ -162,6 +162,24 @@ namespace Onyx3DEditor
 			}
 		}
 
+		private void HighlightSelected()
+		{
+			if (mSelectedSceneObject != null)
+			{
+				mObjectHandler.Update();
+
+				foreach (SceneObject obj in Selection.Selected)
+				{
+					Bounds bounds = obj.CalculateBounds();
+					mOnyxInstance.Gizmos.DrawBox(bounds.Center, bounds.Size, Color.White.ToVector().Xyz);
+				}
+
+				Bounds activeBounds = Selection.ActiveObject.CalculateBounds();
+				mOnyxInstance.Gizmos.DrawBox(activeBounds.Center, activeBounds.Size * 1.01f, Color.Orange.ToVector().Xyz);
+			}
+
+		}
+
 		private void RenderScene()
 		{            
             if (!canDraw)
@@ -179,17 +197,7 @@ namespace Onyx3DEditor
             mOnyxInstance.Gizmos.DrawComponentGizmos(mScene);
             mOnyxInstance.Gizmos.Render(mNavigation.NavigationCamera);
 
-			if (mSelectedSceneObject != null)
-			{
-				mObjectHandler.Update();
-
-				foreach (SceneObject obj in Selection.Selected)
-				{
-					Bounds b = obj.GetComponent<MeshRenderer>().Bounds;
-					mOnyxInstance.Gizmos.DrawBox(b.Center, b.Size, Color.White.ToVector().Xyz);
-				}
-//				mOnyxInstance.Gizmos.DrawCircle(1, mSelectedSceneObject.Transform.Position, Vector3.One, Vector3.UnitY);
-			}
+			HighlightSelected();
 
 			renderCanvas.SwapBuffers();
 			labelLoggerOutput.Text = Logger.Instance.Content;            

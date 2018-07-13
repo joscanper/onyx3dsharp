@@ -75,14 +75,7 @@ namespace Onyx3D
 				Bounds = Mesh.Bounds;
 				return;
 			}
-
-			/*
-			Bounds bounds = Mesh.Bounds;
-			bounds.Center = Transform.LocalToWorld(bounds.Center);
-			bounds.Max = Transform.LocalToWorld(bounds.Max);
-			bounds.Min = Transform.LocalToWorld(bounds.Min);
-			*/
-
+			
 			Bounds bounds = new Bounds();
 			Vector3 initPos = Transform.LocalToWorld(Vector3.Zero);
 			bounds.SetMinMax(initPos, initPos);
