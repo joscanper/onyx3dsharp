@@ -193,7 +193,7 @@ namespace Onyx3DEditor
             mOnyxInstance.Renderer.Render(mScene, mNavigation.NavigationCamera, renderCanvas.Width, renderCanvas.Height);
 			mOnyxInstance.Renderer.Render(mGridRenderer, mNavigation.NavigationCamera);
 
-			mOnyxInstance.Gizmos.DrawLine(mClickRay.Origin, mClickRay.Origin + mClickRay.Direction * 10, Vector3.One);
+			//mOnyxInstance.Gizmos.DrawLine(mClickRay.Origin, mClickRay.Origin + mClickRay.Direction * 10, Vector3.One);
             mOnyxInstance.Gizmos.DrawComponentGizmos(mScene);
             mOnyxInstance.Gizmos.Render(mNavigation.NavigationCamera);
 

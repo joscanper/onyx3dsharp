@@ -104,8 +104,9 @@ namespace Onyx3D
 			return null;
 		}
 
-		public List<T> GetComponents<T>() where T : Component
+		public virtual List<T> GetComponents<T>() where T : Component
 		{
+
 			List<T> components = new List<T>();
 			for (int i = 0; i < mComponents.Count; ++i)
 			{
@@ -119,8 +120,9 @@ namespace Onyx3D
 			return components;
 		}
 
-		public T GetComponentInChildren<T>() where T:Component
+		public virtual T GetComponentInChildren<T>() where T:Component
 		{
+
 			List<T> components = new List<T>();
 
 			T myComponent = GetComponent<T>();
@@ -140,9 +142,10 @@ namespace Onyx3D
             return null;
 		}
 
-        public List<T> GetComponentsInChildren<T>() where T : Component
+        public virtual List<T> GetComponentsInChildren<T>() where T : Component
         {
-            List<T> components = new List<T>();
+
+			List<T> components = new List<T>();
 
             List<T> myComponents = GetComponents<T>();
             if (myComponents != null)
@@ -154,7 +157,7 @@ namespace Onyx3D
 					continue;
 
 				List<T> c = mChildren[i].GetComponentsInChildren<T>();
-                if (c.Count > 0)
+                if (c != null && c.Count > 0)
                     components.AddRange(c);
             }
 

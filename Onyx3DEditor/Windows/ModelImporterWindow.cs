@@ -52,9 +52,9 @@ namespace Onyx3DEditor
                 mSupportFile = new ModelSupportData(ProjectContent.GetRelativePath(mCurrentPath));
 
                 // TODO - Parse and show model content with overwritting options
-                labelMeshes.Text = mCurrentModel.MeshCount + " Meshes";
-                labelMaterials.Text = mCurrentModel.MaterialCount + " Materials";
-                labelTextures.Text = mCurrentModel.TextureCount + " Textures";
+                //labelMeshes.Text = mCurrentModel.MeshCount + " Meshes";
+                //labelMaterials.Text = mCurrentModel.MaterialCount + " Materials";
+                //labelTextures.Text = mCurrentModel.TextureCount + " Textures";
                 
                 buttonImport.Enabled = true;
 
@@ -83,6 +83,12 @@ namespace Onyx3DEditor
 
 		private void buttonImport_Click(object sender, System.EventArgs e)
 		{
+			if (textBoxNameId.Text.Length == 0)
+			{
+				MessageBox.Show("Name can't be empty");
+				return;
+			}
+
 			if (mCurrentModel == null)
 				return;
 
@@ -92,8 +98,8 @@ namespace Onyx3DEditor
 			//if (mCurrentModel.HasTextures)
 			//	ImportTextures();
 
-			if (mCurrentModel.HasMaterials)
-				ImportMaterials();
+			//if (mCurrentModel.HasMaterials)
+			//	ImportMaterials();
 
 
             ModelSupportDataLoader.Save(mSupportFile);
@@ -144,12 +150,12 @@ namespace Onyx3DEditor
 
             string templatePath = Path.Combine(Path.GetDirectoryName(mSupportFile.AbsolutePath), Path.GetFileNameWithoutExtension(mSupportFile.ModelFile) + ".o3dtemp");
             Template template = new Template(root);
-            TemplateLoader.Save(template, templatePath);
+			
+			TemplateLoader.Save(template, templatePath);
 
             OnyxProjectAsset asset =  ProjectManager.Instance.Content.AddTemplate(templatePath, false, template);
-
-            labelTemplate.Text = "\n Imported Template : " + asset.Guid;
-        }
+			asset.Name = textBoxNameId.Text;
+		}
 
         private void ImportMaterialTextures(string directoryPath, Assimp.Material assimpMaterial, Onyx3D.DefaultMaterial onyxMaterial)
 		{
@@ -160,7 +166,7 @@ namespace Onyx3DEditor
                 
                 // TODO - Save in model support
 
-                labelTextures.Text += "\n Imported : " + asset.Guid;
+               // labelTextures.Text += "\n Imported : " + asset.Guid;
             }
 			
 			/*
@@ -189,7 +195,7 @@ namespace Onyx3DEditor
                 // TODO - Check asset operation
                 mSupportFile.Materials.Add(asset.Guid);
 
-                labelMaterials.Text += "\n Imported : " + onyxMaterial.LinkedProjectAsset.Guid;
+                //labelMaterials.Text += "\n Imported : " + onyxMaterial.LinkedProjectAsset.Guid;
             }
 		}
 
@@ -209,7 +215,7 @@ namespace Onyx3DEditor
                 // TODO - Check asset operation
                 mSupportFile.Meshes.Add(asset.Guid);
 
-                labelMeshes.Text += "\n Imported : " + onyxMesh.LinkedProjectAsset.Guid;
+                //labelMeshes.Text += "\n Imported : " + onyxMesh.LinkedProjectAsset.Guid;
             }
 		}
 

@@ -72,6 +72,7 @@
 			this.textBoxName.Size = new System.Drawing.Size(344, 20);
 			this.textBoxName.TabIndex = 2;
 			this.textBoxName.Visible = false;
+			this.textBoxName.TextChanged += new System.EventHandler(this.textBoxName_TextChanged);
 			// 
 			// SelectedObjectInspector
 			// 

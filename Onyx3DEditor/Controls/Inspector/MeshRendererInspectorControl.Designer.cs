@@ -31,13 +31,13 @@
 			this.materialPreviewPictureBox = new System.Windows.Forms.PictureBox();
 			this.meshAssetField = new Onyx3DEditor.Controls.Inspector.AssetField();
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
-			this.materialAssetField = new Onyx3DEditor.Controls.Inspector.AssetField();
+			this.buttonEditMaterial = new System.Windows.Forms.Button();
 			this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
 			this.label1 = new System.Windows.Forms.Label();
 			this.label2 = new System.Windows.Forms.Label();
 			this.label3 = new System.Windows.Forms.Label();
 			this.label4 = new System.Windows.Forms.Label();
-			this.buttonEditMaterial = new System.Windows.Forms.Button();
+			this.materialAssetField = new Onyx3DEditor.Controls.Inspector.AssetField();
 			((System.ComponentModel.ISupportInitialize)(this.materialPreviewPictureBox)).BeginInit();
 			this.groupBox1.SuspendLayout();
 			this.tableLayoutPanel1.SuspendLayout();
@@ -74,14 +74,15 @@
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Material Details";
 			// 
-			// materialAssetField
+			// buttonEditMaterial
 			// 
-			this.materialAssetField.AutoSize = true;
-			this.materialAssetField.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.materialAssetField.Location = new System.Drawing.Point(4, 35);
-			this.materialAssetField.Name = "materialAssetField";
-			this.materialAssetField.Size = new System.Drawing.Size(374, 26);
-			this.materialAssetField.TabIndex = 3;
+			this.buttonEditMaterial.BackgroundImage = global::Onyx3DEditor.Properties.Resources.stock_3d_texture_and_shading;
+			this.buttonEditMaterial.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+			this.buttonEditMaterial.Location = new System.Drawing.Point(8, 21);
+			this.buttonEditMaterial.Name = "buttonEditMaterial";
+			this.buttonEditMaterial.Size = new System.Drawing.Size(23, 23);
+			this.buttonEditMaterial.TabIndex = 3;
+			this.buttonEditMaterial.UseVisualStyleBackColor = true;
 			// 
 			// tableLayoutPanel1
 			// 
@@ -149,15 +150,14 @@
 			this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.label4.Visible = false;
 			// 
-			// buttonEditMaterial
+			// materialAssetField
 			// 
-			this.buttonEditMaterial.BackgroundImage = global::Onyx3DEditor.Properties.Resources.stock_3d_texture_and_shading;
-			this.buttonEditMaterial.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-			this.buttonEditMaterial.Location = new System.Drawing.Point(8, 21);
-			this.buttonEditMaterial.Name = "buttonEditMaterial";
-			this.buttonEditMaterial.Size = new System.Drawing.Size(23, 23);
-			this.buttonEditMaterial.TabIndex = 3;
-			this.buttonEditMaterial.UseVisualStyleBackColor = true;
+			this.materialAssetField.AutoSize = true;
+			this.materialAssetField.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.materialAssetField.Location = new System.Drawing.Point(4, 35);
+			this.materialAssetField.Name = "materialAssetField";
+			this.materialAssetField.Size = new System.Drawing.Size(374, 26);
+			this.materialAssetField.TabIndex = 3;
 			// 
 			// MeshRendererInspectorControl
 			// 

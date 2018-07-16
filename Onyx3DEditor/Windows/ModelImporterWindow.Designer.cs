@@ -34,22 +34,16 @@ namespace Onyx3DEditor
 		{
 			this.textBoxPath = new System.Windows.Forms.TextBox();
 			this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-			this.groupBoxMaterials = new System.Windows.Forms.GroupBox();
-			this.labelMaterials = new System.Windows.Forms.Label();
-			this.groupBoxTextures = new System.Windows.Forms.GroupBox();
-			this.labelTextures = new System.Windows.Forms.Label();
-			this.groupBoxMeshes = new System.Windows.Forms.GroupBox();
-			this.labelMeshes = new System.Windows.Forms.Label();
-			this.labelTemplate = new System.Windows.Forms.Label();
 			this.buttonImport = new System.Windows.Forms.Button();
 			this.panelGL = new System.Windows.Forms.Panel();
 			this.onyx3DControl = new Onyx3DEditor.Onyx3DControl();
 			this.buttonOpen = new System.Windows.Forms.Button();
 			this.sceneHierarchyControl1 = new Onyx3DEditor.SceneHierarchyControl();
+			this.textBoxNameId = new System.Windows.Forms.TextBox();
+			this.labelName = new System.Windows.Forms.Label();
+			this.labelType = new System.Windows.Forms.Label();
+			this.comboBoxType = new System.Windows.Forms.ComboBox();
 			this.tableLayoutPanel1.SuspendLayout();
-			this.groupBoxMaterials.SuspendLayout();
-			this.groupBoxTextures.SuspendLayout();
-			this.groupBoxMeshes.SuspendLayout();
 			this.panelGL.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -63,114 +57,22 @@ namespace Onyx3DEditor
 			// 
 			// tableLayoutPanel1
 			// 
-			this.tableLayoutPanel1.ColumnCount = 1;
-			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-			this.tableLayoutPanel1.Controls.Add(this.groupBoxMaterials, 0, 2);
-			this.tableLayoutPanel1.Controls.Add(this.groupBoxTextures, 0, 1);
-			this.tableLayoutPanel1.Controls.Add(this.groupBoxMeshes, 0, 0);
-			this.tableLayoutPanel1.Controls.Add(this.labelTemplate, 0, 3);
+			this.tableLayoutPanel1.ColumnCount = 2;
+			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 80F));
+			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.tableLayoutPanel1.Controls.Add(this.labelType, 0, 1);
+			this.tableLayoutPanel1.Controls.Add(this.textBoxNameId, 1, 0);
+			this.tableLayoutPanel1.Controls.Add(this.labelName, 0, 0);
+			this.tableLayoutPanel1.Controls.Add(this.comboBoxType, 1, 1);
 			this.tableLayoutPanel1.Location = new System.Drawing.Point(12, 44);
 			this.tableLayoutPanel1.Name = "tableLayoutPanel1";
 			this.tableLayoutPanel1.RowCount = 4;
-			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 47.46544F));
-			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 52.53456F));
-			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 111F));
-			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
 			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
 			this.tableLayoutPanel1.Size = new System.Drawing.Size(341, 316);
 			this.tableLayoutPanel1.TabIndex = 2;
-			// 
-			// groupBoxMaterials
-			// 
-			this.groupBoxMaterials.Controls.Add(this.labelMaterials);
-			this.groupBoxMaterials.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.groupBoxMaterials.Location = new System.Drawing.Point(3, 187);
-			this.groupBoxMaterials.Name = "groupBoxMaterials";
-			this.groupBoxMaterials.Size = new System.Drawing.Size(335, 105);
-			this.groupBoxMaterials.TabIndex = 2;
-			this.groupBoxMaterials.TabStop = false;
-			this.groupBoxMaterials.Text = "Materials";
-			// 
-			// labelMaterials
-			// 
-			this.labelMaterials.AutoSize = true;
-			this.labelMaterials.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.labelMaterials.Location = new System.Drawing.Point(3, 16);
-			this.labelMaterials.Name = "labelMaterials";
-			this.labelMaterials.Size = new System.Drawing.Size(35, 13);
-			this.labelMaterials.TabIndex = 0;
-			this.labelMaterials.Text = "label1";
-			// 
-			// groupBoxTextures
-			// 
-			this.groupBoxTextures.Controls.Add(this.labelTextures);
-			this.groupBoxTextures.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.groupBoxTextures.Location = new System.Drawing.Point(3, 90);
-			this.groupBoxTextures.Name = "groupBoxTextures";
-			this.groupBoxTextures.Size = new System.Drawing.Size(335, 91);
-			this.groupBoxTextures.TabIndex = 1;
-			this.groupBoxTextures.TabStop = false;
-			this.groupBoxTextures.Text = "Textures";
-			// 
-			// labelTextures
-			// 
-			this.labelTextures.AutoSize = true;
-			this.labelTextures.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.labelTextures.Location = new System.Drawing.Point(3, 16);
-			this.labelTextures.Name = "labelTextures";
-			this.labelTextures.Size = new System.Drawing.Size(35, 13);
-			this.labelTextures.TabIndex = 0;
-			this.labelTextures.Text = "label1";
-			// 
-			// groupBoxMeshes
-			// 
-			this.groupBoxMeshes.Controls.Add(this.labelMeshes);
-			this.groupBoxMeshes.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.groupBoxMeshes.Location = new System.Drawing.Point(3, 3);
-			this.groupBoxMeshes.Name = "groupBoxMeshes";
-			this.groupBoxMeshes.Size = new System.Drawing.Size(335, 81);
-			this.groupBoxMeshes.TabIndex = 0;
-			this.groupBoxMeshes.TabStop = false;
-			this.groupBoxMeshes.Text = "Meshes";
-			// 
-			// labelMeshes
-			// 
-			this.labelMeshes.AutoSize = true;
-			this.labelMeshes.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.labelMeshes.Location = new System.Drawing.Point(3, 16);
-			this.labelMeshes.Name = "labelMeshes";
-			this.labelMeshes.Size = new System.Drawing.Size(35, 13);
-			this.labelMeshes.TabIndex = 0;
-			this.labelMeshes.Text = "label1";
-			// 
-			// labelTemplate
-			// 
-			this.labelTemplate.AutoSize = true;
-			this.labelTemplate.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.labelTemplate.Location = new System.Drawing.Point(3, 295);
-			this.labelTemplate.Name = "labelTemplate";
-			this.labelTemplate.Size = new System.Drawing.Size(335, 21);
-			this.labelTemplate.TabIndex = 3;
-			this.labelTemplate.Text = "label1";
 			// 
 			// buttonImport
 			// 
@@ -217,6 +119,51 @@ namespace Onyx3DEditor
 			this.sceneHierarchyControl1.Size = new System.Drawing.Size(237, 407);
 			this.sceneHierarchyControl1.TabIndex = 6;
 			// 
+			// textBoxNameId
+			// 
+			this.textBoxNameId.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.textBoxNameId.Location = new System.Drawing.Point(83, 3);
+			this.textBoxNameId.Name = "textBoxNameId";
+			this.textBoxNameId.Size = new System.Drawing.Size(255, 20);
+			this.textBoxNameId.TabIndex = 0;
+			// 
+			// labelName
+			// 
+			this.labelName.AutoSize = true;
+			this.labelName.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.labelName.Location = new System.Drawing.Point(3, 0);
+			this.labelName.Name = "labelName";
+			this.labelName.Size = new System.Drawing.Size(74, 25);
+			this.labelName.TabIndex = 1;
+			this.labelName.Text = "NameId";
+			// 
+			// labelType
+			// 
+			this.labelType.AutoSize = true;
+			this.labelType.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.labelType.Location = new System.Drawing.Point(3, 25);
+			this.labelType.Name = "labelType";
+			this.labelType.Size = new System.Drawing.Size(74, 25);
+			this.labelType.TabIndex = 2;
+			this.labelType.Text = "Type";
+			// 
+			// comboBoxType
+			// 
+			this.comboBoxType.AllowDrop = true;
+			this.comboBoxType.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+			this.comboBoxType.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+			this.comboBoxType.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.comboBoxType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.comboBoxType.FormattingEnabled = true;
+			this.comboBoxType.Items.AddRange(new object[] {
+            "Static",
+            "Item",
+            "Activator"});
+			this.comboBoxType.Location = new System.Drawing.Point(83, 28);
+			this.comboBoxType.Name = "comboBoxType";
+			this.comboBoxType.Size = new System.Drawing.Size(255, 21);
+			this.comboBoxType.TabIndex = 3;
+			// 
 			// ModelImporterWindow
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -233,12 +180,6 @@ namespace Onyx3DEditor
 			this.Shown += new System.EventHandler(this.ModelImporterWindow_Shown);
 			this.tableLayoutPanel1.ResumeLayout(false);
 			this.tableLayoutPanel1.PerformLayout();
-			this.groupBoxMaterials.ResumeLayout(false);
-			this.groupBoxMaterials.PerformLayout();
-			this.groupBoxTextures.ResumeLayout(false);
-			this.groupBoxTextures.PerformLayout();
-			this.groupBoxMeshes.ResumeLayout(false);
-			this.groupBoxMeshes.PerformLayout();
 			this.panelGL.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
@@ -250,16 +191,13 @@ namespace Onyx3DEditor
 		private System.Windows.Forms.Button buttonOpen;
 		private System.Windows.Forms.TextBox textBoxPath;
 		private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-		private System.Windows.Forms.GroupBox groupBoxMaterials;
-		private System.Windows.Forms.GroupBox groupBoxTextures;
-		private System.Windows.Forms.GroupBox groupBoxMeshes;
 		private System.Windows.Forms.Button buttonImport;
-        private System.Windows.Forms.Label labelMaterials;
-        private System.Windows.Forms.Label labelTextures;
-        private System.Windows.Forms.Label labelMeshes;
         private System.Windows.Forms.Panel panelGL;
         private Onyx3DControl onyx3DControl;
-        private Label labelTemplate;
 		private SceneHierarchyControl sceneHierarchyControl1;
+		private TextBox textBoxNameId;
+		private Label labelName;
+		private Label labelType;
+		private ComboBox comboBoxType;
 	}
 }

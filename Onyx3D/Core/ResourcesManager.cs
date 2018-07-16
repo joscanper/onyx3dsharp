@@ -24,8 +24,14 @@ namespace Onyx3D
 			if (!map.ContainsKey(id))
 			{
 				OnyxProjectAsset asset = ProjectManager.Instance.Content.GetAsset(id);
-                if (asset == null)
-                    return GetResource(defaultAsset, map, loadFallback, 0);
+				if (asset == null)
+				{
+					if (defaultAsset > 0)
+						return GetResource(defaultAsset, map, loadFallback, 0);
+					else
+						return null;
+				}
+					
 
                 map[id] = loadFallback(asset);
 				map[id].LinkedProjectAsset = asset; 

@@ -111,6 +111,12 @@
     <Compile Include="Controls\Inspector\MeshRendererInspectorControl.Designer.cs">
       <DependentUpon>MeshRendererInspectorControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\Inspector\TemplateInspectorControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Inspector\TemplateInspectorControl.Designer.cs">
+      <DependentUpon>TemplateInspectorControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\MeshViewList.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -235,6 +241,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\Inspector\MeshRendererInspectorControl.resx">
       <DependentUpon>MeshRendererInspectorControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\Inspector\TemplateInspectorControl.resx">
+      <DependentUpon>TemplateInspectorControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\MeshViewList.resx">
       <DependentUpon>MeshViewList.cs</DependentUpon>

@@ -84,19 +84,6 @@
       </Component>
     </SceneObject>
     <SceneObject
-      id="Teapot"
-      instanceId="45340862">
-      <Transform
-        position="-1.432643, -0.019539, 0.6197639"
-        rotation="0, 0.9999849, 0, 0.8698576"
-        scale="0.0141152, 0.0141152, 0.0141152" />
-      <Component
-        className="MeshRenderer">
-        <Mesh>1000000</Mesh>
-        <Material>4000009</Material>
-      </Component>
-    </SceneObject>
-    <SceneObject
       id="Sphere"
       instanceId="587614123">
       <Transform
@@ -123,5 +110,14 @@
         <Intensity>10</Intensity>
       </Component>
     </SceneObject>
+    <TemplateProxy
+      id="Template"
+      instanceId="1283266907"
+      templateGuid="5000002">
+      <Transform
+        position="0, 0, 0"
+        rotation="1, 0, 0, 0"
+        scale="1, 1, 1" />
+    </TemplateProxy>
   </Root>
 </Scene>

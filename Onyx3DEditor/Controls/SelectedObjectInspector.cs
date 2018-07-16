@@ -39,10 +39,11 @@ namespace Onyx3DEditor
 			// Name
 			textBoxName.Visible = true;
 			textBoxName.Text = obj.Id;
-			//tableLayoutPanel.Controls.Add(textBoxName, 0, 0);
-
-            if (obj.GetType() == typeof(TemplateProxy))
-                CreatePropertyInspector(new TemplateProxyInspector((TemplateProxy)obj));
+			
+			if (obj.GetType() == typeof(TemplateProxy))
+			{
+				tableLayoutPanel.Controls.Add(CreatePropertyInspector(new TemplateProxyInspector((TemplateProxy)obj)));
+			}
 
             // Transform inspector
             PropertyGrid transformInspector = CreatePropertyInspector(new TransformInspector(obj.Transform));
@@ -144,6 +145,5 @@ namespace Onyx3DEditor
 			Selection.ActiveObject.Id = textBoxName.Text;
 			InspectorChanged?.Invoke(this, e);
 		}
-
 	}
 }

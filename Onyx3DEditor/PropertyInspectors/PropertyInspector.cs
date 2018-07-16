@@ -28,7 +28,7 @@ namespace Onyx3DEditor
 
 		public virtual void Apply() {}
 
-		public virtual int GetInspectorHeight() { return 10; }
+		public virtual int GetInspectorHeight() { return 50; }
 	}
 
 }

@@ -1,39 +1,55 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
 using System.Xml;
 
 namespace Onyx3D
 {
     public class TemplateProxy : SceneObject
     {
-        private Template mTemplate;
-        public Template Template
-        {
-            set
-            {
-                if (ChildCount > 0)
-                    RemoveAllChildren();
+		public Template Template { set; get; }
 
-                mTemplate = value;
-                SceneObject newObject = mTemplate.Root.Clone();
-                newObject.Parent = this;
-            }
-            get
-            {
-                return mTemplate;
-            }
-        }
-
-        public TemplateProxy(string id, Scene scene = null, int instanceId = 0) : base(id, scene, instanceId)
+		public TemplateProxy(string id, Scene scene = null, int instanceId = 0) : base(id, scene, instanceId)
         {
         }
 
-        // ------ Serialization ------
+		public override List<T> GetComponents<T>()
+		{
 
-        public override void ReadXml(XmlReader reader)
+			if (Template != null && Template.Root != null)
+				return Template.Root.GetComponents<T>();
+			else
+				return null;
+
+			// TODO - Should this get component on children too?
+			
+		}
+
+		public override T GetComponentInChildren<T>()
+		{
+			
+			if (Template != null && Template.Root != null)
+				return Template.Root.GetComponentInChildren<T>();
+			else
+				return null;
+			
+			// TODO - Should this get component on children too?
+		}
+
+		public override List<T> GetComponentsInChildren<T>()
+		{
+
+			if (Template != null && Template.Root != null)
+				return Template.Root.GetComponentsInChildren<T>();
+			else
+				return null;
+			
+			// TODO - Should this get component on children too?
+		}
+
+
+		// ------ Serialization ------
+
+		public override void ReadXml(XmlReader reader)
         {
             Id = reader.GetAttribute("id");
             InstanceId = Convert.ToInt32(reader.GetAttribute("instanceId"));
