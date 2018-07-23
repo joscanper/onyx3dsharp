@@ -1,4 +1,5 @@
 ﻿using System;
+
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -7,6 +8,8 @@ using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using System.IO;
 using System.Collections.Generic;
+
+using Microsoft.VisualBasic;
 
 namespace Onyx3DEditor
 {
@@ -377,7 +380,7 @@ namespace Onyx3DEditor
 
         private void toolStripCreateTemplate_Click(object sender, EventArgs e)
         {
-            TemplateProxy tmp = new TemplateProxy("Template");
+            EntityProxy tmp = new EntityProxy("Template");
             tmp.Parent = mScene.Root;
             Selection.ActiveObject = tmp;
         }
@@ -497,6 +500,30 @@ namespace Onyx3DEditor
 			}
 
 			Selection.ActiveObject = newObj;
+		}
+
+		private void createEntityToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			if (Selection.ActiveObject == null)
+				return;
+
+			if (Selection.ActiveObject.GetType() == typeof(EntityProxy))
+				return;
+
+			NewEntityWindow window = new NewEntityWindow();
+			if (window.ShowDialog(this) == DialogResult.OK)
+			{
+				
+				Entity entity = EntityLoader.Create(Selection.ActiveObject, window.EntityName);
+
+				EntityProxy proxy = new EntityProxy(Selection.ActiveObject.Id, mScene);
+				proxy.EntityRef = entity;
+				proxy.Parent = Selection.ActiveObject.Parent;
+				Selection.ActiveObject.Parent = null;
+				Selection.ActiveObject = proxy;
+			}
+			window.Dispose();
+		
 		}
 	}
 }

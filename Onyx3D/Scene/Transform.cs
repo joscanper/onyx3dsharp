@@ -97,7 +97,9 @@ namespace Onyx3D
 
 			Matrix4 model = s * r * t;
 			if (SceneObject.Parent != null)
-				model *= SceneObject.Parent.Transform.CalculateModelMatrix() ;
+			{
+				model *= SceneObject.Parent.Transform.ModelMatrix; //SceneObject.Parent.Transform.CalculateModelMatrix();
+			}
 
             if (Offset != Matrix4.Identity)
                 model *= Offset;
@@ -165,21 +167,26 @@ namespace Onyx3D
 
 		public void SetDirty()
 		{
-			mBakedModelM = CalculateModelMatrix();
-            mBakedNormalM = Matrix4.Transpose(Matrix4.Invert(mBakedModelM));
-            mBakedPosition = Vector4.UnitW * mBakedModelM;
-            //mBakedRotation = GetModelMatrix() * mLocalRotation;
+			SetModelMatrix(CalculateModelMatrix());
+		}
 
-            Right = new Vector3(Vector4.UnitX * mBakedModelM);
-            Up = new Vector3(Vector4.UnitY * mBakedModelM);
-            Forward = new Vector3(Vector4.UnitZ * mBakedModelM);
+		public void SetModelMatrix(Matrix4 model)
+		{
+			mBakedModelM = model;
+			mBakedNormalM = Matrix4.Transpose(Matrix4.Invert(mBakedModelM));
+			mBakedPosition = Vector4.UnitW * mBakedModelM;
+			//mBakedRotation = GetModelMatrix() * mLocalRotation;
+
+			Right = new Vector3(Vector4.UnitX * mBakedModelM);
+			Up = new Vector3(Vector4.UnitY * mBakedModelM);
+			Forward = new Vector3(Vector4.UnitZ * mBakedModelM);
 
 			for (int c = 0; c < SceneObject.Components.Count; c++)
 			{
 				SceneObject.Components[c].OnDirtyTransform();
 			}
 
-            for (int i = 0; i < SceneObject.ChildCount; ++i)
+			for (int i = 0; i < SceneObject.ChildCount; ++i)
 			{
 				SceneObject.GetChild(i).Transform.SetDirty();
 			}

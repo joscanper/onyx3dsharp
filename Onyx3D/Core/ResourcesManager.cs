@@ -13,7 +13,7 @@ namespace Onyx3D
 		private Dictionary<int, Texture> mTextures = new Dictionary<int, Texture>();
 		private Dictionary<int, Material> mMaterials = new Dictionary<int, Material>();
 		private Dictionary<int, Shader> mShaders = new Dictionary<int, Shader>();
-        private Dictionary<int, Template> mTemplates = new Dictionary<int, Template>();
+        private Dictionary<int, Entity> mEntities = new Dictionary<int, Entity>();
 
         // ----------------------------------------------------------------  Getters
 
@@ -69,9 +69,9 @@ namespace Onyx3D
 			return GetResource(id, mShaders, LoadShader, BuiltInShader.Default);
 		}
 
-        public Template GetTemplate(int id)
+        public Entity GetEntity(int id)
         {
-            return GetResource(id, mTemplates, LoadTemplate, 0);
+            return GetResource(id, mEntities, LoadEntity, 0);
         }
 
         public void ReloadMaterial(int id)
@@ -118,9 +118,9 @@ namespace Onyx3D
 			return new Texture(asset.AbsolutePath);
 		}
 
-        private Template LoadTemplate(OnyxProjectAsset asset)
+        private Entity LoadEntity(OnyxProjectAsset asset)
         {
-            return TemplateLoader.Load(asset.AbsolutePath);
+            return EntityLoader.Load(asset.AbsolutePath);
         }
 
 

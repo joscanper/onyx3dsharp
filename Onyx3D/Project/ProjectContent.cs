@@ -20,7 +20,7 @@ namespace Onyx3D
 		public List<OnyxProjectAsset> Textures = new List<OnyxProjectAsset>();
 		public List<OnyxProjectMaterialAsset> Materials = new List<OnyxProjectMaterialAsset>();
 		public List<OnyxProjectMeshAsset> Meshes = new List<OnyxProjectMeshAsset>();
-        public List<OnyxProjectAsset> Templates = new List<OnyxProjectAsset>();
+        public List<OnyxProjectAsset> Entities = new List<OnyxProjectAsset>();
 
         [XmlIgnore]
 		public Dictionary<int, OnyxProjectAsset> mMappedResources = new Dictionary<int, OnyxProjectAsset>();
@@ -66,7 +66,7 @@ namespace Onyx3D
 			AddAssets(Materials);
 			AddAssets(Textures);
 			AddAssets(Meshes);
-            AddAssets(Templates);
+            AddAssets(Entities);
         }
 
 
@@ -124,17 +124,22 @@ namespace Onyx3D
 			return meshAsset;
 		}
 
-        public OnyxProjectAsset AddTemplate(string path, bool relative = false, Template tmp = null)
+        public OnyxProjectAsset AddTemplate(string path, bool relative = false, Entity tmp = null)
         {
-            OnyxProjectAsset templateAsset = new OnyxProjectAsset(relative ? path : GetRelativePath(path), Path.GetFileNameWithoutExtension(path), GetNewTemplateId());
+            OnyxProjectAsset entityAsset = new OnyxProjectAsset(relative ? path : GetRelativePath(path), Path.GetFileNameWithoutExtension(path), GetNewEntityId());
             if (tmp != null)
-                tmp.LinkedProjectAsset = templateAsset;
-            Templates.Add(templateAsset);
-            AddAsset(templateAsset);
-            return templateAsset;
+                tmp.LinkedProjectAsset = entityAsset;
+            Entities.Add(entityAsset);
+            AddAsset(entityAsset);
+            return entityAsset;
         }
 
 		// -----
+
+		public static string GetEntityPath(string entityName)
+		{
+			return string.Format("{0}\\{1}\\{2}{3}", ProjectManager.Instance.Directory, "Entities", entityName, ".o3dent");
+		}
 
 
 		public static string GetAbsolutePath(string relativePath)
@@ -178,9 +183,9 @@ namespace Onyx3D
 			return GetNewId(Textures, ContentIds.Textures);
         }
 
-        private int GetNewTemplateId()
+        private int GetNewEntityId()
         {
-            return GetNewId(Templates, ContentIds.Templates);
+            return GetNewId(Entities, ContentIds.Entities);
         }
 
 

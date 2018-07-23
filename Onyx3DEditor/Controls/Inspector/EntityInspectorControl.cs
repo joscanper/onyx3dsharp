@@ -10,10 +10,10 @@ using Onyx3D;
 
 namespace Onyx3DEditor.Controls.Inspector
 {
-	[ComponentInspector(typeof(TemplateProxy))]
-	public partial class TemplateInspectorControl : InspectorControl
+	[ComponentInspector(typeof(EntityProxy))]
+	public partial class EntityInspectorControl : InspectorControl
 	{
-		public TemplateInspectorControl()
+		public EntityInspectorControl()
 		{
 			InitializeComponent();
 		}

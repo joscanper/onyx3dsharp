@@ -71,12 +71,14 @@ namespace Onyx3DEditor
 			this.duplicateSceneObjectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.setParentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.clearParentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.groupObjectsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.createEntityToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripDropDownButton2 = new System.Windows.Forms.ToolStripDropDownButton();
 			this.bakeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-			this.sceneHierarchy = new Onyx3DEditor.SceneHierarchyControl();
 			this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-			this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripMenuItemConvertToEntity = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripScene = new System.Windows.Forms.ToolStrip();
 			this.toolStripButtonChangeScene = new System.Windows.Forms.ToolStripButton();
 			this.splitContainer2 = new System.Windows.Forms.SplitContainer();
@@ -95,14 +97,13 @@ namespace Onyx3DEditor
 			this.toolStripCreateLight = new System.Windows.Forms.ToolStripButton();
 			this.toolStripCreateReflectionProbe = new System.Windows.Forms.ToolStripButton();
 			this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-			this.toolStripCreateTemplate = new System.Windows.Forms.ToolStripButton();
-			this.selectedObjectInspector = new Onyx3DEditor.SelectedObjectInspector();
+			this.toolStripCreateEntity = new System.Windows.Forms.ToolStripButton();
 			this.toolStrip3 = new System.Windows.Forms.ToolStrip();
 			this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
 			this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
 			this.timer1 = new System.Windows.Forms.Timer(this.components);
-			this.clearParentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.groupObjectsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.sceneHierarchy = new Onyx3DEditor.SceneHierarchyControl();
+			this.selectedObjectInspector = new Onyx3DEditor.SelectedObjectInspector();
 			this.toolStrip1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
 			this.splitContainer1.Panel1.SuspendLayout();
@@ -188,7 +189,8 @@ namespace Onyx3DEditor
             this.deleteToolStripMenuItem,
             this.setParentToolStripMenuItem,
             this.clearParentToolStripMenuItem,
-            this.groupObjectsToolStripMenuItem});
+            this.groupObjectsToolStripMenuItem,
+            this.createEntityToolStripMenuItem});
 			this.toolStripDropDownButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButton1.Image")));
 			this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
@@ -199,7 +201,7 @@ namespace Onyx3DEditor
 			// 
 			this.duplicateSceneObjectToolStripMenuItem.Name = "duplicateSceneObjectToolStripMenuItem";
 			this.duplicateSceneObjectToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D)));
-			this.duplicateSceneObjectToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.duplicateSceneObjectToolStripMenuItem.Size = new System.Drawing.Size(211, 22);
 			this.duplicateSceneObjectToolStripMenuItem.Text = "Duplicate";
 			this.duplicateSceneObjectToolStripMenuItem.Click += new System.EventHandler(this.duplicateSceneObjectToolStripMenuItem_Click);
 			// 
@@ -207,7 +209,7 @@ namespace Onyx3DEditor
 			// 
 			this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
 			this.deleteToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.Delete;
-			this.deleteToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.deleteToolStripMenuItem.Size = new System.Drawing.Size(211, 22);
 			this.deleteToolStripMenuItem.Text = "Delete";
 			this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
 			// 
@@ -215,9 +217,34 @@ namespace Onyx3DEditor
 			// 
 			this.setParentToolStripMenuItem.Name = "setParentToolStripMenuItem";
 			this.setParentToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.P)));
-			this.setParentToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.setParentToolStripMenuItem.Size = new System.Drawing.Size(211, 22);
 			this.setParentToolStripMenuItem.Text = "Set Parent";
 			this.setParentToolStripMenuItem.Click += new System.EventHandler(this.setParentToolStripMenuItem_Click);
+			// 
+			// clearParentToolStripMenuItem
+			// 
+			this.clearParentToolStripMenuItem.Name = "clearParentToolStripMenuItem";
+			this.clearParentToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.P)));
+			this.clearParentToolStripMenuItem.Size = new System.Drawing.Size(211, 22);
+			this.clearParentToolStripMenuItem.Text = "Clear Parent";
+			this.clearParentToolStripMenuItem.Click += new System.EventHandler(this.clearParentToolStripMenuItem_Click_1);
+			// 
+			// groupObjectsToolStripMenuItem
+			// 
+			this.groupObjectsToolStripMenuItem.Name = "groupObjectsToolStripMenuItem";
+			this.groupObjectsToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.G)));
+			this.groupObjectsToolStripMenuItem.Size = new System.Drawing.Size(211, 22);
+			this.groupObjectsToolStripMenuItem.Text = "Group Objects";
+			this.groupObjectsToolStripMenuItem.Click += new System.EventHandler(this.groupObjectsToolStripMenuItem_Click);
+			// 
+			// createEntityToolStripMenuItem
+			// 
+			this.createEntityToolStripMenuItem.Name = "createEntityToolStripMenuItem";
+			this.createEntityToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.E)));
+			this.createEntityToolStripMenuItem.Size = new System.Drawing.Size(211, 22);
+			this.createEntityToolStripMenuItem.Text = "Create Entity";
+			this.createEntityToolStripMenuItem.Click += new System.EventHandler(this.createEntityToolStripMenuItem_Click);
 			// 
 			// toolStripDropDownButton2
 			// 
@@ -257,27 +284,18 @@ namespace Onyx3DEditor
 			this.splitContainer1.SplitterDistance = 158;
 			this.splitContainer1.TabIndex = 2;
 			// 
-			// sceneHierarchy
-			// 
-			this.sceneHierarchy.ContextMenuStrip = this.contextMenuStrip1;
-			this.sceneHierarchy.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.sceneHierarchy.Location = new System.Drawing.Point(0, 0);
-			this.sceneHierarchy.Name = "sceneHierarchy";
-			this.sceneHierarchy.Size = new System.Drawing.Size(158, 495);
-			this.sceneHierarchy.TabIndex = 4;
-			// 
 			// contextMenuStrip1
 			// 
 			this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItem1});
+            this.toolStripMenuItemConvertToEntity});
 			this.contextMenuStrip1.Name = "contextMenuStrip1";
 			this.contextMenuStrip1.Size = new System.Drawing.Size(178, 26);
 			// 
-			// toolStripMenuItem1
+			// toolStripMenuItemConvertToEntity
 			// 
-			this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-			this.toolStripMenuItem1.Size = new System.Drawing.Size(177, 22);
-			this.toolStripMenuItem1.Text = "Convert Into Prefab";
+			this.toolStripMenuItemConvertToEntity.Name = "toolStripMenuItemConvertToEntity";
+			this.toolStripMenuItemConvertToEntity.Size = new System.Drawing.Size(177, 22);
+			this.toolStripMenuItemConvertToEntity.Text = "Convert Into Prefab";
 			// 
 			// toolStripScene
 			// 
@@ -352,7 +370,7 @@ namespace Onyx3DEditor
             this.toolStripCreateLight,
             this.toolStripCreateReflectionProbe,
             this.toolStripSeparator3,
-            this.toolStripCreateTemplate});
+            this.toolStripCreateEntity});
 			this.toolStrip2.Location = new System.Drawing.Point(0, 0);
 			this.toolStrip2.Name = "toolStrip2";
 			this.toolStrip2.Size = new System.Drawing.Size(600, 25);
@@ -481,27 +499,15 @@ namespace Onyx3DEditor
 			this.toolStripSeparator3.Name = "toolStripSeparator3";
 			this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
 			// 
-			// toolStripCreateTemplate
+			// toolStripCreateEntity
 			// 
-			this.toolStripCreateTemplate.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.toolStripCreateTemplate.Image = global::Onyx3DEditor.Properties.Resources.if_plug_extension_62666;
-			this.toolStripCreateTemplate.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.toolStripCreateTemplate.Name = "toolStripCreateTemplate";
-			this.toolStripCreateTemplate.Size = new System.Drawing.Size(23, 22);
-			this.toolStripCreateTemplate.Text = "toolStripButton3";
-			this.toolStripCreateTemplate.Click += new System.EventHandler(this.toolStripCreateTemplate_Click);
-			// 
-			// selectedObjectInspector
-			// 
-			this.selectedObjectInspector.AutoScroll = true;
-			this.selectedObjectInspector.AutoSize = true;
-			this.selectedObjectInspector.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.selectedObjectInspector.BackColor = System.Drawing.SystemColors.Control;
-			this.selectedObjectInspector.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.selectedObjectInspector.Location = new System.Drawing.Point(0, 0);
-			this.selectedObjectInspector.Name = "selectedObjectInspector";
-			this.selectedObjectInspector.Size = new System.Drawing.Size(192, 520);
-			this.selectedObjectInspector.TabIndex = 0;
+			this.toolStripCreateEntity.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.toolStripCreateEntity.Image = global::Onyx3DEditor.Properties.Resources.if_plug_extension_62666;
+			this.toolStripCreateEntity.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.toolStripCreateEntity.Name = "toolStripCreateEntity";
+			this.toolStripCreateEntity.Size = new System.Drawing.Size(23, 22);
+			this.toolStripCreateEntity.Text = "toolStripButton3";
+			this.toolStripCreateEntity.Click += new System.EventHandler(this.toolStripCreateTemplate_Click);
 			// 
 			// toolStrip3
 			// 
@@ -542,22 +548,26 @@ namespace Onyx3DEditor
 			this.timer1.Interval = 14;
 			this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
 			// 
-			// clearParentToolStripMenuItem
+			// sceneHierarchy
 			// 
-			this.clearParentToolStripMenuItem.Name = "clearParentToolStripMenuItem";
-			this.clearParentToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
-            | System.Windows.Forms.Keys.P)));
-			this.clearParentToolStripMenuItem.Size = new System.Drawing.Size(211, 22);
-			this.clearParentToolStripMenuItem.Text = "Clear Parent";
-			this.clearParentToolStripMenuItem.Click += new System.EventHandler(this.clearParentToolStripMenuItem_Click_1);
+			this.sceneHierarchy.ContextMenuStrip = this.contextMenuStrip1;
+			this.sceneHierarchy.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.sceneHierarchy.Location = new System.Drawing.Point(0, 0);
+			this.sceneHierarchy.Name = "sceneHierarchy";
+			this.sceneHierarchy.Size = new System.Drawing.Size(158, 495);
+			this.sceneHierarchy.TabIndex = 4;
 			// 
-			// groupObjectsToolStripMenuItem
+			// selectedObjectInspector
 			// 
-			this.groupObjectsToolStripMenuItem.Name = "groupObjectsToolStripMenuItem";
-			this.groupObjectsToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.G)));
-			this.groupObjectsToolStripMenuItem.Size = new System.Drawing.Size(211, 22);
-			this.groupObjectsToolStripMenuItem.Text = "Group Objects";
-			this.groupObjectsToolStripMenuItem.Click += new System.EventHandler(this.groupObjectsToolStripMenuItem_Click);
+			this.selectedObjectInspector.AutoScroll = true;
+			this.selectedObjectInspector.AutoSize = true;
+			this.selectedObjectInspector.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.selectedObjectInspector.BackColor = System.Drawing.SystemColors.Control;
+			this.selectedObjectInspector.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.selectedObjectInspector.Location = new System.Drawing.Point(0, 0);
+			this.selectedObjectInspector.Name = "selectedObjectInspector";
+			this.selectedObjectInspector.Size = new System.Drawing.Size(192, 520);
+			this.selectedObjectInspector.TabIndex = 0;
 			// 
 			// MainWindow
 			// 
@@ -628,7 +638,7 @@ namespace Onyx3DEditor
         private ToolStripButton toolStripCreateQuad;
         private Label labelLoggerOutput;
 		private ToolStripButton toolStripButtonImportModel;
-        private ToolStripButton toolStripCreateTemplate;
+        private ToolStripButton toolStripCreateEntity;
         private ToolStripSeparator toolStripSeparator3;
 		private ToolStripDropDownButton toolStripDropDownButton1;
 		private ToolStripMenuItem duplicateSceneObjectToolStripMenuItem;
@@ -638,8 +648,9 @@ namespace Onyx3DEditor
 		private ToolStripMenuItem bakeToolStripMenuItem;
 		private ToolStripMenuItem setParentToolStripMenuItem;
 		private ContextMenuStrip contextMenuStrip1;
-		private ToolStripMenuItem toolStripMenuItem1;
+		private ToolStripMenuItem toolStripMenuItemConvertToEntity;
 		private ToolStripMenuItem clearParentToolStripMenuItem;
 		private ToolStripMenuItem groupObjectsToolStripMenuItem;
+		private ToolStripMenuItem createEntityToolStripMenuItem;
 	}
 }

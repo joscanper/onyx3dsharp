@@ -6,14 +6,15 @@ using System.Xml.Serialization;
 
 namespace Onyx3D
 {
-    public class Template : GameAsset, IXmlSerializable
+    public class Entity : GameAsset, IXmlSerializable
     {
         public SceneObject Root;
 
-        public Template(SceneObject root = null)
+        public Entity(SceneObject root = null)
         {
             Root = root;
         }
+
 
         // ------------ Serialization -------------
 
@@ -24,9 +25,9 @@ namespace Onyx3D
 
         public void ReadXml(XmlReader reader)
         {
-            reader.ReadStartElement("Template");
+            reader.ReadStartElement("Entity");
             reader.ReadToNextSibling("Root");
-            this.Root = new SceneObject("TemplateRoot");
+            this.Root = new SceneObject("EntityRoot");
             this.Root.ReadXml(reader);
         }
 
@@ -34,7 +35,7 @@ namespace Onyx3D
         {
             writer.WriteStartDocument();
 
-            writer.WriteStartElement("Template");
+            writer.WriteStartElement("Entity");
 
 
             writer.WriteStartElement("Root");

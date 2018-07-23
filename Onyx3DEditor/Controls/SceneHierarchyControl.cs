@@ -11,6 +11,7 @@ namespace Onyx3DEditor
 	{
         private Scene mScene;
 		private TreeNode mPrevSelected;
+		private Entity mExpandedEntity;
 
 		public SceneHierarchyControl()
 		{
@@ -26,7 +27,6 @@ namespace Onyx3DEditor
 
 		public void SetObject(SceneObject obj)
 		{
-			mScene = null;
 			treeViewScene.Nodes.Clear();
 			TreeNode root = new TreeNode(obj.Id);
 			AddSceneObjectToTreeNode(root, obj, true);
@@ -67,7 +67,7 @@ namespace Onyx3DEditor
 				treeViewScene.SelectedNode = null;
 			}
 			
-			if (mScene.IsDirty)
+			if (mScene != null && mScene.IsDirty)
 				UpdateScene();
 
 			SearchAndHighlightObject(treeViewScene.Nodes[0]);
@@ -136,5 +136,26 @@ namespace Onyx3DEditor
 			Selection.OnSelectionChanged -= OnSelectionChanged;
 		}
 
+		private void treeViewScene_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
+		{
+			if (e.Node.GetType() != typeof(SceneTreeNode))
+			{
+				if (mExpandedEntity != null)
+				{
+					EntityLoader.Save(mExpandedEntity, mExpandedEntity.LinkedProjectAsset.AbsolutePath);
+					mExpandedEntity = null;
+				}
+				SetScene(mScene);
+				return;
+			}
+
+			SceneTreeNode node = (SceneTreeNode)e.Node;
+			EntityProxy entity = node.BoundSceneObject as EntityProxy;
+			if (entity != null)
+			{
+				SetObject(entity.EntityRef.Root);
+				mExpandedEntity = entity.EntityRef;
+			}
+		}
 	}
 }

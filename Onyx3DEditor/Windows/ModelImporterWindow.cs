@@ -71,10 +71,15 @@ namespace Onyx3DEditor
             }
 
             mPreview = ParseNode(mCurrentModel.RootNode, true);
-            Bounds bounds = mPreview.CalculateBoundingBox();
-            float scale = ModelScale / bounds.Size.Length;
-            mPreview.Transform.LocalScale = Vector3.One * scale;
-            mPreview.Parent = onyx3DControl.Scene.Root;
+			UpdatePreviewObject();
+		}
+
+		private void UpdatePreviewObject()
+		{
+			Bounds bounds = mPreview.CalculateBoundingBox();
+			float scale = ModelScale / bounds.Size.Length;
+			mPreview.Transform.LocalScale = Vector3.One * scale;
+			mPreview.Parent = onyx3DControl.Scene.Root;
 
 			sceneHierarchyControl1.SetObject(mPreview);
 
@@ -104,7 +109,7 @@ namespace Onyx3DEditor
 
             ModelSupportDataLoader.Save(mSupportFile);
 
-            ImportTemplate();
+            ImportEntity();
 
 			ProjectLoader.Save();
         }
@@ -144,17 +149,10 @@ namespace Onyx3DEditor
         }
 
 
-        private void ImportTemplate()
+        private void ImportEntity()
         {
             SceneObject root = ParseNode(mCurrentModel.RootNode, false);
-
-            string templatePath = Path.Combine(Path.GetDirectoryName(mSupportFile.AbsolutePath), Path.GetFileNameWithoutExtension(mSupportFile.ModelFile) + ".o3dtemp");
-            Template template = new Template(root);
-			
-			TemplateLoader.Save(template, templatePath);
-
-            OnyxProjectAsset asset =  ProjectManager.Instance.Content.AddTemplate(templatePath, false, template);
-			asset.Name = textBoxNameId.Text;
+			EntityLoader.Create(root, textBoxNameId.Text);
 		}
 
         private void ImportMaterialTextures(string directoryPath, Assimp.Material assimpMaterial, Onyx3D.DefaultMaterial onyxMaterial)
@@ -219,5 +217,16 @@ namespace Onyx3DEditor
             }
 		}
 
-    }
+		private void textBoxNameId_TextChanged(object sender, System.EventArgs e)
+		{
+			foreach(OnyxProjectAsset asset in ProjectManager.Instance.Content.Entities)
+			{
+				if (asset.Name == textBoxNameId.Text)
+				{
+					mPreview = onyx3DControl.OnyxInstance.Resources.GetEntity(asset.Guid).Root.Clone();
+					UpdatePreviewObject();
+				}
+			}
+		}
+	}
 }

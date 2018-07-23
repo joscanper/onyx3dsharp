@@ -39,6 +39,7 @@
 			this.treeViewScene.Size = new System.Drawing.Size(150, 150);
 			this.treeViewScene.TabIndex = 0;
 			this.treeViewScene.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeViewScene_NodeMouseClick);
+			this.treeViewScene.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeViewScene_NodeMouseDoubleClick);
 			// 
 			// SceneHierarchyControl
 			// 

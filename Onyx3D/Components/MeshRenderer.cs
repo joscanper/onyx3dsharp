@@ -6,7 +6,7 @@ using OpenTK.Graphics.OpenGL;
 namespace Onyx3D
 {
 
-    public class MeshRenderer : Component
+    public class MeshRenderer : Renderer
     {
 		private Mesh mMesh;
         public Mesh Mesh
@@ -22,7 +22,7 @@ namespace Onyx3D
         public Material Material;
         public Bounds Bounds { get; private set; }
 
-        public virtual void Render()
+        public override void Render()
         {
             SetUpMaterial();
 			SetUpMVP(Material.Shader.Program);

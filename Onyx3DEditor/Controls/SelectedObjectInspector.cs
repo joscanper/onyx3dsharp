@@ -40,9 +40,9 @@ namespace Onyx3DEditor
 			textBoxName.Visible = true;
 			textBoxName.Text = obj.Id;
 			
-			if (obj.GetType() == typeof(TemplateProxy))
+			if (obj.GetType() == typeof(EntityProxy))
 			{
-				tableLayoutPanel.Controls.Add(CreatePropertyInspector(new TemplateProxyInspector((TemplateProxy)obj)));
+				tableLayoutPanel.Controls.Add(CreatePropertyInspector(new EntityProxyInspector((EntityProxy)obj)));
 			}
 
             // Transform inspector

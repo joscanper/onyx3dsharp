@@ -1,6 +1,6 @@
 ﻿namespace Onyx3DEditor.Controls.Inspector
 {
-	partial class TemplateInspectorControl
+	partial class EntityInspectorControl
 	{
 		/// <summary> 
 		/// Required designer variable.

@@ -4,14 +4,40 @@ using System.Xml;
 
 namespace Onyx3D
 {
-    public class TemplateProxy : SceneObject
+    public class EntityProxy : SceneObject
     {
-		public Template Template { set; get; }
+		private EntityRenderer mRenderer;
+		private Entity mEntity;
 
-		public TemplateProxy(string id, Scene scene = null, int instanceId = 0) : base(id, scene, instanceId)
+		public Entity EntityRef
+		{
+			set
+			{
+				//mChildren.Clear();
+				//mChildren.Add(value.Root);
+				mEntity = value;
+				mRenderer.UpdateRenderers(mEntity);
+			}
+			get { return mEntity; }
+		}
+
+		public EntityProxy(string id, Scene scene = null, int instanceId = 0) : base(id, scene, instanceId)
         {
-        }
+			mRenderer = AddComponent<EntityRenderer>();
 
+		}
+
+
+		public override SceneObject Clone()
+		{
+			EntityProxy newObj = new EntityProxy(this.Id, this.Scene);
+			newObj.EntityRef = mEntity;
+			newObj.Copy(this);
+
+			return newObj;
+		}
+
+		/*
 		public override List<T> GetComponents<T>()
 		{
 
@@ -23,7 +49,7 @@ namespace Onyx3D
 			// TODO - Should this get component on children too?
 			
 		}
-
+		
 		public override T GetComponentInChildren<T>()
 		{
 			
@@ -45,7 +71,7 @@ namespace Onyx3D
 			
 			// TODO - Should this get component on children too?
 		}
-
+		*/
 
 		// ------ Serialization ------
 
@@ -53,7 +79,7 @@ namespace Onyx3D
         {
             Id = reader.GetAttribute("id");
             InstanceId = Convert.ToInt32(reader.GetAttribute("instanceId"));
-            Template = Onyx3DEngine.Instance.Resources.GetTemplate(Convert.ToInt32(reader.GetAttribute("templateGuid")));
+            EntityRef = Onyx3DEngine.Instance.Resources.GetEntity(Convert.ToInt32(reader.GetAttribute("entityGuid")));
 
             if (reader.IsEmptyElement)
                 return;
@@ -72,7 +98,7 @@ namespace Onyx3D
                         //ComponentLoader.Load(obj, reader);
                         break;
                     case XmlNodeType.EndElement:
-                        if (reader.Name.Equals("TemplateProxy"))
+                        if (reader.Name.Equals("EntityProxy"))
                             return;
                         break;
                 }
@@ -81,13 +107,16 @@ namespace Onyx3D
 
         public override void WriteXml(XmlWriter writer)
         {
-            writer.WriteStartElement("TemplateProxy");
+            writer.WriteStartElement("EntityProxy");
+
             writer.WriteAttributeString("id", Id);
             writer.WriteAttributeString("instanceId", InstanceId.ToString());
-            writer.WriteAttributeString("templateGuid", Template.LinkedProjectAsset.Guid.ToString());
+            writer.WriteAttributeString("entityGuid", EntityRef.LinkedProjectAsset.Guid.ToString());
 
             Transform.WriteXml(writer);
-        }
+
+			writer.WriteEndElement();
+		}
 
     }
 }

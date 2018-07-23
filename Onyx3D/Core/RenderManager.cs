@@ -8,9 +8,10 @@ namespace Onyx3D
 {
 	public class RenderManager : EngineComponent
 	{
-		private List<MeshRenderer> mSceneRenderers = new List<MeshRenderer>();
+		private List<MeshRenderer> mMeshRenderers = new List<MeshRenderer>();
+		private List<EntityRenderer> mEntityRenderers = new List<EntityRenderer>();
 		private List<ReflectionProbe> mReflectionProbes = new List<ReflectionProbe>();
-
+		//private List<Entity> mEntities = new List<Entity>();
 
 		public GizmosManager Gizmos { get; private set; }
 
@@ -53,23 +54,25 @@ namespace Onyx3D
 
 			scene.Lighting.UpdateUBO(scene);
 
-
 			GL.Viewport(0, 0, w, h);
 			GL.Clear(ClearBufferMask.DepthBufferBit);
 
 			if (scene.IsDirty)
 			{
                 scene.SetDirty(false);
-                mSceneRenderers = scene.Root.GetComponentsInChildren<MeshRenderer>();
+                mMeshRenderers = scene.Root.GetComponentsInChildren<MeshRenderer>();
+				mEntityRenderers = scene.Root.GetComponentsInChildren<EntityRenderer>();
 				mReflectionProbes = scene.Root.GetComponentsInChildren<ReflectionProbe>();
+				//mEntities = scene.Root.GetEntitiesInChildren();
 
                 BakeReflectionProbes(false);
             }
-			PrepareMaterials(mSceneRenderers, cam.UBO, scene.Lighting.UBO);
+
+			PrepareMaterials(cam.UBO, scene.Lighting.UBO);
 
 			RenderSky(scene, cam);
-
-            Render(mSceneRenderers);
+            RenderMeshes();
+			RenderEntities();
 
             GL.Flush();
 		}
@@ -104,30 +107,56 @@ namespace Onyx3D
             }
         }
 
-		private HashSet<Material> GetMaterialsFromRenderers(List<MeshRenderer> renderers)
+		private HashSet<Material> GetMaterialsFromRenderers()
 		{
 			HashSet<Material> materials = new HashSet<Material>();
-			for(int i = 0; i < renderers.Count; ++i)
-				materials.Add(renderers[i].Material);
+			for(int i = 0; i < mMeshRenderers.Count; ++i)
+				materials.Add(mMeshRenderers[i].Material);
 			return materials;
 		}
+
         
-		private void PrepareMaterials(List<MeshRenderer> renderers, UBO<CameraUBufferData> camUBO, UBO<LightingUBufferData> lightUBO)
+		private void PrepareMaterials(UBO<CameraUBufferData> camUBO, UBO<LightingUBufferData> lightUBO)
 		{
-			HashSet<Material> materials = GetMaterialsFromRenderers(renderers);
+			HashSet<Material> materials = GetMaterialsFromRenderers();
+			
+			// TODO - improve this so we only check a template once!
+			foreach(EntityRenderer er in mEntityRenderers)
+			{
+				foreach (MeshRenderer mr in er.Renderers)
+					materials.Add(mr.Material);
+			}
+
 			foreach (Material m in materials)
-			{ 
+			{
+				if (m == null)
+					return;
+
 				m.Shader.BindUBO(camUBO);
 				m.Shader.BindUBO(lightUBO);
 			}
+
+			
 		}
 
-		private void Render(List<MeshRenderer> renderers)
+		private void RenderMeshes()
 		{
-			for (int i = 0; i < renderers.Count; ++i)
+			for (int i = 0; i < mMeshRenderers.Count; ++i)
 			{
-				SetUpReflectionProbe(renderers[i]);
-				renderers[i].Render();
+				SetUpReflectionProbe(mMeshRenderers[i]);
+				mMeshRenderers[i].Render();
+			}
+		}
+
+		private void RenderEntities()
+		{
+			for (int i = 0; i < mEntityRenderers.Count; ++i)
+			{
+				// TODO - Maybe better to get the right reflectionprobe considering only the entityProxy position and not for all its renderers
+				foreach (MeshRenderer mr in mEntityRenderers[i].Renderers)
+					SetUpReflectionProbe(mr);
+
+				mEntityRenderers[i].Render();
 			}
 		}
 
@@ -140,11 +169,17 @@ namespace Onyx3D
 			if (cubemapProp == null)
 				return;
 
+			ReflectionProbe reflectionProbe = GetClosestReflectionProbe(renderer.Transform.Position);
+			cubemapProp.Data = reflectionProbe.Cubemap.Id;
+		}
+
+		private ReflectionProbe GetClosestReflectionProbe(Vector3 toPosition)
+		{
 			ReflectionProbe reflectionProbe = null;
 			float candidateDist = float.MaxValue;
-			for(int i=0; i < mReflectionProbes.Count; ++i)
+			for (int i = 0; i < mReflectionProbes.Count; ++i)
 			{
-				float sqrDist = mReflectionProbes[i].Transform.Position.SqrDistance(renderer.Transform.Position);
+				float sqrDist = mReflectionProbes[i].Transform.Position.SqrDistance(toPosition);
 				if (sqrDist < candidateDist)
 				{
 					candidateDist = sqrDist;
@@ -152,8 +187,7 @@ namespace Onyx3D
 				}
 			}
 
-			if (reflectionProbe != null)
-				cubemapProp.Data = reflectionProbe.Cubemap.Id;
+			return reflectionProbe;
 		}
 
 		public void Render(MeshRenderer r, Camera cam)

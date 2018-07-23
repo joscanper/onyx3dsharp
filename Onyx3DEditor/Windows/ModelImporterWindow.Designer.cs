@@ -34,15 +34,15 @@ namespace Onyx3DEditor
 		{
 			this.textBoxPath = new System.Windows.Forms.TextBox();
 			this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+			this.labelType = new System.Windows.Forms.Label();
+			this.textBoxNameId = new System.Windows.Forms.TextBox();
+			this.labelName = new System.Windows.Forms.Label();
+			this.comboBoxType = new System.Windows.Forms.ComboBox();
 			this.buttonImport = new System.Windows.Forms.Button();
 			this.panelGL = new System.Windows.Forms.Panel();
 			this.onyx3DControl = new Onyx3DEditor.Onyx3DControl();
 			this.buttonOpen = new System.Windows.Forms.Button();
 			this.sceneHierarchyControl1 = new Onyx3DEditor.SceneHierarchyControl();
-			this.textBoxNameId = new System.Windows.Forms.TextBox();
-			this.labelName = new System.Windows.Forms.Label();
-			this.labelType = new System.Windows.Forms.Label();
-			this.comboBoxType = new System.Windows.Forms.ComboBox();
 			this.tableLayoutPanel1.SuspendLayout();
 			this.panelGL.SuspendLayout();
 			this.SuspendLayout();
@@ -73,6 +73,52 @@ namespace Onyx3DEditor
 			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
 			this.tableLayoutPanel1.Size = new System.Drawing.Size(341, 316);
 			this.tableLayoutPanel1.TabIndex = 2;
+			// 
+			// labelType
+			// 
+			this.labelType.AutoSize = true;
+			this.labelType.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.labelType.Location = new System.Drawing.Point(3, 25);
+			this.labelType.Name = "labelType";
+			this.labelType.Size = new System.Drawing.Size(74, 25);
+			this.labelType.TabIndex = 2;
+			this.labelType.Text = "Type";
+			// 
+			// textBoxNameId
+			// 
+			this.textBoxNameId.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.textBoxNameId.Location = new System.Drawing.Point(83, 3);
+			this.textBoxNameId.Name = "textBoxNameId";
+			this.textBoxNameId.Size = new System.Drawing.Size(255, 20);
+			this.textBoxNameId.TabIndex = 0;
+			this.textBoxNameId.TextChanged += new System.EventHandler(this.textBoxNameId_TextChanged);
+			// 
+			// labelName
+			// 
+			this.labelName.AutoSize = true;
+			this.labelName.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.labelName.Location = new System.Drawing.Point(3, 0);
+			this.labelName.Name = "labelName";
+			this.labelName.Size = new System.Drawing.Size(74, 25);
+			this.labelName.TabIndex = 1;
+			this.labelName.Text = "NameId";
+			// 
+			// comboBoxType
+			// 
+			this.comboBoxType.AllowDrop = true;
+			this.comboBoxType.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+			this.comboBoxType.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+			this.comboBoxType.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.comboBoxType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.comboBoxType.FormattingEnabled = true;
+			this.comboBoxType.Items.AddRange(new object[] {
+            "Static",
+            "Item",
+            "Activator"});
+			this.comboBoxType.Location = new System.Drawing.Point(83, 28);
+			this.comboBoxType.Name = "comboBoxType";
+			this.comboBoxType.Size = new System.Drawing.Size(255, 21);
+			this.comboBoxType.TabIndex = 3;
 			// 
 			// buttonImport
 			// 
@@ -118,51 +164,6 @@ namespace Onyx3DEditor
 			this.sceneHierarchyControl1.Name = "sceneHierarchyControl1";
 			this.sceneHierarchyControl1.Size = new System.Drawing.Size(237, 407);
 			this.sceneHierarchyControl1.TabIndex = 6;
-			// 
-			// textBoxNameId
-			// 
-			this.textBoxNameId.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.textBoxNameId.Location = new System.Drawing.Point(83, 3);
-			this.textBoxNameId.Name = "textBoxNameId";
-			this.textBoxNameId.Size = new System.Drawing.Size(255, 20);
-			this.textBoxNameId.TabIndex = 0;
-			// 
-			// labelName
-			// 
-			this.labelName.AutoSize = true;
-			this.labelName.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.labelName.Location = new System.Drawing.Point(3, 0);
-			this.labelName.Name = "labelName";
-			this.labelName.Size = new System.Drawing.Size(74, 25);
-			this.labelName.TabIndex = 1;
-			this.labelName.Text = "NameId";
-			// 
-			// labelType
-			// 
-			this.labelType.AutoSize = true;
-			this.labelType.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.labelType.Location = new System.Drawing.Point(3, 25);
-			this.labelType.Name = "labelType";
-			this.labelType.Size = new System.Drawing.Size(74, 25);
-			this.labelType.TabIndex = 2;
-			this.labelType.Text = "Type";
-			// 
-			// comboBoxType
-			// 
-			this.comboBoxType.AllowDrop = true;
-			this.comboBoxType.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
-			this.comboBoxType.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-			this.comboBoxType.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.comboBoxType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.comboBoxType.FormattingEnabled = true;
-			this.comboBoxType.Items.AddRange(new object[] {
-            "Static",
-            "Item",
-            "Activator"});
-			this.comboBoxType.Location = new System.Drawing.Point(83, 28);
-			this.comboBoxType.Name = "comboBoxType";
-			this.comboBoxType.Size = new System.Drawing.Size(255, 21);
-			this.comboBoxType.TabIndex = 3;
 			// 
 			// ModelImporterWindow
 			// 

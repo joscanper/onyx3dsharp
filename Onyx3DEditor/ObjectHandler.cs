@@ -96,7 +96,7 @@ class ObjectHandler
 			return;
 
 		if (!IsHandling)
-			mScale = Vector3.Distance(mCamera.Transform.Position, mObject.Transform.Position) * 0.25f;
+			mScale = Math.Max(0.1f, Vector3.Distance(mCamera.Transform.Position, mObject.Transform.Position) * 0.25f);
 
 		mOperator.Update(mObject, mScale);
 		mOperator.DrawGizmos(mObject, mOnyx3DInstance.Gizmos, mScale);
