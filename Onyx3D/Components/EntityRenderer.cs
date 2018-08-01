@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Xml;
 
 namespace Onyx3D
@@ -13,12 +10,35 @@ namespace Onyx3D
 
 		private Entity Entity { get { return ((EntityProxy)SceneObject).EntityRef; } }
 
+		// --------------------------------------------------------------------
+
 		public void UpdateRenderers(Entity e)
 		{
 			Renderers.Clear();
 			if (e != null)
+			{
 				e.Root.GetComponentsInChildren<MeshRenderer>(Renderers);
+			}
+
+			UpdateBounds();
 		}
+		
+		// --------------------------------------------------------------------
+
+		protected override void UpdateBounds()
+		{
+			Bounds.Clear();
+
+			if (Renderers.Count > 0)
+				Bounds = Renderers[0].Bounds;
+
+			foreach(Renderer renderer in Renderers)
+			{
+				Bounds.Encapsulate(renderer.Bounds);
+			}
+		}
+
+		// --------------------------------------------------------------------
 
 		public override void Render()
 		{
@@ -33,12 +53,16 @@ namespace Onyx3D
 			}
 		}
 
-		// -----------------------------------------
+		// --------------------------------------------------------------------
+		// --------- Serialization --------------
+		// --------------------------------------------------------------------
 
 		public override void ReadComponentXmlNode(XmlReader reader)
 		{
 			
 		}
+
+		// --------------------------------------------------------------------
 
 		public override void WriteComponentXml(XmlWriter writer)
 		{

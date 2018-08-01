@@ -16,6 +16,13 @@ namespace Onyx3DEditor
 		const char LEFT_CHAR = 'a';
 		const char RIGHT_CHAR = 'd';
 		const char BACKWARDS_CHAR = 's';
+		const char FOCUS_CHAR = 'f';
+
+		const char VIEW_FRONT_CHAR = '1';
+		const char VIEW_RIGHT_CHAR = '2';
+		const char VIEW_TOP_CHAR = '3';
+
+		const char VIEW_PERSPECTIVE_CHAR = '5';
 
 		const float DragFactor = 0.005f;
 		const float RotationFactor = 0.005f;
@@ -33,7 +40,17 @@ namespace Onyx3DEditor
 		public Vector2 MouseOffset { get; private set; }
 
 		private Vector2 mCurrentMousePos;
-		public PerspectiveCamera NavigationCamera;
+
+		private SceneObject mCameraPivotTop;
+		private SceneObject mCameraPivotXZRot;
+		private SceneObject mCameraPivotZMov;
+
+		private PerspectiveCamera mNavigationCamera;
+		private OrthoCamera mOrthoCamera;
+
+		private Camera mSelectedCamera;
+
+		public Camera Camera { get { return mSelectedCamera; } }
 
 		public OnyxViewerNavigation()
 		{
@@ -52,11 +69,23 @@ namespace Onyx3DEditor
 
 		public void CreateCamera()
 		{
-			SceneObject mCameraPivot = new SceneObject("CameraPivot");
-			mCameraPivot.Transform.LocalPosition = new Vector3(0, 0.5f, 3);
+			mCameraPivotTop = new SceneObject("CameraPivotTop");
 
-            NavigationCamera = new PerspectiveCamera("MainCamera", MathHelper.DegreesToRadians(60), 1.5f);
-			NavigationCamera.Parent = mCameraPivot;
+			mCameraPivotXZRot = new SceneObject("CameraPivotXZ");
+			mCameraPivotXZRot.Parent = mCameraPivotTop;
+
+			mCameraPivotZMov = new SceneObject("CameraPivotZMov");
+			mCameraPivotZMov.Parent = mCameraPivotXZRot;
+
+			mNavigationCamera = new PerspectiveCamera("MainCamera", MathHelper.DegreesToRadians(60), 1.5f);
+			mNavigationCamera.Parent = mCameraPivotZMov;
+
+			mOrthoCamera = new OrthoCamera("OrthoCamera", 5f, 5f);
+			mOrthoCamera.Parent = mCameraPivotZMov;
+
+			mCameraPivotTop.Transform.LocalPosition = new Vector3(0, 0.5f, 3);
+
+			mSelectedCamera = mNavigationCamera;
 		}
 
 		public void UpdateMousePosition(Point pos)
@@ -68,7 +97,7 @@ namespace Onyx3DEditor
 
 		public void UpdateCamera()
 		{
-            NavigationCamera.Aspect = (float)mBoundControl.Width / (float)mBoundControl.Height;
+            mNavigationCamera.Aspect = (float)mBoundControl.Width / (float)mBoundControl.Height;
 
             switch (CurrentAction)
 			{
@@ -79,7 +108,7 @@ namespace Onyx3DEditor
 					RotateCamera();
 					break;
 			}
-			NavigationCamera.Update();
+			mSelectedCamera.Update();
 
 		}
 
@@ -91,17 +120,17 @@ namespace Onyx3DEditor
 
 		private void MoveCamera(Vector3 translation)
 		{
-			Vector3 camPos = NavigationCamera.Parent.Transform.LocalPosition;
-			translation = Vector3.TransformVector(translation, NavigationCamera.Transform.GetRotationMatrix());
-			translation = Vector3.TransformVector(translation, NavigationCamera.Parent.Transform.GetRotationMatrix());
+			Vector3 camPos = mCameraPivotTop.Transform.LocalPosition;
+			translation = Vector3.TransformVector(translation, mCameraPivotXZRot.Transform.GetRotationMatrix());
+			translation = Vector3.TransformVector(translation, mCameraPivotTop.Transform.GetRotationMatrix());
 			camPos += translation;
-			NavigationCamera.Parent.Transform.LocalPosition = camPos;
+			mCameraPivotTop.Transform.LocalPosition = camPos;
 		}
 
 		private void RotateCamera()
 		{
-			NavigationCamera.Parent.Transform.Rotate(Quaternion.FromEulerAngles(new Vector3(0,-MouseOffset.X * RotationFactor, 0)));
-			NavigationCamera.Transform.Rotate(Quaternion.FromEulerAngles(new Vector3(-MouseOffset.Y * RotationFactor, 0, 0)));
+			mCameraPivotTop.Transform.Rotate(Quaternion.FromEulerAngles(new Vector3(0,-MouseOffset.X * RotationFactor, 0)));
+			mCameraPivotXZRot.Transform.Rotate(Quaternion.FromEulerAngles(new Vector3(-MouseOffset.Y * RotationFactor, 0, 0)));
 		}
 
 		#region Mouse Interaction
@@ -133,7 +162,7 @@ namespace Onyx3DEditor
 
 		public void OnMouseWheel(object sender, MouseEventArgs e)
 		{
-			MoveCamera(Vector3.UnitZ * (-e.Delta) * ZoomFactor);
+			mCameraPivotZMov.Transform.Translate(Vector3.UnitZ * (-e.Delta) * ZoomFactor);
 			GLControl renderCanvas = sender as GLControl;
 			if (renderCanvas != null)
 				renderCanvas.Refresh();
@@ -151,6 +180,16 @@ namespace Onyx3DEditor
 				MoveCamera(-Vector3.UnitZ * DragFactor * 10);
 			else if (e.KeyChar.Equals(LEFT_CHAR))
 				MoveCamera(-Vector3.UnitX * DragFactor * 10);
+			else if (e.KeyChar.Equals(VIEW_FRONT_CHAR))
+				SetView(Quaternion.Identity, Quaternion.Identity);
+			else if (e.KeyChar.Equals(VIEW_RIGHT_CHAR))
+				SetView(Quaternion.FromMatrix(new Matrix3(Matrix4.LookAt(Vector3.Zero, -Vector3.UnitX, Vector3.UnitY))), Quaternion.Identity);
+			else if (e.KeyChar.Equals(VIEW_TOP_CHAR))
+				SetView(Quaternion.Identity, Quaternion.FromMatrix(new Matrix3(Matrix4.LookAt(Vector3.Zero, -Vector3.UnitY, Vector3.UnitZ))));
+			else if (e.KeyChar.Equals(VIEW_PERSPECTIVE_CHAR))
+				mSelectedCamera = (mSelectedCamera == mNavigationCamera ? (Camera)mOrthoCamera : mNavigationCamera);
+			else if (e.KeyChar.Equals(FOCUS_CHAR))
+				FocusOnSelected();
 
 			GLControl renderCanvas = sender as GLControl;
 			if (renderCanvas != null)
@@ -158,6 +197,30 @@ namespace Onyx3DEditor
 		}
 
 		#endregion
+		
+		private void FocusOnSelected()
+		{
+			
+			if (Selection.ActiveObject == null)
+			{
+				mCameraPivotTop.Transform.LocalPosition = mCameraPivotZMov.Transform.Position;
+				mCameraPivotZMov.Transform.LocalPosition = Vector3.Zero;
+
+			}
+			else
+			{
+
+				mCameraPivotTop.Transform.LocalPosition = Selection.ActiveObject.Transform.Position;
+				mCameraPivotZMov.Transform.LocalPosition = Vector3.UnitZ * 5f;
+				
+			}
+		}
+
+		private void SetView(Quaternion yRotation, Quaternion xzRotation)
+		{
+			mCameraPivotTop.Transform.LocalRotation = yRotation;
+			mCameraPivotXZRot.Transform.LocalRotation = xzRotation;
+		}
 	}
 
 

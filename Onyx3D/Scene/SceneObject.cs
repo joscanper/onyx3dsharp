@@ -14,79 +14,89 @@ namespace Onyx3D
 	
 		private List<Component> mComponents = new List<Component>();
 		private SceneObject mParent;
+		private Bounds mObjectBounds = new Bounds();
+		private List<Renderer> mChildrenRenderer = new List<Renderer>();
+
+		// --------------------------------------------------------------------
+
 		protected List<SceneObject> mChildren = new List<SceneObject>();
-		private Scene mScene;
+
+		// --------------------------------------------------------------------
 
 		public string Id;
 		public Transform Transform;
 		public bool Active = true;
 
-		public List<Component> Components { get { return mComponents; } }
+		// --------------------------------------------------------------------
 
+		public int ChildCount { get { return mChildren.Count;  } }
+		public SceneObject GetChild(int index) { return mChildren[index]; }
+		public Scene Scene { get; private set; }
+		public List<Component> Components { get { return mComponents; } }
+		
 		public SceneObject Parent
 		{
 			get { return mParent; }
 			set { SetParent(value); }
 		}
 
-		public Scene Scene
-		{
-			get { return mScene; }
-		}
+		// --------------------------------------------------------------------
 
-		public int ChildCount
-		{
-			get { return mChildren.Count;  }
-		}
-
-		public SceneObject GetChild(int index)
-		{
-			return mChildren[index];
-		}
-		
 		public SceneObject(string id, Scene scene = null, int instanceId = 0) : base(instanceId)
         {
             Id = id;
-			mScene = scene;
+			Scene = scene;
 			Transform = new Transform(this);
 		}
 
-        public void Destroy()
+		// --------------------------------------------------------------------
+
+		public void Destroy()
         {
 			Dispose();
             mComponents.Clear();
             mChildren.Clear();
-            mScene = null;
+            Scene = null;
 			SetParent(null);
         }
+
+		// --------------------------------------------------------------------
 
 		public bool RemoveComponent(Component c)
 		{
 			return mComponents.Remove(c);
 		}
 
-        public void RemoveAllComponents()
+		// --------------------------------------------------------------------
+
+		public void RemoveAllComponents()
         {
             mComponents.Clear();
         }
+
+		// --------------------------------------------------------------------
 
 		public void AddComponent(Component comp)
 		{
 			comp.Attach(this);
 			mComponents.Add(comp);
-			if (mScene != null)
-				mScene.SetDirty();
+			if (Scene != null)
+				Scene.SetDirty();
 		}
+
+		// --------------------------------------------------------------------
 
 		public T AddComponent<T>() where T : Component, new()
 		{
 			T newComp = new T();
             newComp.Attach(this);
 			mComponents.Add(newComp);
-			if (mScene != null)
-				mScene.SetDirty();
+			if (Scene != null)
+				Scene.SetDirty();
 			return newComp;
 		}
+
+		// --------------------------------------------------------------------
 
 		public T GetComponent<T>() where T : Component
 		{
@@ -104,21 +114,16 @@ namespace Onyx3D
 			return null;
 		}
 
+		// --------------------------------------------------------------------
+
 		public List<T> GetComponents<T>() where T : Component
 		{
-
 			List<T> components = new List<T>();
-			for (int i = 0; i < mComponents.Count; ++i)
-			{
-                if (mComponents[i].GetType().IsSubclassOf(typeof(T)) || mComponents[i].GetType() == typeof(T))
-                {
-                    T comp = (T)mComponents[i];
-                    if (comp != null)
-                        components.Add(comp);
-                }
-			}
+			GetComponents(components);
 			return components;
 		}
+
+		// --------------------------------------------------------------------
 
 		public void GetComponents<T>(List<T> components) where T : Component
 		{	
@@ -133,7 +138,9 @@ namespace Onyx3D
 			}
 		}
 
-		public T GetComponentInChildren<T>() where T:Component
+		// --------------------------------------------------------------------
+
+		public virtual T GetComponentInChildren<T>(bool excludeEntities = false) where T:Component
 		{
 			List<T> components = new List<T>();
 
@@ -146,7 +153,7 @@ namespace Onyx3D
 				if (!mChildren[i].Active)
 					continue;
 
-				T c = mChildren[i].GetComponentInChildren<T>();
+				T c = mChildren[i].GetComponentInChildren<T>(excludeEntities);
                 if (c != null)
                     return c;
 			}
@@ -154,35 +161,31 @@ namespace Onyx3D
             return null;
 		}
 
-        public List<T> GetComponentsInChildren<T>() where T : Component
+		// --------------------------------------------------------------------
+
+		public virtual List<T> GetComponentsInChildren<T>(bool excludeEntities = false) where T : Component
         {
 			List<T> components = new List<T>();
-
-			GetComponents<T>(components);
-            
-            for (int i = 0; i < mChildren.Count; ++i)
-            {
-				if (!mChildren[i].Active)
-					continue;
-
-				mChildren[i].GetComponentsInChildren<T>(components);
-            }
-
-            return components;
+			GetComponentsInChildren(components, excludeEntities);
+			return components;
         }
 
-		public void GetComponentsInChildren<T>(List<T> components) where T : Component
+		// --------------------------------------------------------------------
+
+		public virtual void GetComponentsInChildren<T>(List<T> components, bool excludeEntities = false) where T : Component
 		{
-			GetComponents<T>(components);
+			GetComponents(components);
 			
 			for (int i = 0; i < mChildren.Count; ++i)
 			{
 				if (!mChildren[i].Active)
 					continue;
 
-				mChildren[i].GetComponentsInChildren<T>(components);
+				mChildren[i].GetComponentsInChildren(components, excludeEntities);
 			}
 		}
+
+		// --------------------------------------------------------------------
 
 		public List<Entity> GetEntitiesInChildren()
 		{
@@ -202,6 +205,8 @@ namespace Onyx3D
 			return entities;
 		}
 
+		// --------------------------------------------------------------------
+
 		public void GetEntitiesInChildren(List<Entity> entities)
 		{
 			EntityProxy thisEntity = this as EntityProxy;
@@ -217,29 +222,50 @@ namespace Onyx3D
 			}
 		}
 
+		// --------------------------------------------------------------------
+
+		public void GetEntityProxiesInChildren(List<EntityProxy> entities)
+		{
+			ForEachChild((c) =>
+			{
+				if (c.GetType() == typeof(EntityProxy))
+					entities.Add(c as EntityProxy);
+
+				c.GetEntityProxiesInChildren(entities);
+			});
+		}
+
+		// --------------------------------------------------------------------
+
 		public void RemoveAllChildren()
 		{
             for (int i = 0; i < ChildCount; ++i)
                 GetChild(i).Destroy();
 
 			mChildren.Clear();
-			if (mScene != null)
-				mScene.SetDirty();
+			if (Scene != null)
+				Scene.SetDirty();
 		}
 
-        public void ForEachChild(Action<SceneObject> a)
+		// --------------------------------------------------------------------
+
+		public void ForEachChild(Action<SceneObject> a)
         {
             for (int i = 0; i < ChildCount; ++i)
                 a.Invoke(GetChild(i));
         }
 
-        public void ForEachComponent(Action<Component> a)
+		// --------------------------------------------------------------------
+
+		public void ForEachComponent(Action<Component> a)
         {
             for (int i = 0; i < mComponents.Count; ++i)
                 a.Invoke(mComponents[i]);
         }
 
-        public static SceneObject CreatePrimitive(ResourcesManager resources, int meshType, string name)
+		// --------------------------------------------------------------------
+
+		public static SceneObject CreatePrimitive(ResourcesManager resources, int meshType, string name)
         {
             SceneObject primitive = new SceneObject(name);
             MeshRenderer mesh = primitive.AddComponent<MeshRenderer>();
@@ -249,7 +275,9 @@ namespace Onyx3D
             return primitive;
         }
 
-        public Bounds CalculateBoundingBox()
+		// --------------------------------------------------------------------
+
+		public Bounds CalculateBoundingBox()
         {
             Bounds b = new Bounds();
             List<MeshRenderer> renderers = GetComponentsInChildren<MeshRenderer>();
@@ -268,7 +296,9 @@ namespace Onyx3D
             return b;
         }
 
-        public virtual SceneObject Clone()
+		// --------------------------------------------------------------------
+
+		public virtual SceneObject Clone()
         {
             SceneObject newObj = new SceneObject(this.Id, this.Scene);
 			newObj.Copy(this);
@@ -276,7 +306,9 @@ namespace Onyx3D
             return newObj;
         }
 
-		private void Copy(SceneObject obj)
+		// --------------------------------------------------------------------
+
+		protected void Copy(SceneObject obj)
 		{
 			Transform.Copy(obj.Transform);
 
@@ -292,6 +324,7 @@ namespace Onyx3D
 			});
 		}
 
+		// --------------------------------------------------------------------
 
 		public virtual void Dispose()
 		{
@@ -301,6 +334,8 @@ namespace Onyx3D
 			});
 		}
 
+		// --------------------------------------------------------------------
+
 		public void SetParent(SceneObject parent, bool keepWorldPos = true)
 		{
 
@@ -309,46 +344,57 @@ namespace Onyx3D
 			if (mParent != null)
 				mParent.mChildren.Remove(this);
 
-			if (mScene != null)
-				mScene.SetDirty();
+			if (Scene != null)
+				Scene.SetDirty();
 
-			if (parent != null && parent.mScene != null)
-				parent.mScene.SetDirty();
+			if (parent != null && parent.Scene != null)
+				parent.Scene.SetDirty();
 
 			mParent = parent;
 			if (parent != null)
 			{
 				parent.mChildren.Add(this);
-				mScene = parent.Scene;
+				Scene = parent.Scene;
 
 				if (keepWorldPos)
 					Transform.LocalPosition = parent.Transform.WorldToLocal(worldPos);
 			}
 			else
 			{
-				if (mScene != null)
-					mParent = mScene.Root;
+				if (Scene != null)
+					mParent = Scene.Root;
 			}
 
-			
+
+			if (Scene != null)
+				Scene.SetDirty();
+
 			Transform.SetDirty();
 		}
-		
+
+		// --------------------------------------------------------------------
+
 		public Bounds CalculateBounds()
 		{
-			MeshRenderer mr = GetComponent<MeshRenderer>();
-			if (mr != null)
+			mObjectBounds.Clear();
+
+			mChildrenRenderer.Clear();
+			GetComponentsInChildren<Renderer>(mChildrenRenderer, true);
+			if (mChildrenRenderer.Count > 0)
 			{
-				//TODO - Get from children an encapsulate to form a bound that contains all mesh renderers
-				return mr.Bounds;
+				mObjectBounds = mChildrenRenderer[0].Bounds;
+				foreach (Renderer renderer in mChildrenRenderer)
+				{
+					mObjectBounds.Encapsulate(renderer.Bounds);
+				}
 			}
 			else
 			{
-				Bounds b = new Bounds();
-				b.Center = Transform.Position;
-				b.SetMinMax(b.Center - Vector3.One * 0.25f, b.Center+ Vector3.One * 0.25f);
-				return b;
+				mObjectBounds.SetMinMax(mObjectBounds.Center, mObjectBounds.Center);
+				mObjectBounds.Center = Transform.Position;
+				
 			}
+			return mObjectBounds;
 		}
 
 		// ----------- Serialization ------------

@@ -8,14 +8,23 @@ namespace Onyx3D
 {
 	public abstract class Renderer : Component
 	{
+		public Bounds Bounds { get; protected set; }
+
 		public abstract void Render();
 
+		protected abstract void UpdateBounds();
+
+
+		// --------------------------------------------------------------------
 		// --------------------- Serialization ----------------------
+		// --------------------------------------------------------------------
 
 		public override void ReadComponentXmlNode(XmlReader reader)
 		{
 			throw new NotImplementedException();
 		}
+
+		// --------------------------------------------------------------------
 
 		public override void WriteComponentXml(XmlWriter writer)
 		{

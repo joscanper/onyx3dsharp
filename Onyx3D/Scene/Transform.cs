@@ -165,6 +165,12 @@ namespace Onyx3D
 			return (new Vector4(point, 1) * mBakedModelM.Inverted()).Xyz;
 		}
 
+		public void LookAt(Vector3 position, Vector3 up)
+		{
+			Matrix3 lookAt = new Matrix3(Matrix4.LookAt(Position, position, up));
+			mLocalRotation = Quaternion.FromMatrix(lookAt);
+		}
+
 		public void SetDirty()
 		{
 			SetModelMatrix(CalculateModelMatrix());

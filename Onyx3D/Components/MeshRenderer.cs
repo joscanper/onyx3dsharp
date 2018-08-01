@@ -20,9 +20,10 @@ namespace Onyx3D
 		}
 
         public Material Material;
-        public Bounds Bounds { get; private set; }
 
-        public override void Render()
+		// --------------------------------------------------------------------
+
+		public override void Render()
         {
             SetUpMaterial();
 			SetUpMVP(Material.Shader.Program);
@@ -37,12 +38,15 @@ namespace Onyx3D
 			GL.UseProgram(0);
 		}
 
+		// --------------------------------------------------------------------
 
 		protected void SetUpMaterial()
 		{
 			GL.UseProgram(Material.Shader.Program);
 			Material.ApplyProperties();
 		}
+
+		// --------------------------------------------------------------------
 
 		protected void SetUpMVP(int program)
 		{
@@ -55,14 +59,18 @@ namespace Onyx3D
             GL.UniformMatrix4(GL.GetUniformLocation(program, "NM"), false, ref NM);
         }
 
+		// --------------------------------------------------------------------
+
 		public override void OnDirtyTransform()
 		{
 			base.OnDirtyTransform();
 
 			UpdateBounds();
 		}
+		
+		// --------------------------------------------------------------------
 
-		private void UpdateBounds()
+		protected override void UpdateBounds()
 		{
 			if (Mesh == null)
 			{
@@ -75,6 +83,7 @@ namespace Onyx3D
 				Bounds = Mesh.Bounds;
 				return;
 			}
+
 			
 			Bounds bounds = new Bounds();
 			Vector3 initPos = Transform.LocalToWorld(Vector3.Zero);
@@ -90,16 +99,20 @@ namespace Onyx3D
 			
 			Bounds = bounds;
 		}
-	
-        // ------ Serialization ------
 
-        public override void ReadComponentXmlNode(XmlReader reader)
+		// --------------------------------------------------------------------
+		// ------ Serialization ------
+		// --------------------------------------------------------------------
+
+		public override void ReadComponentXmlNode(XmlReader reader)
 		{
 			if (reader.Name.Equals("Mesh"))
 				Mesh = Onyx3DEngine.Instance.Resources.GetMesh(reader.ReadElementContentAsInt());
 			else if (reader.Name.Equals("Material"))
 				Material = Onyx3DEngine.Instance.Resources.GetMaterial(reader.ReadElementContentAsInt());
 		}
+
+		// --------------------------------------------------------------------
 
 		public override void WriteComponentXml(XmlWriter writer)
 		{

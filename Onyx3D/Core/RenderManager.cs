@@ -55,7 +55,7 @@ namespace Onyx3D
 			scene.Lighting.UpdateUBO(scene);
 
 			GL.Viewport(0, 0, w, h);
-			GL.Clear(ClearBufferMask.DepthBufferBit);
+			GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
 			if (scene.IsDirty)
 			{

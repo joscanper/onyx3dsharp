@@ -9,6 +9,7 @@ namespace Onyx3D
         public Vector3 Max;
 		public Vector3 Center;
 
+	
 		public Vector3 Size
 		{
 			get { return Max - Min; }
@@ -32,7 +33,13 @@ namespace Onyx3D
 			if (position.Y > Max.Y) Max.Y = position.Y;
 			if (position.Z > Max.Z) Max.Z = position.Z;
 
-			Center = Max + Min / 2.0f;
+			Center = (Max + Min) / 2.0f;
+		}
+
+		public void Encapsulate(Bounds bounds)
+		{
+			Encapsulate(bounds.Min);
+			Encapsulate(bounds.Max);
 		}
 
 		public bool IntersectsRay(Ray r)
@@ -79,5 +86,10 @@ namespace Onyx3D
             t = (float)tmin;
             return true;
         }
+
+		public void Clear()
+		{
+			Min = Max = Center = Vector3.Zero;
+		}
 	}
 }

@@ -1,4 +1,6 @@
-﻿using System.Xml;
+﻿using OpenTK;
+using System.Collections.Generic;
+using System.Xml;
 
 namespace Onyx3D
 {
@@ -22,12 +24,40 @@ namespace Onyx3D
 
 		public static Entity Create(SceneObject obj, string name)
 		{
-			Entity entity = new Entity(obj);
+			Vector3 position = obj.Transform.Position;
+
+			SceneObject rootNode = new SceneObject(name);
+			obj.Parent = rootNode;
+			obj.Transform.LocalPosition = Vector3.Zero;
+
+			Entity entity = new Entity(rootNode);
 			string entityPath = ProjectContent.GetEntityPath(name);
-			EntityLoader.Save(entity, entityPath);
+			Save(entity, entityPath);
+
 			OnyxProjectAsset asset = ProjectManager.Instance.Content.AddTemplate(entityPath, false, entity);
 			asset.Name = name;
 			return entity;
 		}
-    }
+
+		public static Entity Create(List<SceneObject> objects, string name, Vector3 position)
+		{
+			SceneObject rootNode = new SceneObject(name);
+			rootNode.Transform.Position = position;
+
+			foreach (SceneObject obj in objects)
+			{ 
+				obj.Parent = rootNode;
+			}
+
+			rootNode.Transform.Position = Vector3.Zero;
+
+			Entity entity = new Entity(rootNode);
+			string entityPath = ProjectContent.GetEntityPath(name);
+			Save(entity, entityPath);
+
+			OnyxProjectAsset asset = ProjectManager.Instance.Content.AddTemplate(entityPath, false, entity);
+			asset.Name = name;
+			return entity;
+		}
+	}
 }

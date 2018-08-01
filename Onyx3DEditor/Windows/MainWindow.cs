@@ -40,11 +40,27 @@ namespace Onyx3DEditor
             KeyPreview = true;
 		}
 
-		private void InitScene()
+		private void InitializeEditor()
 		{
 			Onyx3DEngine.InitMain(renderCanvas.Context, renderCanvas.WindowInfo);
 			mOnyxInstance = Onyx3DEngine.Instance;
-			
+
+			mNavigation.CreateCamera();
+
+			mObjectHandler = new ObjectHandler(mOnyxInstance, renderCanvas, mNavigation.Camera);
+			mObjectHandler.OnTransformModified += OnTransformModifiedFromObjectHandler;
+
+			selectedObjectInspector.InspectorChanged += OnInspectorChanged;
+
+			SceneObject grid = new SceneObject("Grid");
+			mGridRenderer = grid.AddComponent<GridRenderer>();
+			mGridRenderer.GenerateGridMesh(100, 100, 0.25f, 0.25f, Vector3.One);
+			mGridRenderer.Material = mOnyxInstance.Resources.GetMaterial(BuiltInMaterial.Unlit);
+			mGridRenderer.Material.Properties["color"].Data = new Vector4(1, 1, 1, 0.1f);
+		}
+
+		private void InitScene()
+		{
 			
 			mSceneAsset = ProjectManager.Instance.Content.GetInitScene();
 			if (mSceneAsset == null)
@@ -55,27 +71,8 @@ namespace Onyx3DEditor
 			{
 				mScene = AssetLoader<Scene>.Load(ProjectContent.GetAbsolutePath(mSceneAsset.Path), mOnyxInstance);
 			}
-
-			// Test objects
-
-			// Editor objects --------------------------------------
-
-			SceneObject grid = new SceneObject("Grid");
-			mGridRenderer = grid.AddComponent<GridRenderer>();
-			mGridRenderer.GenerateGridMesh(100, 100, 0.25f, 0.25f, Vector3.One);
-			mGridRenderer.Material = mOnyxInstance.Resources.GetMaterial(BuiltInMaterial.Unlit);
-			mGridRenderer.Material.Properties["color"].Data = new Vector4(1, 1, 1, 0.1f);
-
-			mNavigation.CreateCamera();
-
-			mObjectHandler = new ObjectHandler(mOnyxInstance, renderCanvas, mNavigation.NavigationCamera);
-			// TODO - This could allocate several times (when changing scene)
-			mObjectHandler.OnTransformModified += OnTransformModifiedFromObjectHandler;
-
-			sceneHierarchy.SetScene(mScene);
-			// TODO - This could allocate several times (when changing scene)
-			selectedObjectInspector.InspectorChanged += OnInspectorChanged;
 			
+			sceneHierarchy.SetScene(mScene);	
         }
 
 		private void OnSelectionChanged(List<SceneObject> selected)
@@ -100,7 +97,6 @@ namespace Onyx3DEditor
 		{
 			RenderScene();
 		}
-
 
 		private void OnTransformModifiedFromObjectHandler()
 		{
@@ -131,6 +127,14 @@ namespace Onyx3DEditor
 			sceneHierarchy.SetScene(mScene);
 			renderCanvas.Refresh();
             Selection.ActiveObject = null;
+		}
+
+		private void NewScene()
+		{
+			mSceneAsset = null;
+			mScene = new Scene();
+			sceneHierarchy.SetScene(mScene);
+			renderCanvas.Refresh();
 		}
 
 		private void SaveScene()
@@ -192,26 +196,27 @@ namespace Onyx3DEditor
 
             mNavigation.UpdateCamera();
 
-            
-            mOnyxInstance.Renderer.Render(mScene, mNavigation.NavigationCamera, renderCanvas.Width, renderCanvas.Height);
-			mOnyxInstance.Renderer.Render(mGridRenderer, mNavigation.NavigationCamera);
+            mOnyxInstance.Renderer.Render(mScene, mNavigation.Camera, renderCanvas.Width, renderCanvas.Height);
+			mOnyxInstance.Renderer.Render(mGridRenderer, mNavigation.Camera);
 
 			//mOnyxInstance.Gizmos.DrawLine(mClickRay.Origin, mClickRay.Origin + mClickRay.Direction * 10, Vector3.One);
-            mOnyxInstance.Gizmos.DrawComponentGizmos(mScene);
-            mOnyxInstance.Gizmos.Render(mNavigation.NavigationCamera);
 
 			HighlightSelected();
 
+			mOnyxInstance.Gizmos.DrawComponentGizmos(mScene);
+            mOnyxInstance.Gizmos.Render(mNavigation.Camera);
+			
 			renderCanvas.SwapBuffers();
 			labelLoggerOutput.Text = Logger.Instance.Content;            
-		
 		}
 
 		#region RenderCanvas callbacks
 
 		private void renderCanvas_Load(object sender, EventArgs e)
 		{
+			InitializeEditor();
 			InitScene();
+
 			canDraw = true;
 		}
 
@@ -226,7 +231,7 @@ namespace Onyx3DEditor
 
 			if (mouseEvent.Button == MouseButtons.Left && !mObjectHandler.IsHandling)
 			{
-				mClickRay = mNavigation.NavigationCamera.ScreenPointToRay(mouseEvent.X, mouseEvent.Y, renderCanvas.Width, renderCanvas.Height);
+				mClickRay = mNavigation.Camera.ScreenPointToRay(mouseEvent.X, mouseEvent.Y, renderCanvas.Width, renderCanvas.Height);
 
 				RaycastHit hit = new RaycastHit();
 				if (Physics.Raycast(mClickRay, out hit, mScene))
@@ -257,7 +262,7 @@ namespace Onyx3DEditor
 		private void timer1_Tick(object sender, EventArgs e)
 		{
 			//myTeapot.Transform.Rotate(new Vector3(0, 0.1f, 0));
-			//renderCanvas.Refresh();
+			renderCanvas.Refresh();
 			//mReflectionProbe.Angle += 0.01f;
 		}
 
@@ -290,6 +295,7 @@ namespace Onyx3DEditor
 			if (confirmResult == DialogResult.Yes)
 			{
 				ProjectManager.Instance.New();
+				NewScene();
 			}
 		}
 
@@ -508,22 +514,68 @@ namespace Onyx3DEditor
 				return;
 
 			if (Selection.ActiveObject.GetType() == typeof(EntityProxy))
+			{
+				if (Selection.Selected.Count > 0)
+				{
+					if (MessageBox.Show("Add selected objects to active entity?", "Add to entity", MessageBoxButtons.OKCancel) == DialogResult.OK)
+					{
+						Entity entity = (Selection.ActiveObject as EntityProxy).EntityRef;
+
+						foreach (SceneObject obj in Selection.Selected)
+						{
+							if (obj != Selection.ActiveObject)
+							{
+								obj.Parent = Selection.ActiveObject; // Do this so the localposition is transformed into the instance space
+								obj.Parent = entity.Root;
+							}
+						}
+
+						EntityLoader.Save(entity, entity.LinkedProjectAsset.AbsolutePath);
+						Selection.ActiveObject = Selection.ActiveObject;
+					}
+				}
 				return;
+			}
 
 			NewEntityWindow window = new NewEntityWindow();
 			if (window.ShowDialog(this) == DialogResult.OK)
 			{
-				
-				Entity entity = EntityLoader.Create(Selection.ActiveObject, window.EntityName);
+				SceneObject parent = Selection.ActiveObject.Parent;
 
+				Vector3 position = Selection.MiddlePoint();
+				Entity entity = EntityLoader.Create(Selection.Selected, window.EntityName, position);
 				EntityProxy proxy = new EntityProxy(Selection.ActiveObject.Id, mScene);
+
 				proxy.EntityRef = entity;
-				proxy.Parent = Selection.ActiveObject.Parent;
-				Selection.ActiveObject.Parent = null;
+				proxy.Parent = parent;
+				proxy.Transform.LocalPosition = position; 
+				
 				Selection.ActiveObject = proxy;
+
 			}
 			window.Dispose();
 		
+		}
+
+		private void excludeFromEntityToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+
+			foreach (SceneObject obj in Selection.Selected)
+			{
+				obj.Parent = mScene.Root;
+			}
+
+			sceneHierarchy.UpdateScene();
+		}
+
+		private void saveSceneToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			SaveScene();
+		}
+
+		private void newSceneToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			NewScene();
 		}
 	}
 }

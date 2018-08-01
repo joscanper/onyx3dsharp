@@ -1,5 +1,6 @@
 ﻿
 using System;
+using System.Collections.Generic;
 using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Serialization;
@@ -9,6 +10,8 @@ namespace Onyx3D
 	public class Scene : GameAsset, IXmlSerializable, IDisposable
 	{
 		private Onyx3DInstance mContext;
+		private List<EntityProxy> mEntityProxies = new List<EntityProxy>();
+
 		public Onyx3DInstance Context
 		{
 			get
@@ -22,20 +25,29 @@ namespace Onyx3D
 		public Lighting Lighting = new Lighting();
 		public Sky Sky = new Sky();
 
-        //public MeshRenderer Sky;
-
 		public bool IsDirty { get; private set; }
+		public List<EntityProxy> EntityProxies { get { return mEntityProxies; } }
+
+		// --------------------------------------------------------------------
 
 		public Scene(Onyx3DInstance context = null)
 		{
 			mContext = context;
 			Root = new SceneObject("", this);
+			SetDirty(true);
 		}
+
+		// --------------------------------------------------------------------
 
 		public void SetDirty(bool isDirty = true)
 		{
 			IsDirty = isDirty;
+
+			mEntityProxies.Clear();
+			Root.GetEntityProxiesInChildren(mEntityProxies);
 		}
+
+		// --------------------------------------------------------------------
 
 		public void Dispose()
 		{
@@ -49,6 +61,7 @@ namespace Onyx3D
 		}
 
 		
+
 		// ------ Serialization ------
 
 		public XmlSchema GetSchema()

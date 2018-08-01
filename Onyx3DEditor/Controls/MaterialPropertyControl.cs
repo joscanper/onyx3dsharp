@@ -113,7 +113,6 @@ namespace Onyx3DEditor
 			}
 		}
 
-
 		private void OnPictureBoxClicked(object sender, EventArgs e)
 		{
 			mTextureSelector = new TextureSelectorWindow();

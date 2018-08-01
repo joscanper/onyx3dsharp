@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 
 using Onyx3D;
+using OpenTK;
 
 public static class Selection
 {
@@ -35,6 +36,17 @@ public static class Selection
 	{
 		Selected.Clear();
 		OnSelectionChanged?.Invoke(Selected);
+	}
+
+	public static Vector3 MiddlePoint()
+	{
+		Vector3 position = Vector3.Zero;
+		foreach (SceneObject obj in Selected)
+		{
+			position += obj.Transform.Position;
+		}
+		position /= Selected.Count;
+		return position;
 	}
 }
 

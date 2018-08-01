@@ -49,6 +49,7 @@ namespace Onyx3DEditor
 		
 		public void UpdateMaterialList(int selectedGuid)
 		{
+			mPreview.Init(mPreviewSize, mPreviewSize, this.Handle);
 			mMaterials.Clear();
 
 			listViewMaterials.Items.Clear();
