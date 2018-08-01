@@ -17,5 +17,6 @@ namespace Onyx3DEditor
 		{
 			InitializeComponent();
 		}
-	}
+        
+    }
 }

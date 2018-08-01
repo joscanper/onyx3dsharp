@@ -13,10 +13,12 @@ namespace Onyx3DEditor
         [STAThread]
         static void Main()
         {
+            if (Properties.Settings.Default.LastProjectPath.Length > 0)
+                ProjectLoader.Load(Properties.Settings.Default.LastProjectPath);
+            else
+                ProjectManager.Instance.New();
 
-            ProjectLoader.Load("../../../../TestProject/test2.o3dproj");
-
-			Application.EnableVisualStyles();
+            Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new MainWindow());
         }

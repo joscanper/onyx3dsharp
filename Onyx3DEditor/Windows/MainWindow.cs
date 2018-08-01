@@ -9,8 +9,6 @@ using OpenTK.Graphics.OpenGL;
 using System.IO;
 using System.Collections.Generic;
 
-using Microsoft.VisualBasic;
-
 namespace Onyx3DEditor
 {
 	
@@ -26,9 +24,10 @@ namespace Onyx3DEditor
 		Ray mClickRay;
 		ObjectHandler mObjectHandler;
 		OnyxViewerNavigation mNavigation = new OnyxViewerNavigation();
-		
 
-		public MainWindow()
+        // --------------------------------------------------------------------
+
+        public MainWindow()
 		{
 			
 			InitializeComponent();
@@ -40,7 +39,9 @@ namespace Onyx3DEditor
             KeyPreview = true;
 		}
 
-		private void InitializeEditor()
+        // --------------------------------------------------------------------
+
+        private void InitializeEditor()
 		{
 			Onyx3DEngine.InitMain(renderCanvas.Context, renderCanvas.WindowInfo);
 			mOnyxInstance = Onyx3DEngine.Instance;
@@ -59,14 +60,17 @@ namespace Onyx3DEditor
 			mGridRenderer.Material.Properties["color"].Data = new Vector4(1, 1, 1, 0.1f);
 		}
 
-		private void InitScene()
+        // --------------------------------------------------------------------
+
+        private void InitScene()
 		{
 			
 			mSceneAsset = ProjectManager.Instance.Content.GetInitScene();
 			if (mSceneAsset == null)
 			{
 				mScene = new Scene();
-			}
+                EditorSceneObjectUtils.AddReflectionProbe(false);
+            }
 			else
 			{
 				mScene = AssetLoader<Scene>.Load(ProjectContent.GetAbsolutePath(mSceneAsset.Path), mOnyxInstance);
@@ -75,7 +79,9 @@ namespace Onyx3DEditor
 			sceneHierarchy.SetScene(mScene);	
         }
 
-		private void OnSelectionChanged(List<SceneObject> selected)
+        // --------------------------------------------------------------------
+
+        private void OnSelectionChanged(List<SceneObject> selected)
 		{
 			mSelectedSceneObject = Selection.ActiveObject;
 			renderCanvas.Refresh();
@@ -93,35 +99,23 @@ namespace Onyx3DEditor
 			RenderScene();
 		}
 
-		private void OnInspectorChanged(object sender, EventArgs args)
+        // --------------------------------------------------------------------
+
+        private void OnInspectorChanged(object sender, EventArgs args)
 		{
 			RenderScene();
 		}
 
-		private void OnTransformModifiedFromObjectHandler()
+        // --------------------------------------------------------------------
+
+        private void OnTransformModifiedFromObjectHandler()
 		{
 			selectedObjectInspector.Fill(mSelectedSceneObject);
 		}
 
-		private void DeleteObject(SceneObject o)
-		{
-			if (o == null)
-				return;
+        // --------------------------------------------------------------------
 
-            o.Destroy();
-            o = null;
-            mScene.SetDirty();
-			Selection.ActiveObject = null;
-		}
-
-		private void AddPrimitive(int meshType, string name)
-		{
-            SceneObject primitive = SceneObject.CreatePrimitive(mOnyxInstance.Resources, meshType, name);
-            primitive.Parent = mScene.Root;
-            Selection.ActiveObject = primitive;
-        }
-
-		private void OnSceneSelected(Scene s)
+        private void OnSceneSelected(Scene s)
 		{
 			mScene = s;
 			sceneHierarchy.SetScene(mScene);
@@ -129,47 +123,9 @@ namespace Onyx3DEditor
             Selection.ActiveObject = null;
 		}
 
-		private void NewScene()
-		{
-			mSceneAsset = null;
-			mScene = new Scene();
-			sceneHierarchy.SetScene(mScene);
-			renderCanvas.Refresh();
-		}
+        // --------------------------------------------------------------------
 
-		private void SaveScene()
-		{
-			
-			if (mSceneAsset == null)
-			{
-				SaveFileDialog saveFileDialog1 = new SaveFileDialog();
-				saveFileDialog1.Filter = "Onyx3d scene files (*.o3dscene)|*.o3dscene";
-				saveFileDialog1.FilterIndex = 2;
-				saveFileDialog1.RestoreDirectory = true;
-
-				if (saveFileDialog1.ShowDialog() == DialogResult.OK)
-				{
-					AssetLoader<Scene>.Save(mScene, saveFileDialog1.FileName);
-					try
-					{
-						mSceneAsset = new OnyxProjectSceneAsset(saveFileDialog1.FileName);
-						ProjectManager.Instance.Content.Scenes.Add(mSceneAsset);
-					}
-					catch (Exception ex)
-					{
-						MessageBox.Show("Error saving the scene : " + ex.Message);
-					}
-
-
-				}
-			}
-			else
-			{
-				AssetLoader<Scene>.Save(mScene, mSceneAsset.Path);
-			}
-		}
-
-		private void HighlightSelected()
+        private void HighlightSelected()
 		{
 			if (mSelectedSceneObject != null)
 			{
@@ -187,7 +143,9 @@ namespace Onyx3DEditor
 
 		}
 
-		private void RenderScene()
+        // --------------------------------------------------------------------
+
+        private void RenderScene()
 		{            
             if (!canDraw)
 				return;
@@ -210,9 +168,11 @@ namespace Onyx3DEditor
 			labelLoggerOutput.Text = Logger.Instance.Content;            
 		}
 
-		#region RenderCanvas callbacks
+        // --------------------------------------------------------------------
 
-		private void renderCanvas_Load(object sender, EventArgs e)
+        #region RenderCanvas callbacks
+
+        private void renderCanvas_Load(object sender, EventArgs e)
 		{
 			InitializeEditor();
 			InitScene();
@@ -254,21 +214,23 @@ namespace Onyx3DEditor
 			}
 		}
 
-	
-		#endregion
 
-		#region UI callbacks
+        #endregion
 
-		private void timer1_Tick(object sender, EventArgs e)
+        // --------------------------------------------------------------------
+
+        #region UI callbacks
+
+        private void timer1_Tick(object sender, EventArgs e)
 		{
 			//myTeapot.Transform.Rotate(new Vector3(0, 0.1f, 0));
-			renderCanvas.Refresh();
+			//renderCanvas.Refresh();
 			//mReflectionProbe.Angle += 0.01f;
 		}
 
 		private void toolStripButtonSaveProject_Click(object sender, EventArgs e)
 		{
-			SaveScene();
+            EditorSceneUtils.Save();
             ProjectLoader.Save();
 		}
 
@@ -295,8 +257,8 @@ namespace Onyx3DEditor
 			if (confirmResult == DialogResult.Yes)
 			{
 				ProjectManager.Instance.New();
-				NewScene();
-			}
+                EditorSceneUtils.New();
+            }
 		}
 
 		private void toolStripButtonOpenProject_Click(object sender, EventArgs e)
@@ -324,71 +286,42 @@ namespace Onyx3DEditor
 
 		private void toolStripButtonOpenScene_Click(object sender, EventArgs e)
 		{
-
-			Stream myStream;
-			OpenFileDialog openFileDialog1 = new OpenFileDialog();
-
-			openFileDialog1.InitialDirectory = "c:\\";
-			openFileDialog1.Filter = "Onyx3d project files (*.o3dscene)|*.o3dscene";
-			openFileDialog1.FilterIndex = 2;
-			openFileDialog1.RestoreDirectory = true;
-
-			if (openFileDialog1.ShowDialog() == DialogResult.OK)
-			{
-				try
-				{
-					if ((myStream = openFileDialog1.OpenFile()) != null)
-					{
-						mScene = AssetLoader<Scene>.Load(openFileDialog1.FileName);
-						renderCanvas.Refresh();
-					}
-				}
-				catch (Exception ex)
-				{
-					MessageBox.Show("Error: Could not read file from disk. Original error: " + ex.Message);
-				}
-			}
-			
+            EditorSceneUtils.Open();
 		}
 
 		private void toolStripCreateCube_Click(object sender, EventArgs e)
 		{
-			AddPrimitive(BuiltInMesh.Cube, "Cube");
+			EditorSceneObjectUtils.AddPrimitive(BuiltInMesh.Cube, "Cube");
 		}
 
 		private void toolStripCreateCylinder_Click(object sender, EventArgs e)
 		{
-			AddPrimitive(BuiltInMesh.Cylinder, "Cylinder");
+            EditorSceneObjectUtils.AddPrimitive(BuiltInMesh.Cylinder, "Cylinder");
 		}
 
 		private void toolStripCreateTeapot_Click(object sender, EventArgs e)
 		{
-			AddPrimitive(BuiltInMesh.Teapot, "Teapot");
+            EditorSceneObjectUtils.AddPrimitive(BuiltInMesh.Teapot, "Teapot");
 		}
 
 		private void toolStripCreateSphere_Click(object sender, EventArgs e)
 		{
-			AddPrimitive(BuiltInMesh.Sphere, "Sphere");
+            EditorSceneObjectUtils.AddPrimitive(BuiltInMesh.Sphere, "Sphere");
 		}
 
         private void toolStripCreateQuad_Click(object sender, EventArgs e)
         {
-            AddPrimitive(BuiltInMesh.Quad, "Quad");
+            EditorSceneObjectUtils.AddPrimitive(BuiltInMesh.Quad, "Quad");
         }
 
         private void toolStripCreateLight_Click(object sender, EventArgs e)
 		{
-			SceneObject light = new SceneObject("Light");
-			Light lightC = light.AddComponent<Light>();
-			light.Parent = mScene.Root;
-            Selection.ActiveObject = light;
+            EditorSceneObjectUtils.AddLight();
         }
 
         private void toolStripCreateTemplate_Click(object sender, EventArgs e)
         {
-            EntityProxy tmp = new EntityProxy("Template");
-            tmp.Parent = mScene.Root;
-            Selection.ActiveObject = tmp;
+            EditorEntityUtils.AddProxy();
         }
 
         private void toolStripButtonMove_Click(object sender, EventArgs e)
@@ -417,15 +350,7 @@ namespace Onyx3DEditor
 			mObjectHandler.SetAxisAction(ObjectHandler.HandlerAxisAction.Rotate);
 			renderCanvas.Refresh();
 		}
-
-
-		#endregion
-
-		private void MainWindow_KeyDown(object sender, KeyEventArgs e)
-		{
-			
-		}
-
+        
 		private void toolStripButtonImportModel_Click(object sender, EventArgs e)
 		{
 			new ModelImporterWindow().Show();
@@ -433,29 +358,18 @@ namespace Onyx3DEditor
 
 		private void duplicateSceneObjectToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			if (Selection.ActiveObject == null)
-				return;
-
-			SceneObject clone = Selection.ActiveObject.Clone();
-			clone.Parent = Selection.ActiveObject.Parent;
-			
-			Selection.ActiveObject = clone;
+            EditorSceneObjectUtils.Duplicate();
 		}
 
 		private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			if (Selection.ActiveObject != null)
-				DeleteObject(Selection.ActiveObject);
+                EditorSceneObjectUtils.Delete(Selection.ActiveObject);
 		}
 
 		private void toolStripCreateReflectionProbe_Click(object sender, EventArgs e)
 		{
-			SceneObject obj = new SceneObject("ReflectionProbe", mScene);
-			obj.Parent = mScene.Root;
-			obj.Transform.LocalPosition = new Vector3(0, 0, 0);
-			ReflectionProbe mReflectionProbe = obj.AddComponent<ReflectionProbe>();
-			mReflectionProbe.Init(64);
-			Selection.ActiveObject = obj;
+            EditorSceneObjectUtils.AddReflectionProbe();
 		}
 
 		private void bakeToolStripMenuItem_Click(object sender, EventArgs e)
@@ -467,115 +381,41 @@ namespace Onyx3DEditor
 
 		private void setParentToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			if (Selection.ActiveObject == null)
-				return;
-
-			foreach (SceneObject obj in Selection.Selected)
-			{
-				if (obj != Selection.ActiveObject)
-					obj.Parent = Selection.ActiveObject;
-			}
-			sceneHierarchy.UpdateScene();
+            EditorSceneObjectUtils.SetActiveAsParent();
 		}
 		
 
 		private void clearParentToolStripMenuItem_Click_1(object sender, EventArgs e)
 		{
-			if (Selection.ActiveObject == null)
-				return;
-
-			foreach (SceneObject obj in Selection.Selected)
-			{
-				obj.Parent = mScene.Root;
-			}
-
-			sceneHierarchy.UpdateScene();
+            EditorSceneObjectUtils.ClearParent();
 		}
 
 		private void groupObjectsToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			if (Selection.ActiveObject == null)
-				return;
-			
-			SceneObject newObj = new SceneObject("New Group", mScene);
-			newObj.Transform.LocalPosition = Selection.ActiveObject.Transform.LocalPosition;
-			newObj.Parent = Selection.ActiveObject.Parent;
-			foreach (SceneObject obj in Selection.Selected)
-			{
-				obj.Parent = newObj;
-			}
-
-			Selection.ActiveObject = newObj;
+            EditorSceneObjectUtils.Group(Selection.Selected);
 		}
 
 		private void createEntityToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			if (Selection.ActiveObject == null)
-				return;
-
-			if (Selection.ActiveObject.GetType() == typeof(EntityProxy))
-			{
-				if (Selection.Selected.Count > 0)
-				{
-					if (MessageBox.Show("Add selected objects to active entity?", "Add to entity", MessageBoxButtons.OKCancel) == DialogResult.OK)
-					{
-						Entity entity = (Selection.ActiveObject as EntityProxy).EntityRef;
-
-						foreach (SceneObject obj in Selection.Selected)
-						{
-							if (obj != Selection.ActiveObject)
-							{
-								obj.Parent = Selection.ActiveObject; // Do this so the localposition is transformed into the instance space
-								obj.Parent = entity.Root;
-							}
-						}
-
-						EntityLoader.Save(entity, entity.LinkedProjectAsset.AbsolutePath);
-						Selection.ActiveObject = Selection.ActiveObject;
-					}
-				}
-				return;
-			}
-
-			NewEntityWindow window = new NewEntityWindow();
-			if (window.ShowDialog(this) == DialogResult.OK)
-			{
-				SceneObject parent = Selection.ActiveObject.Parent;
-
-				Vector3 position = Selection.MiddlePoint();
-				Entity entity = EntityLoader.Create(Selection.Selected, window.EntityName, position);
-				EntityProxy proxy = new EntityProxy(Selection.ActiveObject.Id, mScene);
-
-				proxy.EntityRef = entity;
-				proxy.Parent = parent;
-				proxy.Transform.LocalPosition = position; 
-				
-				Selection.ActiveObject = proxy;
-
-			}
-			window.Dispose();
-		
+            EditorEntityUtils.CreateFromSelection();
 		}
 
 		private void excludeFromEntityToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-
-			foreach (SceneObject obj in Selection.Selected)
-			{
-				obj.Parent = mScene.Root;
-			}
-
-			sceneHierarchy.UpdateScene();
+            EditorEntityUtils.ExcludeSelection();
 		}
 
 		private void saveSceneToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			SaveScene();
+            EditorSceneUtils.Save();
 		}
 
 		private void newSceneToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			NewScene();
-		}
-	}
+            EditorSceneUtils.New();
+        }
+
+        #endregion
+
+    }
 }

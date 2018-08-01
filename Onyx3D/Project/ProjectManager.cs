@@ -4,11 +4,10 @@ using System.Xml.Serialization;
 
 namespace Onyx3D
 {
-
-
+    
 	public class ProjectManager : Singleton<ProjectManager>
 	{
-		const int VERSION = 1;
+		private static readonly int VERSION = 1;
 
 		private ProjectData mData;
 		private string mCurrentProjectPath;
@@ -17,14 +16,17 @@ namespace Onyx3D
 		public string CurrentProjectPath { get { return mCurrentProjectPath; } }
 		public ProjectContent Content { get { return mData.Content; } }
 
-       
-		public void New()
+        // --------------------------------------------------------------------
+
+        public void New()
 		{
 			mData = new ProjectData();
 			mCurrentProjectPath = "";
 		}
 
-		public bool Load(string path)
+        // --------------------------------------------------------------------
+
+        public bool Load(string path)
 		{
 			
 			if (!File.Exists(path))
@@ -42,14 +44,18 @@ namespace Onyx3D
 			mCurrentProjectPath = Path.GetFullPath(path);
 			return true;
 		}
-		
 
-		public void Save()
+        // --------------------------------------------------------------------
+
+        public void Save()
 		{
-			Save(mCurrentProjectPath);
+            if (mCurrentProjectPath.Length > 0)
+			    Save(mCurrentProjectPath);
 		}
 
-		public void Save(string fileName)
+        // --------------------------------------------------------------------
+
+        public void Save(string fileName)
 		{
 			mCurrentProjectPath = fileName;
 			StreamWriter stream = null;

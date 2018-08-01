@@ -175,9 +175,9 @@ namespace Onyx3D
 
 		private ReflectionProbe GetClosestReflectionProbe(Vector3 toPosition)
 		{
-			ReflectionProbe reflectionProbe = null;
+			ReflectionProbe reflectionProbe = mReflectionProbes[0];
 			float candidateDist = float.MaxValue;
-			for (int i = 0; i < mReflectionProbes.Count; ++i)
+			for (int i = 1; i < mReflectionProbes.Count; ++i)
 			{
 				float sqrDist = mReflectionProbes[i].Transform.Position.SqrDistance(toPosition);
 				if (sqrDist < candidateDist)

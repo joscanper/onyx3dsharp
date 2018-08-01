@@ -22,5 +22,17 @@ namespace Onyx3DEditor.Properties {
                 return defaultInstance;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string LastProjectPath {
+            get {
+                return ((string)(this["LastProjectPath"]));
+            }
+            set {
+                this["LastProjectPath"] = value;
+            }
+        }
     }
 }

@@ -6,15 +6,11 @@ using System.Xml.Serialization;
 
 namespace Onyx3D
 {
-
-
+    
 	[Serializable]
 	public class ProjectContent
 	{
-
 		public static XmlWriterSettings DefaultXMLSettings = new XmlWriterSettings();
-		
-
 		
 		public List<OnyxProjectSceneAsset> Scenes = new List<OnyxProjectSceneAsset>();
 		public List<OnyxProjectAsset> Textures = new List<OnyxProjectAsset>();
@@ -68,7 +64,6 @@ namespace Onyx3D
 			AddAssets(Meshes);
             AddAssets(Entities);
         }
-
 
 		public void AddAssets<T>(List<T> assets) where T : OnyxProjectAsset
 		{
@@ -133,14 +128,13 @@ namespace Onyx3D
             AddAsset(entityAsset);
             return entityAsset;
         }
+        
+        // -----
 
-		// -----
-
-		public static string GetEntityPath(string entityName)
+        public static string GetEntityPath(string entityName)
 		{
 			return string.Format("{0}\\{1}\\{2}{3}", ProjectManager.Instance.Directory, "Entities", entityName, ".o3dent");
 		}
-
 
 		public static string GetAbsolutePath(string relativePath)
         {

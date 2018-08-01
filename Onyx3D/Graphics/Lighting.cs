@@ -102,9 +102,9 @@ namespace Onyx3D
 			}
 		}
 
-		// --------------------------------------------------------------------
+        // --------------------------------------------------------------------
 
-		private void AddEntitiesLights(Scene scene)
+        private void AddEntitiesLights(Scene scene)
 		{
 			List<Light> lights = new List<Light>();
 			List<EntityProxy> entities = scene.EntityProxies;

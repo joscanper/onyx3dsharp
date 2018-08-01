@@ -20,6 +20,7 @@ namespace Onyx3DEditor
                 {
                     try
                     {
+                        Properties.Settings.Default.LastProjectPath = saveFileDialog1.FileName;
                         ProjectManager.Instance.Save(saveFileDialog1.FileName);
                     }
                     catch (Exception ex)
