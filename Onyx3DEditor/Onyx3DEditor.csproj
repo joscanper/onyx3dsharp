@@ -36,7 +36,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;ONYX_EDITOR</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -126,6 +126,7 @@
     <Compile Include="IAssetSelector.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="SceneManagement.cs" />
     <Compile Include="SingleMeshPreviewRenderer.cs" />
     <Compile Include="Controls\MaterialViewList.cs">
       <SubType>UserControl</SubType>
@@ -146,6 +147,13 @@
     <Compile Include="PropertyInspectors\EntityProxyInspector.cs" />
     <Compile Include="PropertyInspectors\TransformInspector.cs" />
     <Compile Include="PropertyInspectors\Vector3Inspector.cs" />
+    <Compile Include="Windows\SingletonForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Utils\EditorEntityUtils.cs" />
+    <Compile Include="Utils\EditorSceneObjectUtils.cs" />
+    <Compile Include="Utils\EditorSceneUtils.cs" />
+    <Compile Include="Utils\EditorUtils.cs" />
     <Compile Include="Windows\MeshSelectorWindow.cs">
       <SubType>Form</SubType>
     </Compile>

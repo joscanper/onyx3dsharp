@@ -11,14 +11,14 @@ using System.Collections.Generic;
 
 namespace Onyx3DEditor
 {
-	
-	public partial class MainWindow : Form
+
+
+	public partial class MainWindow : SingletonForm<MainWindow>
 	{
-		bool canDraw = false;
+   
+        bool canDraw = false;
 
 		Onyx3DInstance mOnyxInstance;
-		OnyxProjectSceneAsset mSceneAsset;
-		Scene mScene;
 		GridRenderer mGridRenderer;
 		SceneObject mSelectedSceneObject;
 		Ray mClickRay;
@@ -34,7 +34,9 @@ namespace Onyx3DEditor
             InitializeCanvas();
 
             Selection.OnSelectionChanged += OnSelectionChanged;
-			mNavigation.Bind(renderCanvas);
+            SceneManagement.OnSceneChanged += OnSceneChanged;
+
+            mNavigation.Bind(renderCanvas);
 
             KeyPreview = true;
 		}
@@ -59,26 +61,7 @@ namespace Onyx3DEditor
 			mGridRenderer.Material = mOnyxInstance.Resources.GetMaterial(BuiltInMaterial.Unlit);
 			mGridRenderer.Material.Properties["color"].Data = new Vector4(1, 1, 1, 0.1f);
 		}
-
-        // --------------------------------------------------------------------
-
-        private void InitScene()
-		{
-			
-			mSceneAsset = ProjectManager.Instance.Content.GetInitScene();
-			if (mSceneAsset == null)
-			{
-				mScene = new Scene();
-                EditorSceneObjectUtils.AddReflectionProbe(false);
-            }
-			else
-			{
-				mScene = AssetLoader<Scene>.Load(ProjectContent.GetAbsolutePath(mSceneAsset.Path), mOnyxInstance);
-			}
-			
-			sceneHierarchy.SetScene(mScene);	
-        }
-
+        
         // --------------------------------------------------------------------
 
         private void OnSelectionChanged(List<SceneObject> selected)
@@ -92,7 +75,7 @@ namespace Onyx3DEditor
 			}
 			else
 			{
-				selectedObjectInspector.Fill(mScene);
+				selectedObjectInspector.Fill(SceneManagement.ActiveScene);
 			}
 
 			mObjectHandler.HandleObject(mSelectedSceneObject);
@@ -115,10 +98,9 @@ namespace Onyx3DEditor
 
         // --------------------------------------------------------------------
 
-        private void OnSceneSelected(Scene s)
+        private void OnSceneChanged(Scene s)
 		{
-			mScene = s;
-			sceneHierarchy.SetScene(mScene);
+			sceneHierarchy.SetScene(s);
 			renderCanvas.Refresh();
             Selection.ActiveObject = null;
 		}
@@ -154,14 +136,14 @@ namespace Onyx3DEditor
 
             mNavigation.UpdateCamera();
 
-            mOnyxInstance.Renderer.Render(mScene, mNavigation.Camera, renderCanvas.Width, renderCanvas.Height);
+            mOnyxInstance.Renderer.Render(SceneManagement.ActiveScene, mNavigation.Camera, renderCanvas.Width, renderCanvas.Height);
 			mOnyxInstance.Renderer.Render(mGridRenderer, mNavigation.Camera);
 
 			//mOnyxInstance.Gizmos.DrawLine(mClickRay.Origin, mClickRay.Origin + mClickRay.Direction * 10, Vector3.One);
 
 			HighlightSelected();
 
-			mOnyxInstance.Gizmos.DrawComponentGizmos(mScene);
+			mOnyxInstance.Gizmos.DrawComponentGizmos(SceneManagement.ActiveScene);
             mOnyxInstance.Gizmos.Render(mNavigation.Camera);
 			
 			renderCanvas.SwapBuffers();
@@ -170,14 +152,21 @@ namespace Onyx3DEditor
 
         // --------------------------------------------------------------------
 
+        public void UpdateHierarchy()
+        {
+            sceneHierarchy.UpdateScene();
+        }
+
+        // --------------------------------------------------------------------
+
         #region RenderCanvas callbacks
 
         private void renderCanvas_Load(object sender, EventArgs e)
 		{
 			InitializeEditor();
-			InitScene();
+            SceneManagement.LoadInitScene();
 
-			canDraw = true;
+            canDraw = true;
 		}
 
 		private void renderCanvas_Paint(object sender, PaintEventArgs e)
@@ -194,7 +183,7 @@ namespace Onyx3DEditor
 				mClickRay = mNavigation.Camera.ScreenPointToRay(mouseEvent.X, mouseEvent.Y, renderCanvas.Width, renderCanvas.Height);
 
 				RaycastHit hit = new RaycastHit();
-				if (Physics.Raycast(mClickRay, out hit, mScene))
+				if (Physics.Raycast(mClickRay, out hit, SceneManagement.ActiveScene))
 				{
 					if (Control.ModifierKeys.HasFlag(Keys.Control))
 					{
@@ -257,7 +246,7 @@ namespace Onyx3DEditor
 			if (confirmResult == DialogResult.Yes)
 			{
 				ProjectManager.Instance.New();
-                EditorSceneUtils.New();
+                SceneManagement.New();
             }
 		}
 
@@ -273,14 +262,14 @@ namespace Onyx3DEditor
 			if (openFileDialog1.ShowDialog() == DialogResult.OK)
 			{
 				ProjectManager.Instance.Load(openFileDialog1.FileName);
-				InitScene();
+                SceneManagement.LoadInitScene();
 			}
 		}
 
 		private void toolStripButtonChangeScene_Click(object sender, EventArgs e)
 		{
 			SceneSelectorWindow ss = new SceneSelectorWindow();
-			ss.OnSceneSelected += OnSceneSelected;
+			ss.OnSceneSelected += OnSceneChanged;
 			ss.Show();
 		}
 
@@ -412,7 +401,7 @@ namespace Onyx3DEditor
 
 		private void newSceneToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-            EditorSceneUtils.New();
+            SceneManagement.New();
         }
 
         #endregion

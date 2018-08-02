@@ -72,7 +72,7 @@ namespace Onyx3DEditor
 
 		private SceneObject AddPrimitive(int meshType, string name)
         {
-            SceneObject primitive = SceneObject.CreatePrimitive(onyx3DControl.OnyxInstance.Resources, meshType, name);
+            SceneObject primitive = SceneObject.CreatePrimitive(meshType, name);
             primitive.Parent = onyx3DControl.Scene.Root;
             return primitive;
         }

@@ -46,7 +46,6 @@ namespace Onyx3DEditor
 			this.renderCanvas.TabIndex = 0;
 			
 			this.renderCanvas.Click += new System.EventHandler(this.renderCanvas_Click);
-			this.renderCanvas.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MainWindow_KeyDown);
 
             splitContainer2.Panel1.Controls.Add(this.renderCanvas);
 		}

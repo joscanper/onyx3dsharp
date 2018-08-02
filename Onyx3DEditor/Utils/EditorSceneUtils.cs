@@ -7,20 +7,13 @@ namespace Onyx3DEditor
 {
     public static class EditorSceneUtils
     {
-        public static void New()
-        {
-            mSceneAsset = null;
-            mScene = new Scene();
-            sceneHierarchy.SetScene(mScene);
-            renderCanvas.Refresh();
-        }
 
         // --------------------------------------------------------------------
 
         public static void Save()
         {
 
-            if (mSceneAsset == null)
+            if (SceneManagement.ActiveSceneAsset == null)
             {
                 SaveFileDialog saveFileDialog1 = new SaveFileDialog();
                 saveFileDialog1.Filter = "Onyx3d scene files (*.o3dscene)|*.o3dscene";
@@ -29,11 +22,10 @@ namespace Onyx3DEditor
 
                 if (saveFileDialog1.ShowDialog() == DialogResult.OK)
                 {
-                    AssetLoader<Scene>.Save(mScene, saveFileDialog1.FileName);
                     try
                     {
-                        mSceneAsset = new OnyxProjectSceneAsset(saveFileDialog1.FileName);
-                        ProjectManager.Instance.Content.Scenes.Add(mSceneAsset);
+                        AssetLoader<Scene>.Save(SceneManagement.ActiveScene, saveFileDialog1.FileName);
+                        ProjectManager.Instance.Content.AddScene(saveFileDialog1.FileName, false, SceneManagement.ActiveScene);
                     }
                     catch (Exception ex)
                     {
@@ -45,7 +37,7 @@ namespace Onyx3DEditor
             }
             else
             {
-                AssetLoader<Scene>.Save(mScene, mSceneAsset.Path);
+                AssetLoader<Scene>.Save(SceneManagement.ActiveScene, SceneManagement.ActiveSceneAsset.Path);
             }
         }
 
@@ -67,8 +59,10 @@ namespace Onyx3DEditor
                 {
                     if ((myStream = openFileDialog1.OpenFile()) != null)
                     {
-                        mScene = AssetLoader<Scene>.Load(openFileDialog1.FileName);
-                        renderCanvas.Refresh();
+                        // TODO - Load scenes that are assets in the project, not files from hard drive
+
+                        //mScene = AssetLoader<Scene>.Load(openFileDialog1.FileName);
+                        //renderCanvas.Refresh();
                     }
                 }
                 catch (Exception ex)

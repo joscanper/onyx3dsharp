@@ -1,16 +1,17 @@
 ﻿using Onyx3D;
+using OpenTK;
 using System.Collections.Generic;
 
 namespace Onyx3DEditor
 {
-    public static class EditorSceneObjectUtils
+    public static class EditorSceneObjectUtils 
     {
         public static void Group(List<SceneObject> objects)
         {
             if (objects.Count == 0)
                 return;
 
-            SceneObject newObj = new SceneObject("New Group", mScene);
+            SceneObject newObj = new SceneObject("New Group", objects[0].Scene);
             newObj.Transform.LocalPosition = Selection.ActiveObject.Transform.LocalPosition;
             newObj.Parent = objects[0];
             foreach (SceneObject obj in objects)
@@ -43,7 +44,7 @@ namespace Onyx3DEditor
 
             o.Destroy();
             o = null;
-            mScene.SetDirty();
+            
             Selection.ActiveObject = null;
         }
 
@@ -59,30 +60,32 @@ namespace Onyx3DEditor
                 if (obj != Selection.ActiveObject)
                     obj.Parent = Selection.ActiveObject;
             }
-            sceneHierarchy.UpdateScene();
+
+            MainWindow.Instance.UpdateHierarchy();
         }
 
         // --------------------------------------------------------------------
 
         public static void ClearParent()
         {
-            if (Selection.ActiveObject == null)
+            if (Selection.ActiveObject == null || Selection.Selected.Count == 0)
                 return;
 
+            Scene scene = SceneManagement.ActiveScene;
             foreach (SceneObject obj in Selection.Selected)
             {
-                obj.Parent = mScene.Root;
+                obj.Parent = scene.Root;
             }
 
-            sceneHierarchy.UpdateScene();
+            MainWindow.Instance.UpdateHierarchy();
         }
 
         // --------------------------------------------------------------------
 
         public static void AddPrimitive(int meshType, string name, bool select = true)
         {
-            SceneObject primitive = SceneObject.CreatePrimitive(mOnyxInstance.Resources, meshType, name);
-            primitive.Parent = mScene.Root;
+            SceneObject primitive = SceneObject.CreatePrimitive(meshType, name);
+            primitive.Parent = SceneManagement.ActiveScene.Root;
             if (select)
                 Selection.ActiveObject = primitive;
         }
@@ -91,8 +94,8 @@ namespace Onyx3DEditor
 
         public static void AddReflectionProbe(bool select = true)
         {
-            SceneObject obj = new SceneObject("ReflectionProbe", mScene);
-            obj.Parent = mScene.Root;
+            SceneObject obj = new SceneObject("ReflectionProbe", SceneManagement.ActiveScene);
+            obj.Parent = SceneManagement.ActiveScene.Root;
             obj.Transform.LocalPosition = new Vector3(0, 0, 0);
             ReflectionProbe mReflectionProbe = obj.AddComponent<ReflectionProbe>();
             mReflectionProbe.Init(64);
@@ -106,7 +109,7 @@ namespace Onyx3DEditor
         {
             SceneObject light = new SceneObject("Light");
             Light lightC = light.AddComponent<Light>();
-            light.Parent = mScene.Root;
+            light.Parent = SceneManagement.ActiveScene.Root;
             Selection.ActiveObject = light;
         }
     }

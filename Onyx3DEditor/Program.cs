@@ -20,7 +20,7 @@ namespace Onyx3DEditor
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MainWindow());
+            Application.Run(MainWindow.Instance);
         }
     }
 }

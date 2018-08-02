@@ -56,6 +56,7 @@ namespace Onyx3D
 			Dispose();
             mComponents.Clear();
             mChildren.Clear();
+            Scene.SetDirty();
             Scene = null;
 			SetParent(null);
         }
@@ -265,13 +266,13 @@ namespace Onyx3D
 
 		// --------------------------------------------------------------------
 
-		public static SceneObject CreatePrimitive(ResourcesManager resources, int meshType, string name)
+		public static SceneObject CreatePrimitive(int meshType, string name)
         {
             SceneObject primitive = new SceneObject(name);
             MeshRenderer mesh = primitive.AddComponent<MeshRenderer>();
-            mesh.Mesh = resources.GetMesh(meshType);
+            mesh.Mesh = Onyx3DEngine.Instance.Resources.GetMesh(meshType);
             primitive.Transform.LocalPosition = new Vector3(0, 0, 0);
-            mesh.Material = resources.GetMaterial(BuiltInMaterial.Default);
+            mesh.Material = Onyx3DEngine.Instance.Resources.GetMaterial(BuiltInMaterial.Default);
             return primitive;
         }
 

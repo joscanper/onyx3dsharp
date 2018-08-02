@@ -42,7 +42,7 @@ namespace Onyx3DEditor
 
                 OpenTK.Vector3 position = Selection.MiddlePoint();
                 Entity entity = EntityLoader.Create(Selection.Selected, window.EntityName, position);
-                EntityProxy proxy = new EntityProxy(Selection.ActiveObject.Id, mScene);
+                EntityProxy proxy = new EntityProxy(Selection.ActiveObject.Id, SceneManagement.ActiveScene);
 
                 proxy.EntityRef = entity;
                 proxy.Parent = parent;
@@ -61,10 +61,11 @@ namespace Onyx3DEditor
         {
             foreach (SceneObject obj in Selection.Selected)
             {
-                obj.Parent = mScene.Root;
+                obj.Parent = SceneManagement.ActiveScene.Root;
             }
 
-            sceneHierarchy.UpdateScene();
+            MainWindow.Instance.UpdateHierarchy();
+            //sceneHierarchy.UpdateScene();
         }
 
         // --------------------------------------------------------------------
@@ -72,7 +73,7 @@ namespace Onyx3DEditor
         public static void AddProxy()
         {
             EntityProxy tmp = new EntityProxy("TemplateProxy");
-            tmp.Parent = mScene.Root;
+            tmp.Parent = SceneManagement.ActiveScene.Root;
             Selection.ActiveObject = tmp;
         }
     }

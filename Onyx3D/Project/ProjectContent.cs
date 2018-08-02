@@ -89,6 +89,15 @@ namespace Onyx3D
 			return Scenes.Count == 0 ? null : Scenes[0];
 		}
 
+        public OnyxProjectSceneAsset AddScene(string path, bool relative = false, Scene scene = null)
+        {
+            OnyxProjectSceneAsset asset = new OnyxProjectSceneAsset(relative ? path : GetRelativePath(path), Path.GetFileNameWithoutExtension(path), GetNewSceneId());
+            if (scene != null)
+                scene.LinkedProjectAsset = asset;
+            Scenes.Add(asset);
+            return asset;
+        }
+
 		public OnyxProjectMaterialAsset AddMaterial(string path, bool relative = false, Material mat = null)
 		{
 			OnyxProjectMaterialAsset matAsset = new OnyxProjectMaterialAsset(relative ? path : GetRelativePath(path), Path.GetFileNameWithoutExtension(path), GetNewMaterialId());
