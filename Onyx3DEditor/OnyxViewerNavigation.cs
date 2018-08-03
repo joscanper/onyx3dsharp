@@ -163,6 +163,8 @@ namespace Onyx3DEditor
 		public void OnMouseWheel(object sender, MouseEventArgs e)
 		{
 			mCameraPivotZMov.Transform.Translate(Vector3.UnitZ * (-e.Delta) * ZoomFactor);
+			mOrthoCamera.W += (-e.Delta) * ZoomFactor;
+			mOrthoCamera.H += (-e.Delta) * ZoomFactor;
 			GLControl renderCanvas = sender as GLControl;
 			if (renderCanvas != null)
 				renderCanvas.Refresh();

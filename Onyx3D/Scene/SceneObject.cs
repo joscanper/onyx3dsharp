@@ -311,6 +311,8 @@ namespace Onyx3D
 
 		protected void Copy(SceneObject obj)
 		{
+			Parent = obj.Parent;
+
 			Transform.Copy(obj.Transform);
 
 			obj.ForEachComponent((component) => {

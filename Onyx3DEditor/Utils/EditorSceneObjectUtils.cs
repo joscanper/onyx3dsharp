@@ -33,8 +33,6 @@ namespace Onyx3DEditor
             foreach (SceneObject selected in Selection.Selected)
             { 
                 SceneObject clone = selected.Clone();
-                clone.Parent = selected.Parent;
-                
                 newSelected.Add(clone);
             }
 
@@ -44,13 +42,13 @@ namespace Onyx3DEditor
 
         // --------------------------------------------------------------------
 
-        public static void Delete(SceneObject o)
+        public static void Delete(List<SceneObject> objs)
         {
-            if (o == null)
-                return;
-
-            o.Destroy();
-            o = null;
+            
+			foreach (SceneObject selected in Selection.Selected)
+			{
+				selected.Destroy();
+			}
             
             Selection.ActiveObject = null;
         }

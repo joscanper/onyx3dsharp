@@ -182,7 +182,7 @@ namespace Onyx3DEditor
 				RaycastHit hit = new RaycastHit();
 				if (Physics.Raycast(mClickRay, out hit, SceneManagement.ActiveScene))
 				{
-					if (Control.ModifierKeys.HasFlag(Keys.Control))
+					if (ModifierKeys.HasFlag(Keys.Control))
 					{
 						Selection.Add(hit.Object);
 					}
@@ -210,7 +210,7 @@ namespace Onyx3DEditor
         private void timer1_Tick(object sender, EventArgs e)
 		{
 			//myTeapot.Transform.Rotate(new Vector3(0, 0.1f, 0));
-			renderCanvas.Refresh();
+			//renderCanvas.Refresh();
 			//mReflectionProbe.Angle += 0.01f;
 		}
 
@@ -355,7 +355,7 @@ namespace Onyx3DEditor
 		private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			if (Selection.ActiveObject != null)
-                EditorSceneObjectUtils.Delete(Selection.ActiveObject);
+                EditorSceneObjectUtils.Delete(Selection.Selected);
 		}
 
 		private void toolStripCreateReflectionProbe_Click(object sender, EventArgs e)
