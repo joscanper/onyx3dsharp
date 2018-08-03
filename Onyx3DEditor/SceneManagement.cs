@@ -22,6 +22,7 @@ namespace Onyx3DEditor
             mActiveScene = new Scene();
 
             EditorSceneObjectUtils.AddReflectionProbe(false);
+            EditorSceneObjectUtils.AddPrimitive(BuiltInMesh.Quad, "Quad");
 
             OnSceneChanged?.Invoke(mActiveScene);
         }

@@ -13,11 +13,15 @@ namespace Onyx3DEditor
 		private TreeNode mPrevSelected;
 		private Entity mExpandedEntity;
 
-		public SceneHierarchyControl()
+        // --------------------------------------------------------------------
+
+        public SceneHierarchyControl()
 		{
 			InitializeComponent();
 			Selection.OnSelectionChanged += OnSelectionChanged;
 		}
+
+        // --------------------------------------------------------------------
 
         public void SetScene(Scene scene)
         {
@@ -25,7 +29,9 @@ namespace Onyx3DEditor
             UpdateScene();
         }
 
-		public void SetObject(SceneObject obj)
+        // --------------------------------------------------------------------
+
+        public void SetObject(SceneObject obj)
 		{
 			treeViewScene.Nodes.Clear();
 			TreeNode root = new TreeNode(obj.Id);
@@ -34,7 +40,9 @@ namespace Onyx3DEditor
 			treeViewScene.ExpandAll();
 		}
 
-		public void UpdateScene()
+        // --------------------------------------------------------------------
+
+        public void UpdateScene()
 		{
 			treeViewScene.Nodes.Clear();
 			TreeNode root = new TreeNode("Scene Name");
@@ -44,8 +52,9 @@ namespace Onyx3DEditor
 			treeViewScene.ExpandAll();
 		}
 
+        // --------------------------------------------------------------------
 
-		private void AddSceneObjectToTreeNode(TreeNode node, SceneObject sceneObject, bool skipAdd)
+        private void AddSceneObjectToTreeNode(TreeNode node, SceneObject sceneObject, bool skipAdd)
 		{
 			SceneTreeNode objectNode = new SceneTreeNode(sceneObject);
 			if (!skipAdd)
@@ -55,7 +64,9 @@ namespace Onyx3DEditor
 
 		}
 
-		private void OnSelectionChanged(List<SceneObject> obj)
+        // --------------------------------------------------------------------
+
+        private void OnSelectionChanged(List<SceneObject> obj)
 		{
 			mPrevSelected = treeViewScene.SelectedNode;
 
@@ -70,11 +81,14 @@ namespace Onyx3DEditor
 			if (mScene != null && mScene.IsDirty)
 				UpdateScene();
 
-			SearchAndHighlightObject(treeViewScene.Nodes[0]);
+            if (treeViewScene.Nodes.Count > 0)
+			    SearchAndHighlightObject(treeViewScene.Nodes[0]);
 
 		}
 
-		private bool SearchAndHighlightObject(TreeNode tn)
+        // --------------------------------------------------------------------
+
+        private bool SearchAndHighlightObject(TreeNode tn)
 		{
 		
 			foreach (SceneTreeNode node in tn.Nodes)
@@ -104,7 +118,9 @@ namespace Onyx3DEditor
 
 		}
 
-		private void treeViewScene_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
+        // --------------------------------------------------------------------
+
+        private void treeViewScene_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
 		{
 			if (e.Node.GetType() != typeof(SceneTreeNode))
 			{
@@ -129,14 +145,18 @@ namespace Onyx3DEditor
 
 		}
 
-		protected override void OnHandleDestroyed(EventArgs e)
+        // --------------------------------------------------------------------
+
+        protected override void OnHandleDestroyed(EventArgs e)
 		{
 			base.OnHandleDestroyed(e);
 
 			Selection.OnSelectionChanged -= OnSelectionChanged;
 		}
 
-		private void treeViewScene_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
+        // --------------------------------------------------------------------
+
+        private void treeViewScene_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
 		{
 			if (e.Node.GetType() != typeof(SceneTreeNode))
 			{

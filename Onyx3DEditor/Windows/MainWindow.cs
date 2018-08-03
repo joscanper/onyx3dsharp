@@ -1,13 +1,10 @@
 ﻿using System;
-
 using System.Drawing;
 using System.Windows.Forms;
+using System.Collections.Generic;
 
 using Onyx3D;
 using OpenTK;
-using OpenTK.Graphics.OpenGL;
-using System.IO;
-using System.Collections.Generic;
 
 namespace Onyx3DEditor
 {
@@ -133,20 +130,20 @@ namespace Onyx3DEditor
 				return;
 
             renderCanvas.MakeCurrent();
-
+            
             mNavigation.UpdateCamera();
-
+            
             mOnyxInstance.Renderer.Render(SceneManagement.ActiveScene, mNavigation.Camera, renderCanvas.Width, renderCanvas.Height);
 			mOnyxInstance.Renderer.Render(mGridRenderer, mNavigation.Camera);
+            
+            //mOnyxInstance.Gizmos.DrawLine(mClickRay.Origin, mClickRay.Origin + mClickRay.Direction * 10, Vector3.One);
 
-			//mOnyxInstance.Gizmos.DrawLine(mClickRay.Origin, mClickRay.Origin + mClickRay.Direction * 10, Vector3.One);
+            HighlightSelected();
 
-			HighlightSelected();
-
-			mOnyxInstance.Gizmos.DrawComponentGizmos(SceneManagement.ActiveScene);
+            mOnyxInstance.Gizmos.DrawComponentGizmos(SceneManagement.ActiveScene);            
             mOnyxInstance.Gizmos.Render(mNavigation.Camera);
 			
-			renderCanvas.SwapBuffers();
+            renderCanvas.SwapBuffers();
 			labelLoggerOutput.Text = Logger.Instance.Content;            
 		}
 
@@ -213,7 +210,7 @@ namespace Onyx3DEditor
         private void timer1_Tick(object sender, EventArgs e)
 		{
 			//myTeapot.Transform.Rotate(new Vector3(0, 0.1f, 0));
-			//renderCanvas.Refresh();
+			renderCanvas.Refresh();
 			//mReflectionProbe.Angle += 0.01f;
 		}
 
@@ -313,6 +310,11 @@ namespace Onyx3DEditor
             EditorEntityUtils.AddProxy();
         }
 
+        private void toolStripCreateCamera_Click(object sender, EventArgs e)
+        {
+            EditorSceneObjectUtils.AddCamera();
+        }
+
         private void toolStripButtonMove_Click(object sender, EventArgs e)
 		{
 			toolStripButtonScale.Checked = false;
@@ -345,7 +347,7 @@ namespace Onyx3DEditor
 			new ModelImporterWindow().Show();
 		}
 
-		private void duplicateSceneObjectToolStripMenuItem_Click(object sender, EventArgs e)
+        private void duplicateSceneObjectToolStripMenuItem_Click(object sender, EventArgs e)
 		{
             EditorSceneObjectUtils.Duplicate();
 		}

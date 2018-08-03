@@ -11,9 +11,9 @@ namespace Onyx3DEditor
             if (objects.Count == 0)
                 return;
 
-            SceneObject newObj = new SceneObject("New Group", objects[0].Scene);
+            SceneObject newObj = new SceneObject("New Group", SceneManagement.ActiveScene);
             newObj.Transform.LocalPosition = Selection.ActiveObject.Transform.LocalPosition;
-            newObj.Parent = objects[0];
+            newObj.Parent = objects[0].Parent;
             foreach (SceneObject obj in objects)
             {
                 obj.Parent = newObj;
@@ -29,10 +29,17 @@ namespace Onyx3DEditor
             if (Selection.ActiveObject == null)
                 return;
 
-            SceneObject clone = Selection.ActiveObject.Clone();
-            clone.Parent = Selection.ActiveObject.Parent;
+            List<SceneObject> newSelected = new List<SceneObject>();
+            foreach (SceneObject selected in Selection.Selected)
+            { 
+                SceneObject clone = selected.Clone();
+                clone.Parent = selected.Parent;
+                
+                newSelected.Add(clone);
+            }
 
-            Selection.ActiveObject = clone;
+            Selection.Set(newSelected);
+            
         }
 
         // --------------------------------------------------------------------
@@ -111,6 +118,16 @@ namespace Onyx3DEditor
             Light lightC = light.AddComponent<Light>();
             light.Parent = SceneManagement.ActiveScene.Root;
             Selection.ActiveObject = light;
+        }
+
+        // --------------------------------------------------------------------
+
+        public static void AddCamera()
+        {
+            PerspectiveCamera cam = new PerspectiveCamera("Camera", MathHelper.DegreesToRadians(45), 1.5f);
+            cam.Aspect = 1;
+            cam.Parent = SceneManagement.ActiveScene.Root;
+            Selection.ActiveObject = cam;
         }
     }
 }

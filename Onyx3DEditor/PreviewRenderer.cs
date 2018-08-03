@@ -1,37 +1,27 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
+
 using Onyx3D;
 using OpenTK;
-using OpenTK.Graphics;
-using OpenTK.Platform;
 
 namespace Onyx3DEditor
 {
 	public class PreviewRenderer : IDisposable
 	{
 		
-		private FrameBuffer mFrameBuffer;
 		public Onyx3DInstance OnyxInstance;
 		public Scene Scene;
 		public Camera Camera;
 		public bool DrawGrid;
 		
 		private SceneObject mCamPivot;
-		private GridRenderer mGridRenderer;
-		private ReflectionProbe mReflectionProbe;
-		
-		public PreviewRenderer()
-		{
-			
-		}
+        private FrameBuffer mFrameBuffer;
+        private GridRenderer mGridRenderer;
+        private ReflectionProbe mReflectionProbe;
+        
+        // --------------------------------------------------------------------
 
-		public void Init(int w, int h, IntPtr handle)
+        public void Init(int w, int h, IntPtr handle)
 		{
 			
 			OnyxInstance = new Onyx3DInstance();
@@ -40,7 +30,9 @@ namespace Onyx3DEditor
 			InitializeBasicScene();
 		}
 
-		public virtual void InitializeBasicScene()
+        // --------------------------------------------------------------------
+
+        public virtual void InitializeBasicScene()
 		{
 
 			Scene = new Scene(OnyxInstance);
@@ -75,12 +67,16 @@ namespace Onyx3DEditor
 			mReflectionProbe.Bake(OnyxInstance.Renderer);
 		}
 
-		public void BakeReflection()
+        // --------------------------------------------------------------------
+
+        public void BakeReflection()
 		{
 			mReflectionProbe.Bake(OnyxInstance.Renderer);
 		}
 
-		public void Render()
+        // --------------------------------------------------------------------
+
+        public void Render()
 		{
 			//OnyxInstance.Context.MakeCurrent();
 			if (OnyxInstance != null)
@@ -93,14 +89,16 @@ namespace Onyx3DEditor
 			}	
 		}
 
-		public Bitmap AsBitmap()
+        // --------------------------------------------------------------------
+
+        public Bitmap AsBitmap()
 		{
-			Bitmap bitmap = mFrameBuffer.Texture.AsBitmap();
-			bitmap.RotateFlip(RotateFlipType.RotateNoneFlipY);
-			return bitmap;
+			return mFrameBuffer.Texture.AsBitmap();
 		}
 
-		public void Dispose()
+        // --------------------------------------------------------------------
+
+        public void Dispose()
 		{
 			mFrameBuffer.Dispose();
 			Scene.Dispose();

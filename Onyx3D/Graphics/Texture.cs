@@ -82,7 +82,9 @@ namespace Onyx3D
 			GL.GetTexImage(TextureTarget.Texture2D, 0, OpenTK.Graphics.OpenGL.PixelFormat.Bgra, PixelType.UnsignedByte, bits.Scan0);
 			
 			bitmap.UnlockBits(bits);
-			return bitmap;
+            bitmap.RotateFlip(RotateFlipType.RotateNoneFlipY);
+
+            return bitmap;
 		}
 
 		public void Dispose()

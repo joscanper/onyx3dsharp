@@ -16,39 +16,33 @@ namespace Onyx3D
 	[Serializable]
 	public abstract class Camera : SceneObject
 	{
-		public float Near;
+        public float Near;
 		public float Far;
-		//public Rect Viewport = new Rect(0, 0, 1, 1);
+        
+        protected Matrix4 mProjection;
+        
+        private UBO<CameraUBufferData> mCameraUBO;
+        private CameraUBufferData mUBufferData;
+        
+        // --------------------------------------------------------------------
 
-		protected Matrix4 mProjection;
+        public UBO<CameraUBufferData> UBO { get { return mCameraUBO; } }
+		public Matrix4 ViewMatrix { get { return Transform.ModelMatrix.Inverted(); } }
+		public Matrix4 ProjectionMatrix { get { return mProjection; } }
 
-		UBO<CameraUBufferData> mCameraUBO;
-		CameraUBufferData mUBufferData;
-		
-		public UBO<CameraUBufferData> UBO { get { return mCameraUBO; } }
-		
-		public Matrix4 ViewMatrix
-		{
-			get {
-				return Transform.ModelMatrix.Inverted();
-			}
-		}
+        // --------------------------------------------------------------------
 
-		public Matrix4 ProjectionMatrix
-		{
-			get { return mProjection; }
-		}
-
-
-		public Camera(string id, float near = 0.1f, float far = 1000) : base(id)
+        public Camera(string id, float near = 0.1f, float far = 1000) : base(id)
 		{
 			Near = near;
 			Far = far;
 			mUBufferData = new CameraUBufferData();
 			mCameraUBO = new UBO<CameraUBufferData>(mUBufferData, "CameraData");
 		}
-		
-		public void UpdateUBO()
+
+        // --------------------------------------------------------------------
+
+        public void UpdateUBO()
 		{
 			mUBufferData.View = ViewMatrix;
 			mUBufferData.Projection = ProjectionMatrix;
@@ -56,10 +50,14 @@ namespace Onyx3D
 			mCameraUBO.Update(mUBufferData);
 		}
 
-		public virtual void Update()
+        // --------------------------------------------------------------------
+
+        public virtual void Update()
 		{
 			UpdateUBO();
 		}
+
+        // --------------------------------------------------------------------
 
         public Ray ScreenPointToRay(float x, float y, float screenW, float screenH)
         {
@@ -69,38 +67,58 @@ namespace Onyx3D
             return ViewportPointToRay(viewportPoint);
         }
 
+        // --------------------------------------------------------------------
 
         public abstract Ray ViewportPointToRay(Vector2 viewportPoint);
 
-		public override void Dispose()
+        // --------------------------------------------------------------------
+
+        public override void Dispose()
 		{
 			base.Dispose();
 
 			mCameraUBO.Dispose();
 			mCameraUBO = null;
 		}
-	}
+
+        // --------------------------------------------------------------------
+        
+        public override void OnDrawGizmos(GizmosManager gizmos)
+        {
+            base.OnDrawGizmos(gizmos);
+      
+            gizmos.DrawMesh(Transform.ModelMatrix, 
+                Onyx3DEngine.Instance.Resources.GetMesh(BuiltInMesh.GizmoCamera),
+                Onyx3DEngine.Instance.Resources.GetMaterial(BuiltInMaterial.Default));
+        }
+        
+    }
 
 
-	[Serializable]
+    [Serializable]
 	public class PerspectiveCamera : Camera
 	{
 		public float FOV;
 		public float Aspect;
 
-		public PerspectiveCamera(string id, float fov, float aspect, float near = 0.01f, float far = 1000) : base(id, near, far)
+        // --------------------------------------------------------------------
+
+        public PerspectiveCamera(string id, float fov, float aspect, float near = 0.01f, float far = 1000) : base(id, near, far)
 		{
 			FOV = fov;
 			Aspect = aspect;
 			Update();
 		}
+        
+        // --------------------------------------------------------------------
 
-		public override void Update()
+        public override void Update()
 		{
 			base.Update();
 			mProjection = Matrix4.CreatePerspectiveFieldOfView(FOV, Aspect, Near, Far);
 		}
 
+        // --------------------------------------------------------------------
 
         public override Ray ViewportPointToRay(Vector2 viewportPoint)
         {
@@ -127,19 +145,25 @@ namespace Onyx3D
 	{
 		public float W;
 		public float H;
-		
-		public OrthoCamera(string id, float w, float h, float near = 0.1f, float far = 1000) : base(id, near, far)
+
+        // --------------------------------------------------------------------
+
+        public OrthoCamera(string id, float w, float h, float near = 0.1f, float far = 1000) : base(id, near, far)
 		{
 			W = w;
 			H = h;
 			Update();
 		}
 
-		public override void Update()
+        // --------------------------------------------------------------------
+
+        public override void Update()
 		{
 			base.Update();
 			mProjection = Matrix4.CreateOrthographic(W, H, Near, Far);
 		}
+
+        // --------------------------------------------------------------------
 
         public override Ray ViewportPointToRay(Vector2 viewportPoint)
         {

@@ -76,5 +76,7 @@ namespace Onyx3DEditor
             tmp.Parent = SceneManagement.ActiveScene.Root;
             Selection.ActiveObject = tmp;
         }
+
+       
     }
 }

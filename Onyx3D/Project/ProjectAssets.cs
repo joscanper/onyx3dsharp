@@ -20,6 +20,8 @@ namespace Onyx3D
 		public static int Cube = 100000004;
 		public static int Cylinder = 100000005;
         public static int Quad = 100000006;
+
+        public static int GizmoCamera = 100000100;
     }
 
 	public class BuiltInTexture
@@ -30,7 +32,6 @@ namespace Onyx3D
 		public static int Normal = 200000004;
         public static int BRDFLut = 200000005;
     }
-
 
 	public class BuiltInMaterial
 	{

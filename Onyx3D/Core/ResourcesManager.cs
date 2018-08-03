@@ -50,7 +50,6 @@ namespace Onyx3D
         public Mesh GetMesh(int id)
 		{
 			Mesh m = GetResource(id, mMeshes, LoadMesh, BuiltInMesh.Cube);
-			m.GenerateVAO();
 			return m;
 		}
 
@@ -86,8 +85,10 @@ namespace Onyx3D
             OnyxProjectMeshAsset mAsset = (OnyxProjectMeshAsset)asset;
             if (mAsset.IsFromModel)
             {
-				return ObjLoader.Load(asset.AbsolutePath);
-				/*
+				Mesh m = ObjLoader.Load(asset.AbsolutePath);
+                m.GenerateVAO();
+                return m;
+                /*
 				AssimpLoader.ImportMeshes(mAsset.AbsolutePath, (guid, mesh)=>
                 {
                     mMeshes.Add(guid, mesh);

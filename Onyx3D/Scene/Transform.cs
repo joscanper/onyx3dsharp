@@ -19,11 +19,16 @@ namespace Onyx3D
 		private Matrix4 mBakedModelM;
         private Matrix4 mBakedNormalM;
         private Vector4 mBakedPosition;
-        
+
+        // --------------------------------------------------------------------
+
         public Vector3 Forward { get; private set; }
         public Vector3 Right { get; private set; }
         public Vector3 Up { get; private set; }
-        //private Vector4 mBakedRotation;
+        public Matrix4 ModelMatrix { get { return mBakedModelM; } }
+        public Matrix4 NormalMatrix { get { return mBakedNormalM; } }
+
+        // --------------------------------------------------------------------
 
         public Vector3 LocalScale
 		{
@@ -34,7 +39,9 @@ namespace Onyx3D
 			}
 		}
 
-		public Vector3 LocalPosition
+        // --------------------------------------------------------------------
+
+        public Vector3 LocalPosition
 		{
 			get { return mLocalPosition.Xyz; }
 			set {
@@ -43,7 +50,9 @@ namespace Onyx3D
 			}
 		}
 
-		public Quaternion LocalRotation
+        // --------------------------------------------------------------------
+
+        public Quaternion LocalRotation
 		{
 			get { return mLocalRotation; }
 			set {
@@ -51,6 +60,8 @@ namespace Onyx3D
 				SetDirty();
 			}
 		}
+
+        // --------------------------------------------------------------------
 
         public Matrix4 Offset
         {
@@ -62,7 +73,9 @@ namespace Onyx3D
             }
         }
 
-		public Vector3 Position {
+        // --------------------------------------------------------------------
+
+        public Vector3 Position {
 			get { return mBakedPosition.Xyz; }
 			set
 			{
@@ -70,16 +83,16 @@ namespace Onyx3D
 				SetDirty();
 			}
 		}
-
-		public Matrix4 ModelMatrix { get { return mBakedModelM; } }
-
-        public Matrix4 NormalMatrix { get { return mBakedNormalM; } }
+        
+        // --------------------------------------------------------------------
 
         public Transform(SceneObject sceneObject)
 		{
 			SceneObject = sceneObject;
 			SetDirty();
 		}
+
+        // --------------------------------------------------------------------
 
         public void FromMatrix(Matrix4 m)
         {
@@ -89,7 +102,9 @@ namespace Onyx3D
             SetDirty();
         }
 
-		public Matrix4 CalculateModelMatrix()
+        // --------------------------------------------------------------------
+
+        public Matrix4 CalculateModelMatrix()
 		{
 			Matrix4 t = Matrix4.CreateTranslation(mLocalPosition.X, mLocalPosition.Y, mLocalPosition.Z);
 			Matrix4 r = Matrix4.CreateFromQuaternion(mLocalRotation);
@@ -107,76 +122,104 @@ namespace Onyx3D
             return model;
 		}
 
-		Matrix4 GetScaleMatrix()
+        // --------------------------------------------------------------------
+
+        Matrix4 GetScaleMatrix()
 		{
 			return Matrix4.CreateScale(mLocalScale.X, mLocalScale.Y, mLocalScale.Z);
 		}
 
-		public Matrix4 GetTranslationMatrix()
+        // --------------------------------------------------------------------
+
+        public Matrix4 GetTranslationMatrix()
 		{
 			return Matrix4.CreateTranslation(mLocalPosition.X, mLocalPosition.Y, mLocalPosition.Z);
 		}
+
+        // --------------------------------------------------------------------
 
         public Matrix4 GetRotationMatrix()
         {
 			return Matrix4.CreateFromQuaternion(mLocalRotation);
 		}
 
+        // --------------------------------------------------------------------
+
         public Matrix4 GetYawMatrix(float rotY)
         {
 			return Matrix4.CreateRotationY(rotY);
         }
 
-		public Matrix4 GetPitchMatrix(float rotX)
+        // --------------------------------------------------------------------
+
+        public Matrix4 GetPitchMatrix(float rotX)
 		{
 			return Matrix4.CreateRotationX(rotX);
 		}
 
-		public Matrix4 GetRollMatrix(float rotZ)
+        // --------------------------------------------------------------------
+
+        public Matrix4 GetRollMatrix(float rotZ)
 		{
 			return Matrix4.CreateRotationZ(rotZ);
 		}
 
-		public void Rotate(Vector3 euler)
+        // --------------------------------------------------------------------
+
+        public void Rotate(Vector3 euler)
 		{
 			Quaternion rotation = Quaternion.FromEulerAngles(euler);
 			Rotate(rotation);
 		}
 
-		public void Rotate(Quaternion rot)
+        // --------------------------------------------------------------------
+
+        public void Rotate(Quaternion rot)
 		{
 			mLocalRotation = mLocalRotation * rot;
 			SetDirty();
 		}
 
-		public void Translate(Vector3 translation)
+        // --------------------------------------------------------------------
+
+        public void Translate(Vector3 translation)
 		{
 			mLocalPosition += new Vector4(translation,1);
 			SetDirty();
 		}
 
-		public Vector3 LocalToWorld(Vector3 point)
+        // --------------------------------------------------------------------
+
+        public Vector3 LocalToWorld(Vector3 point)
 		{
 			return (new Vector4(point, 1)  * mBakedModelM).Xyz;
 		}
 
-		public Vector3 WorldToLocal(Vector3 point)
+        // --------------------------------------------------------------------
+
+        public Vector3 WorldToLocal(Vector3 point)
 		{
 			return (new Vector4(point, 1) * mBakedModelM.Inverted()).Xyz;
 		}
 
-		public void LookAt(Vector3 position, Vector3 up)
+        // --------------------------------------------------------------------
+
+        public void LookAt(Vector3 position, Vector3 up)
 		{
 			Matrix3 lookAt = new Matrix3(Matrix4.LookAt(Position, position, up));
 			mLocalRotation = Quaternion.FromMatrix(lookAt);
 		}
 
-		public void SetDirty()
+        // --------------------------------------------------------------------
+
+        public void SetDirty()
 		{
 			SetModelMatrix(CalculateModelMatrix());
 		}
 
-		public void SetModelMatrix(Matrix4 model)
+        // --------------------------------------------------------------------
+
+        public void SetModelMatrix(Matrix4 model)
 		{
 			mBakedModelM = model;
 			mBakedNormalM = Matrix4.Transpose(Matrix4.Invert(mBakedModelM));
@@ -198,7 +241,9 @@ namespace Onyx3D
 			}
 		}
 
-		public void Copy(Transform other)
+        // --------------------------------------------------------------------
+
+        public void Copy(Transform other)
 		{
 			mLocalPosition = other.mLocalPosition;
 			mLocalScale = other.mLocalScale;
@@ -206,12 +251,16 @@ namespace Onyx3D
 			SetDirty();
 		}
 
+        // --------------------------------------------------------------------
         // --------------------- Serialization
+        // --------------------------------------------------------------------
 
         public XmlSchema GetSchema()
         {
             throw new NotImplementedException();
         }
+
+        // --------------------------------------------------------------------
 
         public void ReadXml(XmlReader reader)
         {
@@ -220,6 +269,8 @@ namespace Onyx3D
             LocalRotation = Quaternion.FromAxisAngle(rotation.Xyz, rotation.W);
             LocalScale = XmlUtils.StringToVector3(reader.GetAttribute("scale"));
         }
+
+        // --------------------------------------------------------------------
 
         public void WriteXml(XmlWriter writer)
         {

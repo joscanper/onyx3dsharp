@@ -398,9 +398,18 @@ namespace Onyx3D
 			return mObjectBounds;
 		}
 
-		// ----------- Serialization ------------
+        // --------------------------------------------------------------------
 
-		public XmlSchema GetSchema()
+        public virtual void OnDrawGizmos(GizmosManager gizmos)
+        {
+
+        }
+
+        // --------------------------------------------------------------------
+        // ----------- Serialization ------------
+        // --------------------------------------------------------------------
+
+        public XmlSchema GetSchema()
 		{
 			throw new System.NotImplementedException();
 		}
@@ -456,7 +465,9 @@ namespace Onyx3D
 
 		}
 
-		public virtual void WriteXml(XmlWriter writer)
+        // --------------------------------------------------------------------
+
+        public virtual void WriteXml(XmlWriter writer)
 		{
 
 			writer.WriteStartElement("SceneObject");

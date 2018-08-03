@@ -34,6 +34,7 @@ namespace Onyx3D
 			AddAsset(new OnyxProjectMeshAsset("./Resources/Models/torus.obj", "Torus", BuiltInMesh.Torus, true));
 			AddAsset(new OnyxProjectMeshAsset("./Resources/Models/sphere.obj", "Sphere", BuiltInMesh.Sphere, true));
             AddAsset(new OnyxProjectMeshAsset("./Resources/Models/quad.obj", "Quad", BuiltInMesh.Quad, true));
+            AddAsset(new OnyxProjectMeshAsset("./Resources/Models/camera_gizmo.obj", "Quad", BuiltInMesh.GizmoCamera, true));
 
             //  Built-in textures (from 200000000)
             AddAsset(new OnyxProjectAsset("./Resources/Textures/checker.png", "Checker", BuiltInTexture.Checker));

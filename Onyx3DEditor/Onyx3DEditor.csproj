@@ -93,6 +93,12 @@
     <Compile Include="Controls\CubemapViewer.Designer.cs">
       <DependentUpon>CubemapViewer.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\Inspector\CameraInspectorControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Inspector\CameraInspectorControl.Designer.cs">
+      <DependentUpon>CameraInspectorControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\Inspector\InspectorControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -252,6 +258,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\Inspector\AssetField.resx">
       <DependentUpon>AssetField.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\Inspector\CameraInspectorControl.resx">
+      <DependentUpon>CameraInspectorControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\Inspector\MeshRendererInspectorControl.resx">
       <DependentUpon>MeshRendererInspectorControl.cs</DependentUpon>
@@ -417,6 +426,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\toggle_plus.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\if_film_camera_35mm_45261.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\AssimpNet.3.3.2\build\AssimpNet.targets" Condition="Exists('..\packages\AssimpNet.3.3.2\build\AssimpNet.targets')" />

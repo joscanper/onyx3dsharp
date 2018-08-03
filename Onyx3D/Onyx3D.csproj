@@ -131,6 +131,9 @@
     <Compile Include="Project\ProjectData.cs" />
     <Compile Include="Project\ProjectManager.cs" />
     <None Include="OpenTK.dll.config" />
+    <None Include="Resources\Models\camera_gizmo.obj">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Resources\Shaders\SkyVertexShader.glsl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

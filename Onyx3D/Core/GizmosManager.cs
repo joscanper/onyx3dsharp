@@ -8,12 +8,15 @@ namespace Onyx3D
     {
         private List<MeshRenderer> mRenderers = new List<MeshRenderer>();
 		private List<MeshRenderer> mPooledRenderers = new List<MeshRenderer>();
-		//private SceneObject mRoot;
+
+        // --------------------------------------------------------------------
 
         public override void Init(Onyx3DInstance onyx3D)
         {
 			base.Init(onyx3D);
         }
+
+        // --------------------------------------------------------------------
 
         public void DrawLine(Vector3 from, Vector3 to, Vector3 color)
         {
@@ -23,8 +26,9 @@ namespace Onyx3D
 			mRenderers.Add(myLine);
 		}
 
+        // --------------------------------------------------------------------
 
-		public void DrawBox(Vector3 position, Vector3 size, Vector3 color)
+        public void DrawBox(Vector3 position, Vector3 size, Vector3 color)
 		{
 			BoxRenderer myBox = GetComponent<BoxRenderer>();
 			myBox.Material = Onyx3D.Resources.GetMaterial(BuiltInMaterial.UnlitVertexColor);
@@ -34,12 +38,16 @@ namespace Onyx3D
 			myBox.Transform.LocalPosition = position;
 		}
 
-		public void DrawCircle(Vector3 position, float radius, Vector3 color)
+        // --------------------------------------------------------------------
+
+        public void DrawCircle(Vector3 position, float radius, Vector3 color)
 		{
 			DrawCircle(position, radius, color, Vector3.UnitY);
 		}
 
-		public void DrawCircle(Vector3 position, float radius, Vector3 color, Vector3 up, int segments = 100)
+        // --------------------------------------------------------------------
+
+        public void DrawCircle(Vector3 position, float radius, Vector3 color, Vector3 up, int segments = 100)
 		{
 
 			CircleRenderer myCircle = GetComponent<CircleRenderer>();
@@ -51,14 +59,18 @@ namespace Onyx3D
 
 		}
 
-		public void DrawWireSphere(Vector3 position, float radius, Vector3 color, int segments = 100)
+        // --------------------------------------------------------------------
+
+        public void DrawWireSphere(Vector3 position, float radius, Vector3 color, int segments = 100)
 		{
 			DrawCircle(position, radius, color, Vector3.UnitY, segments);
 			DrawCircle(position, radius, color, Vector3.UnitZ, segments);
 			DrawCircle(position, radius, color, Vector3.UnitX, segments);
 		}
 
-		public void DrawSphere(Vector3 position, float radius, Vector3 color)
+        // --------------------------------------------------------------------
+
+        public void DrawSphere(Vector3 position, float radius, Vector3 color)
 		{
 			MeshRenderer mySphere = GetComponent<MeshRenderer>();
 			mySphere.Mesh = Onyx3D.Resources.GetMesh(BuiltInMesh.Sphere);
@@ -68,12 +80,16 @@ namespace Onyx3D
 			mRenderers.Add(mySphere);
 		}
 
-		public void DrawWireSphere(Sphere s, Vector3 color, int segments = 100)
+        // --------------------------------------------------------------------
+
+        public void DrawWireSphere(Sphere s, Vector3 color, int segments = 100)
 		{
 			DrawWireSphere(s.Position, s.Radius, color);
 		}
 
-		public void DrawAxis(Vector3 position, float scale = 1)
+        // --------------------------------------------------------------------
+
+        public void DrawAxis(Vector3 position, float scale = 1)
 		{
 			AxisRenderer myAxis = GetComponent<AxisRenderer>();
 			myAxis.Material = Onyx3D.Resources.GetMaterial(BuiltInMaterial.UnlitVertexColor);
@@ -83,8 +99,22 @@ namespace Onyx3D
 			myAxis.Transform.LocalPosition = position;
 		}
 
+        // --------------------------------------------------------------------
 
-		private T GetComponent<T>() where T : MeshRenderer, new()
+        public void DrawMesh(Matrix4 modelMatrix, Mesh mesh, Material material)
+        {
+            MeshRenderer myMeshRender = GetComponent<MeshRenderer>();
+            myMeshRender.Mesh = mesh;
+            myMeshRender.Material = material;
+            mRenderers.Add(myMeshRender);
+            
+            myMeshRender.Transform.SetModelMatrix(modelMatrix);
+            
+        }
+
+        // --------------------------------------------------------------------
+
+        private T GetComponent<T>() where T : MeshRenderer, new()
 		{
 
 			for (int i = 0; i<mPooledRenderers.Count; ++i)
@@ -100,15 +130,21 @@ namespace Onyx3D
 			SceneObject obj = new SceneObject("Gizmo");
 			return obj.AddComponent<T>();
 		}
-        
+
+        // --------------------------------------------------------------------
 
         public void DrawComponentGizmos(Scene scene)
         {
             DrawComponentGizmos(scene.Root);
         }
 
+        // --------------------------------------------------------------------
+
         public void DrawComponentGizmos(SceneObject obj)
         {
+            
+            obj.OnDrawGizmos(this);
+            
             obj.ForEachComponent((comp) =>
             {
                 comp.OnDrawGizmos(this);
@@ -119,6 +155,8 @@ namespace Onyx3D
                 DrawComponentGizmos(child);
             });
         }
+
+        // --------------------------------------------------------------------
 
         public void Render(Camera cam)
         {
