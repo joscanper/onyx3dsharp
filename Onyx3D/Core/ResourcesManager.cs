@@ -15,8 +15,28 @@ namespace Onyx3D
 		private Dictionary<int, Shader> mShaders = new Dictionary<int, Shader>();
         private Dictionary<int, Entity> mEntities = new Dictionary<int, Entity>();
 
-        // ----------------------------------------------------------------  Getters
 
+        public void RefreshAll()
+        {
+            Refresh(mMeshes, LoadMesh);
+            Refresh(mTextures, LoadTexture);
+            Refresh(mMaterials, LoadMaterial);
+            Refresh(mShaders, LoadShader);
+            Refresh(mEntities, LoadEntity);
+        }
+
+        private void Refresh<T>(Dictionary<int, T> dict, Func<OnyxProjectAsset, T> loadFallback) where T : GameAsset
+        {
+            foreach(KeyValuePair<int, T> asset in dict)
+            {
+                if (asset.Value.IsDirty)
+                {
+                    ReloadResource(asset.Key, dict, loadFallback);
+                }
+            }
+        }
+
+        // ----------------------------------------------------------------  Getters
 
         private T GetResource<T>(int id, Dictionary<int, T> map, Func<OnyxProjectAsset, T> loadFallback, int defaultAsset) where T : GameAsset
 		{
@@ -45,6 +65,7 @@ namespace Onyx3D
             OnyxProjectAsset asset = GetResource(id, map, loadFallback, 0).LinkedProjectAsset;
             T newAsset = loadFallback(asset);
             map[id].Copy(newAsset);
+            map[id].IsDirty = false;
         }
 
         public Mesh GetMesh(int id)
@@ -73,39 +94,17 @@ namespace Onyx3D
             return GetResource(id, mEntities, LoadEntity, 0);
         }
 
-        public void ReloadMaterial(int id)
-        {
-            ReloadResource(id, mMaterials, LoadMaterial);
-        }
+     
+        // ----------------------------------------------------------------  Loaders
 
-		// ----------------------------------------------------------------  Loaders
-
-		private Mesh LoadMesh(OnyxProjectAsset asset)
+        private Mesh LoadMesh(OnyxProjectAsset asset)
 		{
-            OnyxProjectMeshAsset mAsset = (OnyxProjectMeshAsset)asset;
-            if (mAsset.IsFromModel)
-            {
-				Mesh m = ObjLoader.Load(asset.AbsolutePath);
-                m.GenerateVAO();
-                return m;
-                /*
-				AssimpLoader.ImportMeshes(mAsset.AbsolutePath, (guid, mesh)=>
-                {
-                    mMeshes.Add(guid, mesh);
-                    mMeshes[guid].LinkedProjectAsset = ProjectManager.Instance.Content.GetAsset(guid);
-                });
-                return GetMesh(asset.Guid);*/
-            }
-            else
-            {
-				return AssetLoader<Mesh>.Load(asset.AbsolutePath);
-			}
+			return AssetLoader<Mesh>.Load(asset.Path, true);
 		}
-        
 
         private Material LoadMaterial(OnyxProjectAsset asset)
 		{
-			return AssetLoader<Material>.Load(asset.AbsolutePath);
+			return AssetLoader<Material>.Load(asset.Path, true);
 		}
 
 		private Shader LoadShader(OnyxProjectAsset asset)
@@ -121,7 +120,7 @@ namespace Onyx3D
 
         private Entity LoadEntity(OnyxProjectAsset asset)
         {
-            return EntityLoader.Load(asset.AbsolutePath);
+            return AssetLoader<Entity>.Load(asset.Path, true);
         }
 
 

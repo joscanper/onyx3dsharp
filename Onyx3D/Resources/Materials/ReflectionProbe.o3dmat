@@ -5,6 +5,6 @@
 
 	<Properties>
 		<Property id="color" type="color" value="1,1,1,1"/>
-    <Property id="cubemap" type="sameplerCube" value="0"/>
+    <Property id="cubemap" type="samplerCube" value="0" index="0"/>
 	</Properties>
 </Material>

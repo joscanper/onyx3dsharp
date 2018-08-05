@@ -12,29 +12,32 @@ namespace Onyx3D
 	{
 		public static XmlWriterSettings DefaultXMLSettings = new XmlWriterSettings();
 		
-		public List<OnyxProjectSceneAsset> Scenes = new List<OnyxProjectSceneAsset>();
+		public List<OnyxProjectAsset> Scenes = new List<OnyxProjectAsset>();
 		public List<OnyxProjectAsset> Textures = new List<OnyxProjectAsset>();
-		public List<OnyxProjectMaterialAsset> Materials = new List<OnyxProjectMaterialAsset>();
-		public List<OnyxProjectMeshAsset> Meshes = new List<OnyxProjectMeshAsset>();
+		public List<OnyxProjectAsset> Materials = new List<OnyxProjectAsset>();
+		public List<OnyxProjectAsset> Meshes = new List<OnyxProjectAsset>();
+        public List<OnyxProjectAsset> Models = new List<OnyxProjectAsset>();
         public List<OnyxProjectAsset> Entities = new List<OnyxProjectAsset>();
 
         [XmlIgnore]
 		public Dictionary<int, OnyxProjectAsset> mMappedResources = new Dictionary<int, OnyxProjectAsset>();
 
-		public void Init()
+        // --------------------------------------------------------------------
+
+        public void Init()
 		{
 
 			DefaultXMLSettings.NewLineOnAttributes = true;
 			DefaultXMLSettings.Indent = true;
 
 			// Built-in meshes (from 100000000)
-			AddAsset(new OnyxProjectMeshAsset("./Resources/Models/teapot.obj", "Teapot", BuiltInMesh.Teapot, true));
-			AddAsset(new OnyxProjectMeshAsset("./Resources/Models/cube.obj", "Cube", BuiltInMesh.Cube, true));
-			AddAsset(new OnyxProjectMeshAsset("./Resources/Models/cylinder.obj", "Cylinder", BuiltInMesh.Cylinder, true));
-			AddAsset(new OnyxProjectMeshAsset("./Resources/Models/torus.obj", "Torus", BuiltInMesh.Torus, true));
-			AddAsset(new OnyxProjectMeshAsset("./Resources/Models/sphere.obj", "Sphere", BuiltInMesh.Sphere, true));
-            AddAsset(new OnyxProjectMeshAsset("./Resources/Models/quad.obj", "Quad", BuiltInMesh.Quad, true));
-            AddAsset(new OnyxProjectMeshAsset("./Resources/Models/camera_gizmo.obj", "Quad", BuiltInMesh.GizmoCamera, true));
+			AddAsset(new OnyxProjectAsset("./Resources/Meshes/teapot.o3dmesh", "Teapot", BuiltInMesh.Teapot));
+			AddAsset(new OnyxProjectAsset("./Resources/Meshes/cube.o3dmesh", "Cube", BuiltInMesh.Cube));
+			AddAsset(new OnyxProjectAsset("./Resources/Meshes/cylinder.o3dmesh", "Cylinder", BuiltInMesh.Cylinder));
+			AddAsset(new OnyxProjectAsset("./Resources/Meshes/torus.o3dmesh", "Torus", BuiltInMesh.Torus));
+			AddAsset(new OnyxProjectAsset("./Resources/Meshes/sphere.o3dmesh", "Sphere", BuiltInMesh.Sphere));
+            AddAsset(new OnyxProjectAsset("./Resources/Meshes/quad.o3dmesh", "Quad", BuiltInMesh.Quad));
+            AddAsset(new OnyxProjectAsset("./Resources/Meshes/gizmo_camera.o3dmesh", "Quad", BuiltInMesh.GizmoCamera));
 
             //  Built-in textures (from 200000000)
             AddAsset(new OnyxProjectAsset("./Resources/Textures/checker.png", "Checker", BuiltInTexture.Checker));
@@ -64,82 +67,123 @@ namespace Onyx3D
 			AddAssets(Textures);
 			AddAssets(Meshes);
             AddAssets(Entities);
+            AddAssets(Models);
         }
 
-		public void AddAssets<T>(List<T> assets) where T : OnyxProjectAsset
+        // --------------------------------------------------------------------
+
+        public void AddAssets<T>(List<T> assets) where T : OnyxProjectAsset
 		{
 			foreach (T asset in assets)
 				AddAsset(asset);
 		}
 
+        // --------------------------------------------------------------------
 
-		public void AddAsset(OnyxProjectAsset asset)
+        public void AddAsset(OnyxProjectAsset asset)
 		{
 			mMappedResources.Add(asset.Guid, asset);
 		}
 
-		public OnyxProjectAsset GetAsset(int id)
+        // --------------------------------------------------------------------
+
+        public OnyxProjectAsset GetAsset(int id)
 		{
             if (!mMappedResources.ContainsKey(id))
                 return null;
 			return mMappedResources[id];
 		}
 
-		public OnyxProjectSceneAsset GetInitScene()
+        // --------------------------------------------------------------------
+
+        public OnyxProjectAsset GetInitScene()
 		{
 			return Scenes.Count == 0 ? null : Scenes[0];
 		}
 
-        public OnyxProjectSceneAsset AddScene(string path, bool relative = false, Scene scene = null)
+        // --------------------------------------------------------------------
+        // ---- Add Utils
+        // --------------------------------------------------------------------
+
+        public OnyxProjectAsset AddScene(string path, bool relative = false, Scene scene = null)
         {
-            OnyxProjectSceneAsset asset = new OnyxProjectSceneAsset(relative ? path : GetRelativePath(path), Path.GetFileNameWithoutExtension(path), GetNewSceneId());
-            if (scene != null)
-                scene.LinkedProjectAsset = asset;
-            Scenes.Add(asset);
-            return asset;
+            return AddObject(path, relative, Scenes, GetNewId(Scenes, ContentIds.Scenes), scene);
         }
 
-		public OnyxProjectMaterialAsset AddMaterial(string path, bool relative = false, Material mat = null)
+        // --------------------------------------------------------------------
+
+        public OnyxProjectAsset AddMaterial(string path, bool relative = false, Material mat = null)
 		{
-			OnyxProjectMaterialAsset matAsset = new OnyxProjectMaterialAsset(relative ? path : GetRelativePath(path), Path.GetFileNameWithoutExtension(path), GetNewMaterialId());
-            if (mat!= null)
-			    mat.LinkedProjectAsset = matAsset;
-			Materials.Add(matAsset);
-			AddAsset(matAsset);
-            return matAsset;
-		}
+            return AddObject(path, relative, Materials, GetNewId(Materials, ContentIds.Materials), mat);
+        }
+
+        // --------------------------------------------------------------------
 
         public OnyxProjectAsset AddTexture(string path, bool relative = false, Texture texture = null)
         {
-            OnyxProjectAsset textureAsset = new OnyxProjectAsset(relative ? path : GetRelativePath(path), Path.GetFileNameWithoutExtension(path), GetNewTextureId());
-            if (texture != null)
-                texture.LinkedProjectAsset = textureAsset;
-            Textures.Add(textureAsset);
-            AddAsset(textureAsset);
-            return textureAsset;
+            return AddObject(path, relative, Textures, GetNewId(Textures, ContentIds.Textures), texture);
         }
 
-		public OnyxProjectMeshAsset AddMesh(string path, bool relative = false, Mesh mesh = null)
-		{
-            OnyxProjectMeshAsset meshAsset = new OnyxProjectMeshAsset(relative ? path : GetRelativePath(path), Path.GetFileNameWithoutExtension(path), GetNewMeshId());
-			if (mesh != null)
-				mesh.LinkedProjectAsset = meshAsset;
-			Meshes.Add(meshAsset);
-			AddAsset(meshAsset);
-			return meshAsset;
-		}
+        // --------------------------------------------------------------------
 
-        public OnyxProjectAsset AddTemplate(string path, bool relative = false, Entity tmp = null)
+        public OnyxProjectAsset AddMesh(string path, bool relative = false, Mesh mesh = null)
+		{
+            return AddObject(path, relative, Meshes, GetNewId(Meshes, ContentIds.Meshes), mesh);
+        }
+
+        // --------------------------------------------------------------------
+
+        public OnyxProjectAsset AddTemplate(string path, bool relative = false, Entity entity = null)
         {
-            OnyxProjectAsset entityAsset = new OnyxProjectAsset(relative ? path : GetRelativePath(path), Path.GetFileNameWithoutExtension(path), GetNewEntityId());
-            if (tmp != null)
-                tmp.LinkedProjectAsset = entityAsset;
-            Entities.Add(entityAsset);
-            AddAsset(entityAsset);
-            return entityAsset;
+            return AddObject(path, relative, Entities, GetNewId(Entities, ContentIds.Entities), entity);
+        }
+
+        // --------------------------------------------------------------------
+
+        public OnyxProjectAsset AddModel(string path, bool relative = false, ModelSupportData model = null)
+        {
+            return AddObject(path, relative, Models, GetNewId(Models, ContentIds.Models), model);
+        }
+
+        // --------------------------------------------------------------------
+
+        private TAsset AddObject<TObj, TAsset>(string path, bool relative, List<TAsset> list, int id, TObj obj) where TObj : GameAsset where TAsset : OnyxProjectAsset
+        {
+            TAsset asset = (TAsset)Activator.CreateInstance(typeof(TAsset), relative ? path : GetRelativePath(path), Path.GetFileNameWithoutExtension(path), id);
+            if (obj != null)
+                obj.LinkedProjectAsset = asset;
+            list.Add(asset);
+            AddAsset(asset);
+            return asset;
+        }
+
+
+        // --------------------------------------------------------------------
+        // ---- Remove Utils
+        // --------------------------------------------------------------------
+
+        public bool RemoveMesh(int guid)
+        {
+            return RemoveObject(guid, Meshes);
         }
         
-        // -----
+        // --------------------------------------------------------------------
+
+        private bool RemoveObject<TAsset>(int guid, List<TAsset> list) where TAsset : OnyxProjectAsset
+        {
+            int removed = list.RemoveAll(asset => asset.Guid == guid);
+            mMappedResources.Remove(guid);
+            return removed > 0;
+        }
+
+        // --------------------------------------------------------------------
+        // ----- Path Utils
+        // --------------------------------------------------------------------
+
+        public static string GetMeshPath(string meshName)
+        {
+            return string.Format("{0}\\{1}\\{2}{3}", ProjectManager.Instance.Directory, "Models\\Meshes", meshName, ".o3dmesh");
+        }
 
         public static string GetEntityPath(string entityName)
 		{
@@ -156,6 +200,7 @@ namespace Onyx3D
             
         }
 
+        // --------------------------------------------------------------------
 
         public static string GetRelativePath(string absolutePath)
         {
@@ -165,33 +210,7 @@ namespace Onyx3D
             return projectUri.MakeRelativeUri(assetUri).ToString();
         }
 
-        // -----
-
-        private int GetNewMaterialId()
-		{
-			return GetNewId(Materials, ContentIds.Materials);
-		}
-
-		private int GetNewMeshId()
-		{
-			return GetNewId(Meshes, ContentIds.Meshes);
-		}
-
-		private int GetNewSceneId()
-		{
-			return GetNewId(Scenes, ContentIds.Scenes);
-        }
-
-		private int GetNewTextureId()
-		{
-			return GetNewId(Textures, ContentIds.Textures);
-        }
-
-        private int GetNewEntityId()
-        {
-            return GetNewId(Entities, ContentIds.Entities);
-        }
-
+        // --------------------------------------------------------------------
 
         private int GetNewId<T>(List<T> list, int start) where T : OnyxProjectAsset
         {

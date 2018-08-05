@@ -8,7 +8,7 @@ namespace Onyx3DEditor
 {
     public partial class MaterialEditorWindow : Form
     {
-        public Action<OnyxProjectMaterialAsset> MaterialSaved;
+        public Action<OnyxProjectAsset> MaterialSaved;
 
         private bool canDraw = false;
 
@@ -23,7 +23,7 @@ namespace Onyx3DEditor
 
 		private float mAngle = 0;
 
-        public OnyxProjectMaterialAsset SelectedMaterial
+        public OnyxProjectAsset SelectedMaterial
         {
             get { return ProjectManager.Instance.Content.Materials[materialViewList1.SelectedIndex]; }
         }

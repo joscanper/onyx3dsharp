@@ -1,10 +1,56 @@
 ﻿using Onyx3D;
+using OpenTK;
+using System.Collections.Generic;
 using System.Windows.Forms;
 
 namespace Onyx3DEditor
 {
     public static class EditorEntityUtils
     {
+        // --------------------------------------------------------------------
+
+        public static Entity Create(SceneObject obj, string name)
+        {
+            Vector3 position = obj.Transform.Position;
+
+            SceneObject rootNode = new SceneObject(name);
+            obj.Parent = rootNode;
+            obj.Transform.LocalPosition = Vector3.Zero;
+
+            Entity entity = new Entity(rootNode);
+            string entityPath = ProjectContent.GetEntityPath(name);
+            AssetLoader<Entity>.Save(entity, entityPath, false);
+
+            OnyxProjectAsset asset = ProjectManager.Instance.Content.AddTemplate(entityPath, false, entity);
+            asset.Name = name;
+            return entity;
+        }
+
+        // ----------------------------s----------------------------------------
+
+        public static Entity Create(List<SceneObject> objects, string name, Vector3 position)
+        {
+
+            SceneObject rootNode = new SceneObject(name);
+            rootNode.Transform.Position = position;
+
+            foreach (SceneObject obj in objects)
+            {
+                obj.Parent = rootNode;
+            }
+
+            rootNode.Transform.Position = Vector3.Zero;
+
+            Entity entity = new Entity(rootNode);
+            string entityPath = ProjectContent.GetEntityPath(name);
+            AssetLoader<Entity>.Save(entity, entityPath, false);
+
+            OnyxProjectAsset asset = ProjectManager.Instance.Content.AddTemplate(entityPath, false, entity);
+            asset.Name = name;
+            return entity;
+        }
+        
+        // --------------------------------------------------------------------
 
         public static void CreateFromSelection()
         {
@@ -28,7 +74,7 @@ namespace Onyx3DEditor
                             }
                         }
 
-                        EntityLoader.Save(entity, entity.LinkedProjectAsset.AbsolutePath);
+                        AssetLoader<Entity>.Save(entity, entity.LinkedProjectAsset.Path);
                         Selection.ActiveObject = Selection.ActiveObject;
                     }
                 }
@@ -41,7 +87,7 @@ namespace Onyx3DEditor
                 SceneObject parent = Selection.ActiveObject.Parent;
 
                 OpenTK.Vector3 position = Selection.MiddlePoint();
-                Entity entity = EntityLoader.Create(Selection.Selected, window.EntityName, position);
+                Entity entity = Create(Selection.Selected, window.EntityName, position);
                 EntityProxy proxy = new EntityProxy(Selection.ActiveObject.Id, SceneManagement.ActiveScene);
 
                 proxy.EntityRef = entity;

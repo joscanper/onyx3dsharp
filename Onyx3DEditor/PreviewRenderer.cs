@@ -8,7 +8,6 @@ namespace Onyx3DEditor
 {
 	public class PreviewRenderer : IDisposable
 	{
-		
 		public Onyx3DInstance OnyxInstance;
 		public Scene Scene;
 		public Camera Camera;
@@ -78,15 +77,13 @@ namespace Onyx3DEditor
 
         public void Render()
 		{
-			//OnyxInstance.Context.MakeCurrent();
-			if (OnyxInstance != null)
-			{
-				mFrameBuffer.Bind();
-				OnyxInstance.Renderer.Render(Scene, Scene.ActiveCamera, mFrameBuffer.Width, mFrameBuffer.Height);
-				if (DrawGrid)
-					OnyxInstance.Renderer.Render(mGridRenderer, Scene.ActiveCamera);
-				mFrameBuffer.Unbind();
-			}	
+			
+			mFrameBuffer.Bind();
+            OnyxInstance.Renderer.Render(Scene, Scene.ActiveCamera, mFrameBuffer.Width, mFrameBuffer.Height);
+			if (DrawGrid)
+                OnyxInstance.Renderer.Render(mGridRenderer, Scene.ActiveCamera);
+			mFrameBuffer.Unbind();
+		
 		}
 
         // --------------------------------------------------------------------

@@ -1,0 +1,381 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Scene>
+  <Lighting>
+    <Ambient>0, 0, 0</Ambient>
+  </Lighting>
+  <Root>
+    <EntityProxy
+      id="floor"
+      instanceId="929996271"
+      entityGuid="6000000">
+      <Transform
+        position="0, 0, 0"
+        rotation="1, 0, 0, 0"
+        scale="1, 1, 1" />
+    </EntityProxy>
+    <EntityProxy
+      id="corner"
+      instanceId="929996474"
+      entityGuid="6000001">
+      <Transform
+        position="2, 0, -2"
+        rotation="1, 0, 0, 0"
+        scale="1, 1, 1" />
+    </EntityProxy>
+    <EntityProxy
+      id="corner"
+      instanceId="929996476"
+      entityGuid="6000001">
+      <Transform
+        position="2, 0, 2"
+        rotation="0, 1, 0, 4.712389"
+        scale="1, 1, 1" />
+    </EntityProxy>
+    <EntityProxy
+      id="corner"
+      instanceId="929996516"
+      entityGuid="6000001">
+      <Transform
+        position="-2, 0, -2"
+        rotation="0, 1, 0, 1.570796"
+        scale="1, 1, 1" />
+    </EntityProxy>
+    <EntityProxy
+      id="corner"
+      instanceId="929996518"
+      entityGuid="6000001">
+      <Transform
+        position="-2, 0, 2"
+        rotation="0, 1, 0, 3.141593"
+        scale="1, 1, 1" />
+    </EntityProxy>
+    <EntityProxy
+      id="side"
+      instanceId="1836092618"
+      entityGuid="6000002">
+      <Transform
+        position="2, 0, 0"
+        rotation="0, 1, 0, 4.712389"
+        scale="1, 1, 1" />
+    </EntityProxy>
+    <EntityProxy
+      id="side"
+      instanceId="1836092620"
+      entityGuid="6000002">
+      <Transform
+        position="-2, 0, 0"
+        rotation="0, 1, 0, 1.570796"
+        scale="1, 1, 1" />
+    </EntityProxy>
+    <SceneObject
+      id="Light"
+      instanceId="473486688">
+      <Transform
+        position="0, 4.403008, 2.34128"
+        rotation="0.8205507, -0.5215431, 0.2338576, 1.000179"
+        scale="1, 1, 1" />
+      <Component
+        className="Light">
+        <Type>2</Type>
+        <Color>1, 1, 1, 1</Color>
+        <Intensity>0.25</Intensity>
+      </Component>
+    </SceneObject>
+    <SceneObject
+      id="ReflectionProbe"
+      instanceId="473486771">
+      <Transform
+        position="0, 1.228771, 0"
+        rotation="1, 0, 0, 0"
+        scale="1, 1, 1" />
+      <Component
+        className="ReflectionProbe">
+        <Size>64</Size>
+        <Dynamic>False</Dynamic>
+      </Component>
+    </SceneObject>
+    <EntityProxy
+      id="floor"
+      instanceId="1953849445"
+      entityGuid="6000000">
+      <Transform
+        position="0, 0, 2"
+        rotation="1, 0, 0, 0"
+        scale="1, 1, 1" />
+    </EntityProxy>
+    <EntityProxy
+      id="floor"
+      instanceId="1953849447"
+      entityGuid="6000000">
+      <Transform
+        position="0, 0, -2"
+        rotation="1, 0, 0, 0"
+        scale="1, 1, 1" />
+    </EntityProxy>
+    <EntityProxy
+      id="corridor"
+      instanceId="1953849572"
+      entityGuid="6000003">
+      <Transform
+        position="0, 0, 4"
+        rotation="1, 0, 0, 0"
+        scale="1, 1, 1" />
+    </EntityProxy>
+    <EntityProxy
+      id="corridor"
+      instanceId="1953849590"
+      entityGuid="6000003">
+      <Transform
+        position="0, 0, -4"
+        rotation="1, 0, 0, 0"
+        scale="1, 1, 1" />
+    </EntityProxy>
+    <EntityProxy
+      id="corridor"
+      instanceId="1953849592"
+      entityGuid="6000003">
+      <Transform
+        position="0, 0, -6"
+        rotation="1, 0, 0, 0"
+        scale="1, 1, 1" />
+    </EntityProxy>
+    <EntityProxy
+      id="corridor"
+      instanceId="1953849594"
+      entityGuid="6000003">
+      <Transform
+        position="0, 0, 6"
+        rotation="1, 0, 0, 0"
+        scale="1, 1, 1" />
+    </EntityProxy>
+    <EntityProxy
+      id="doorhole"
+      instanceId="1953849727"
+      entityGuid="6000004">
+      <Transform
+        position="0, 0, -3"
+        rotation="1, 0, 0, 0"
+        scale="1, 1, 1" />
+    </EntityProxy>
+    <EntityProxy
+      id="doorhole"
+      instanceId="1953849745"
+      entityGuid="6000004">
+      <Transform
+        position="0, 0, 3"
+        rotation="1, 0, 0, 0"
+        scale="1, 1, 1" />
+    </EntityProxy>
+    <EntityProxy
+      id="doorhole"
+      instanceId="1953849747"
+      entityGuid="6000004">
+      <Transform
+        position="0, 0, 7"
+        rotation="1, 0, 0, 0"
+        scale="1, 1, 1" />
+    </EntityProxy>
+    <EntityProxy
+      id="doorhole"
+      instanceId="1953849749"
+      entityGuid="6000004">
+      <Transform
+        position="0, 0, -7.25"
+        rotation="1, 0, 0, 0"
+        scale="1, 1, 1" />
+    </EntityProxy>
+    <SceneObject
+      id="ReflectionProbe"
+      instanceId="1953849751">
+      <Transform
+        position="0, 0.7357706, 5.25"
+        rotation="1, 0, 0, 0"
+        scale="1, 1, 1" />
+      <Component
+        className="ReflectionProbe">
+        <Size>64</Size>
+        <Dynamic>False</Dynamic>
+      </Component>
+    </SceneObject>
+    <SceneObject
+      id="ReflectionProbe"
+      instanceId="1953849754">
+      <Transform
+        position="0, 0.7357706, -5.25"
+        rotation="1, 0, 0, 0"
+        scale="1, 1, 1" />
+      <Component
+        className="ReflectionProbe">
+        <Size>64</Size>
+        <Dynamic>False</Dynamic>
+      </Component>
+    </SceneObject>
+    <EntityProxy
+      id="corner"
+      instanceId="1953849791"
+      entityGuid="6000001">
+      <Transform
+        position="0, 0, -8"
+        rotation="1, 0, 0, 0"
+        scale="1, 1, 1" />
+    </EntityProxy>
+    <EntityProxy
+      id="corner"
+      instanceId="1953849793"
+      entityGuid="6000001">
+      <Transform
+        position="0, 0, 8"
+        rotation="0, 1, 0, 4.712389"
+        scale="1, 1, 1" />
+    </EntityProxy>
+    <EntityProxy
+      id="corridor"
+      instanceId="1953849795"
+      entityGuid="6000003">
+      <Transform
+        position="-2, 0, -8"
+        rotation="0, 1, 0, 1.570796"
+        scale="1, 1, 1" />
+    </EntityProxy>
+    <EntityProxy
+      id="corridor"
+      instanceId="1953849797"
+      entityGuid="6000003">
+      <Transform
+        position="-4, 0, -8"
+        rotation="0, 1, 0, 1.570796"
+        scale="1, 1, 1" />
+    </EntityProxy>
+    <EntityProxy
+      id="corridor"
+      instanceId="1953849799"
+      entityGuid="6000003">
+      <Transform
+        position="-6, 0, -8"
+        rotation="0, 1, 0, 1.570796"
+        scale="1, 1, 1" />
+    </EntityProxy>
+    <EntityProxy
+      id="corridor"
+      instanceId="1953849801"
+      entityGuid="6000003">
+      <Transform
+        position="-8, 0, -8"
+        rotation="0, 1, 0, 1.570796"
+        scale="1, 1, 1" />
+    </EntityProxy>
+    <EntityProxy
+      id="corridor"
+      instanceId="1953849803"
+      entityGuid="6000003">
+      <Transform
+        position="-10, 0, -8"
+        rotation="0, 1, 0, 1.570796"
+        scale="1, 1, 1" />
+    </EntityProxy>
+    <EntityProxy
+      id="corridor"
+      instanceId="1953849813"
+      entityGuid="6000003">
+      <Transform
+        position="-2, 0, 8"
+        rotation="0, 1, 0, 1.570796"
+        scale="1, 1, 1" />
+    </EntityProxy>
+    <EntityProxy
+      id="corridor"
+      instanceId="1953849815"
+      entityGuid="6000003">
+      <Transform
+        position="-4, 0, 8"
+        rotation="0, 1, 0, 1.570796"
+        scale="1, 1, 1" />
+    </EntityProxy>
+    <EntityProxy
+      id="corridor"
+      instanceId="1953849817"
+      entityGuid="6000003">
+      <Transform
+        position="-6, 0, 8"
+        rotation="0, 1, 0, 1.570796"
+        scale="1, 1, 1" />
+    </EntityProxy>
+    <EntityProxy
+      id="corridor"
+      instanceId="1953849819"
+      entityGuid="6000003">
+      <Transform
+        position="-10, 0, 8"
+        rotation="0, 1, 0, 1.570796"
+        scale="1, 1, 1" />
+    </EntityProxy>
+    <EntityProxy
+      id="corridor"
+      instanceId="1953849821"
+      entityGuid="6000003">
+      <Transform
+        position="-8, 0, 8"
+        rotation="0, 1, 0, 1.570796"
+        scale="1, 1, 1" />
+    </EntityProxy>
+    <SceneObject
+      id="Teapot"
+      instanceId="1953849823">
+      <Transform
+        position="-2.043977, 0.4123762, 0"
+        rotation="0, -0.9999991, 0, 1.486606"
+        scale="1, 1, 1" />
+      <Component
+        className="MeshRenderer">
+        <Mesh>100000001</Mesh>
+        <Material>400000001</Material>
+      </Component>
+    </SceneObject>
+    <EntityProxy
+      id="doorhole"
+      instanceId="1953849889"
+      entityGuid="6000004">
+      <Transform
+        position="-11, 0, 8"
+        rotation="0, 1, 0, 1.570796"
+        scale="1, 1, 1" />
+    </EntityProxy>
+    <EntityProxy
+      id="doorhole"
+      instanceId="1953849891"
+      entityGuid="6000004">
+      <Transform
+        position="-11, 0, -8"
+        rotation="0, 1, 0, 1.570796"
+        scale="1, 1, 1" />
+    </EntityProxy>
+    <SceneObject
+      id="Light"
+      instanceId="1953849977">
+      <Transform
+        position="-3.34928, 1.314559, 0"
+        rotation="1, 0, 0, 0"
+        scale="1, 1, 1" />
+      <Component
+        className="Light">
+        <Type>0</Type>
+        <Color>1, 0.7529412, 0.5019608, 1</Color>
+        <Intensity>3</Intensity>
+      </Component>
+    </SceneObject>
+    <SceneObject
+      id="Light"
+      instanceId="1953849992">
+      <Transform
+        position="3.65072, 1.314559, 0"
+        rotation="1, 0, 0, 0"
+        scale="1, 1, 1" />
+      <Component
+        className="Light">
+        <Type>0</Type>
+        <Color>1, 0.7529412, 0.5019608, 1</Color>
+        <Intensity>3</Intensity>
+      </Component>
+    </SceneObject>
+  </Root>
+</Scene>

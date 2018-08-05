@@ -1,24 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
-using Onyx3D;
+﻿using Onyx3D;
 using OpenTK;
 
 namespace Onyx3DEditor
 {
 	public class SingleMeshPreviewRenderer : PreviewRenderer
 	{
-		
-		private MeshRenderer mRenderer;
-
+        private MeshRenderer mRenderer;
 		private SceneObject mFloor;
 
-		public override void InitializeBasicScene()
+        // --------------------------------------------------------------------
+
+        public override void InitializeBasicScene()
 		{
 			base.InitializeBasicScene();
 
@@ -39,12 +31,16 @@ namespace Onyx3DEditor
 			Camera.Transform.Translate(-Camera.Transform.Forward * 0.25f);
 		}
 
-		public void SetMaterial(int guid)
+        // --------------------------------------------------------------------
+
+        public void SetMaterial(int guid)
 		{
 			mRenderer.Material = OnyxInstance.Resources.GetMaterial(guid);
 		}
 
-		public void SetMesh(int guid)
+        // --------------------------------------------------------------------
+
+        public void SetMesh(int guid)
 		{
 			
 			mRenderer.Mesh = OnyxInstance.Resources.GetMesh(guid);
@@ -53,7 +49,9 @@ namespace Onyx3DEditor
 			mRenderer.Transform.LocalScale = Vector3.One * scale;
 		}
 
-		public void SetFloorActive(bool active)
+        // --------------------------------------------------------------------
+
+        public void SetFloorActive(bool active)
 		{
 			mFloor.Active = active;
 		}

@@ -1,6 +1,5 @@
 ﻿
 using System.IO;
-using System.Xml.Serialization;
 
 namespace Onyx3D
 {
@@ -28,19 +27,8 @@ namespace Onyx3D
 
         public bool Load(string path)
 		{
-			
-			if (!File.Exists(path))
-			{
-				throw new FileNotFoundException("Unable to open \"" + path + "\", does not exist.");
-			}
-
-			XmlSerializer xmlSerializer = new XmlSerializer(typeof(ProjectData));
-			StreamReader stream = new StreamReader(path);
-			mData = (ProjectData)xmlSerializer.Deserialize(stream);
-
-			stream.Close();
-
-			Content.Init();
+            mData = AssetStreamLoader<ProjectData>.Load(path, false);
+            Content.Init();
 			mCurrentProjectPath = Path.GetFullPath(path);
 			return true;
 		}
@@ -49,28 +37,15 @@ namespace Onyx3D
 
         public void Save()
 		{
-            if (mCurrentProjectPath.Length > 0)
-			    Save(mCurrentProjectPath);
+            Save(mCurrentProjectPath);
 		}
 
         // --------------------------------------------------------------------
 
-        public void Save(string fileName)
+        public void Save(string path)
 		{
-			mCurrentProjectPath = fileName;
-			StreamWriter stream = null;
-			try
-			{
-			
-				XmlSerializer xmlSerializer = new XmlSerializer(mData.GetType());
-				stream = new StreamWriter(fileName, false);
-				xmlSerializer.Serialize(stream, mData);
-			}
-			finally
-			{
-				if (null != stream)
-					stream.Close();
-			}
-		}
+			mCurrentProjectPath = path;
+            AssetStreamLoader<ProjectData>.Save(mData, path, false);
+        }
 	}
 }

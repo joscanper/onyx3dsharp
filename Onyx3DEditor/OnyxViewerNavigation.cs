@@ -10,64 +10,69 @@ namespace Onyx3DEditor
 	public class OnyxViewerNavigation
 	{
 
-        GLControl mBoundControl;
+        public enum NavigationAction
+        {
+            None,
+            Rotating,
+            Dragging,
+        }
 
-		const char FORWARDS_CHAR = 'w';
-		const char LEFT_CHAR = 'a';
-		const char RIGHT_CHAR = 'd';
-		const char BACKWARDS_CHAR = 's';
-		const char FOCUS_CHAR = 'f';
+        private static readonly char FORWARDS_CHAR = 'w';
+        private static readonly char LEFT_CHAR = 'a';
+        private static readonly char RIGHT_CHAR = 'd';
+        private static readonly char BACKWARDS_CHAR = 's';
+        private static readonly char FOCUS_CHAR = 'f';
 
-		const char VIEW_FRONT_CHAR = '1';
-		const char VIEW_RIGHT_CHAR = '2';
-		const char VIEW_TOP_CHAR = '3';
+        private static readonly char VIEW_FRONT_CHAR = '1';
+        private static readonly char VIEW_RIGHT_CHAR = '2';
+        private static readonly char VIEW_TOP_CHAR = '3';
 
-		const char VIEW_PERSPECTIVE_CHAR = '5';
+        private static readonly char VIEW_PERSPECTIVE_CHAR = '5';
 
 		const float DragFactor = 0.005f;
 		const float RotationFactor = 0.005f;
 		const float ZoomFactor = 0.005f;
 
-		public enum NavigationAction
-		{
-			None,
-			Rotating,
-			Dragging,
-		}
+        // --------------------------------------------------------------------
 
-		public NavigationAction CurrentAction;
-
-		public Vector2 MouseOffset { get; private set; }
-
-		private Vector2 mCurrentMousePos;
-
-		private SceneObject mCameraPivotTop;
+        private SceneObject mCameraPivotTop;
 		private SceneObject mCameraPivotXZRot;
 		private SceneObject mCameraPivotZMov;
 
-		private PerspectiveCamera mNavigationCamera;
+        private GLControl mBoundControl;
+        private Vector2 mCurrentMousePos;
+        private PerspectiveCamera mNavigationCamera;
 		private OrthoCamera mOrthoCamera;
-
 		private Camera mSelectedCamera;
 
 		public Camera Camera { get { return mSelectedCamera; } }
 
-		public OnyxViewerNavigation()
+        public NavigationAction CurrentAction;
+
+        public Vector2 MouseOffset { get; private set; }
+
+        // --------------------------------------------------------------------
+
+        public OnyxViewerNavigation()
 		{
 			MouseOffset = new Vector2(0, 0);
 		}
 
-		public void Bind(GLControl renderCanvas)
+        // --------------------------------------------------------------------
+
+        public void Bind(GLControl renderCanvas)
 		{
             mBoundControl = renderCanvas;
             renderCanvas.MouseDown += new MouseEventHandler(OnMouseDown);
 			renderCanvas.MouseUp += new MouseEventHandler(OnMouseUp);
 			renderCanvas.MouseMove += new MouseEventHandler(OnMouseMove);
 			renderCanvas.MouseWheel += new MouseEventHandler(OnMouseWheel);
-			renderCanvas.KeyPress += new KeyPressEventHandler(OnKeyPress);
+            renderCanvas.KeyPress += new KeyPressEventHandler(OnKeyPress);
 		}
 
-		public void CreateCamera()
+        // --------------------------------------------------------------------
+
+        public void CreateCamera()
 		{
 			mCameraPivotTop = new SceneObject("CameraPivotTop");
 
@@ -88,14 +93,18 @@ namespace Onyx3DEditor
 			mSelectedCamera = mNavigationCamera;
 		}
 
-		public void UpdateMousePosition(Point pos)
+        // --------------------------------------------------------------------
+
+        public void UpdateMousePosition(Point pos)
 		{
 			Vector2 newPosV2 = new Vector2(pos.X, pos.Y);
 			MouseOffset = newPosV2 - mCurrentMousePos;
 			mCurrentMousePos = newPosV2;
 		}
 
-		public void UpdateCamera()
+        // --------------------------------------------------------------------
+
+        public void UpdateCamera()
 		{
             mNavigationCamera.Aspect = (float)mBoundControl.Width / (float)mBoundControl.Height;
 
@@ -112,13 +121,17 @@ namespace Onyx3DEditor
 
 		}
 
-		private void DragCamera()
+        // --------------------------------------------------------------------
+
+        private void DragCamera()
 		{
 			Vector3 translation = new Vector3(-MouseOffset.X * DragFactor, MouseOffset.Y * DragFactor, 0);
 			MoveCamera(translation);
 		}
 
-		private void MoveCamera(Vector3 translation)
+        // --------------------------------------------------------------------
+
+        private void MoveCamera(Vector3 translation)
 		{
 			Vector3 camPos = mCameraPivotTop.Transform.LocalPosition;
 			translation = Vector3.TransformVector(translation, mCameraPivotXZRot.Transform.GetRotationMatrix());
@@ -127,15 +140,19 @@ namespace Onyx3DEditor
 			mCameraPivotTop.Transform.LocalPosition = camPos;
 		}
 
-		private void RotateCamera()
+        // --------------------------------------------------------------------
+
+        private void RotateCamera()
 		{
 			mCameraPivotTop.Transform.Rotate(Quaternion.FromEulerAngles(new Vector3(0,-MouseOffset.X * RotationFactor, 0)));
 			mCameraPivotXZRot.Transform.Rotate(Quaternion.FromEulerAngles(new Vector3(-MouseOffset.Y * RotationFactor, 0, 0)));
 		}
 
-		#region Mouse Interaction
+        // --------------------------------------------------------------------
 
-		public void OnMouseDown(object sender, MouseEventArgs e)
+        #region Mouse Interaction
+
+        public void OnMouseDown(object sender, MouseEventArgs e)
 		{
 			if (e.Button == MouseButtons.Middle)
 				CurrentAction = NavigationAction.Dragging;
@@ -145,12 +162,16 @@ namespace Onyx3DEditor
 				CurrentAction = NavigationAction.None;
 		}
 
-		public void OnMouseUp(object sender, MouseEventArgs e)
+        // --------------------------------------------------------------------
+
+        public void OnMouseUp(object sender, MouseEventArgs e)
 		{
 			CurrentAction = NavigationAction.None;
 		}
 
-		public void OnMouseMove(object sender, MouseEventArgs e)
+        // --------------------------------------------------------------------
+
+        public void OnMouseMove(object sender, MouseEventArgs e)
 		{
 			UpdateMousePosition(e.Location);
 			if (e.Button != MouseButtons.None) {
@@ -160,7 +181,9 @@ namespace Onyx3DEditor
 			}
 		}
 
-		public void OnMouseWheel(object sender, MouseEventArgs e)
+        // --------------------------------------------------------------------
+
+        public void OnMouseWheel(object sender, MouseEventArgs e)
 		{
 			mCameraPivotZMov.Transform.Translate(Vector3.UnitZ * (-e.Delta) * ZoomFactor);
 			mOrthoCamera.W += (-e.Delta) * ZoomFactor;
@@ -170,19 +193,13 @@ namespace Onyx3DEditor
 				renderCanvas.Refresh();
 		}
 
-		public void OnKeyPress(object sender, System.Windows.Forms.KeyPressEventArgs e)
+        // --------------------------------------------------------------------
+
+        public void OnKeyPress(object sender, System.Windows.Forms.KeyPressEventArgs e)
 		{
 			MouseOffset = Vector2.Zero;
-
-			if (e.KeyChar.Equals(RIGHT_CHAR))
-				MoveCamera(Vector3.UnitX * DragFactor * 10);
-			else if (e.KeyChar.Equals(BACKWARDS_CHAR))
-				MoveCamera(Vector3.UnitZ * DragFactor * 10);
-			else if (e.KeyChar.Equals(FORWARDS_CHAR))
-				MoveCamera(-Vector3.UnitZ * DragFactor * 10);
-			else if (e.KeyChar.Equals(LEFT_CHAR))
-				MoveCamera(-Vector3.UnitX * DragFactor * 10);
-			else if (e.KeyChar.Equals(VIEW_FRONT_CHAR))
+            
+			if (e.KeyChar.Equals(VIEW_FRONT_CHAR))
 				SetView(Quaternion.Identity, Quaternion.Identity);
 			else if (e.KeyChar.Equals(VIEW_RIGHT_CHAR))
 				SetView(Quaternion.FromMatrix(new Matrix3(Matrix4.LookAt(Vector3.Zero, -Vector3.UnitX, Vector3.UnitY))), Quaternion.Identity);
@@ -192,12 +209,38 @@ namespace Onyx3DEditor
 				mSelectedCamera = (mSelectedCamera == mNavigationCamera ? (Camera)mOrthoCamera : mNavigationCamera);
 			else if (e.KeyChar.Equals(FOCUS_CHAR))
 				FocusOnSelected();
-
+            
 			GLControl renderCanvas = sender as GLControl;
 			if (renderCanvas != null)
 				renderCanvas.Refresh();
 		}
+        
+        // --------------------------------------------------------------------
+        
+        public void OnFrameTick()
+        {
+           OpenTK.Input.KeyboardState keyboardState = OpenTK.Input.Keyboard.GetState();
 
+            bool keySDown = keyboardState.IsKeyDown(OpenTK.Input.Key.S);
+            bool keyADown = keyboardState.IsKeyDown(OpenTK.Input.Key.A);
+            bool keyWDown = keyboardState.IsKeyDown(OpenTK.Input.Key.W);
+            bool keyDDown = keyboardState.IsKeyDown(OpenTK.Input.Key.D);
+
+            if (keyDDown)
+                MoveCamera(Vector3.UnitX * DragFactor * 10);
+            if (keySDown)
+                MoveCamera(Vector3.UnitZ * DragFactor * 10);
+            if (keyWDown)
+                MoveCamera(-Vector3.UnitZ * DragFactor * 10);
+            if (keyADown)
+                MoveCamera(-Vector3.UnitX * DragFactor * 10);
+            
+            if (keyADown || keyDDown || keySDown || keyWDown)
+            {
+                mBoundControl.Refresh();
+            }
+        }
+        
 		#endregion
 		
 		private void FocusOnSelected()

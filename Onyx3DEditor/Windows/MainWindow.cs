@@ -8,8 +8,7 @@ using OpenTK;
 
 namespace Onyx3DEditor
 {
-
-
+    
 	public partial class MainWindow : SingletonForm<MainWindow>
 	{
    
@@ -128,9 +127,10 @@ namespace Onyx3DEditor
 		{            
             if (!canDraw)
 				return;
-
-            renderCanvas.MakeCurrent();
             
+            renderCanvas.MakeCurrent();
+            mOnyxInstance.Resources.RefreshAll();
+
             mNavigation.UpdateCamera();
             
             mOnyxInstance.Renderer.Render(SceneManagement.ActiveScene, mNavigation.Camera, renderCanvas.Width, renderCanvas.Height);
@@ -140,8 +140,8 @@ namespace Onyx3DEditor
 
             HighlightSelected();
 
-            mOnyxInstance.Gizmos.DrawComponentGizmos(SceneManagement.ActiveScene);            
-            mOnyxInstance.Gizmos.Render(mNavigation.Camera);
+            mOnyxInstance.Gizmos.DrawComponentGizmos(mNavigation.Camera, SceneManagement.ActiveScene);            
+            //mOnyxInstance.Gizmos.Render();
 			
             renderCanvas.SwapBuffers();
 			labelLoggerOutput.Text = Logger.Instance.Content;            
@@ -209,9 +209,10 @@ namespace Onyx3DEditor
 
         private void timer1_Tick(object sender, EventArgs e)
 		{
-			//myTeapot.Transform.Rotate(new Vector3(0, 0.1f, 0));
-			//renderCanvas.Refresh();
-			//mReflectionProbe.Angle += 0.01f;
+            //myTeapot.Transform.Rotate(new Vector3(0, 0.1f, 0));
+            //renderCanvas.Refresh();
+            //mReflectionProbe.Angle += 0.01f;
+            mNavigation.OnFrameTick();
 		}
 
 		private void toolStripButtonSaveProject_Click(object sender, EventArgs e)
@@ -223,12 +224,6 @@ namespace Onyx3DEditor
 		private void toolStripButtonMaterials_Click(object sender, EventArgs e)
 		{
             MaterialEditorWindow matEditor = new MaterialEditorWindow();
-            matEditor.MaterialSaved += (OnyxProjectMaterialAsset asset) =>
-            {
-                Onyx3DEngine.Instance.Resources.ReloadMaterial(asset.Guid);
-                RenderScene();
-            };
-            
             matEditor.Show();
 		}
 
@@ -344,7 +339,14 @@ namespace Onyx3DEditor
         
 		private void toolStripButtonImportModel_Click(object sender, EventArgs e)
 		{
-			new ModelImporterWindow().Show();
+            if (ProjectManager.Instance.CurrentProjectPath.Length == 0)
+            {
+                ProjectLoader.Save();
+            }
+            else
+            {
+                new ModelImporterWindow().Show();
+            }
 		}
 
         private void duplicateSceneObjectToolStripMenuItem_Click(object sender, EventArgs e)

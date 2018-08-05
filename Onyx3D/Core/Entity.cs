@@ -10,12 +10,15 @@ namespace Onyx3D
     {
         public SceneObject Root;
 
+        public Entity(){}
+
+        // --------------------------------------------------------------------
+
         public Entity(SceneObject root = null)
         {
             Root = root;
         }
-
-
+        
         // ------------ Serialization -------------
 
         public XmlSchema GetSchema()

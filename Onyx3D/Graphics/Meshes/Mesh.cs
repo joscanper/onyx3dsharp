@@ -45,15 +45,17 @@ namespace Onyx3D
 	{
 		
         private int mVertexArrayObject;
+
 		public int VertexArrayObject
 		{
 			get { return mVertexArrayObject; }
 		}
-		//private int mElemen
-
+		
         public List<Vertex> Vertices = new List<Vertex>();
         public int[] Indices;
         public Bounds Bounds { get; private set; }
+
+        // --------------------------------------------------------------------
 
         public void GenerateVAO()
 		{
@@ -112,8 +114,9 @@ namespace Onyx3D
             Bounds = GenerateAABB();
         }
 
+        // --------------------------------------------------------------------
 
-		public void Clear()
+        public void Clear()
 		{
 			Vertices.Clear();
 			Indices = null;
@@ -122,9 +125,9 @@ namespace Onyx3D
 				GL.DeleteVertexArray(mVertexArrayObject);
 		}
 
-		// TODO - Delete Vertex Array
+        // --------------------------------------------------------------------
 
-		public void AddFace(Vertex v1, Vertex v2, Vertex v3, Vertex v4)
+        public void AddFace(Vertex v1, Vertex v2, Vertex v3, Vertex v4)
 		{
             Vertices.Add(v1);
             Vertices.Add(v2);
@@ -133,6 +136,8 @@ namespace Onyx3D
             Vertices.Add(v4);
             Vertices.Add(v3);
         }
+
+        // --------------------------------------------------------------------
 
         public void AddFace(Vertex v1, Vertex v2, Vertex v3, Vertex v4, Vector3 n)
 		{
@@ -147,8 +152,9 @@ namespace Onyx3D
             AddFace(v1, v2, v3, v4);
 		}
 
+        // --------------------------------------------------------------------
 
-		private Bounds GenerateAABB()
+        private Bounds GenerateAABB()
 		{
             Bounds bbox = new Bounds();
 
@@ -158,11 +164,24 @@ namespace Onyx3D
 			return bbox;
 		}
 
+        // --------------------------------------------------------------------
 
-		// ------ Serialization ------
+        public override void Copy(GameAsset other)
+        {
+            base.Copy(other);
 
+            Mesh otherMesh = other as Mesh;
+            Clear();
+            Vertices = otherMesh.Vertices;
+            Indices = otherMesh.Indices;
+            GenerateVAO();
+        }
 
-		public XmlSchema GetSchema()
+        // --------------------------------------------------------------------
+        // ------ Serialization ------
+        // --------------------------------------------------------------------
+
+        public XmlSchema GetSchema()
 		{
 			throw new NotImplementedException();
 		}
@@ -186,18 +205,30 @@ namespace Onyx3D
 							v.TexCoord = XmlUtils.StringToVector2(reader.GetAttribute("texcoord"));
 							Vertices.Add(v);
 						}
-						if (reader.Name == "Index")
+						if (reader.Name == "Indices")
 						{
-							int index = Convert.ToInt32(reader.GetAttribute("i"));
-							indices.Add(index);
+                            reader.Read();
+                            string indicesBuffer = reader.ReadContentAsString();
+                            string[] splitIndices = indicesBuffer.Split(',');
+                            foreach (string sindex in splitIndices)
+                            {
+                                if (sindex.Length == 0)
+                                    continue;
+
+                                int index = Convert.ToInt32(sindex);
+                                indices.Add(index);
+                            }
 						}
 						break;
 				}
 			}
 			Indices = indices.ToArray();
+            GenerateVAO();
 		}
 
-		public void WriteXml(XmlWriter writer)
+        // --------------------------------------------------------------------
+
+        public void WriteXml(XmlWriter writer)
 		{
 			writer.WriteStartElement("Mesh");
 
@@ -220,12 +251,14 @@ namespace Onyx3D
 
 			writer.WriteStartElement("Indices");
 
+            StringBuilder indices = new StringBuilder();
 			foreach (int i in Indices)
 			{
-				writer.WriteStartElement("Index");
-				writer.WriteAttributeString("i", i.ToString());
-				writer.WriteEndElement();
+                indices.Append(i.ToString());
+                indices.Append(",");
 			}
+
+            writer.WriteString(indices.ToString());
 
 			writer.WriteEndElement();
 

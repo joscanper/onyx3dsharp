@@ -44,16 +44,18 @@ namespace Onyx3D
 
         public override void OnDrawGizmos(GizmosManager gizmos)
 		{
-            Matrix4 rts = Transform.ModelMatrix;
 
+            Matrix4 rts = Transform.ModelMatrix;
             rts[0, 0] = 0.25f;
             rts[1, 1] = 0.25f;
             rts[2, 2] = 0.25f;
 
-            gizmos.DrawMesh(rts,
-                Onyx3DEngine.Instance.Resources.GetMesh(BuiltInMesh.Sphere),
-                Onyx3DEngine.Instance.Resources.GetMaterial(BuiltInMaterial.ReflectionProbe)
-                );
+            Material mat = Onyx3DEngine.Instance.Resources.GetMaterial(BuiltInMaterial.ReflectionProbe);
+            CubemapMaterialProperty cubemapProp = mat.GetProperty<CubemapMaterialProperty>("cubemap");
+            cubemapProp.Data = mCubemap.Id;
+
+
+            gizmos.DrawMesh(rts, Onyx3DEngine.Instance.Resources.GetMesh(BuiltInMesh.Sphere), mat);
 		}
 
         // --------------------------------------------------------------------

@@ -33,7 +33,7 @@ namespace Onyx3DEditor
 		{
 			mMaterial = mat;
 
-			OnyxProjectMaterialAsset matAsset = (OnyxProjectMaterialAsset)mat.LinkedProjectAsset;
+            OnyxProjectAsset matAsset = mat.LinkedProjectAsset;
 			textBoxGuid.Text = matAsset.Guid.ToString();
 			textBoxName.Text = matAsset.Name;
 
@@ -60,7 +60,7 @@ namespace Onyx3DEditor
 
 		private void textBoxName_TextChanged(object sender, EventArgs e)
 		{
-			OnyxProjectMaterialAsset matAsset = (OnyxProjectMaterialAsset)mMaterial.LinkedProjectAsset;
+            OnyxProjectAsset matAsset = mMaterial.LinkedProjectAsset;
 			matAsset.Name = textBoxName.Text;
 			//PropertyChanged.Invoke(this, null);
 		}

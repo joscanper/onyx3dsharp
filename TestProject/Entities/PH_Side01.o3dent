@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Entity>
+  <Root>
+    <SceneObject
+      id="Cube"
+      instanceId="1836092507">
+      <Transform
+        position="0, 0, 0"
+        rotation="1, 0, 0, 0"
+        scale="0.01, 0.01, 0.01" />
+      <Component
+        className="MeshRenderer">
+        <Mesh>1000002</Mesh>
+        <Material>400000001</Material>
+      </Component>
+    </SceneObject>
+  </Root>
+</Entity>

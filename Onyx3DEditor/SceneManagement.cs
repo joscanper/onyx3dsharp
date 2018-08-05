@@ -7,11 +7,11 @@ namespace Onyx3DEditor
     {
         public static Action<Scene> OnSceneChanged;
 
-        public static OnyxProjectSceneAsset mActiveSceneAsset;
+        public static OnyxProjectAsset mActiveSceneAsset;
         public static Scene mActiveScene;
 
         public static Scene ActiveScene { get { return mActiveScene; } }
-        public static OnyxProjectSceneAsset ActiveSceneAsset { get { return mActiveSceneAsset; } }
+        public static OnyxProjectAsset ActiveSceneAsset { get { return mActiveSceneAsset; } }
 
 
         // --------------------------------------------------------------------
@@ -38,7 +38,7 @@ namespace Onyx3DEditor
                 return;
             }
             
-            mActiveScene = AssetLoader<Scene>.Load(ProjectContent.GetAbsolutePath(mActiveSceneAsset.Path), Onyx3DEngine.Instance);
+            mActiveScene = AssetLoader<Scene>.Load(mActiveSceneAsset.Path, true, Onyx3DEngine.Instance);
             OnSceneChanged?.Invoke(mActiveScene);
         }
     }

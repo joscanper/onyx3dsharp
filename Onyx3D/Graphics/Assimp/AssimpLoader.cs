@@ -10,7 +10,7 @@ namespace Onyx3D
 {
     public static class AssimpLoader
     {
-
+        /*
         public static void ImportMeshes(string path, Action<int, Mesh> callback)
         {
 
@@ -26,6 +26,6 @@ namespace Onyx3D
                 callback(supportData.Meshes[i], onyxMesh);    
             }
         }
-
+        */
     }
 }

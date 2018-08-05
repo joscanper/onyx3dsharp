@@ -1,6 +1,7 @@
 ﻿using System;
 using Onyx3D;
 using System.Windows.Forms;
+using System.IO;
 
 namespace Onyx3DEditor
 {
@@ -9,9 +10,10 @@ namespace Onyx3DEditor
 
         public static void Save()
         {
-            if (ProjectManager.Instance.Content == null)
+            if (ProjectManager.Instance.CurrentProjectPath.Length == 0)
             {
                 SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+                saveFileDialog1.Title = "Save Project";
                 saveFileDialog1.Filter = "Onyx3d project files (*.o3dproj)|*.o3dproj";
                 saveFileDialog1.FilterIndex = 2;
                 saveFileDialog1.RestoreDirectory = true;
@@ -20,8 +22,10 @@ namespace Onyx3DEditor
                 {
                     try
                     {
-                        Properties.Settings.Default.LastProjectPath = saveFileDialog1.FileName;
                         ProjectManager.Instance.Save(saveFileDialog1.FileName);
+
+                        Properties.Settings.Default.LastProjectPath = saveFileDialog1.FileName;
+                        Properties.Settings.Default.Save();
                     }
                     catch (Exception ex)
                     {
@@ -34,19 +38,12 @@ namespace Onyx3DEditor
                 ProjectManager.Instance.Save();
             }
         }
+        
+        // --------------------------------------------------------------------
 
         public static void Load(string path)
         {
-            try
-            {
-                ProjectManager.Instance.Load(path);
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show("Error loading the project : " + e.Message);
-                ProjectManager.Instance.New();
-            }
-
+            ProjectManager.Instance.Load(path);
         }
 
     }

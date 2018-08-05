@@ -133,32 +133,35 @@ namespace Onyx3D
 
         // --------------------------------------------------------------------
 
-        public void DrawComponentGizmos(Scene scene)
+        public void DrawComponentGizmos(Camera cam, Scene scene)
         {
-            DrawComponentGizmos(scene.Root);
+            DrawComponentGizmos(cam, scene.Root);
         }
 
         // --------------------------------------------------------------------
 
-        public void DrawComponentGizmos(SceneObject obj)
+        public void DrawComponentGizmos(Camera cam, SceneObject obj)
         {
             
             obj.OnDrawGizmos(this);
-            
+            Render(cam);
+
+
             obj.ForEachComponent((comp) =>
             {
                 comp.OnDrawGizmos(this);
+                Render(cam);
             });
 
             obj.ForEachChild((child) =>
             {
-                DrawComponentGizmos(child);
+                DrawComponentGizmos(cam, child);
             });
         }
 
         // --------------------------------------------------------------------
 
-        public void Render(Camera cam)
+        private void Render(Camera cam)
         {
             for(int i = 0; i< mRenderers.Count; ++i)
             {

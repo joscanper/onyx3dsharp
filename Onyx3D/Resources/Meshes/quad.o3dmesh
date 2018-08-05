@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mesh>
+  <Vertices>
+    <Vertex
+      position="0.5, 0, 0.5"
+      normal="0, 1, 0"
+      texcoord="0.9999, 0.0001"
+      color="0, 0, 0"
+      tangent="1, 0, 0" />
+    <Vertex
+      position="-0.5, 0, -0.5"
+      normal="0, 1, 0"
+      texcoord="0.0001, 0.9999"
+      color="0, 0, 0"
+      tangent="1, 0, 0" />
+    <Vertex
+      position="-0.5, 0, 0.5"
+      normal="0, 1, 0"
+      texcoord="0.0001, 0.0001"
+      color="0, 0, 0"
+      tangent="1, 0, 0" />
+    <Vertex
+      position="0.5, 0, -0.5"
+      normal="0, 1, 0"
+      texcoord="0.9999, 0.9999"
+      color="0, 0, 0"
+      tangent="1, 0, 0" />
+  </Vertices>
+  <Indices>0,1,2,0,3,1,</Indices>
+</Mesh>

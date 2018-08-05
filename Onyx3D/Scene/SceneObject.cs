@@ -56,8 +56,11 @@ namespace Onyx3D
 			Dispose();
             mComponents.Clear();
             mChildren.Clear();
-            Scene.SetDirty();
-            Scene = null;
+            if (Scene != null)
+            {
+                Scene.SetDirty();
+                Scene = null;
+            }
 			SetParent(null);
         }
 

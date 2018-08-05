@@ -162,7 +162,7 @@ namespace Onyx3DEditor
 			{
 				if (mExpandedEntity != null)
 				{
-					EntityLoader.Save(mExpandedEntity, mExpandedEntity.LinkedProjectAsset.AbsolutePath);
+					AssetLoader<Entity>.Save(mExpandedEntity, mExpandedEntity.LinkedProjectAsset.Path);
 					mExpandedEntity = null;
 				}
 				SetScene(mScene);

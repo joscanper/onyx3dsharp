@@ -14,13 +14,14 @@ namespace Onyx3DEditor
 		public event EventHandler SelectedChanged;
 
 		private static readonly int mPreviewSize = 80;
-		private SingleMeshPreviewRenderer mPreview;
+
+        private List<OnyxProjectAsset> mMaterials = new List<OnyxProjectAsset>();
+        private SingleMeshPreviewRenderer mPreview;
 		private int mSelectedIndex;
+        
+        // --------------------------------------------------------------------
 
-		private List<OnyxProjectMaterialAsset> mMaterials = new List<OnyxProjectMaterialAsset>();
-
-
-		public int SelectedIndex
+        public int SelectedIndex
 		{
 			get
 			{
@@ -37,17 +38,23 @@ namespace Onyx3DEditor
 			}
 		}
 
-		public OnyxProjectMaterialAsset SelectedMaterial
+        // --------------------------------------------------------------------
+
+        public OnyxProjectAsset SelectedMaterial
 		{
 			get { return mMaterials[SelectedIndex]; }
 		}
-		
-		public MaterialViewList()
+
+        // --------------------------------------------------------------------
+
+        public MaterialViewList()
 		{
 			InitializeComponent();
 		}
-		
-		public void UpdateMaterialList(int selectedGuid)
+
+        // --------------------------------------------------------------------
+
+        public void UpdateMaterialList(int selectedGuid)
 		{
 			mPreview.Init(mPreviewSize, mPreviewSize, this.Handle);
 			mMaterials.Clear();
@@ -59,7 +66,7 @@ namespace Onyx3DEditor
 			listViewMaterials.LargeImageList.ImageSize = new Size(mPreviewSize, mPreviewSize);
 
 			int i = 0;
-			foreach (OnyxProjectMaterialAsset t in ProjectManager.Instance.Content.Materials)
+			foreach (OnyxProjectAsset t in ProjectManager.Instance.Content.Materials)
 			{
 				
 				Bitmap bmp = GenerateMaterialPreview(t.Guid);
@@ -76,8 +83,10 @@ namespace Onyx3DEditor
 				i++;
 			}
 		}
-		
-		private Bitmap GenerateMaterialPreview(int guid)
+
+        // --------------------------------------------------------------------
+
+        private Bitmap GenerateMaterialPreview(int guid)
 		{
 			
 			mPreview.SetMaterial(guid);
@@ -88,7 +97,9 @@ namespace Onyx3DEditor
 			return preview;
 		}
 
-		private void MaterialViewList_Load(object sender, EventArgs e)
+        // --------------------------------------------------------------------
+
+        private void MaterialViewList_Load(object sender, EventArgs e)
 		{
 		
 			if (!DesignMode)
@@ -101,7 +112,9 @@ namespace Onyx3DEditor
 		
 		}
 
-		private void ListViewMaterials_SelectedIndexChanged(object sender, EventArgs e)
+        // --------------------------------------------------------------------
+
+        private void ListViewMaterials_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			if (listViewMaterials.SelectedIndices.Count > 0)
 			{ 
@@ -114,11 +127,13 @@ namespace Onyx3DEditor
 			}
 		}
 
-		public void UpdateMaterial(int guid)
+        // --------------------------------------------------------------------
+
+        public void UpdateMaterial(int guid)
 		{
 			int i = 0;
 			listViewMaterials.SelectedIndices.Clear();
-			foreach (OnyxProjectMaterialAsset t in ProjectManager.Instance.Content.Materials)
+			foreach (OnyxProjectAsset t in ProjectManager.Instance.Content.Materials)
 			{
 				if (t.Guid == guid)
 				{
@@ -134,8 +149,9 @@ namespace Onyx3DEditor
 			}
 		}
 
+        // --------------------------------------------------------------------
 
-		protected override void OnHandleDestroyed(EventArgs e)
+        protected override void OnHandleDestroyed(EventArgs e)
 		{
 			base.OnHandleDestroyed(e);
 

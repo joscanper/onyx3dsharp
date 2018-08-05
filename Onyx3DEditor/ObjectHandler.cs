@@ -321,24 +321,22 @@ namespace Onyx3DEditor
 	    {
 		    base.DrawGizmos(obj, gizmos, scale);
 
-		    Vector3 up = Vector3.UnitY;
-		    Vector3 right = Vector3.UnitX;
-		    Vector3 forward = Vector3.UnitZ;
+		    Vector3 up = Vector3.UnitY * scale;
+		    Vector3 right = Vector3.UnitX * scale;
+		    Vector3 forward = Vector3.UnitZ * scale;
 
-		    gizmos.DrawCircle(obj.Transform.Position, 0.5f, Vector3.UnitX, up);
-		    gizmos.DrawCircle(obj.Transform.Position, 0.5f, Vector3.UnitY, right);		
-		    gizmos.DrawCircle(obj.Transform.Position, 0.5f, Vector3.UnitZ, forward);
+		    gizmos.DrawCircle(obj.Transform.Position, 0.5f * scale, Vector3.UnitX, up);
+		    gizmos.DrawCircle(obj.Transform.Position, 0.5f * scale, Vector3.UnitY, right);		
+		    gizmos.DrawCircle(obj.Transform.Position, 0.5f * scale, Vector3.UnitZ, forward);
 
 		    gizmos.DrawLine(obj.Transform.Position + right * 0.5f, obj.Transform.Position + right, Vector3.UnitZ);
 		    gizmos.DrawLine(obj.Transform.Position + up * 0.5f, obj.Transform.Position + up, Vector3.UnitY);
 		    gizmos.DrawLine(obj.Transform.Position + forward * 0.5f, obj.Transform.Position + forward, Vector3.UnitX);
 
-		    gizmos.DrawWireSphere(obj.Transform.Position + right, 0.05f, Vector3.UnitZ);
-		    gizmos.DrawWireSphere(obj.Transform.Position + up, 0.05f, Vector3.UnitY);
-		    gizmos.DrawWireSphere(obj.Transform.Position + forward, 0.05f, Vector3.UnitX);
-
-		
-
+		    gizmos.DrawWireSphere(obj.Transform.Position + right, 0.05f * scale, Vector3.UnitZ);
+		    gizmos.DrawWireSphere(obj.Transform.Position + up, 0.05f * scale, Vector3.UnitY);
+		    gizmos.DrawWireSphere(obj.Transform.Position + forward, 0.05f * scale, Vector3.UnitX);
+            
 		    //gizmos.DrawLine(obj.Transform.Position, closestPoint, Vector3.One);
 
 		    gizmos.DrawWireSphere(hitPoint, 0.25f, Vector3.One);
@@ -351,9 +349,9 @@ namespace Onyx3DEditor
 		    base.Update(obj, scale);
 		    Vector3 position = obj.Transform.Position;
 		
-		    mXAxisBound.Set(position + Vector3.UnitY, 0.25f);
-		    mYAxisBound.Set(position + Vector3.UnitZ, 0.25f);
-		    mZAxisBound.Set(position + Vector3.UnitX, 0.25f);
+		    mXAxisBound.Set(position + Vector3.UnitY * scale, 0.25f);
+		    mYAxisBound.Set(position + Vector3.UnitZ * scale, 0.25f);
+		    mZAxisBound.Set(position + Vector3.UnitX * scale, 0.25f);
 		
 	    }
 

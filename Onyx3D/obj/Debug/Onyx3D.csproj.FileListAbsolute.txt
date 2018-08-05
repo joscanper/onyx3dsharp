@@ -80,3 +80,16 @@ C:\Users\MiriamYJosue\Documents\Projects\Onyx3DSharp\Onyx3D\bin\Debug\OpenTK.xml
 C:\Users\MiriamYJosue\Documents\Projects\Onyx3DSharp\Onyx3D\obj\Debug\Onyx3D.dll
 C:\Users\MiriamYJosue\Documents\Projects\Onyx3DSharp\Onyx3D\obj\Debug\Onyx3D.pdb
 C:\Users\MiriamYJosue\Documents\Projects\Onyx3DSharp\Onyx3D\obj\Debug\Onyx3D.csprojResolveAssemblyReference.cache
+C:\Users\MiriamYJosue\Documents\Projects\Onyx3DSharp\Onyx3D\bin\Debug\Resources\Textures\normal.jpg
+C:\Users\MiriamYJosue\Documents\Projects\Onyx3DSharp\Onyx3D\bin\Debug\OpenTK.GLControl.dll
+C:\Users\MiriamYJosue\Documents\Projects\Onyx3DSharp\Onyx3D\bin\Debug\OpenTK.GLControl.pdb
+C:\Users\MiriamYJosue\Documents\Projects\Onyx3DSharp\Onyx3D\bin\Debug\OpenTK.GLControl.xml
+C:\Users\MiriamYJosue\Documents\Projects\Onyx3DSharp\Onyx3D\obj\Debug\Onyx3D.csproj.CoreCompileInputs.cache
+C:\Users\MiriamYJosue\Documents\Projects\Onyx3DSharp\Onyx3D\bin\Debug\Resources\Models\camera_gizmo.obj
+C:\Users\MiriamYJosue\Documents\Projects\Onyx3DSharp\Onyx3D\bin\Debug\Resources\Meshes\cube.o3dmesh
+C:\Users\MiriamYJosue\Documents\Projects\Onyx3DSharp\Onyx3D\bin\Debug\Resources\Meshes\cylinder.o3dmesh
+C:\Users\MiriamYJosue\Documents\Projects\Onyx3DSharp\Onyx3D\bin\Debug\Resources\Meshes\gizmo_camera.o3dmesh
+C:\Users\MiriamYJosue\Documents\Projects\Onyx3DSharp\Onyx3D\bin\Debug\Resources\Meshes\quad.o3dmesh
+C:\Users\MiriamYJosue\Documents\Projects\Onyx3DSharp\Onyx3D\bin\Debug\Resources\Meshes\sphere.o3dmesh
+C:\Users\MiriamYJosue\Documents\Projects\Onyx3DSharp\Onyx3D\bin\Debug\Resources\Meshes\teapot.o3dmesh
+C:\Users\MiriamYJosue\Documents\Projects\Onyx3DSharp\Onyx3D\bin\Debug\Resources\Meshes\torus.o3dmesh

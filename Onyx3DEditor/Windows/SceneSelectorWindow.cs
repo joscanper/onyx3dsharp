@@ -28,9 +28,9 @@ namespace Onyx3DEditor
 			int i = 0;
 			tableLayoutPanelScenes.ColumnCount = 4;
 			tableLayoutPanelScenes.RowCount = ProjectManager.Instance.Content.Scenes.Count;
-			foreach (OnyxProjectAsset s in ProjectManager.Instance.Content.Scenes)
+			foreach (OnyxProjectAsset sceneAsset in ProjectManager.Instance.Content.Scenes)
 			{
-				OnyxProjectSceneAsset sceneAsset = s as OnyxProjectSceneAsset;
+                
 				Label tbId = new Label();
 				tbId.Text = sceneAsset.Guid.ToString();
 				Label tbName = new Label();
@@ -62,9 +62,9 @@ namespace Onyx3DEditor
 					if ((myStream = openFileDialog1.OpenFile()) != null)
 					{
 						string path = openFileDialog1.FileName;
-						Scene scene = AssetLoader<Scene>.Load(path);
+						Scene scene = AssetLoader<Scene>.Load(path, false);
 
-						OnyxProjectSceneAsset asset = new OnyxProjectSceneAsset(path, Path.GetFileName(path), 0);
+                        OnyxProjectAsset asset = new OnyxProjectAsset(path, Path.GetFileName(path), 0);
 						ProjectManager.Instance.Content.Scenes.Add(asset);
 						UpdateScenes();
 
@@ -97,7 +97,7 @@ namespace Onyx3DEditor
 						string path = saveFileDialog1.FileName;
 						Scene scene = new Scene();
 
-						OnyxProjectSceneAsset asset = new OnyxProjectSceneAsset(saveFileDialog1.FileName, Path.GetFileName(path), 0);
+                        OnyxProjectAsset asset = new OnyxProjectAsset(saveFileDialog1.FileName, Path.GetFileName(path), 0);
 						ProjectManager.Instance.Content.Scenes.Add(asset);
 						UpdateScenes();
 

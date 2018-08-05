@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mesh>
+  <Vertices>
+    <Vertex
+      position="99.99999, 0, -99.99998"
+      normal="0, 1, 0"
+      texcoord="0.000100129, 0.0001000098"
+      color="0, 0, 0"
+      tangent="-1, 0, -3.052369E-07" />
+    <Vertex
+      position="-99.99997, 0, -100"
+      normal="0, 1, 0"
+      texcoord="0.9998997, 9.998E-05"
+      color="0, 0, 0"
+      tangent="-1, 0, -1.609339E-07" />
+    <Vertex
+      position="-100, 0, 99.99998"
+      normal="0, 1, 0"
+      texcoord="0.9998998, 0.9999"
+      color="0, 0, 0"
+      tangent="-1, 0, -3.052369E-07" />
+    <Vertex
+      position="99.99999, 0, 100"
+      normal="0, 1, 0"
+      texcoord="9.998E-05, 0.9998999"
+      color="0, 0, 0"
+      tangent="-1, 0, -3.052369E-07" />
+    <Vertex
+      position="-100, 200, -99.99998"
+      normal="0, -1, 0"
+      texcoord="0.000100129, 0.0001000098"
+      color="0, 0, 0"
+      tangent="1, 1.397263E-11, -2.289276E-07" />
+    <Vertex
+      position="99.99997, 200, -100"
+      normal="0, -1, 0"
+      texcoord="0.9998997, 9.998E-05"
+      color="0, 0, 0"
+      tangent="1, 4.657545E-12, -1.227869E-07" />
+    <Vertex
+      position="100, 200, 99.99998"
+      normal="0, -1, 0"
+      texcoord="0.9998998, 0.9999"
+      color="0, 0, 0"
+      tangent="1, 0, -2.289276E-07" />
+    <Vertex
+      position="-100, 200, 100"
+      normal="0, -1, 0"
+      texcoord="9.998E-05, 0.9998999"
+      color="0, 0, 0"
+      tangent="1, 0, -2.289276E-07" />
+  </Vertices>
+  <Indices>0,1,2,0,2,3,4,5,6,4,6,7,</Indices>
+</Mesh>

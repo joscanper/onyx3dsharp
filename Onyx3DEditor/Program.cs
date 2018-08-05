@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Windows.Forms;
 
 using Onyx3D;
@@ -13,8 +14,9 @@ namespace Onyx3DEditor
         [STAThread]
         static void Main()
         {
-            if (Properties.Settings.Default.LastProjectPath.Length > 0)
-                ProjectLoader.Load(Properties.Settings.Default.LastProjectPath);
+            string lastProject = Properties.Settings.Default.LastProjectPath;
+            if (lastProject.Length > 0 && File.Exists(lastProject))
+                ProjectLoader.Load(lastProject);
             else
                 ProjectManager.Instance.New();
 

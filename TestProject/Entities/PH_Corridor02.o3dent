@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Entity>
+  <Root>
+    <SceneObject
+      id="corridor2"
+      instanceId="450315383">
+      <Transform
+        position="0, 0, 0"
+        rotation="1, 0, 0, 0"
+        scale="0.01, 0.01, 0.01" />
+      <Component
+        className="MeshRenderer">
+        <Mesh>1000005</Mesh>
+        <Material>400000001</Material>
+      </Component>
+    </SceneObject>
+    <SceneObject
+      id="Sphere"
+      instanceId="450315586">
+      <Transform
+        position="0, 0, 0"
+        rotation="1, 0, 0, 0"
+        scale="1, 1, 1" />
+      <Component
+        className="MeshRenderer">
+        <Mesh>100000002</Mesh>
+        <Material>400000001</Material>
+      </Component>
+    </SceneObject>
+  </Root>
+</Entity>

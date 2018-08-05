@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModelSupportData xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <IsDirty>false</IsDirty>
+  <LinkedProjectAsset>
+    <Dirty>false</Dirty>
+    <Path>Models\PH_Tileset.o3dmod</Path>
+    <Guid>5000000</Guid>
+  </LinkedProjectAsset>
+  <ModelFile>Models/PH_Tileset.fbx</ModelFile>
+  <Guid>5000000</Guid>
+  <Meshes>
+    <MeshData>
+      <Id>1000005</Id>
+      <Name>PH_Corridor02</Name>
+    </MeshData>
+    <MeshData>
+      <Id>1000004</Id>
+      <Name>PH_DoorHole01</Name>
+    </MeshData>
+    <MeshData>
+      <Id>1000003</Id>
+      <Name>PH_Corridor01</Name>
+    </MeshData>
+    <MeshData>
+      <Id>1000002</Id>
+      <Name>PH_Side01</Name>
+    </MeshData>
+    <MeshData>
+      <Id>1000000</Id>
+      <Name>PH_Floor01</Name>
+    </MeshData>
+    <MeshData>
+      <Id>1000001</Id>
+      <Name>PH_Corner01</Name>
+    </MeshData>
+  </Meshes>
+</ModelSupportData>

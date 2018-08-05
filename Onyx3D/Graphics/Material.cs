@@ -48,6 +48,11 @@ namespace Onyx3D
 
     public class CubemapMaterialProperty : TextureMaterialProperty
     {
+        public int CubemapId
+        {
+            set { Data = value; }
+            get { return (int)Data; }
+        }
         public CubemapMaterialProperty(MaterialPropertyType type, int textureId, int index) : base(type, textureId, index) { }
     }
 
@@ -66,8 +71,7 @@ namespace Onyx3D
                     case MaterialPropertyType.SamplerCube:
                         CubemapMaterialProperty cmp = (CubemapMaterialProperty)mp.Value;
                         GL.ActiveTexture(TextureUnit.Texture0 + cmp.DataIndex);
-                        //Texture ct = Onyx3DEngine.Instance.Resources.GetTexture();
-                        GL.BindTexture(TextureTarget.TextureCubeMap, cmp.TextureGuid);
+                        GL.BindTexture(TextureTarget.TextureCubeMap, cmp.CubemapId);
                         GL.Uniform1(GL.GetUniformLocation(Shader.Program, mp.Key), cmp.DataIndex);
                         break;
                     case MaterialPropertyType.Sampler2D:

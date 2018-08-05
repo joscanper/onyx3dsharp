@@ -50,7 +50,8 @@ namespace Onyx3D
 		public static int Textures = 2000000;
 		public static int Shaders = 3000000;
 		public static int Materials = 4000000;
-        public static int Entities = 5000000;
+        public static int Models = 5000000;
+        public static int Entities = 6000000;
     }
 
 	[Serializable]
@@ -92,34 +93,5 @@ namespace Onyx3D
 			PathFragment = pathF;
 		}
 	};
-
-	[Serializable]
-	public class OnyxProjectSceneAsset : OnyxProjectAsset
-	{
-		
-		public OnyxProjectSceneAsset() { }
-		public OnyxProjectSceneAsset(string path, string name = "", int guid = 0) : base(path, name, guid) { }
-	
-	};
-
-	[Serializable]
-	public class OnyxProjectMaterialAsset : OnyxProjectAsset
-	{
-		public OnyxProjectMaterialAsset() { }
-		public OnyxProjectMaterialAsset(string path, string name = "", int guid = 0) : base(path, name, guid) { }
-		
-
-    };
-
-    [Serializable]
-    public class OnyxProjectMeshAsset : OnyxProjectAsset
-    {
-		public bool IsFromModel; // TODO - Remove this once we have all the built-in meshes in propietary format
-        public OnyxProjectMeshAsset() { }
-        public OnyxProjectMeshAsset(string path, string name = "", int guid = 0, bool fromModel = false) : base(path, name, guid)
-		{
-			IsFromModel = fromModel;
-		}
-    };
 
 }

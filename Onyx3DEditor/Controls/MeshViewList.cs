@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.IO;
 using System.Windows.Forms;
-using System.Drawing.Imaging;
 
 using Onyx3D;
 
@@ -14,12 +12,14 @@ namespace Onyx3DEditor
 		public event EventHandler SelectedChanged;
 
 		private static readonly int mPreviewSize = 80;
+
 		private SingleMeshPreviewRenderer mPreview;
 		private int mSelectedIndex;
-
 		private List<OnyxProjectAsset> mMeshes = new List<OnyxProjectAsset>();
 
-		public int SelectedIndex
+        // --------------------------------------------------------------------
+
+        public int SelectedIndex
 		{
 			get
 			{
@@ -36,17 +36,23 @@ namespace Onyx3DEditor
 			}
 		}
 
-		public OnyxProjectMeshAsset SelectedMesh
+        // --------------------------------------------------------------------
+
+        public OnyxProjectAsset SelectedMesh
 		{
-			get { return (OnyxProjectMeshAsset)mMeshes[SelectedIndex]; }
+			get { return mMeshes[SelectedIndex]; }
 		}
-		
-		public MeshViewList()
+
+        // --------------------------------------------------------------------
+
+        public MeshViewList()
 		{
 			InitializeComponent();
 		}
-		
-		public void UpdateMaterialList(int selectedGuid)
+
+        // --------------------------------------------------------------------
+
+        public void UpdateMaterialList(int selectedGuid)
 		{
 			mMeshes.Clear();
 
@@ -64,7 +70,7 @@ namespace Onyx3DEditor
 			AddElement(ProjectManager.Instance.Content.GetAsset(BuiltInMesh.Teapot), 5, selectedGuid);
 			
 			int i = 6;
-			foreach (OnyxProjectMeshAsset t in ProjectManager.Instance.Content.Meshes)
+			foreach (OnyxProjectAsset t in ProjectManager.Instance.Content.Meshes)
 			{
 
 				AddElement(t, i, selectedGuid);
@@ -72,7 +78,9 @@ namespace Onyx3DEditor
 			}
 		}
 
-		private void AddElement(OnyxProjectAsset t, int index, int selectedGuid)
+        // --------------------------------------------------------------------
+
+        private void AddElement(OnyxProjectAsset t, int index, int selectedGuid)
 		{
 			Bitmap bmp = GenerateMeshPreview(t.Guid);
 			Image small_img = bmp.GetThumbnailImage(mPreviewSize, mPreviewSize, null, IntPtr.Zero);
@@ -86,18 +94,18 @@ namespace Onyx3DEditor
 			mMeshes.Add(t);
 		}
 
-		private Bitmap GenerateMeshPreview(int guid)
+        // --------------------------------------------------------------------
+
+        private Bitmap GenerateMeshPreview(int guid)
 		{
-			
 			mPreview.SetMesh(guid);
 			mPreview.Render();
-			Bitmap preview = mPreview.AsBitmap();
-			
-			
-			return preview;
+			return mPreview.AsBitmap();
 		}
 
-		private void MeshViewList_Load(object sender, EventArgs e)
+        // --------------------------------------------------------------------
+
+        private void MeshViewList_Load(object sender, EventArgs e)
 		{
 		
 			if (!DesignMode)
@@ -111,7 +119,9 @@ namespace Onyx3DEditor
 		
 		}
 
-		private void ListViewMeshes_SelectedIndexChanged(object sender, EventArgs e)
+        // --------------------------------------------------------------------
+
+        private void ListViewMeshes_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			if (listViewMeshes.SelectedIndices.Count > 0)
 			{ 
@@ -124,11 +134,13 @@ namespace Onyx3DEditor
 			}
 		}
 
-		public void UpdateMesh(int guid)
+        // --------------------------------------------------------------------
+
+        public void UpdateMesh(int guid)
 		{
 			int i = 0;
 			listViewMeshes.SelectedIndices.Clear();
-			foreach (OnyxProjectMeshAsset t in ProjectManager.Instance.Content.Meshes)
+			foreach (OnyxProjectAsset t in ProjectManager.Instance.Content.Meshes)
 			{
 				if (t.Guid == guid)
 				{
@@ -144,7 +156,9 @@ namespace Onyx3DEditor
 			}
 		}
 
-		protected override void OnHandleDestroyed(EventArgs e)
+        // --------------------------------------------------------------------
+
+        protected override void OnHandleDestroyed(EventArgs e)
 		{
 			base.OnHandleDestroyed(e);
 
