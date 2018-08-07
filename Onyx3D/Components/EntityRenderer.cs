@@ -38,15 +38,21 @@ namespace Onyx3D
 			}
 		}
 
-		// --------------------------------------------------------------------
+        // --------------------------------------------------------------------
 
-		public override void Render()
+        public override void PreRender()
+        {
+            Entity myEntity = Entity;
+            if (myEntity == null)
+                return;
+
+            myEntity.Root.Transform.SetModelMatrix(SceneObject.Transform.ModelMatrix);
+        }
+
+        // --------------------------------------------------------------------
+
+        public override void Render()
 		{
-			Entity myEntity = Entity;
-			if (myEntity == null)
-				return;
-
-			myEntity.Root.Transform.SetModelMatrix(SceneObject.Transform.ModelMatrix);
 			foreach (MeshRenderer mr in Renderers)
 			{
 				mr.Render();

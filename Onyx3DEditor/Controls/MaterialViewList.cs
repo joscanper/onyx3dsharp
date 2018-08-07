@@ -54,7 +54,7 @@ namespace Onyx3DEditor
 
         // --------------------------------------------------------------------
 
-        public void UpdateMaterialList(int selectedGuid)
+        public void UpdateMaterialList(int selectedGuid, bool addBuiltIn)
 		{
 			mPreview.Init(mPreviewSize, mPreviewSize, this.Handle);
 			mMaterials.Clear();
@@ -65,24 +65,36 @@ namespace Onyx3DEditor
 			listViewMaterials.LargeImageList.ColorDepth = ColorDepth.Depth32Bit;
 			listViewMaterials.LargeImageList.ImageSize = new Size(mPreviewSize, mPreviewSize);
 
-			int i = 0;
-			foreach (OnyxProjectAsset t in ProjectManager.Instance.Content.Materials)
+            if (addBuiltIn)
+            {
+                AddElement(ProjectManager.Instance.Content.GetAsset(BuiltInMaterial.Default), 0, selectedGuid);
+                AddElement(ProjectManager.Instance.Content.GetAsset(BuiltInMaterial.Unlit), 1, selectedGuid);
+                AddElement(ProjectManager.Instance.Content.GetAsset(BuiltInMaterial.UnlitVertexColor), 2, selectedGuid);
+            }
+
+            int i = mMaterials.Count;
+			foreach (OnyxProjectAsset matAsset in ProjectManager.Instance.Content.Materials)
 			{
-				
-				Bitmap bmp = GenerateMaterialPreview(t.Guid);
-				Image small_img = bmp.GetThumbnailImage(mPreviewSize, mPreviewSize, null, IntPtr.Zero);
-
-				listViewMaterials.LargeImageList.Images.Add(small_img);
-				listViewMaterials.Items.Add(new ListViewItem(t.Name, i));
-
-				if (t.Guid == selectedGuid)
-					listViewMaterials.SelectedIndices.Add(i);
-
-				mMaterials.Add(t);
-
+                AddElement(matAsset, i, selectedGuid);
 				i++;
 			}
 		}
+
+        // --------------------------------------------------------------------
+
+        private void AddElement(OnyxProjectAsset asset, int index, int selectedGuid)
+        {
+            Bitmap bmp = GenerateMaterialPreview(asset.Guid);
+            Image small_img = bmp.GetThumbnailImage(mPreviewSize, mPreviewSize, null, IntPtr.Zero);
+
+            listViewMaterials.LargeImageList.Images.Add(small_img);
+            listViewMaterials.Items.Add(new ListViewItem(asset.Name, index));
+
+            if (asset.Guid == selectedGuid)
+                listViewMaterials.SelectedIndices.Add(index);
+
+            mMaterials.Add(asset);
+        }
 
         // --------------------------------------------------------------------
 
@@ -107,7 +119,7 @@ namespace Onyx3DEditor
 				mPreview = new SingleMeshPreviewRenderer();
 				mPreview.Init(mPreviewSize, mPreviewSize, this.Handle);
 				mPreview.Render();
-				UpdateMaterialList(0);
+				UpdateMaterialList(0, true);
 			}
 		
 		}

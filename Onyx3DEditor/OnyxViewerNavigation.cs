@@ -16,11 +16,7 @@ namespace Onyx3DEditor
             Rotating,
             Dragging,
         }
-
-        private static readonly char FORWARDS_CHAR = 'w';
-        private static readonly char LEFT_CHAR = 'a';
-        private static readonly char RIGHT_CHAR = 'd';
-        private static readonly char BACKWARDS_CHAR = 's';
+        
         private static readonly char FOCUS_CHAR = 'f';
 
         private static readonly char VIEW_FRONT_CHAR = '1';

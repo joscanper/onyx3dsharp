@@ -143,8 +143,9 @@ namespace Onyx3D
 		{
 			for (int i = 0; i < mMeshRenderers.Count; ++i)
 			{
-				SetUpReflectionProbe(mMeshRenderers[i]);
-				mMeshRenderers[i].Render();
+                mMeshRenderers[i].PreRender();
+                SetUpReflectionProbe(mMeshRenderers[i]);
+                mMeshRenderers[i].Render();
 			}
 		}
 
@@ -152,8 +153,10 @@ namespace Onyx3D
 		{
 			for (int i = 0; i < mEntityRenderers.Count; ++i)
 			{
-				// TODO - Maybe better to get the right reflectionprobe considering only the entityProxy position and not for all its renderers
-				foreach (MeshRenderer mr in mEntityRenderers[i].Renderers)
+                mEntityRenderers[i].PreRender();
+
+                // TODO - Maybe better to get the right reflectionprobe considering only the entityProxy position and not for all its renderers
+                foreach (MeshRenderer mr in mEntityRenderers[i].Renderers)
 					SetUpReflectionProbe(mr);
 
 				mEntityRenderers[i].Render();
@@ -175,9 +178,9 @@ namespace Onyx3D
 
 		private ReflectionProbe GetClosestReflectionProbe(Vector3 toPosition)
 		{
-			ReflectionProbe reflectionProbe = mReflectionProbes[0];
+			ReflectionProbe reflectionProbe = null;
 			float candidateDist = float.MaxValue;
-			for (int i = 1; i < mReflectionProbes.Count; ++i)
+            for (int i = 0; i < mReflectionProbes.Count; ++i)
 			{
 				float sqrDist = mReflectionProbes[i].Transform.Position.SqrDistance(toPosition);
 				if (sqrDist < candidateDist)

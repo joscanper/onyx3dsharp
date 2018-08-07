@@ -10,16 +10,18 @@ namespace Onyx3D
 	{
 		public Bounds Bounds { get; protected set; }
 
-		public abstract void Render();
-
 		protected abstract void UpdateBounds();
 
+        public virtual void PreRender() { }
 
-		// --------------------------------------------------------------------
-		// --------------------- Serialization ----------------------
-		// --------------------------------------------------------------------
+        public abstract void Render();
 
-		public override void ReadComponentXmlNode(XmlReader reader)
+
+        // --------------------------------------------------------------------
+        // --------------------- Serialization ----------------------
+        // --------------------------------------------------------------------
+
+        public override void ReadComponentXmlNode(XmlReader reader)
 		{
 			throw new NotImplementedException();
 		}

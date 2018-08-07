@@ -42,6 +42,16 @@ namespace Onyx3D
 
         // --------------------------------------------------------------------
 
+        public override Component Clone()
+        {
+            ReflectionProbe rp = new ReflectionProbe();
+            rp.Init(mSize);
+            rp.Dynamic = Dynamic;
+            return rp;
+        }
+
+        // --------------------------------------------------------------------
+
         public override void OnDrawGizmos(GizmosManager gizmos)
 		{
 

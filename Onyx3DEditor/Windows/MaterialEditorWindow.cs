@@ -143,7 +143,7 @@ namespace Onyx3DEditor
 			AssetLoader<Material>.Save(material, material.LinkedProjectAsset.Path);
 
 			SetMaterial(material);
-			materialViewList1.UpdateMaterialList(material.LinkedProjectAsset.Guid);
+			materialViewList1.UpdateMaterialList(material.LinkedProjectAsset.Guid, false);
 		}
 
 		private void tabControlMain_SelectedIndexChanged(object sender, EventArgs e)
@@ -229,7 +229,7 @@ namespace Onyx3DEditor
 					if (ProjectManager.Instance.Content.Materials.Remove(SelectedMaterial))
 					{
 						materialPropertiesControl.Clear();
-						materialViewList1.UpdateMaterialList(0);
+						materialViewList1.UpdateMaterialList(0, false);
 					}
 				}
 			}

@@ -77,8 +77,9 @@ namespace Onyx3DEditor
 
         public void Render()
 		{
-			
-			mFrameBuffer.Bind();
+            
+
+            mFrameBuffer.Bind();
             OnyxInstance.Renderer.Render(Scene, Scene.ActiveCamera, mFrameBuffer.Width, mFrameBuffer.Height);
 			if (DrawGrid)
                 OnyxInstance.Renderer.Render(mGridRenderer, Scene.ActiveCamera);

@@ -40,7 +40,7 @@ namespace Onyx3D
 
         public virtual void OnDrawGizmos(GizmosManager gizmos) { }
 		
-        public Component Clone()
+        public virtual Component Clone()
         {
             return (Component)this.MemberwiseClone();
         }

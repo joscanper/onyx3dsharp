@@ -35,7 +35,7 @@ namespace Onyx3DEditor
 
         public void SetMaterial(int guid)
 		{
-			mRenderer.Material = OnyxInstance.Resources.GetMaterial(guid);
+			mRenderer.Material = Onyx3DEngine.Instance.Resources.GetMaterial(guid);
 		}
 
         // --------------------------------------------------------------------
