@@ -215,6 +215,11 @@ namespace Onyx3DEditor
             mNavigation.OnFrameTick();
 		}
 
+		private void toolStripButtonEntityManager_Click(object sender, EventArgs e)
+		{
+			new EntitySelectorWindow().Show();
+		}
+
 		private void toolStripButtonSaveProject_Click(object sender, EventArgs e)
 		{
             EditorSceneUtils.Save();
@@ -408,7 +413,7 @@ namespace Onyx3DEditor
             SceneManagement.New();
         }
 
-        #endregion
+		#endregion
 
-    }
+	}
 }
