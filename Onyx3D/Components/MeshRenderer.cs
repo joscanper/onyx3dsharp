@@ -58,15 +58,6 @@ namespace Onyx3D
 			GL.UniformMatrix4(GL.GetUniformLocation(program, "R"), false, ref R);
             GL.UniformMatrix4(GL.GetUniformLocation(program, "NM"), false, ref NM);
         }
-
-		// --------------------------------------------------------------------
-
-		public override void OnDirtyTransform()
-		{
-			base.OnDirtyTransform();
-
-			UpdateBounds();
-		}
 		
 		// --------------------------------------------------------------------
 

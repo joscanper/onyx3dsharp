@@ -11,11 +11,13 @@ namespace Onyx3D
 		private List<MeshRenderer> mMeshRenderers = new List<MeshRenderer>();
 		private List<EntityRenderer> mEntityRenderers = new List<EntityRenderer>();
 		private List<ReflectionProbe> mReflectionProbes = new List<ReflectionProbe>();
-		//private List<Entity> mEntities = new List<Entity>();
+
+		// --------------------------------------------------------------------
 
 		public GizmosManager Gizmos { get; private set; }
-
 		public Vector2 ScreenSize = new Vector2(800,600);
+
+		// --------------------------------------------------------------------
 
 		public override void Init(Onyx3DInstance onyx3d)
 		{
@@ -42,10 +44,7 @@ namespace Onyx3D
 			Gizmos.Init(onyx3d);
 		}
 
-		public void Render(Scene scene)
-		{
-			Render(scene, scene.ActiveCamera, (int)ScreenSize.X, (int)ScreenSize.Y);
-		}
+		// --------------------------------------------------------------------
 
 		public void Render(Scene scene, Camera cam, int w, int h)
 		{
@@ -77,6 +76,8 @@ namespace Onyx3D
             GL.Flush();
 		}
 
+		// --------------------------------------------------------------------
+
 		private void RenderSky(Scene scene, Camera cam)
 		{
 			scene.Sky.Prepare(scene.Context);
@@ -94,7 +95,9 @@ namespace Onyx3D
 			}
 		}
 
-        private void BakeReflectionProbes(bool forced)
+		// --------------------------------------------------------------------
+
+		private void BakeReflectionProbes(bool forced)
         {
             for(int i = 0; i < mReflectionProbes.Count; i++)
             {
@@ -107,6 +110,8 @@ namespace Onyx3D
             }
         }
 
+		// --------------------------------------------------------------------
+
 		private HashSet<Material> GetMaterialsFromRenderers()
 		{
 			HashSet<Material> materials = new HashSet<Material>();
@@ -115,7 +120,8 @@ namespace Onyx3D
 			return materials;
 		}
 
-        
+		// --------------------------------------------------------------------
+
 		private void PrepareMaterials(UBO<CameraUBufferData> camUBO, UBO<LightingUBufferData> lightUBO)
 		{
 			HashSet<Material> materials = GetMaterialsFromRenderers();

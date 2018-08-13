@@ -29,6 +29,11 @@ namespace Onyx3D
 		{
 			Bounds.Clear();
 
+			if (Entity == null)
+				return;
+
+			Entity.Root.Transform.SetModelMatrix(SceneObject.Transform.ModelMatrix);
+
 			if (Renderers.Count > 0)
 				Bounds = Renderers[0].Bounds;
 

@@ -100,7 +100,7 @@ namespace Onyx3DEditor
 
         private void UpdatePreviewObject()
 		{
-			Bounds bounds = mPreview.CalculateBoundingBox();
+			Bounds bounds = mPreview.CalculateBounds();
 			float scale = sModelScale / bounds.Size.Length;
 			mPreview.Transform.LocalScale = Vector3.One * scale;
 			mPreview.Parent = mPreviewRenderer.Scene.Root;

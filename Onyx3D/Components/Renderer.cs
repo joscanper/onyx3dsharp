@@ -16,12 +16,20 @@ namespace Onyx3D
 
         public abstract void Render();
 
+		// --------------------------------------------------------------------
 
-        // --------------------------------------------------------------------
-        // --------------------- Serialization ----------------------
-        // --------------------------------------------------------------------
+		public override void OnDirtyTransform()
+		{
+			base.OnDirtyTransform();
 
-        public override void ReadComponentXmlNode(XmlReader reader)
+			UpdateBounds();
+		}
+
+		// --------------------------------------------------------------------
+		// --------------------- Serialization ----------------------
+		// --------------------------------------------------------------------
+
+		public override void ReadComponentXmlNode(XmlReader reader)
 		{
 			throw new NotImplementedException();
 		}

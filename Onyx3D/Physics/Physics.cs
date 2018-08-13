@@ -24,7 +24,7 @@ namespace Onyx3D
             do
             {
                 s = objects.Dequeue();
-                List<MeshRenderer> objRenderers = s.GetComponents<MeshRenderer>();
+                List<Renderer> objRenderers = s.GetComponents<Renderer>();
                 if (objRenderers.Count > 0)
                 {
                     for (int i = 0; i < objRenderers.Count; ++i)

@@ -281,24 +281,29 @@ namespace Onyx3D
 
 		// --------------------------------------------------------------------
 
-		public Bounds CalculateBoundingBox()
-        {
-            Bounds b = new Bounds();
-            List<MeshRenderer> renderers = GetComponentsInChildren<MeshRenderer>();
-            for(int i=0; i<renderers.Count; ++i)
-            {
-                if (renderers[i].Mesh == null)
-                    continue;
+		public virtual Bounds CalculateBounds()
+		{
+			mObjectBounds.Clear();
+			mChildrenRenderer.Clear();
 
-                List<Vertex> vertices = renderers[i].Mesh.Vertices;
-                for (int v = 0; v < vertices.Count; ++v)
-                {
-                    Vector3 worldPos = renderers[i].Transform.LocalToWorld(vertices[v].Position);
-                    b.Encapsulate(worldPos);
-                }
-            }
-            return b;
-        }
+			GetComponentsInChildren<Renderer>(mChildrenRenderer, true);
+			if (mChildrenRenderer.Count > 0)
+			{
+				mObjectBounds = mChildrenRenderer[0].Bounds;
+				foreach (Renderer renderer in mChildrenRenderer)
+				{
+					mObjectBounds.Encapsulate(renderer.Bounds);
+				}
+			}
+			else
+			{
+				mObjectBounds.SetMinMax(mObjectBounds.Center, mObjectBounds.Center);
+				mObjectBounds.Center = Transform.Position;
+
+			}
+			return mObjectBounds;
+		}
+
 
 		// --------------------------------------------------------------------
 
@@ -376,31 +381,6 @@ namespace Onyx3D
 				Scene.SetDirty();
 
 			Transform.SetDirty();
-		}
-
-		// --------------------------------------------------------------------
-
-		public Bounds CalculateBounds()
-		{
-			mObjectBounds.Clear();
-
-			mChildrenRenderer.Clear();
-			GetComponentsInChildren<Renderer>(mChildrenRenderer, true);
-			if (mChildrenRenderer.Count > 0)
-			{
-				mObjectBounds = mChildrenRenderer[0].Bounds;
-				foreach (Renderer renderer in mChildrenRenderer)
-				{
-					mObjectBounds.Encapsulate(renderer.Bounds);
-				}
-			}
-			else
-			{
-				mObjectBounds.SetMinMax(mObjectBounds.Center, mObjectBounds.Center);
-				mObjectBounds.Center = Transform.Position;
-				
-			}
-			return mObjectBounds;
 		}
 
         // --------------------------------------------------------------------
