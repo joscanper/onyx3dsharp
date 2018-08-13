@@ -136,15 +136,15 @@ namespace Onyx3DEditor
             mOnyxInstance.Renderer.Render(SceneManagement.ActiveScene, mNavigation.Camera, renderCanvas.Width, renderCanvas.Height);
 			mOnyxInstance.Renderer.Render(mGridRenderer, mNavigation.Camera);
             
-            //mOnyxInstance.Gizmos.DrawLine(mClickRay.Origin, mClickRay.Origin + mClickRay.Direction * 10, Vector3.One);
-
             HighlightSelected();
 
             mOnyxInstance.Gizmos.DrawComponentGizmos(mNavigation.Camera, SceneManagement.ActiveScene);            
-            //mOnyxInstance.Gizmos.Render();
-			
+            
             renderCanvas.SwapBuffers();
-			labelLoggerOutput.Text = Logger.Instance.Content;            
+			labelLoggerOutput.Text = Logger.Instance.Content;
+
+			
+			Profiler.Instance.Clear();
 		}
 
         // --------------------------------------------------------------------

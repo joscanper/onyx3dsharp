@@ -48,7 +48,8 @@ namespace Onyx3D
 
 		public void Render(Scene scene, Camera cam, int w, int h)
 		{
-			
+			Profiler.Instance.StartTrace("RenderManager/MainRender");
+
 			cam.UpdateUBO();
 
 			scene.Lighting.UpdateUBO(scene);
@@ -74,6 +75,8 @@ namespace Onyx3D
 			RenderEntities();
 
             GL.Flush();
+
+			Profiler.Instance.EndTrace();
 		}
 
 		// --------------------------------------------------------------------
@@ -145,6 +148,8 @@ namespace Onyx3D
 			
 		}
 
+		// --------------------------------------------------------------------
+
 		private void RenderMeshes()
 		{
 			for (int i = 0; i < mMeshRenderers.Count; ++i)
@@ -154,6 +159,8 @@ namespace Onyx3D
                 mMeshRenderers[i].Render();
 			}
 		}
+
+		// --------------------------------------------------------------------
 
 		private void RenderEntities()
 		{
@@ -169,6 +176,8 @@ namespace Onyx3D
 			}
 		}
 
+		// --------------------------------------------------------------------
+
 		private void SetUpReflectionProbe(MeshRenderer renderer)
 		{
 			if (mReflectionProbes.Count == 0)
@@ -181,6 +190,8 @@ namespace Onyx3D
 			ReflectionProbe reflectionProbe = GetClosestReflectionProbe(renderer.Transform.Position);
 			cubemapProp.Data = reflectionProbe.Cubemap.Id;
 		}
+
+		// --------------------------------------------------------------------
 
 		private ReflectionProbe GetClosestReflectionProbe(Vector3 toPosition)
 		{
@@ -199,15 +210,22 @@ namespace Onyx3D
 			return reflectionProbe;
 		}
 
+		// --------------------------------------------------------------------
+
 		public void Render(MeshRenderer r, Camera cam)
 		{
 			r.Material.Shader.BindUBO(cam.UBO);
             r.Render();
 		}
 
+		// --------------------------------------------------------------------
+
 		public void RefreshReflectionProbes()
 		{
 			BakeReflectionProbes(true);
 		}
+
+		// --------------------------------------------------------------------
+
 	}
 }
