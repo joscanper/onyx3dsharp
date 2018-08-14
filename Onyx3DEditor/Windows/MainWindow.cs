@@ -180,7 +180,7 @@ namespace Onyx3DEditor
 				mClickRay = mNavigation.Camera.ScreenPointToRay(mouseEvent.X, mouseEvent.Y, renderCanvas.Width, renderCanvas.Height);
 
 				RaycastHit hit = new RaycastHit();
-				if (Physics.Raycast(mClickRay, out hit, SceneManagement.ActiveScene))
+				if (Physics.RaycastScene(mClickRay, out hit, SceneManagement.ActiveScene))
 				{
 					if (ModifierKeys.HasFlag(Keys.Control))
 					{

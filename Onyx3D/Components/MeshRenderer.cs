@@ -92,6 +92,33 @@ namespace Onyx3D
 		}
 
 		// --------------------------------------------------------------------
+
+			
+		public override bool IntersectsRay(Ray ray, out RaycastHit hit)
+		{
+			hit = new RaycastHit();
+			for (int i = 0; i < Mesh.Indices.Length; i += 3)
+			{
+				Vector3 a = Mesh.Vertices[Mesh.Indices[i]].Position;
+				Vector3 b = Mesh.Vertices[Mesh.Indices[i + 1]].Position;
+				Vector3 c = Mesh.Vertices[Mesh.Indices[i + 2]].Position;
+
+				a = Transform.LocalToWorld(a);
+				b = Transform.LocalToWorld(b);
+				c = Transform.LocalToWorld(c);
+
+				if (Physics.RaycastTriangle(ray, a, b, c, out hit))
+				{
+					hit.Object = SceneObject;
+					return true;
+				}
+			}
+
+			return false;
+		}
+
+
+		// --------------------------------------------------------------------
 		// ------ Serialization ------
 		// --------------------------------------------------------------------
 

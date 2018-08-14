@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 
+using OpenTK;
+
 namespace Onyx3D
 {
 	public abstract class Renderer : Component
@@ -15,6 +17,12 @@ namespace Onyx3D
         public virtual void PreRender() { }
 
         public abstract void Render();
+
+		public virtual bool IntersectsRay(Ray ray, out RaycastHit hit)
+		{
+			hit = new RaycastHit();
+			return false;
+		}
 
 		// --------------------------------------------------------------------
 
