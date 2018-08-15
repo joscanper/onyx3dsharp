@@ -15,7 +15,7 @@ namespace Onyx3D
 		private List<Component> mComponents = new List<Component>();
 		private SceneObject mParent;
 		private Bounds mObjectBounds = new Bounds();
-		private List<Renderer> mChildrenRenderer = new List<Renderer>();
+		private List<Renderer> mTmpRendererList = new List<Renderer>();
 
 		// --------------------------------------------------------------------
 
@@ -284,13 +284,13 @@ namespace Onyx3D
 		public virtual Bounds CalculateBounds()
 		{
 			mObjectBounds.Clear();
-			mChildrenRenderer.Clear();
+			mTmpRendererList.Clear();
 
-			GetComponentsInChildren<Renderer>(mChildrenRenderer, true);
-			if (mChildrenRenderer.Count > 0)
+			GetComponentsInChildren<Renderer>(mTmpRendererList, true);
+			if (mTmpRendererList.Count > 0)
 			{
-				mObjectBounds = mChildrenRenderer[0].Bounds;
-				foreach (Renderer renderer in mChildrenRenderer)
+				mObjectBounds = mTmpRendererList[0].Bounds;
+				foreach (Renderer renderer in mTmpRendererList)
 				{
 					mObjectBounds.Encapsulate(renderer.Bounds);
 				}
@@ -390,11 +390,53 @@ namespace Onyx3D
 
         }
 
-        // --------------------------------------------------------------------
-        // ----------- Serialization ------------
-        // --------------------------------------------------------------------
+		// --------------------------------------------------------------------
 
-        public XmlSchema GetSchema()
+		private List<Renderer> mRaycastCandidates = new List<Renderer>();
+
+		public bool IntersectRay(Ray ray, out RaycastHit hit)
+		{
+			hit = new RaycastHit();
+
+			mRaycastCandidates.Clear();
+			this.GetIntersectedRendererBounds(ray, this, mRaycastCandidates);
+
+			hit.Distance = float.MaxValue;
+			RaycastHit objHit = new RaycastHit();
+			foreach (Renderer renderer in mRaycastCandidates)
+			{
+				if (renderer.IntersectsRay(ray, out objHit) && objHit.Distance < hit.Distance)
+				{
+					hit = objHit;
+				}
+			}
+
+			return hit.Object != null;
+		}
+
+		// --------------------------------------------------------------------
+
+		private void GetIntersectedRendererBounds(Ray ray, SceneObject obj, List<Renderer> list)
+		{
+			mTmpRendererList.Clear();
+			obj.GetComponentsInChildren<Renderer>(mTmpRendererList, true);
+			if (mTmpRendererList.Count > 0)
+			{
+				for (int i = 0; i < mTmpRendererList.Count; ++i)
+				{
+					if (mTmpRendererList[i].Bounds.IntersectsRay(ray))
+					{
+						list.Add(mTmpRendererList[i]);
+					}
+				}
+			}
+		}
+
+		// --------------------------------------------------------------------
+		// ----------- Serialization ------------
+		// --------------------------------------------------------------------
+
+		public XmlSchema GetSchema()
 		{
 			throw new System.NotImplementedException();
 		}

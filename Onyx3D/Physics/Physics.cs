@@ -19,46 +19,12 @@ namespace Onyx3D
 			if (scene.Root == null)
 				return false;
 
-			List<Renderer> candidates = new List<Renderer>();
-			Queue<SceneObject> objects = new Queue<SceneObject>();
-			objects.Enqueue(scene.Root);
-			SceneObject s;
-			do
-			{
-				s = objects.Dequeue();
-				List<Renderer> objRenderers = s.GetComponents<Renderer>();
-				if (objRenderers.Count > 0)
-				{
-					for (int i = 0; i < objRenderers.Count; ++i)
-					{
-						if (objRenderers[i].Bounds.IntersectsRay(ray))
-						{
-							candidates.Add(objRenderers[i]);
-						}
-					}
-				}
-
-				for (int i = 0; i < s.ChildCount; i++)
-				{
-					objects.Enqueue(s.GetChild(i));
-				}
-			} while (objects.Count > 0);
-
-			hit.Distance = float.MaxValue;
-			RaycastHit objHit = new RaycastHit();
-			foreach (Renderer renderer in candidates)
-			{
-				if (renderer.IntersectsRay(ray, out objHit) && objHit.Distance < hit.Distance)
-				{
-					hit = objHit;
-				}
-			}
-
-			return hit.Object != null;
+			
+			return scene.Root.IntersectRay(ray, out hit);
 		}
 
 
-		public static bool RaycastTriangle(Ray ray, Vector3 vertex0, Vector3 vertex1, Vector3 vertex2, out RaycastHit hit)
+		public static bool RaycastTriangle(Ray ray, Vector3 vertex0, Vector3 vertex1, Vector3 vertex2, out RaycastHit hit, bool ignoreBackfaces = true)
 		{
 			// Möller–Trumbore implementation
 			const float EPSILON = 0.0000001f;
@@ -71,6 +37,9 @@ namespace Onyx3D
 			a = Vector3.Dot(edge1, h);
 			if (a > -EPSILON && a < EPSILON)
 				return false;
+			if (ignoreBackfaces && a < 0f)
+				return false;
+
 			f = 1 / a;
 			s = ray.Origin - vertex0;
 			u = f * (Vector3.Dot(s, h));

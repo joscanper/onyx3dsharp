@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Xml;
 
+using OpenTK;
+
 namespace Onyx3D
 {
 	public class EntityRenderer : Renderer
@@ -62,6 +64,25 @@ namespace Onyx3D
 			{
 				mr.Render();
 			}
+		}
+
+		// --------------------------------------------------------------------
+		
+		public override bool IntersectsRay(Ray ray, out RaycastHit hit)
+		{
+			hit = new RaycastHit();
+
+			Entity myEntity = Entity;
+			if (myEntity == null)
+				return false;
+
+			myEntity.Root.Transform.SetModelMatrix(SceneObject.Transform.ModelMatrix);
+			myEntity.Root.IntersectRay(ray, out hit);
+
+			if (hit.Object != null)
+				hit.Object = SceneObject;
+
+			return hit.Object != null;
 		}
 
 		// --------------------------------------------------------------------

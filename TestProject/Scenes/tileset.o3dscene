@@ -81,19 +81,6 @@
         <Intensity>0.25</Intensity>
       </Component>
     </SceneObject>
-    <SceneObject
-      id="ReflectionProbe"
-      instanceId="473486771">
-      <Transform
-        position="0, 1.228771, 0"
-        rotation="1, 0, 0, 0"
-        scale="1, 1, 1" />
-      <Component
-        className="ReflectionProbe">
-        <Size>64</Size>
-        <Dynamic>False</Dynamic>
-      </Component>
-    </SceneObject>
     <EntityProxy
       id="floor"
       instanceId="1953849445"
@@ -184,32 +171,6 @@
         rotation="1, 0, 0, 0"
         scale="1, 1, 1" />
     </EntityProxy>
-    <SceneObject
-      id="ReflectionProbe"
-      instanceId="1953849751">
-      <Transform
-        position="0, 0.7357706, 5.25"
-        rotation="1, 0, 0, 0"
-        scale="1, 1, 1" />
-      <Component
-        className="ReflectionProbe">
-        <Size>64</Size>
-        <Dynamic>False</Dynamic>
-      </Component>
-    </SceneObject>
-    <SceneObject
-      id="ReflectionProbe"
-      instanceId="1953849754">
-      <Transform
-        position="0, 0.7357706, -5.25"
-        rotation="1, 0, 0, 0"
-        scale="1, 1, 1" />
-      <Component
-        className="ReflectionProbe">
-        <Size>64</Size>
-        <Dynamic>False</Dynamic>
-      </Component>
-    </SceneObject>
     <EntityProxy
       id="corner"
       instanceId="1953849791"
@@ -322,8 +283,8 @@
       id="Teapot"
       instanceId="1953849823">
       <Transform
-        position="-2.043977, 0.4123762, 0"
-        rotation="0, -0.9999991, 0, 1.486606"
+        position="-1.747077, 0.4123762, -0.25"
+        rotation="0, -1, 0, 1.486606"
         scale="1, 1, 1" />
       <Component
         className="MeshRenderer">
@@ -376,6 +337,183 @@
         <Color>1, 0.7529412, 0.5019608, 1</Color>
         <Intensity>3</Intensity>
       </Component>
+    </SceneObject>
+    <SceneObject
+      id="New Group"
+      instanceId="2076966567">
+      <Transform
+        position="0, 0.728771, 0"
+        rotation="1, 0, 0, 0"
+        scale="1, 1, 1" />
+      <SceneObject
+        id="ReflectionProbe"
+        instanceId="2076966554">
+        <Transform
+          position="0, 0, -2.75"
+          rotation="1, 0, 0, 0"
+          scale="1, 1, 1" />
+        <Component
+          className="ReflectionProbe">
+          <Size>64</Size>
+          <Dynamic>False</Dynamic>
+        </Component>
+      </SceneObject>
+      <SceneObject
+        id="ReflectionProbe"
+        instanceId="2076966549">
+        <Transform
+          position="0, 0, 3.25"
+          rotation="1, 0, 0, 0"
+          scale="1, 1, 1" />
+        <Component
+          className="ReflectionProbe">
+          <Size>64</Size>
+          <Dynamic>False</Dynamic>
+        </Component>
+      </SceneObject>
+      <SceneObject
+        id="ReflectionProbe"
+        instanceId="2076966543">
+        <Transform
+          position="-2, 0, 2"
+          rotation="1, 0, 0, 0"
+          scale="1, 1, 1" />
+        <Component
+          className="ReflectionProbe">
+          <Size>64</Size>
+          <Dynamic>False</Dynamic>
+        </Component>
+      </SceneObject>
+      <SceneObject
+        id="ReflectionProbe"
+        instanceId="1953849754">
+        <Transform
+          position="0, 0.006999612, -5.25"
+          rotation="1, 0, 0, 0"
+          scale="1, 1, 1" />
+        <Component
+          className="ReflectionProbe">
+          <Size>64</Size>
+          <Dynamic>False</Dynamic>
+        </Component>
+      </SceneObject>
+      <SceneObject
+        id="ReflectionProbe"
+        instanceId="1953849751">
+        <Transform
+          position="0, 0.006999612, 5.25"
+          rotation="1, 0, 0, 0"
+          scale="1, 1, 1" />
+        <Component
+          className="ReflectionProbe">
+          <Size>64</Size>
+          <Dynamic>False</Dynamic>
+        </Component>
+      </SceneObject>
+      <SceneObject
+        id="ReflectionProbe"
+        instanceId="473486771">
+        <Transform
+          position="0, 0, 0"
+          rotation="1, 0, 0, 0"
+          scale="1, 1, 1" />
+        <Component
+          className="ReflectionProbe">
+          <Size>64</Size>
+          <Dynamic>False</Dynamic>
+        </Component>
+      </SceneObject>
+      <SceneObject
+        id="ReflectionProbe"
+        instanceId="2076966568">
+        <Transform
+          position="0, 0.006999612, 8"
+          rotation="1, 0, 0, 0"
+          scale="1, 1, 1" />
+        <Component
+          className="ReflectionProbe">
+          <Size>64</Size>
+          <Dynamic>False</Dynamic>
+        </Component>
+      </SceneObject>
+      <SceneObject
+        id="ReflectionProbe"
+        instanceId="2076966571">
+        <Transform
+          position="-4.75, 0.006999612, 8"
+          rotation="1, 0, 0, 0"
+          scale="1, 1, 1" />
+        <Component
+          className="ReflectionProbe">
+          <Size>64</Size>
+          <Dynamic>False</Dynamic>
+        </Component>
+      </SceneObject>
+      <SceneObject
+        id="ReflectionProbe"
+        instanceId="2076966574">
+        <Transform
+          position="-4.75, 0.006999612, -8"
+          rotation="1, 0, 0, 0"
+          scale="1, 1, 1" />
+        <Component
+          className="ReflectionProbe">
+          <Size>64</Size>
+          <Dynamic>False</Dynamic>
+        </Component>
+      </SceneObject>
+      <SceneObject
+        id="ReflectionProbe"
+        instanceId="2076966577">
+        <Transform
+          position="0, 0.006999612, -8"
+          rotation="1, 0, 0, 0"
+          scale="1, 1, 1" />
+        <Component
+          className="ReflectionProbe">
+          <Size>64</Size>
+          <Dynamic>False</Dynamic>
+        </Component>
+      </SceneObject>
+      <SceneObject
+        id="ReflectionProbe"
+        instanceId="2076966580">
+        <Transform
+          position="2, 0, 2"
+          rotation="1, 0, 0, 0"
+          scale="1, 1, 1" />
+        <Component
+          className="ReflectionProbe">
+          <Size>64</Size>
+          <Dynamic>False</Dynamic>
+        </Component>
+      </SceneObject>
+      <SceneObject
+        id="ReflectionProbe"
+        instanceId="2076966583">
+        <Transform
+          position="-2, 0, -2.5"
+          rotation="1, 0, 0, 0"
+          scale="1, 1, 1" />
+        <Component
+          className="ReflectionProbe">
+          <Size>64</Size>
+          <Dynamic>False</Dynamic>
+        </Component>
+      </SceneObject>
+      <SceneObject
+        id="ReflectionProbe"
+        instanceId="2076966586">
+        <Transform
+          position="2, 0, -2.5"
+          rotation="1, 0, 0, 0"
+          scale="1, 1, 1" />
+        <Component
+          className="ReflectionProbe">
+          <Size>64</Size>
+          <Dynamic>False</Dynamic>
+        </Component>
+      </SceneObject>
     </SceneObject>
   </Root>
 </Scene>
