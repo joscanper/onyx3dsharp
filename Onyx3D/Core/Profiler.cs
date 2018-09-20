@@ -44,7 +44,14 @@ public class Profiler : Singleton<Profiler>
 		if (mUnfinishedTraces.Count > 0)
 			LastTrace = mUnfinishedTraces.Peek();
 	}
-	
+
+	// --------------------------------------------------------------------
+
+	public ProfilerTrace GetTrace(string tag)
+	{
+		return mTraces.Find((trace) => trace.Tag == tag);
+	}
+
 	// --------------------------------------------------------------------
 
 	public void Clear()

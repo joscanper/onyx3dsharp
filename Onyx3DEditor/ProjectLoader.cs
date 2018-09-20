@@ -8,7 +8,20 @@ namespace Onyx3DEditor
     class ProjectLoader
     {
 
-        public static void Save()
+		public static bool AssertProjectExists()
+		{
+			if (ProjectManager.Instance.CurrentProjectPath.Length == 0)
+			{
+				MessageBox.Show("First you have to create a project");
+				return Save();
+			}
+
+			return true;
+		}
+
+		// --------------------------------------------------------------------
+
+		public static bool Save()
         {
             if (ProjectManager.Instance.CurrentProjectPath.Length == 0)
             {
@@ -26,18 +39,23 @@ namespace Onyx3DEditor
 
                         Properties.Settings.Default.LastProjectPath = saveFileDialog1.FileName;
                         Properties.Settings.Default.Save();
+						return true;
                     }
                     catch (Exception ex)
                     {
                         MessageBox.Show("Error: Could not save the project: " + ex.StackTrace);
+						return false;
                     }
                 }
             }
             else
             {
                 ProjectManager.Instance.Save();
-            }
-        }
+				return true;
+			}
+
+			return false;
+		}
         
         // --------------------------------------------------------------------
 

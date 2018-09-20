@@ -9,9 +9,7 @@ namespace Onyx3DEditor
     public partial class MaterialEditorWindow : Form
     {
         public Action<OnyxProjectAsset> MaterialSaved;
-
-        private bool canDraw = false;
-
+		
 		//private Onyx3DInstance myOnyxInstance;
 		
 		
@@ -25,7 +23,7 @@ namespace Onyx3DEditor
 
         public OnyxProjectAsset SelectedMaterial
         {
-            get { return ProjectManager.Instance.Content.Materials[materialViewList1.SelectedIndex]; }
+            get { return materialViewList1.SelectedMaterial; }
         }
 		
         public MaterialEditorWindow()
@@ -134,6 +132,10 @@ namespace Onyx3DEditor
 
 		private void toolStripNewMaterialButton_Click(object sender, EventArgs e)
 		{
+			
+			if (!ProjectLoader.AssertProjectExists())
+				return;
+
 			DefaultMaterial material = new DefaultMaterial();
 			string matPath = SelectMaterialFile();
 			if (matPath.Length == 0)
@@ -143,7 +145,7 @@ namespace Onyx3DEditor
 			AssetLoader<Material>.Save(material, material.LinkedProjectAsset.Path);
 
 			SetMaterial(material);
-			materialViewList1.UpdateMaterialList(material.LinkedProjectAsset.Guid, false);
+			materialViewList1.UpdateMaterialList(material.LinkedProjectAsset.Guid, true);
 		}
 
 		private void tabControlMain_SelectedIndexChanged(object sender, EventArgs e)

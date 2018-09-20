@@ -9,6 +9,7 @@ using Onyx3D;
 
 namespace Onyx3DEditor
 {
+
 	public partial class MaterialViewList : UserControl
 	{
 		public event EventHandler SelectedChanged;
@@ -88,23 +89,23 @@ namespace Onyx3DEditor
             Image small_img = bmp.GetThumbnailImage(mPreviewSize, mPreviewSize, null, IntPtr.Zero);
 
             listViewMaterials.LargeImageList.Images.Add(small_img);
-            listViewMaterials.Items.Add(new ListViewItem(asset.Name, index));
+			
+			listViewMaterials.Items.Add(new ListViewItem(asset.Name, index));
 
-            if (asset.Guid == selectedGuid)
+			mMaterials.Add(asset);
+
+			if (asset.Guid == selectedGuid)
                 listViewMaterials.SelectedIndices.Add(index);
-
-            mMaterials.Add(asset);
+            
         }
 
         // --------------------------------------------------------------------
 
         private Bitmap GenerateMaterialPreview(int guid)
 		{
-			
 			mPreview.SetMaterial(guid);
 			mPreview.Render();
 			Bitmap preview = mPreview.AsBitmap();
-			
 			
 			return preview;
 		}

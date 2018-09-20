@@ -141,10 +141,6 @@ namespace Onyx3DEditor
             mOnyxInstance.Gizmos.DrawComponentGizmos(mNavigation.Camera, SceneManagement.ActiveScene);            
             
             renderCanvas.SwapBuffers();
-			labelLoggerOutput.Text = Logger.Instance.Content;
-
-			
-			Profiler.Instance.Clear();
 		}
 
         // --------------------------------------------------------------------
@@ -169,6 +165,9 @@ namespace Onyx3DEditor
 		private void renderCanvas_Paint(object sender, PaintEventArgs e)
 		{
 			RenderScene();
+			renderInfoLabel.Text = string.Format("Render Time: {0}ms", Math.Round(mOnyxInstance.Renderer.RenderTime));
+			labelLoggerOutput.Text = Logger.Instance.Content;
+			Profiler.Instance.Clear();
 		}
 
 		private void renderCanvas_Click(object sender, EventArgs e)

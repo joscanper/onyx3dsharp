@@ -88,6 +88,7 @@ namespace Onyx3DEditor
 			this.toolStripScene = new System.Windows.Forms.ToolStrip();
 			this.toolStripButtonChangeScene = new System.Windows.Forms.ToolStripButton();
 			this.splitContainer2 = new System.Windows.Forms.SplitContainer();
+			this.renderInfoLabel = new System.Windows.Forms.Label();
 			this.labelLoggerOutput = new System.Windows.Forms.Label();
 			this.toolStrip2 = new System.Windows.Forms.ToolStrip();
 			this.toolStripButtonMove = new System.Windows.Forms.ToolStripButton();
@@ -386,6 +387,7 @@ namespace Onyx3DEditor
 			// splitContainer2.Panel1
 			// 
 			this.splitContainer2.Panel1.BackColor = System.Drawing.SystemColors.ActiveCaption;
+			this.splitContainer2.Panel1.Controls.Add(this.renderInfoLabel);
 			this.splitContainer2.Panel1.Controls.Add(this.labelLoggerOutput);
 			this.splitContainer2.Panel1.Controls.Add(this.toolStrip2);
 			this.splitContainer2.Panel1MinSize = 600;
@@ -399,6 +401,18 @@ namespace Onyx3DEditor
 			this.splitContainer2.SplitterDistance = 606;
 			this.splitContainer2.SplitterWidth = 1;
 			this.splitContainer2.TabIndex = 3;
+			// 
+			// renderInfoLabel
+			// 
+			this.renderInfoLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.renderInfoLabel.BackColor = System.Drawing.Color.Transparent;
+			this.renderInfoLabel.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+			this.renderInfoLabel.Location = new System.Drawing.Point(502, 25);
+			this.renderInfoLabel.Name = "renderInfoLabel";
+			this.renderInfoLabel.Size = new System.Drawing.Size(99, 17);
+			this.renderInfoLabel.TabIndex = 3;
+			this.renderInfoLabel.Text = "Rende Info ";
+			this.renderInfoLabel.TextAlign = System.Drawing.ContentAlignment.TopRight;
 			// 
 			// labelLoggerOutput
 			// 
@@ -741,5 +755,6 @@ namespace Onyx3DEditor
         private ToolStripSeparator toolStripSeparator6;
         private ToolStripButton toolStripCreateCamera;
 		private ToolStripButton toolStripButtonEntityManager;
+		private Label renderInfoLabel;
 	}
 }

@@ -93,6 +93,7 @@
     <Compile Include="Core\Extensions\QuaternionExtension.cs" />
     <Compile Include="Core\Extensions\VectorExtension.cs" />
     <Compile Include="Core\Onyx3DInstance.cs" />
+    <Compile Include="Core\Profiler.cs" />
     <Compile Include="Core\SceneManager.cs" />
     <Compile Include="Core\Entity.cs" />
     <Compile Include="Core\Types\Plane.cs" />

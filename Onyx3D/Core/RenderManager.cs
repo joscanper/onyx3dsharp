@@ -8,6 +8,8 @@ namespace Onyx3D
 {
 	public class RenderManager : EngineComponent
 	{
+		private const string sMainRenderTrace = "RenderManager/MainRender";
+
 		private List<MeshRenderer> mMeshRenderers = new List<MeshRenderer>();
 		private List<EntityRenderer> mEntityRenderers = new List<EntityRenderer>();
 		private List<ReflectionProbe> mReflectionProbes = new List<ReflectionProbe>();
@@ -15,6 +17,7 @@ namespace Onyx3D
 		// --------------------------------------------------------------------
 
 		public GizmosManager Gizmos { get; private set; }
+		public double RenderTime { get { return Profiler.Instance.GetTrace(sMainRenderTrace).Duration; } }
 		public Vector2 ScreenSize = new Vector2(800,600);
 
 		// --------------------------------------------------------------------
@@ -48,7 +51,7 @@ namespace Onyx3D
 
 		public void Render(Scene scene, Camera cam, int w, int h)
 		{
-			Profiler.Instance.StartTrace("RenderManager/MainRender");
+			Profiler.Instance.StartTrace(sMainRenderTrace);
 
 			cam.UpdateUBO();
 
