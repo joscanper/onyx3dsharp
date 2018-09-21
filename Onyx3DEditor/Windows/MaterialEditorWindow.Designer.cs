@@ -56,10 +56,8 @@ namespace Onyx3DEditor
 			this.toolStripButtonTeapot = new System.Windows.Forms.ToolStripButton();
 			this.textBoxLog = new System.Windows.Forms.TextBox();
 			this.tabVertex = new System.Windows.Forms.TabPage();
-			this.vScrollBar1 = new System.Windows.Forms.VScrollBar();
 			this.textBoxVertexCode = new System.Windows.Forms.TextBox();
 			this.tabFragment = new System.Windows.Forms.TabPage();
-			this.vScrollBar2 = new System.Windows.Forms.VScrollBar();
 			this.textBoxFragmentCode = new System.Windows.Forms.TextBox();
 			this.timer1 = new System.Windows.Forms.Timer(this.components);
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -328,23 +326,14 @@ namespace Onyx3DEditor
 			// 
 			// tabVertex
 			// 
-			this.tabVertex.Controls.Add(this.vScrollBar1);
 			this.tabVertex.Controls.Add(this.textBoxVertexCode);
 			this.tabVertex.Location = new System.Drawing.Point(4, 22);
 			this.tabVertex.Name = "tabVertex";
 			this.tabVertex.Padding = new System.Windows.Forms.Padding(3);
-			this.tabVertex.Size = new System.Drawing.Size(514, 655);
+			this.tabVertex.Size = new System.Drawing.Size(480, 655);
 			this.tabVertex.TabIndex = 0;
 			this.tabVertex.Text = "Vertex Shader";
 			this.tabVertex.UseVisualStyleBackColor = true;
-			// 
-			// vScrollBar1
-			// 
-			this.vScrollBar1.Dock = System.Windows.Forms.DockStyle.Right;
-			this.vScrollBar1.Location = new System.Drawing.Point(494, 3);
-			this.vScrollBar1.Name = "vScrollBar1";
-			this.vScrollBar1.Size = new System.Drawing.Size(17, 649);
-			this.vScrollBar1.TabIndex = 1;
 			// 
 			// textBoxVertexCode
 			// 
@@ -357,28 +346,20 @@ namespace Onyx3DEditor
 			this.textBoxVertexCode.Location = new System.Drawing.Point(3, 3);
 			this.textBoxVertexCode.Multiline = true;
 			this.textBoxVertexCode.Name = "textBoxVertexCode";
-			this.textBoxVertexCode.Size = new System.Drawing.Size(508, 649);
+			this.textBoxVertexCode.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+			this.textBoxVertexCode.Size = new System.Drawing.Size(474, 649);
 			this.textBoxVertexCode.TabIndex = 0;
 			// 
 			// tabFragment
 			// 
-			this.tabFragment.Controls.Add(this.vScrollBar2);
 			this.tabFragment.Controls.Add(this.textBoxFragmentCode);
 			this.tabFragment.Location = new System.Drawing.Point(4, 22);
 			this.tabFragment.Name = "tabFragment";
 			this.tabFragment.Padding = new System.Windows.Forms.Padding(3);
-			this.tabFragment.Size = new System.Drawing.Size(514, 655);
+			this.tabFragment.Size = new System.Drawing.Size(480, 655);
 			this.tabFragment.TabIndex = 1;
 			this.tabFragment.Text = "Fragment Shader";
 			this.tabFragment.UseVisualStyleBackColor = true;
-			// 
-			// vScrollBar2
-			// 
-			this.vScrollBar2.Dock = System.Windows.Forms.DockStyle.Right;
-			this.vScrollBar2.Location = new System.Drawing.Point(494, 3);
-			this.vScrollBar2.Name = "vScrollBar2";
-			this.vScrollBar2.Size = new System.Drawing.Size(17, 649);
-			this.vScrollBar2.TabIndex = 2;
 			// 
 			// textBoxFragmentCode
 			// 
@@ -391,7 +372,8 @@ namespace Onyx3DEditor
 			this.textBoxFragmentCode.Location = new System.Drawing.Point(3, 3);
 			this.textBoxFragmentCode.Multiline = true;
 			this.textBoxFragmentCode.Name = "textBoxFragmentCode";
-			this.textBoxFragmentCode.Size = new System.Drawing.Size(508, 649);
+			this.textBoxFragmentCode.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+			this.textBoxFragmentCode.Size = new System.Drawing.Size(474, 649);
 			this.textBoxFragmentCode.TabIndex = 1;
 			// 
 			// timer1
@@ -462,8 +444,6 @@ namespace Onyx3DEditor
 		private System.Windows.Forms.ToolStripButton toolStripButtonGrid;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
 		private System.Windows.Forms.ToolStripButton toolStripSaveMaterialButton;
-        private System.Windows.Forms.VScrollBar vScrollBar1;
-        private System.Windows.Forms.VScrollBar vScrollBar2;
 		private System.Windows.Forms.ToolStripButton toolStripDeleteMaterialButton;
 		private Onyx3DControl onyx3DControl;
 		private MaterialViewList materialViewList1;

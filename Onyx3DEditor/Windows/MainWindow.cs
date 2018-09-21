@@ -135,12 +135,12 @@ namespace Onyx3DEditor
             
             mOnyxInstance.Renderer.Render(SceneManagement.ActiveScene, mNavigation.Camera, renderCanvas.Width, renderCanvas.Height);
 			mOnyxInstance.Renderer.Render(mGridRenderer, mNavigation.Camera);
-            
-            HighlightSelected();
 
-            mOnyxInstance.Gizmos.DrawComponentGizmos(mNavigation.Camera, SceneManagement.ActiveScene);            
-            
-            renderCanvas.SwapBuffers();
+			HighlightSelected();
+
+			mOnyxInstance.Gizmos.DrawComponentGizmos(mNavigation.Camera, SceneManagement.ActiveScene);            
+
+			renderCanvas.SwapBuffers();
 		}
 
         // --------------------------------------------------------------------
@@ -160,6 +160,8 @@ namespace Onyx3DEditor
             SceneManagement.LoadInitScene();
 
             canDraw = true;
+
+			RenderScene();
 		}
 
 		private void renderCanvas_Paint(object sender, PaintEventArgs e)
