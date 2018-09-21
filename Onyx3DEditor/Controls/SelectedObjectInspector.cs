@@ -170,7 +170,8 @@ namespace Onyx3DEditor
 
         public void Clear()
 		{
-            
+			InspectorChanged = null;
+
             while (tableLayoutPanel.Controls.Count > 0)
 			{
 				Control c = tableLayoutPanel.Controls[0];
