@@ -459,7 +459,7 @@ namespace Onyx3D
 						{ 
 							SceneObject obj = new SceneObject("", Scene);
 							obj.ReadXml(reader);
-							obj.Parent = this;
+							obj.SetParent(this, false);
 						}
 
                         if (reader.Name.Equals("EntityProxy"))
