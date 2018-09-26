@@ -40,7 +40,7 @@ namespace Onyx3D
 
         private T GetResource<T>(int id, Dictionary<int, T> map, Func<OnyxProjectAsset, T> loadFallback, int defaultAsset) where T : GameAsset
 		{
-
+            
 			if (!map.ContainsKey(id))
 			{
 				OnyxProjectAsset asset = ProjectManager.Instance.Content.GetAsset(id);
@@ -51,8 +51,8 @@ namespace Onyx3D
 					else
 						return null;
 				}
-					
 
+                Onyx3D.MakeCurrent();
                 map[id] = loadFallback(asset);
 				map[id].LinkedProjectAsset = asset; 
 			}

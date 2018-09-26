@@ -1,4 +1,6 @@
 ﻿
+using OpenTK.Graphics;
+using OpenTK.Platform;
 using System;
 
 namespace Onyx3D
@@ -9,23 +11,51 @@ namespace Onyx3D
 		public RenderManager Renderer = new RenderManager();
 		public ResourcesManager Resources = new ResourcesManager();
 		public GizmosManager Gizmos = new GizmosManager();
+        
+        private IGraphicsContext mGraphicsContext;
+        private IWindowInfo mWindowsInfo;
 
-		public Onyx3DInstance()
+        // --------------------------------------------------------------------
+
+        public Onyx3DInstance(IntPtr handle)
+        {
+            IWindowInfo winInfo = Utilities.CreateWindowsWindowInfo(handle);
+            IGraphicsContext context = new GraphicsContext(new GraphicsMode(), winInfo);
+            Init(context, winInfo);
+        }
+
+        // --------------------------------------------------------------------
+
+        public Onyx3DInstance(IGraphicsContext context, IWindowInfo info)
 		{
-			Init();
+            Init(context, info);
 		}
 
-		private void Init()
+        // --------------------------------------------------------------------
+
+        private void Init(IGraphicsContext context, IWindowInfo info)
 		{
-			Renderer.Init(this);
+            mWindowsInfo = info;
+            mGraphicsContext = context;
+
+            Renderer.Init(this);
 			Resources.Init(this);
 			Gizmos.Init(this);
 		}
 
-		public void Dispose()
-		{
+        // --------------------------------------------------------------------
 
-			Dispose();
+        public void Dispose()
+		{
+            mWindowsInfo.Dispose();
+            mGraphicsContext.Dispose();
 		}
-	}
+
+        // --------------------------------------------------------------------
+
+        public void MakeCurrent()
+        {
+            mGraphicsContext.MakeCurrent(mWindowsInfo);
+        }
+    }
 }

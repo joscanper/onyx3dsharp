@@ -22,8 +22,8 @@ namespace Onyx3DEditor
 
         public void Init(int w, int h, IntPtr handle)
 		{
-			
-			OnyxInstance = new Onyx3DInstance();
+            
+            OnyxInstance = new Onyx3DInstance(handle);
 			mFrameBuffer = new FrameBuffer(w, h);
 
 			InitializeBasicScene();

@@ -9,10 +9,7 @@ namespace Onyx3D
 	public class Onyx3DEngine
 	{
         private static Onyx3DInstance mMainInstance;
-
-		public static IGraphicsContext Context { get; private set; }
-		public static IWindowInfo WinInfo { get; private set; }
-
+        
 		public static Onyx3DInstance Instance
 		{
 			get
@@ -26,11 +23,10 @@ namespace Onyx3D
 
 		public static void InitMain(IGraphicsContext context, IWindowInfo winInfo)
 		{
-			mMainInstance = new Onyx3DInstance();
-			Context = context;
-			WinInfo = winInfo;
-		}
+			mMainInstance = new Onyx3DInstance(context, winInfo);
+        }
 		
+        
 	}
 
 }

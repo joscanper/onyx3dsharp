@@ -19,12 +19,18 @@ namespace Onyx3DEditor
         public Camera Camera;
 		public bool DrawGrid;
 
-		private bool mCanDraw;
+        // --------------------------------------------------------------------
+
+        private bool mCanDraw;
 		private SceneObject mCamPivot;
         private GridRenderer mGridRenderer;
 		private ReflectionProbe mReflectionProbe;
 
-		public GLControl RenderCanvas { get { return renderCanvas; } }
+        // --------------------------------------------------------------------
+
+        public GLControl RenderCanvas { get { return renderCanvas; } }
+
+        // --------------------------------------------------------------------
 
         public Onyx3DControl()
         {
@@ -32,11 +38,15 @@ namespace Onyx3DEditor
             InitializeComponent();
         }
 
+        // --------------------------------------------------------------------
+
         public void Init()
         {
-            OnyxInstance = new Onyx3DInstance();
+            OnyxInstance = new Onyx3DInstance(renderCanvas.Context, renderCanvas.WindowInfo);
             InitializeBasicScene();
         }
+
+        // --------------------------------------------------------------------
 
         public void InitializeBasicScene()
         {
@@ -73,10 +83,14 @@ namespace Onyx3DEditor
 			mReflectionProbe.Bake(OnyxInstance.Renderer);
 		}
 
-		public void BakeReflection()
+        // --------------------------------------------------------------------
+
+        public void BakeReflection()
 		{
 			mReflectionProbe.Bake(OnyxInstance.Renderer);
 		}
+
+        // --------------------------------------------------------------------
 
         private void RenderScene()
         {
@@ -93,6 +107,8 @@ namespace Onyx3DEditor
             renderCanvas.SwapBuffers();
         }
 
+        // --------------------------------------------------------------------
+
         private void renderCanvas_Paint(object sender, PaintEventArgs e)
         {
             if (!mCanDraw)
@@ -103,6 +119,8 @@ namespace Onyx3DEditor
 
 			RenderScene();
         }
+
+        // --------------------------------------------------------------------
 
         private void renderCanvas_Load(object sender, EventArgs e)
         {

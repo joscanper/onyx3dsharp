@@ -30,6 +30,7 @@ namespace Onyx3DEditor
         {
             InitializeComponent();
 		}
+
 		private void MaterialEditorWindow_Shown(object sender, System.EventArgs e)
 		{
 			if (!DesignMode)
