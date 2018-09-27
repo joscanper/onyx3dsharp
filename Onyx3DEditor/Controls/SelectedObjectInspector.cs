@@ -64,8 +64,12 @@ namespace Onyx3DEditor
             {
 
                 CameraInspectorControl camInspector = new CameraInspectorControl((Camera)obj);
-                InspectorChanged += camInspector.OnObjectInspectorChanged;
-                tableLayoutPanel.Controls.Add(camInspector);
+
+				// This is so the camera preview updates when it is moved from the inspector
+				// TODO - Need to find a place to unregister this safely
+				// InspectorChanged += camInspector.OnObjectInspectorChanged;
+
+				tableLayoutPanel.Controls.Add(camInspector);
             }
 
 
@@ -170,8 +174,6 @@ namespace Onyx3DEditor
 
         public void Clear()
 		{
-			InspectorChanged = null;
-
             while (tableLayoutPanel.Controls.Count > 0)
 			{
 				Control c = tableLayoutPanel.Controls[0];
