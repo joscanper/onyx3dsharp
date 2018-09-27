@@ -10,10 +10,6 @@ namespace Onyx3D
 	{
 		private const string sMainRenderTrace = "RenderManager/MainRender";
 
-		private List<MeshRenderer> mMeshRenderers = new List<MeshRenderer>();
-		private List<EntityRenderer> mEntityRenderers = new List<EntityRenderer>();
-		private List<ReflectionProbe> mReflectionProbes = new List<ReflectionProbe>();
-
 		// --------------------------------------------------------------------
 
 		public GizmosManager Gizmos { get; private set; }
@@ -62,20 +58,15 @@ namespace Onyx3D
 
 			if (scene.IsDirty)
 			{
-                scene.SetDirty(false);
-                mMeshRenderers = scene.Root.GetComponentsInChildren<MeshRenderer>();
-				mEntityRenderers = scene.Root.GetComponentsInChildren<EntityRenderer>();
-				mReflectionProbes = scene.Root.GetComponentsInChildren<ReflectionProbe>();
-				//mEntities = scene.Root.GetEntitiesInChildren();
-
-                BakeReflectionProbes(false);
+                scene.UpdateRenderData();
+                BakeReflectionProbes(scene, false);
             }
 
-			PrepareMaterials(cam.UBO, scene.Lighting.UBO);
+			PrepareMaterials(scene, cam.UBO, scene.Lighting.UBO);
 
 			RenderSky(scene, cam);
-            RenderMeshes();
-			RenderEntities();
+            RenderMeshes(scene);
+			RenderEntities(scene);
 
             GL.Flush();
 
@@ -103,37 +94,36 @@ namespace Onyx3D
 
 		// --------------------------------------------------------------------
 
-		private void BakeReflectionProbes(bool forced)
+		private void BakeReflectionProbes(Scene scene, bool forced)
         {
-            for(int i = 0; i < mReflectionProbes.Count; i++)
+            for(int i = 0; i < scene.RenderData.ReflectionProbes.Count; i++)
             {
-                if (!mReflectionProbes[i].IsBaked || forced)
+                if (!scene.RenderData.ReflectionProbes[i].IsBaked || forced)
                 {
-
-                    mReflectionProbes[i].Bake(this);
-                    mReflectionProbes[i].Bake(this);
+                    scene.RenderData.ReflectionProbes[i].Bake(this);
+                    scene.RenderData.ReflectionProbes[i].Bake(this);
                 }
             }
         }
 
 		// --------------------------------------------------------------------
 
-		private HashSet<Material> GetMaterialsFromRenderers()
+		private HashSet<Material> GetMaterialsFromRenderers(Scene scene)
 		{
 			HashSet<Material> materials = new HashSet<Material>();
-			for(int i = 0; i < mMeshRenderers.Count; ++i)
-				materials.Add(mMeshRenderers[i].Material);
+			for(int i = 0; i < scene.RenderData.MeshRenderers.Count; ++i)
+				materials.Add(scene.RenderData.MeshRenderers[i].Material);
 			return materials;
 		}
 
 		// --------------------------------------------------------------------
 
-		private void PrepareMaterials(UBO<CameraUBufferData> camUBO, UBO<LightingUBufferData> lightUBO)
+		private void PrepareMaterials(Scene scene, UBO<CameraUBufferData> camUBO, UBO<LightingUBufferData> lightUBO)
 		{
-			HashSet<Material> materials = GetMaterialsFromRenderers();
+			HashSet<Material> materials = GetMaterialsFromRenderers(scene);
 			
 			// TODO - improve this so we only check a template once!
-			foreach(EntityRenderer er in mEntityRenderers)
+			foreach(EntityRenderer er in scene.RenderData.EntityRenderers)
 			{
 				foreach (MeshRenderer mr in er.Renderers)
 					materials.Add(mr.Material);
@@ -153,60 +143,60 @@ namespace Onyx3D
 
 		// --------------------------------------------------------------------
 
-		private void RenderMeshes()
+		private void RenderMeshes(Scene scene)
 		{
-			for (int i = 0; i < mMeshRenderers.Count; ++i)
+			for (int i = 0; i < scene.RenderData.MeshRenderers.Count; ++i)
 			{
-                mMeshRenderers[i].PreRender();
-                SetUpReflectionProbe(mMeshRenderers[i]);
-                mMeshRenderers[i].Render();
+                scene.RenderData.MeshRenderers[i].PreRender();
+                SetUpReflectionProbe(scene, scene.RenderData.MeshRenderers[i]);
+                scene.RenderData.MeshRenderers[i].Render();
 			}
 		}
 
 		// --------------------------------------------------------------------
 
-		private void RenderEntities()
+		private void RenderEntities(Scene scene)
 		{
-			for (int i = 0; i < mEntityRenderers.Count; ++i)
+			for (int i = 0; i < scene.RenderData.EntityRenderers.Count; ++i)
 			{
-                mEntityRenderers[i].PreRender();
+                scene.RenderData.EntityRenderers[i].PreRender();
 
                 // TODO - Maybe better to get the right reflectionprobe considering only the entityProxy position and not for all its renderers
-                foreach (MeshRenderer mr in mEntityRenderers[i].Renderers)
-					SetUpReflectionProbe(mr);
+                foreach (MeshRenderer mr in scene.RenderData.EntityRenderers[i].Renderers)
+					SetUpReflectionProbe(scene, mr);
 
-				mEntityRenderers[i].Render();
+                scene.RenderData.EntityRenderers[i].Render();
 			}
 		}
 
 		// --------------------------------------------------------------------
 
-		private void SetUpReflectionProbe(MeshRenderer renderer)
+		private void SetUpReflectionProbe(Scene scene, MeshRenderer renderer)
 		{
-			if (mReflectionProbes.Count == 0)
+			if (scene.RenderData.ReflectionProbes.Count == 0)
 				return;
 
 			CubemapMaterialProperty cubemapProp = renderer.Material.GetProperty<CubemapMaterialProperty>("environment_map");
 			if (cubemapProp == null)
 				return;
 
-			ReflectionProbe reflectionProbe = GetClosestReflectionProbe(renderer.Transform.Position);
+			ReflectionProbe reflectionProbe = GetClosestReflectionProbe(scene, renderer.Transform.Position);
 			cubemapProp.Data = reflectionProbe.Cubemap.Id;
 		}
 
 		// --------------------------------------------------------------------
 
-		private ReflectionProbe GetClosestReflectionProbe(Vector3 toPosition)
+		private ReflectionProbe GetClosestReflectionProbe(Scene scene, Vector3 toPosition)
 		{
 			ReflectionProbe reflectionProbe = null;
 			float candidateDist = float.MaxValue;
-            for (int i = 0; i < mReflectionProbes.Count; ++i)
+            for (int i = 0; i < scene.RenderData.ReflectionProbes.Count; ++i)
 			{
-				float sqrDist = mReflectionProbes[i].Transform.Position.SqrDistance(toPosition);
+				float sqrDist = scene.RenderData.ReflectionProbes[i].Transform.Position.SqrDistance(toPosition);
 				if (sqrDist < candidateDist)
 				{
 					candidateDist = sqrDist;
-					reflectionProbe = mReflectionProbes[i];
+					reflectionProbe = scene.RenderData.ReflectionProbes[i];
 				}
 			}
 
@@ -223,9 +213,9 @@ namespace Onyx3D
 
 		// --------------------------------------------------------------------
 
-		public void RefreshReflectionProbes()
+		public void RefreshReflectionProbes(Scene scene)
 		{
-			BakeReflectionProbes(true);
+			BakeReflectionProbes(scene, true);
 		}
 
 		// --------------------------------------------------------------------

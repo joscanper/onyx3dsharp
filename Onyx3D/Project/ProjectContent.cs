@@ -103,6 +103,14 @@ namespace Onyx3D
 
         // --------------------------------------------------------------------
 
+        public OnyxProjectAsset GetEntityByName(string name)
+        {
+            foreach (OnyxProjectAsset t in ProjectManager.Instance.Content.Entities)
+                if (t.Name == name)
+                    return t;
+
+            return null;
+        }
 
         // --------------------------------------------------------------------
 
@@ -207,7 +215,7 @@ namespace Onyx3D
 
         // --------------------------------------------------------------------
 
-        private TAsset AddObject<TObj, TAsset>(string path, bool relative, List<TAsset> list, int id, TObj obj) where TObj : GameAsset where TAsset : OnyxProjectAsset
+        public TAsset AddObject<TObj, TAsset>(string path, bool relative, List<TAsset> list, int id, TObj obj) where TObj : GameAsset where TAsset : OnyxProjectAsset
         {
             TAsset asset = (TAsset)Activator.CreateInstance(typeof(TAsset), relative ? path : GetRelativePath(path), Path.GetFileNameWithoutExtension(path), id);
             if (obj != null)

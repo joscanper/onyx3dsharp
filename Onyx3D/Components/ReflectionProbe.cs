@@ -11,7 +11,6 @@ namespace Onyx3D
 
         private int mSize;
         private Cubemap mCubemap;
-        private CubemapGenerator mCubemapGenerator;
 
         public bool IsBaked { get; private set; }
 		public Cubemap Cubemap { get { return mCubemap; } }
@@ -29,7 +28,6 @@ namespace Onyx3D
 		{
             mSize = size;
             mCubemap = new Cubemap();
-			mCubemapGenerator = new CubemapGenerator(size);
 		}
 
         // --------------------------------------------------------------------
@@ -37,7 +35,9 @@ namespace Onyx3D
         public void Bake(RenderManager renderer)
 		{
             IsBaked = true;
-            mCubemapGenerator.Generate(renderer, SceneObject.Scene, Transform.Position, ref mCubemap);
+
+            CubemapGenerator cubemapGenerator = new CubemapGenerator(mSize);
+            cubemapGenerator.Generate(renderer, SceneObject.Scene, Transform.Position, ref mCubemap);
 		}
 
         // --------------------------------------------------------------------
@@ -73,8 +73,6 @@ namespace Onyx3D
         public override void OnDestroy()
 		{
 			base.OnDestroy();
-
-			mCubemapGenerator.Dispose();
 			mCubemap.Dispose();
 		}
 

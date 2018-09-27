@@ -9,10 +9,10 @@ namespace Onyx3D
         public static Matrix4 ToOnyx3D(this Assimp.Matrix4x4 m)
         {
             return new Matrix4(
-                m.A1, m.A2, m.A3, m.A4,
-                m.B1, m.B2, m.B3, m.B4,
-                m.C1, m.C2, m.C3, m.C4,
-                m.D1, m.D2, m.D3, m.D4);
+                m.A1, m.B1, m.C1, m.D1,
+                m.A2, m.B2, m.C2, m.D2,
+                m.A3, m.B3, m.C3, m.D3,
+                m.A4, m.B4, m.C4, m.D4);
         }
 
         public static Vector3 ToOnyx3D(this Assimp.Vector3D v)

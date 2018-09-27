@@ -54,13 +54,6 @@ namespace Onyx3D
 			GL.GenerateMipmap(GenerateMipmapTarget.TextureCubeMap);
 		}
 
-        public Texture TextureFront { set; get; }
-        public Texture TextureLeft { set; get; }
-        public Texture TextureRight { set; get; }
-        public Texture TextureBack { set; get; }
-        public Texture TextureTop { set; get; }
-        public Texture TextureBottom { set; get; }
-
 		public void Dispose()
 		{
 			GL.DeleteTexture(mId);

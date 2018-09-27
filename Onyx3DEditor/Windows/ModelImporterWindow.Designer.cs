@@ -48,18 +48,18 @@ namespace Onyx3DEditor
             // textBoxPath
             // 
             this.textBoxPath.Enabled = false;
-            this.textBoxPath.Location = new System.Drawing.Point(47, 18);
+            this.textBoxPath.Location = new System.Drawing.Point(63, 16);
             this.textBoxPath.Name = "textBoxPath";
-            this.textBoxPath.Size = new System.Drawing.Size(303, 20);
+            this.textBoxPath.Size = new System.Drawing.Size(706, 20);
             this.textBoxPath.TabIndex = 1;
             // 
             // buttonImport
             // 
             this.buttonImport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.buttonImport.Enabled = false;
-            this.buttonImport.Location = new System.Drawing.Point(12, 397);
+            this.buttonImport.Location = new System.Drawing.Point(980, 628);
             this.buttonImport.Name = "buttonImport";
-            this.buttonImport.Size = new System.Drawing.Size(341, 28);
+            this.buttonImport.Size = new System.Drawing.Size(187, 28);
             this.buttonImport.TabIndex = 3;
             this.buttonImport.Text = "Import";
             this.buttonImport.UseVisualStyleBackColor = true;
@@ -70,7 +70,7 @@ namespace Onyx3DEditor
             this.panelGL.Controls.Add(this.pictureBox1);
             this.panelGL.Location = new System.Drawing.Point(12, 44);
             this.panelGL.Name = "panelGL";
-            this.panelGL.Size = new System.Drawing.Size(338, 286);
+            this.panelGL.Size = new System.Drawing.Size(757, 578);
             this.panelGL.TabIndex = 5;
             // 
             // pictureBox1
@@ -78,7 +78,7 @@ namespace Onyx3DEditor
             this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pictureBox1.Location = new System.Drawing.Point(0, 0);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(338, 286);
+            this.pictureBox1.Size = new System.Drawing.Size(757, 578);
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
             // 
@@ -87,7 +87,7 @@ namespace Onyx3DEditor
             this.buttonOpen.Image = global::Onyx3DEditor.Properties.Resources.if_folder_open_21164;
             this.buttonOpen.Location = new System.Drawing.Point(12, 12);
             this.buttonOpen.Name = "buttonOpen";
-            this.buttonOpen.Size = new System.Drawing.Size(29, 26);
+            this.buttonOpen.Size = new System.Drawing.Size(45, 26);
             this.buttonOpen.TabIndex = 0;
             this.buttonOpen.UseVisualStyleBackColor = true;
             this.buttonOpen.Click += new System.EventHandler(this.buttonOpen_Click);
@@ -99,10 +99,10 @@ namespace Onyx3DEditor
             | System.Windows.Forms.AnchorStyles.Right)));
             this.modelTreeView.ImageIndex = 0;
             this.modelTreeView.ImageList = this.treeViewImages;
-            this.modelTreeView.Location = new System.Drawing.Point(359, 18);
+            this.modelTreeView.Location = new System.Drawing.Point(775, 44);
             this.modelTreeView.Name = "modelTreeView";
             this.modelTreeView.SelectedImageIndex = 0;
-            this.modelTreeView.Size = new System.Drawing.Size(249, 407);
+            this.modelTreeView.Size = new System.Drawing.Size(392, 578);
             this.modelTreeView.TabIndex = 6;
             // 
             // treeViewImages
@@ -116,7 +116,7 @@ namespace Onyx3DEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(610, 433);
+            this.ClientSize = new System.Drawing.Size(1179, 664);
             this.Controls.Add(this.modelTreeView);
             this.Controls.Add(this.panelGL);
             this.Controls.Add(this.buttonImport);

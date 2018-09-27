@@ -375,7 +375,7 @@ namespace Onyx3DEditor
 		private void bakeToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			renderCanvas.MakeCurrent();
-			mOnyxInstance.Renderer.RefreshReflectionProbes();
+			mOnyxInstance.Renderer.RefreshReflectionProbes(SceneManagement.ActiveScene);
 			renderCanvas.Refresh();
 		}
 
