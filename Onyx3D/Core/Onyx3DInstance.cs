@@ -49,6 +49,9 @@ namespace Onyx3D
 		{
             mWindowsInfo.Dispose();
             mGraphicsContext.Dispose();
+
+            mWindowsInfo = null;
+            mGraphicsContext = null;
 		}
 
         // --------------------------------------------------------------------

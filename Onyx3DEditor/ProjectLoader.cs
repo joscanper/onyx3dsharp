@@ -39,6 +39,9 @@ namespace Onyx3DEditor
 
                         Properties.Settings.Default.LastProjectPath = saveFileDialog1.FileName;
                         Properties.Settings.Default.Save();
+
+                        ProjectContent.CreateProjectHierarchy(Path.GetDirectoryName(saveFileDialog1.FileName));
+
 						return true;
                     }
                     catch (Exception ex)

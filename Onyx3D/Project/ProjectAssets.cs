@@ -67,15 +67,14 @@ namespace Onyx3D
 		public string Path;
 		public int Guid;
 		public string Name;
-
-
-		public OnyxProjectAsset() { }
+        
+        public OnyxProjectAsset() { }
 
 		public OnyxProjectAsset(string path, string name = "", int guid = 0)
 		{
-			Path = path;
-			Guid = guid;
-		}
+			Path = path;            
+            Guid = guid;
+        }
 
     };
 

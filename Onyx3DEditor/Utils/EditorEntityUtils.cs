@@ -21,7 +21,7 @@ namespace Onyx3DEditor
             string entityPath = ProjectContent.GetEntityPath(name);
             AssetLoader<Entity>.Save(entity, entityPath, false);
 
-            OnyxProjectAsset asset = ProjectManager.Instance.Content.AddTemplate(entityPath, false, entity);
+            OnyxProjectAsset asset = ProjectManager.Instance.Content.AddEntity(entityPath, false, entity);
             asset.Name = name;
             return entity;
         }
@@ -45,7 +45,7 @@ namespace Onyx3DEditor
             string entityPath = ProjectContent.GetEntityPath(name);
             AssetLoader<Entity>.Save(entity, entityPath, false);
 
-            OnyxProjectAsset asset = ProjectManager.Instance.Content.AddTemplate(entityPath, false, entity);
+            OnyxProjectAsset asset = ProjectManager.Instance.Content.AddEntity(entityPath, false, entity);
             asset.Name = name;
             return entity;
         }

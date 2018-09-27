@@ -17,7 +17,7 @@ namespace Onyx3D
             {
                 throw new FileNotFoundException("Unable to open \"" + path + "\", file does not exist.");
             }
-
+            
             XmlReader xmlReader = XmlReader.Create(path);
 			T m = (T)Activator.CreateInstance(typeof(T), args);
 			m.ReadXml(xmlReader);

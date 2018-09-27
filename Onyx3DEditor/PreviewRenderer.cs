@@ -22,7 +22,7 @@ namespace Onyx3DEditor
 
         public void Init(int w, int h, IntPtr handle)
 		{
-            
+           
             OnyxInstance = new Onyx3DInstance(handle);
 			mFrameBuffer = new FrameBuffer(w, h);
 
@@ -77,7 +77,7 @@ namespace Onyx3DEditor
 
         public void Render()
 		{
-            
+            OnyxInstance.MakeCurrent();
             mFrameBuffer.Bind();
             OnyxInstance.Renderer.Render(Scene, Scene.ActiveCamera, mFrameBuffer.Width, mFrameBuffer.Height);
 			if (DrawGrid)

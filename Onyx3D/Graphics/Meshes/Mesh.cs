@@ -177,11 +177,24 @@ namespace Onyx3D
             GenerateVAO();
         }
 
-		// --------------------------------------------------------------------
-		// ------ Serialization ------
-		// --------------------------------------------------------------------
+        // --------------------------------------------------------------------
 
-		public XmlSchema GetSchema()
+        public void Scale(float scale)
+        {
+            for(int i = 0; i<Vertices.Count; ++i)
+            {
+                Vertex v = Vertices[i];
+                v.Position *= scale;
+                Vertices[i] = v;
+            }
+
+        }
+
+        // --------------------------------------------------------------------
+        // ------ Serialization ------
+        // --------------------------------------------------------------------
+
+        public XmlSchema GetSchema()
 		{
 			throw new NotImplementedException();
 		}

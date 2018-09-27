@@ -11,6 +11,7 @@ namespace Onyx3DEditor
 {
 	public partial class ModelImporterWindow : Form
 	{
+        private static readonly float sMeshScalar = 1f;
         private static readonly int sNewAssetIcon = 0;
         private static readonly int sUpdateAssetIcon = 1;
 
@@ -177,6 +178,7 @@ namespace Onyx3DEditor
             for (int i=0; i<mCurrentModel.MeshCount; ++i)
 			{
 				Onyx3D.Mesh onyxMesh = mCurrentModel.Meshes[i].ToOnyx3D();
+                onyxMesh.Scale(sMeshScalar);
                 string name = mCurrentModel.Meshes[i].Name;
                 string meshPath = ProjectContent.GetMeshPath(name);
 				AssetLoader<Onyx3D.Mesh>.Save(onyxMesh, meshPath, false);
@@ -296,7 +298,7 @@ namespace Onyx3DEditor
 
             ProjectLoader.Save();
 
-            LoadModel(mCurrentPath);
+            //LoadModel(mCurrentPath);
         }
         // --------------------------------------------------------------------
 

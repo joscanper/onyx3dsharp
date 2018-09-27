@@ -245,6 +245,7 @@ namespace Onyx3DEditor
 			{
 				ProjectManager.Instance.New();
                 SceneManagement.New();
+                ProjectLoader.Save();
             }
 		}
 
@@ -414,7 +415,17 @@ namespace Onyx3DEditor
             SceneManagement.New();
         }
 
-		#endregion
 
-	}
+        private void refreshToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            int newAssets = ProjectManager.Instance.Content.RefreshAssets();
+            if (newAssets > 0)
+            {
+                MessageBox.Show(string.Format("{0} new assets have been imported", newAssets));
+            }
+        }
+
+        #endregion
+
+    }
 }

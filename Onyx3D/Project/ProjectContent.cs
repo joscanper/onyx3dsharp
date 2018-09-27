@@ -102,6 +102,66 @@ namespace Onyx3D
 		}
 
         // --------------------------------------------------------------------
+
+
+        // --------------------------------------------------------------------
+
+        public static void CreateProjectHierarchy(string path)
+        {
+            Directory.CreateDirectory(path + "/Assets");
+            Directory.CreateDirectory(path + "/Assets/Textures");
+            Directory.CreateDirectory(path + "/Assets/Models");
+            Directory.CreateDirectory(path + "/Assets/Models/Meshes");
+            Directory.CreateDirectory(path + "/Assets/Scenes");
+            Directory.CreateDirectory(path + "/Assets/Entities");
+            Directory.CreateDirectory(path + "/Assets/Materials");
+        }
+
+        // --------------------------------------------------------------------
+
+        public int RefreshAssets()
+        {
+            int n = 0;
+            n += RefreshAssetsFromFolder(GetTexturesPath(), Textures, "*.png", ContentIds.Textures);
+            return n;
+        }
+
+        // --------------------------------------------------------------------
+
+        public int RefreshAssetsFromFolder<T>(string folderAbsolute, List<T> list, string format, int initID) where T:OnyxProjectAsset
+        {
+            Dictionary<string, OnyxProjectAsset> hashed = GetHashedByPath(list);
+            string folderPath = GetRelativePath(folderAbsolute);
+            DirectoryInfo d = new DirectoryInfo(folderAbsolute);
+            FileInfo[] Files = d.GetFiles(format);
+
+            int n = 0;
+            foreach (FileInfo file in Files)
+            {
+                string filePath = string.Format("{0}{1}", folderPath, file.Name);
+                if (!hashed.ContainsKey(filePath))
+                {
+                    T newItem = (T)new OnyxProjectAsset(filePath, Path.GetFileNameWithoutExtension(file.Name), GetNewId(list, initID));
+                    list.Add(newItem);
+                    ++n;
+                }
+            }
+
+            if (n > 0)
+                AddAssets(list);
+
+            return n;
+        }
+
+        private Dictionary<string, OnyxProjectAsset> GetHashedByPath<T>(List<T> list) where T:OnyxProjectAsset
+        {
+            Dictionary<string, OnyxProjectAsset> hash = new Dictionary<string, OnyxProjectAsset>();
+            foreach(T item in list)
+                hash.Add(item.Path, item);
+            return hash;
+        }
+
+        // --------------------------------------------------------------------
         // ---- Add Utils
         // --------------------------------------------------------------------
 
@@ -133,7 +193,7 @@ namespace Onyx3D
 
         // --------------------------------------------------------------------
 
-        public OnyxProjectAsset AddTemplate(string path, bool relative = false, Entity entity = null)
+        public OnyxProjectAsset AddEntity(string path, bool relative = false, Entity entity = null)
         {
             return AddObject(path, relative, Entities, GetNewId(Entities, ContentIds.Entities), entity);
         }
@@ -182,12 +242,12 @@ namespace Onyx3D
 
         public static string GetMeshPath(string meshName)
         {
-            return string.Format("{0}\\{1}\\{2}{3}", ProjectManager.Instance.Directory, "Models\\Meshes", meshName, ".o3dmesh");
+            return string.Format("{0}{1}\\{2}{3}", GetModelsPath(), "Meshes", meshName, ".o3dmesh");
         }
 
         public static string GetEntityPath(string entityName)
 		{
-			return string.Format("{0}\\{1}\\{2}{3}", ProjectManager.Instance.Directory, "Entities", entityName, ".o3dent");
+			return string.Format("{0}{1}{2}", GetEntitiesPath(), entityName, ".o3dent");
 		}
 
 		public static string GetAbsolutePath(string relativePath)
@@ -197,9 +257,28 @@ namespace Onyx3D
                 return relativePath;
 
             return string.Format("{0}\\{1}", ProjectManager.Instance.Directory, relativePath);
-            
         }
 
+        public static string GetModelsPath()
+        {
+            return GetProjectAssetPath("Models");
+        }
+
+        public static string GetTexturesPath()
+        {
+            return GetProjectAssetPath("Textures");
+        }
+
+        public static string GetEntitiesPath()
+        {
+            return GetProjectAssetPath("Entities");
+        }
+
+
+        public static string GetProjectAssetPath(string folder)
+        {
+            return string.Format("{0}\\Assets\\{1}\\", ProjectManager.Instance.Directory, folder);
+        }
         // --------------------------------------------------------------------
 
         public static string GetRelativePath(string absolutePath)
@@ -207,7 +286,7 @@ namespace Onyx3D
             Uri projectUri = new Uri(ProjectManager.Instance.CurrentProjectPath);
             Uri assetUri = new Uri(absolutePath);
 
-            return projectUri.MakeRelativeUri(assetUri).ToString();
+            return string.Format("{0}",projectUri.MakeRelativeUri(assetUri).ToString());
         }
 
         // --------------------------------------------------------------------
