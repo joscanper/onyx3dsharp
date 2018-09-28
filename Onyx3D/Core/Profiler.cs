@@ -37,9 +37,7 @@ public class Profiler : Singleton<Profiler>
 	{
 		LastTrace.End = DateTime.Now.TimeOfDay.TotalMilliseconds;
 		mTraces.Add(LastTrace);
-
-		Console.WriteLine(LastTrace.Duration);
-
+        
 		mUnfinishedTraces.Pop();
 		if (mUnfinishedTraces.Count > 0)
 			LastTrace = mUnfinishedTraces.Peek();

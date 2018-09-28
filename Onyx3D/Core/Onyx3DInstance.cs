@@ -29,6 +29,7 @@ namespace Onyx3D
         public Onyx3DInstance(IGraphicsContext context, IWindowInfo info)
 		{
             Init(context, info);
+            MakeCurrent();
 		}
 
         // --------------------------------------------------------------------

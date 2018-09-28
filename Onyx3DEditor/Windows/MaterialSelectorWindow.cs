@@ -20,7 +20,14 @@ namespace Onyx3DEditor
 			materialViewList.SelectedChanged += new EventHandler(OnSelectionChanged);
 		}
 
-		private void OnSelectionChanged(object sender, EventArgs e)
+
+        private void MaterialSelectorWindow_Load(object sender, EventArgs e)
+        {
+            materialViewList.UpdateMaterialList(-1, true);
+        }
+
+
+        private void OnSelectionChanged(object sender, EventArgs e)
 		{
 			SelectedAsset = materialViewList.SelectedMaterial;
 			SelectedAssetChanged?.Invoke(this, e);

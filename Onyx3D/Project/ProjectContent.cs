@@ -82,6 +82,7 @@ namespace Onyx3D
 
         public void AddAsset(OnyxProjectAsset asset)
 		{
+            mMappedResources.Remove(asset.Guid);
 			mMappedResources.Add(asset.Guid, asset);
 		}
 

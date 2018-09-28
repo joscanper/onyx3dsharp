@@ -48,6 +48,7 @@ namespace Onyx3D
 		public void Render(Scene scene, Camera cam, int w, int h)
 		{
 			Profiler.Instance.StartTrace(sMainRenderTrace);
+            Onyx3D.MakeCurrent();
 
 			cam.UpdateUBO();
 

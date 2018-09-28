@@ -32,7 +32,10 @@ namespace Onyx3D
 		{
             mFrameBuffer.Dispose();
             mCamera.Dispose();
-		}
+
+            mFrameBuffer = null;
+            mCamera = null;
+        }
 
         public void Generate(RenderManager renderMgr, Scene scene, Vector3 position, ref Cubemap cubemap)
         {

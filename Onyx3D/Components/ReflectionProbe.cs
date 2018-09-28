@@ -38,6 +38,7 @@ namespace Onyx3D
 
             CubemapGenerator cubemapGenerator = new CubemapGenerator(mSize);
             cubemapGenerator.Generate(renderer, SceneObject.Scene, Transform.Position, ref mCubemap);
+            cubemapGenerator.Dispose();
 		}
 
         // --------------------------------------------------------------------

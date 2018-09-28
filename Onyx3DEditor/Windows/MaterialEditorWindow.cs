@@ -88,6 +88,7 @@ namespace Onyx3DEditor
 		{
 			textBoxVertexCode.Text = mMaterial.Shader.VertexCode;
 			textBoxFragmentCode.Text = mMaterial.Shader.FragmentCode;
+            materialViewList1.UpdateMaterialList(-1, false);
 		}
 
 		
@@ -146,7 +147,7 @@ namespace Onyx3DEditor
 			AssetLoader<Material>.Save(material, material.LinkedProjectAsset.Path);
 
 			SetMaterial(material);
-			materialViewList1.UpdateMaterialList(material.LinkedProjectAsset.Guid, true);
+			materialViewList1.UpdateMaterialList(material.LinkedProjectAsset.Guid, false);
 		}
 
 		private void tabControlMain_SelectedIndexChanged(object sender, EventArgs e)

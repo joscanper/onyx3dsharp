@@ -51,8 +51,7 @@ namespace Onyx3D
 					else
 						return null;
 				}
-
-                Onyx3D.MakeCurrent();
+                
                 map[id] = loadFallback(asset);
 				map[id].LinkedProjectAsset = asset; 
 			}

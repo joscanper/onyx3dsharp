@@ -94,8 +94,7 @@ namespace Onyx3DEditor
 
         private void RenderScene()
         {
-            renderCanvas.MakeCurrent();
-            
+
             if (OnyxInstance!= null)
             { 
                 Scene.ActiveCamera.Update();
