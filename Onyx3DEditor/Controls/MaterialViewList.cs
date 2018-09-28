@@ -57,7 +57,12 @@ namespace Onyx3DEditor
 
         public void UpdateMaterialList(int selectedGuid, bool addBuiltIn)
 		{
-			mPreview.Init(mPreviewSize, mPreviewSize, this.Handle);
+            if (mPreview == null) 
+            {
+                mPreview = new SingleMeshPreviewRenderer();
+                mPreview.Init(mPreviewSize, mPreviewSize, this.Handle);
+            }
+
 			mMaterials.Clear();
 
 			listViewMaterials.Items.Clear();
@@ -112,21 +117,6 @@ namespace Onyx3DEditor
 
         // --------------------------------------------------------------------
 
-        private void MaterialViewList_Load(object sender, EventArgs e)
-		{
-		
-			if (!DesignMode)
-			{
-				mPreview = new SingleMeshPreviewRenderer();
-				mPreview.Init(mPreviewSize, mPreviewSize, this.Handle);
-				mPreview.Render();
-				UpdateMaterialList(0, true);
-			}
-		
-		}
-
-        // --------------------------------------------------------------------
-
         private void ListViewMaterials_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			if (listViewMaterials.SelectedIndices.Count > 0)
@@ -168,7 +158,8 @@ namespace Onyx3DEditor
 		{
 			base.OnHandleDestroyed(e);
 
-			mPreview.Dispose();
+            if (mPreview != null)
+			    mPreview.Dispose();
 			mPreview = null;
 		}
 	}

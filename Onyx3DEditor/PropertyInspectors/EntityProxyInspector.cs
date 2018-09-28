@@ -17,9 +17,9 @@ namespace Onyx3DEditor
             get { return mObject.EntityRef != null ? mObject.EntityRef.LinkedProjectAsset.Name : "[None]"; }
             set
             {
-				foreach(OnyxProjectAsset t in ProjectManager.Instance.Content.Entities)
-					if (t.Name == value)
-						mObject.EntityRef = Onyx3DEngine.Instance.Resources.GetEntity(t.Guid);
+                OnyxProjectAsset t = ProjectManager.Instance.Content.GetEntityByName(value);
+                if (t != null)
+                    mObject.EntityRef = Onyx3DEngine.Instance.Resources.GetEntity(t.Guid);
             }
         }
         

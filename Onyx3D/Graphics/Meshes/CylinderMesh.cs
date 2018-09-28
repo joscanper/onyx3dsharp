@@ -26,7 +26,6 @@ namespace Onyx3D
 					Vector3 pos = new Vector3(x, 0.5f - ring, z);
 					Vertex v = new Vertex(pos, new Vector3(1, 0, 0));
 					currentRing[i] = v;
-					Console.WriteLine(pos);
 				}
 
 				if (previousRing != null)

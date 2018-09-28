@@ -27,10 +27,12 @@ namespace Onyx3DEditor
 
         public void UpdateImages()
         {
+            /*
             pictureBoxTest.Image = mCubemap.TextureFront.AsBitmap();
             pictureBoxTest2.Image = mCubemap.TextureLeft.AsBitmap();
             pictureBoxTest3.Image = mCubemap.TextureBack.AsBitmap();
             pictureBoxTest4.Image = mCubemap.TextureRight.AsBitmap();
+            */
         }
     }
 }

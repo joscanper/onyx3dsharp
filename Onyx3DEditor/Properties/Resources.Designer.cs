@@ -83,6 +83,16 @@ namespace Onyx3DEditor.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Diamond {
+            get {
+                object obj = ResourceManager.GetObject("Diamond", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap if_film_camera_35mm_45261 {
             get {
                 object obj = ResourceManager.GetObject("if_film_camera_35mm_45261", resourceCulture);

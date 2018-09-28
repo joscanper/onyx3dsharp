@@ -1,4 +1,6 @@
-﻿namespace Onyx3DEditor
+﻿using System;
+
+namespace Onyx3DEditor
 {
 	partial class MaterialSelectorWindow
 	{
@@ -49,11 +51,12 @@
 			this.Name = "MaterialSelectorWindow";
 			this.Text = "Material Selector";
 			this.ResumeLayout(false);
+            this.Load += MaterialSelectorWindow_Load;
 
 		}
 
-		#endregion
+        #endregion
 
-		private MaterialViewList materialViewList;
+        private MaterialViewList materialViewList;
 	}
 }

@@ -29,7 +29,7 @@ namespace Onyx3D
         {
             foreach(KeyValuePair<int, T> asset in dict)
             {
-                if (asset.Value.IsDirty)
+                if (asset.Value.LinkedProjectAsset.Dirty)
                 {
                     ReloadResource(asset.Key, dict, loadFallback);
                 }
@@ -51,8 +51,7 @@ namespace Onyx3D
 					else
 						return null;
 				}
-
-                Onyx3D.MakeCurrent();
+                
                 map[id] = loadFallback(asset);
 				map[id].LinkedProjectAsset = asset; 
 			}

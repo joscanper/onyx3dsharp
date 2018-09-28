@@ -7,7 +7,14 @@ using System.Xml.Serialization;
 
 namespace Onyx3D
 {
-	public class Scene : GameAsset, IXmlSerializable, IDisposable
+    public class SceneRenderData
+    {
+        public List<MeshRenderer> MeshRenderers = new List<MeshRenderer>();
+        public List<EntityRenderer> EntityRenderers = new List<EntityRenderer>();
+        public List<ReflectionProbe> ReflectionProbes = new List<ReflectionProbe>();
+    }
+
+    public class Scene : GameAsset, IXmlSerializable, IDisposable
 	{
 		private Onyx3DInstance mContext;
 		private List<EntityProxy> mEntityProxies = new List<EntityProxy>();
@@ -24,6 +31,7 @@ namespace Onyx3D
 		public Camera ActiveCamera;
 		public Lighting Lighting = new Lighting();
 		public Sky Sky = new Sky();
+        public SceneRenderData RenderData = new SceneRenderData();
 
 		public bool IsDirty { get; private set; }
 		public List<EntityProxy> EntityProxies { get { return mEntityProxies; } }
@@ -59,12 +67,19 @@ namespace Onyx3D
 			Sky.Dispose();
 			Lighting.Dispose();
 		}
+        // --------------------------------------------------------------------
 
-		
+        public void UpdateRenderData()
+        {
+            SetDirty(false);
+            RenderData.MeshRenderers = Root.GetComponentsInChildren<MeshRenderer>();
+            RenderData.EntityRenderers = Root.GetComponentsInChildren<EntityRenderer>();
+            RenderData.ReflectionProbes = Root.GetComponentsInChildren<ReflectionProbe>();
+        }
 
-		// ------ Serialization ------
+        // ------ Serialization ------
 
-		public XmlSchema GetSchema()
+        public XmlSchema GetSchema()
 		{
 			throw new System.NotImplementedException();
 		}

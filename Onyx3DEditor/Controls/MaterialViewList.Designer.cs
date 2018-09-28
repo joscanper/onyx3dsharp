@@ -50,7 +50,6 @@
 			this.Controls.Add(this.listViewMaterials);
 			this.Name = "MaterialViewList";
 			this.Size = new System.Drawing.Size(307, 347);
-			this.Load += new System.EventHandler(this.MaterialViewList_Load);
 			this.ResumeLayout(false);
 
 		}

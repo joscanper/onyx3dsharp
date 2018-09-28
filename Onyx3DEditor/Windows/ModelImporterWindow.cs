@@ -11,7 +11,7 @@ namespace Onyx3DEditor
 {
 	public partial class ModelImporterWindow : Form
 	{
-        private static readonly float sMeshScalar = 1f;
+        private static readonly float sMeshScalar = 0.005f;
         private static readonly int sNewAssetIcon = 0;
         private static readonly int sUpdateAssetIcon = 1;
 
@@ -19,7 +19,7 @@ namespace Onyx3DEditor
 
 		private string mCurrentPath;
 		private Assimp.Scene mCurrentModel;
-        private int[] mLoadedMeshes;
+        private int[] mLoadedMeshesGuids;
         private ModelSupportData mSupportFile;
         
         private SceneObject mPreview;
@@ -93,7 +93,7 @@ namespace Onyx3DEditor
                 mPreview.RemoveAllComponents();
             }
 
-            mPreview = ParseNode(mCurrentModel.RootNode, true);
+            mPreview = ParseNode(mCurrentModel.RootNode, true, null);
 			UpdatePreviewObject();
 		}
 
@@ -120,11 +120,15 @@ namespace Onyx3DEditor
 
         // --------------------------------------------------------------------
 
-        private SceneObject ParseNode(Assimp.Node node, bool preview)
+        private SceneObject ParseNode(Assimp.Node node, bool preview, SceneObject parent)
         {
-            
-            SceneObject mySceneObject = new SceneObject(node.Name);
+            string nodeName = GetSafeFileName(node.Name);
+            SceneObject mySceneObject = new SceneObject(nodeName);
+            mySceneObject.Parent = parent;
             mySceneObject.Transform.FromMatrix(node.Transform.ToOnyx3D());
+            if (!preview)
+                mySceneObject.Transform.LocalPosition = mySceneObject.Transform.LocalPosition * sMeshScalar;
+            
 
             if (node.HasMeshes)
             {
@@ -133,12 +137,12 @@ namespace Onyx3DEditor
                     MeshRenderer meshRenderer = mySceneObject.AddComponent<MeshRenderer>();
                     if (preview)
                     {
-						mCurrentModel.Meshes[node.MeshIndices[i]].Name = node.Name;
+						mCurrentModel.Meshes[node.MeshIndices[i]].Name = nodeName;
 						meshRenderer.Mesh = mCurrentModel.Meshes[node.MeshIndices[i]].ToOnyx3D();
                         meshRenderer.Material = new DefaultMaterial();
                     }else
                     {
-                        meshRenderer.Mesh = Onyx3DEngine.Instance.Resources.GetMesh(mLoadedMeshes[node.MeshIndices[i]]);
+                        meshRenderer.Mesh = Onyx3DEngine.Instance.Resources.GetMesh(mLoadedMeshesGuids[node.MeshIndices[i]]);
                         meshRenderer.Material = Onyx3DEngine.Instance.Resources.GetMaterial(BuiltInMaterial.Default);
                     }
                 }
@@ -146,8 +150,7 @@ namespace Onyx3DEditor
 
             foreach (Node child in node.Children)
             {
-                SceneObject childSceneObject = ParseNode(child, preview);
-                childSceneObject.Parent = mySceneObject;
+                SceneObject childSceneObject = ParseNode(child, preview, mySceneObject);
             }
 
             return mySceneObject;
@@ -160,8 +163,12 @@ namespace Onyx3DEditor
             NewEntityWindow window = new NewEntityWindow();
             if (window.ShowDialog() == DialogResult.OK)
             {
-                SceneObject root = ParseNode(mCurrentModel.RootNode, false);
-                EditorEntityUtils.Create(root, window.EntityName);
+                SceneObject root = ParseNode(mCurrentModel.RootNode, false, null);
+                OnyxProjectAsset entity = ProjectManager.Instance.Content.GetEntityByName(window.EntityName);
+                if (entity == null)
+                    EditorEntityUtils.Create(root, window.EntityName);
+                else
+                    AssetLoader<Entity>.Save(new Entity(root), entity.Path);
             }
 		}
         
@@ -169,43 +176,14 @@ namespace Onyx3DEditor
 
         private void ImportMeshes()
 		{
-            mLoadedMeshes = new int[mCurrentModel.MeshCount];
-
-
+            mLoadedMeshesGuids = new int[mCurrentModel.MeshCount];
+            
             List<ModelSupportData.MeshData> previousMeshes = new List<ModelSupportData.MeshData>(mSupportFile.Meshes);
             mSupportFile.Meshes.Clear();
 
-            for (int i=0; i<mCurrentModel.MeshCount; ++i)
+            for (int i=0; i < mCurrentModel.MeshCount; ++i)
 			{
-				Onyx3D.Mesh onyxMesh = mCurrentModel.Meshes[i].ToOnyx3D();
-                onyxMesh.Scale(sMeshScalar);
-                string name = mCurrentModel.Meshes[i].Name;
-                string meshPath = ProjectContent.GetMeshPath(name);
-				AssetLoader<Onyx3D.Mesh>.Save(onyxMesh, meshPath, false);
-                
-                int id = -1;
-                for (int prevIndex = 0 ; prevIndex < previousMeshes.Count; ++prevIndex)
-                {
-                    ModelSupportData.MeshData mesh = previousMeshes[prevIndex];
-                    if (mesh.Name == name)
-                    {
-                        id = mesh.Id;
-                        previousMeshes.Remove(mesh);
-                        break;
-                    }
-                }
-                
-                if (id < 0)
-                    id = ProjectManager.Instance.Content.AddMesh(meshPath, false, onyxMesh).Guid;
-                
-                mLoadedMeshes[i] = id;
-                
-                ModelSupportData.MeshData data = new ModelSupportData.MeshData();
-                data.Id = id;
-                data.Name = name;
-                mSupportFile.Meshes.Add(data);
-
-                Onyx3DEngine.Instance.Resources.GetMesh(id).IsDirty = true;
+                mLoadedMeshesGuids[i] = ImportMesh(mCurrentModel.Meshes[i], previousMeshes);
             }
 
             foreach (ModelSupportData.MeshData meshData in previousMeshes)
@@ -220,6 +198,62 @@ namespace Onyx3DEditor
             }
 		}
 
+        // --------------------------------------------------------------------
+
+        private int ImportMesh(Assimp.Mesh newMesh, List<ModelSupportData.MeshData> previousMeshes)
+        {
+            Onyx3D.Mesh onyxMesh = newMesh.ToOnyx3D();
+            onyxMesh.Scale(sMeshScalar);
+            string name = GetSafeFileName(newMesh.Name);
+            string meshPath = ProjectContent.GetMeshPath(name);
+            AssetLoader<Onyx3D.Mesh>.Save(onyxMesh, meshPath, false);
+
+            int id = -1;
+            for (int prevIndex = 0; prevIndex < previousMeshes.Count; ++prevIndex)
+            {
+                ModelSupportData.MeshData mesh = previousMeshes[prevIndex];
+                if (mesh.Name == name)
+                {
+                    id = mesh.Id;
+                    previousMeshes.Remove(mesh);
+                    break;
+                }
+            }
+
+            if (id < 0)
+            {
+                id = ProjectManager.Instance.Content.AddMesh(meshPath, false, onyxMesh).Guid;
+            }
+            else
+            {
+                if (ProjectManager.Instance.Content.GetAsset(id) == null)
+                {
+                    ProjectManager.Instance.Content.AddObject(meshPath, false, ProjectManager.Instance.Content.Meshes, id, onyxMesh);
+                }
+            }
+
+
+            ModelSupportData.MeshData data = new ModelSupportData.MeshData();
+            data.Id = id;
+            data.Name = name;
+            mSupportFile.Meshes.Add(data);
+
+            onyxMesh.LinkedProjectAsset.Dirty = true;
+
+            return id;
+        }
+
+        // --------------------------------------------------------------------
+
+        private string GetSafeFileName(string filename)
+        {
+            char[] invalidFileNameChars = Path.GetInvalidFileNameChars();
+            // Builds a string out of valid chars
+            Array.ForEach(invalidFileNameChars,
+                c => filename = filename.Replace(c.ToString(), "_"));
+
+            return filename;
+        }
         // --------------------------------------------------------------------
 
         private void SetTreeViewModel(SceneObject obj)
