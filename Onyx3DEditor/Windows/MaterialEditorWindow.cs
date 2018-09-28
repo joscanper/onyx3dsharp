@@ -223,7 +223,7 @@ namespace Onyx3DEditor
             MaterialSaved?.Invoke(SelectedMaterial);
             mMaterial.LinkedProjectAsset.Dirty = true;
 
-            materialViewList1.UpdateMaterial(SelectedMaterial.Guid);
+            materialViewList1.UpdateMaterial(SelectedMaterial != null ? SelectedMaterial.Guid : -1);
         }
 
 		private void toolStripDeleteMaterialButton_Click(object sender, EventArgs e)

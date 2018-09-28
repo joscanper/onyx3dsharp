@@ -31,56 +31,56 @@ namespace Onyx3D
 			DefaultXMLSettings.Indent = true;
 
 			// Built-in meshes (from 100000000)
-			AddAsset(new OnyxProjectAsset("./Resources/Meshes/teapot.o3dmesh", "Teapot", BuiltInMesh.Teapot));
-			AddAsset(new OnyxProjectAsset("./Resources/Meshes/cube.o3dmesh", "Cube", BuiltInMesh.Cube));
-			AddAsset(new OnyxProjectAsset("./Resources/Meshes/cylinder.o3dmesh", "Cylinder", BuiltInMesh.Cylinder));
-			AddAsset(new OnyxProjectAsset("./Resources/Meshes/torus.o3dmesh", "Torus", BuiltInMesh.Torus));
-			AddAsset(new OnyxProjectAsset("./Resources/Meshes/sphere.o3dmesh", "Sphere", BuiltInMesh.Sphere));
-            AddAsset(new OnyxProjectAsset("./Resources/Meshes/quad.o3dmesh", "Quad", BuiltInMesh.Quad));
-            AddAsset(new OnyxProjectAsset("./Resources/Meshes/gizmo_camera.o3dmesh", "Quad", BuiltInMesh.GizmoCamera));
+			MapAsset(new OnyxProjectAsset("./Resources/Meshes/teapot.o3dmesh", "Teapot", BuiltInMesh.Teapot));
+			MapAsset(new OnyxProjectAsset("./Resources/Meshes/cube.o3dmesh", "Cube", BuiltInMesh.Cube));
+			MapAsset(new OnyxProjectAsset("./Resources/Meshes/cylinder.o3dmesh", "Cylinder", BuiltInMesh.Cylinder));
+			MapAsset(new OnyxProjectAsset("./Resources/Meshes/torus.o3dmesh", "Torus", BuiltInMesh.Torus));
+			MapAsset(new OnyxProjectAsset("./Resources/Meshes/sphere.o3dmesh", "Sphere", BuiltInMesh.Sphere));
+            MapAsset(new OnyxProjectAsset("./Resources/Meshes/quad.o3dmesh", "Quad", BuiltInMesh.Quad));
+            MapAsset(new OnyxProjectAsset("./Resources/Meshes/gizmo_camera.o3dmesh", "Quad", BuiltInMesh.GizmoCamera));
 
             //  Built-in textures (from 200000000)
-            AddAsset(new OnyxProjectAsset("./Resources/Textures/checker.png", "Checker", BuiltInTexture.Checker));
-            AddAsset(new OnyxProjectAsset("./Resources/Textures/white.jpg", "White",BuiltInTexture.White));
-            AddAsset(new OnyxProjectAsset("./Resources/Textures/black.jpg", "Black", BuiltInTexture.Black));
-			AddAsset(new OnyxProjectAsset("./Resources/Textures/normal.jpg", "Normal", BuiltInTexture.Normal));
-			AddAsset(new OnyxProjectAsset("./Resources/Textures/brdf_lut.png", "BRDFLut", BuiltInTexture.BRDFLut));
+            MapAsset(new OnyxProjectAsset("./Resources/Textures/checker.png", "Checker", BuiltInTexture.Checker));
+            MapAsset(new OnyxProjectAsset("./Resources/Textures/white.jpg", "White",BuiltInTexture.White));
+            MapAsset(new OnyxProjectAsset("./Resources/Textures/black.jpg", "Black", BuiltInTexture.Black));
+			MapAsset(new OnyxProjectAsset("./Resources/Textures/normal.jpg", "Normal", BuiltInTexture.Normal));
+			MapAsset(new OnyxProjectAsset("./Resources/Textures/brdf_lut.png", "BRDFLut", BuiltInTexture.BRDFLut));
 			
 
 			// Built-in shaders (from 300000000)
-			AddAsset(new OnyxProjectShaderAsset("./Resources/Shaders/VertexShader.glsl", "./Resources/Shaders/FragmentShader.glsl", BuiltInShader.Default));
-			AddAsset(new OnyxProjectShaderAsset("./Resources/Shaders/VertexShader.glsl", "./Resources/Shaders/UnlitFragmentShader.glsl", BuiltInShader.Unlit));
-			AddAsset(new OnyxProjectShaderAsset("./Resources/Shaders/VertexShader.glsl", "./Resources/Shaders/UnlitVertexColorFragmentShader.glsl", BuiltInShader.UnlitVertexColor));
-			AddAsset(new OnyxProjectShaderAsset("./Resources/Shaders/VertexShader.glsl", "./Resources/Shaders/ReflectionProbeFragmentShader.glsl", BuiltInShader.ReflectionProbe));
-            AddAsset(new OnyxProjectShaderAsset("./Resources/Shaders/SkyVertexShader.glsl", "./Resources/Shaders/SkyFragmentShader.glsl", BuiltInShader.ProceduralSky));
+			MapAsset(new OnyxProjectShaderAsset("./Resources/Shaders/VertexShader.glsl", "./Resources/Shaders/FragmentShader.glsl", BuiltInShader.Default));
+			MapAsset(new OnyxProjectShaderAsset("./Resources/Shaders/VertexShader.glsl", "./Resources/Shaders/UnlitFragmentShader.glsl", BuiltInShader.Unlit));
+			MapAsset(new OnyxProjectShaderAsset("./Resources/Shaders/VertexShader.glsl", "./Resources/Shaders/UnlitVertexColorFragmentShader.glsl", BuiltInShader.UnlitVertexColor));
+			MapAsset(new OnyxProjectShaderAsset("./Resources/Shaders/VertexShader.glsl", "./Resources/Shaders/ReflectionProbeFragmentShader.glsl", BuiltInShader.ReflectionProbe));
+            MapAsset(new OnyxProjectShaderAsset("./Resources/Shaders/SkyVertexShader.glsl", "./Resources/Shaders/SkyFragmentShader.glsl", BuiltInShader.ProceduralSky));
 
             // Built-in materials (from 400000000)
-            AddAsset(new OnyxProjectAsset("./Resources/Materials/NotFound.o3dmat", "NotFound", BuiltInMaterial.NotFound));
-            AddAsset(new OnyxProjectAsset("./Resources/Materials/Default.o3dmat", "Default", BuiltInMaterial.Default));
-			AddAsset(new OnyxProjectAsset("./Resources/Materials/Unlit.o3dmat", "Unlit", BuiltInMaterial.Unlit));
-			AddAsset(new OnyxProjectAsset("./Resources/Materials/UnlitVertexColor.o3dmat", "UnlitVertexColor", BuiltInMaterial.UnlitVertexColor));
-			AddAsset(new OnyxProjectAsset("./Resources/Materials/ReflectionProbe.o3dmat", "ReflectionProbe", BuiltInMaterial.ReflectionProbe));
-            AddAsset(new OnyxProjectAsset("./Resources/Materials/Sky.o3dmat", "Sky", BuiltInMaterial.Sky));
+            MapAsset(new OnyxProjectAsset("./Resources/Materials/NotFound.o3dmat", "NotFound", BuiltInMaterial.NotFound));
+            MapAsset(new OnyxProjectAsset("./Resources/Materials/Default.o3dmat", "Default", BuiltInMaterial.Default));
+			MapAsset(new OnyxProjectAsset("./Resources/Materials/Unlit.o3dmat", "Unlit", BuiltInMaterial.Unlit));
+			MapAsset(new OnyxProjectAsset("./Resources/Materials/UnlitVertexColor.o3dmat", "UnlitVertexColor", BuiltInMaterial.UnlitVertexColor));
+			MapAsset(new OnyxProjectAsset("./Resources/Materials/ReflectionProbe.o3dmat", "ReflectionProbe", BuiltInMaterial.ReflectionProbe));
+            MapAsset(new OnyxProjectAsset("./Resources/Materials/Sky.o3dmat", "Sky", BuiltInMaterial.Sky));
 
-            AddAssets(Scenes);
-			AddAssets(Materials);
-			AddAssets(Textures);
-			AddAssets(Meshes);
-            AddAssets(Entities);
-            AddAssets(Models);
+            MapAssets(Scenes);
+			MapAssets(Materials);
+			MapAssets(Textures);
+			MapAssets(Meshes);
+            MapAssets(Entities);
+            MapAssets(Models);
         }
 
         // --------------------------------------------------------------------
 
-        public void AddAssets<T>(List<T> assets) where T : OnyxProjectAsset
+        public void MapAssets<T>(List<T> assets) where T : OnyxProjectAsset
 		{
 			foreach (T asset in assets)
-				AddAsset(asset);
+				MapAsset(asset);
 		}
 
         // --------------------------------------------------------------------
 
-        public void AddAsset(OnyxProjectAsset asset)
+        public void MapAsset(OnyxProjectAsset asset)
 		{
             mMappedResources.Remove(asset.Guid);
 			mMappedResources.Add(asset.Guid, asset);
@@ -157,7 +157,7 @@ namespace Onyx3D
             }
 
             if (n > 0)
-                AddAssets(list);
+                MapAssets(list);
 
             return n;
         }
@@ -222,7 +222,10 @@ namespace Onyx3D
             if (obj != null)
                 obj.LinkedProjectAsset = asset;
             list.Add(asset);
-            AddAsset(asset);
+            MapAsset(asset);
+
+			ProjectManager.Instance.SetDirty(true);
+
             return asset;
         }
 
@@ -242,7 +245,11 @@ namespace Onyx3D
         {
             int removed = list.RemoveAll(asset => asset.Guid == guid);
             mMappedResources.Remove(guid);
-            return removed > 0;
+
+			if (removed > 0)
+				ProjectManager.Instance.SetDirty(true);
+
+			return removed > 0;
         }
 
         // --------------------------------------------------------------------

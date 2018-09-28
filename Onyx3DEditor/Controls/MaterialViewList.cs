@@ -61,7 +61,9 @@ namespace Onyx3DEditor
             {
                 mPreview = new SingleMeshPreviewRenderer();
                 mPreview.Init(mPreviewSize, mPreviewSize, this.Handle);
-            }
+				mPreview.Render();
+
+			}
 
 			mMaterials.Clear();
 

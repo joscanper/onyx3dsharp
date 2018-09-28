@@ -34,6 +34,8 @@ namespace Onyx3D
         public SceneRenderData RenderData = new SceneRenderData();
 
 		public bool IsDirty { get; private set; }
+		public bool UnsavedChanges { get; private set; }
+
 		public List<EntityProxy> EntityProxies { get { return mEntityProxies; } }
 
 		// --------------------------------------------------------------------
@@ -50,9 +52,12 @@ namespace Onyx3D
 		public void SetDirty(bool isDirty = true)
 		{
 			IsDirty = isDirty;
-
+			
 			mEntityProxies.Clear();
 			Root.GetEntityProxiesInChildren(mEntityProxies);
+
+			if (isDirty)
+				UnsavedChanges = true;
 		}
 
 		// --------------------------------------------------------------------

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 
 using Onyx3D;
 using OpenTK;
+using System.Text;
 
 namespace Onyx3DEditor
 {
@@ -56,11 +57,24 @@ namespace Onyx3DEditor
 			mGridRenderer.GenerateGridMesh(100, 100, 0.25f, 0.25f, Vector3.One);
 			mGridRenderer.Material = mOnyxInstance.Resources.GetMaterial(BuiltInMaterial.Unlit);
 			mGridRenderer.Material.Properties["color"].Data = new Vector4(1, 1, 1, 0.1f);
-		}
-        
-        // --------------------------------------------------------------------
 
-        private void OnSelectionChanged(List<SceneObject> selected)
+			UpdateFormTitle();
+		}
+
+		// --------------------------------------------------------------------
+
+		private void UpdateFormTitle()
+		{
+			StringBuilder name = new StringBuilder();
+			name.Append("Onyx3DEditor - ");
+			name.Append(ProjectManager.Instance.CurrentProjectPath.Length > 0 ? ProjectManager.Instance.CurrentProjectPath : "[Unsaved Project]");
+
+			Text = name.ToString();
+		}
+
+		// --------------------------------------------------------------------
+
+		private void OnSelectionChanged(List<SceneObject> selected)
 		{
 			mSelectedSceneObject = Selection.ActiveObject;
 			renderCanvas.Refresh();
@@ -225,6 +239,9 @@ namespace Onyx3DEditor
 		{
             EditorSceneUtils.Save();
             ProjectLoader.Save();
+			Logger.Instance.Clear();
+			Logger.Instance.Append("Saved " + DateTime.Now.ToString());
+			UpdateFormTitle();
 		}
 
 		private void toolStripButtonMaterials_Click(object sender, EventArgs e)
@@ -349,7 +366,8 @@ namespace Onyx3DEditor
             if (ProjectManager.Instance.CurrentProjectPath.Length == 0)
             {
                 ProjectLoader.Save();
-            }
+				UpdateFormTitle();
+			}
             else
             {
                 new ModelImporterWindow().Show();
@@ -425,7 +443,27 @@ namespace Onyx3DEditor
             }
         }
 
-        #endregion
+		#endregion
 
-    }
+		private void MainWindow_FormClosed(object sender, FormClosedEventArgs e)
+		{
+			if (SceneManagement.ActiveScene.UnsavedChanges)
+			{
+				DialogResult result = MessageBox.Show("There are unsaved changes in the scene, do you want to save before closing?", "Unsaved Scene Changes", MessageBoxButtons.YesNo);
+				if (result == DialogResult.Yes)
+				{
+					EditorSceneUtils.Save();
+				}
+			}
+
+			if (ProjectManager.Instance.IsDirty)
+			{
+				DialogResult result = MessageBox.Show("There are unsaved changes in the project, do you want to save before closing?", "Unsaved Project Changes", MessageBoxButtons.YesNo);
+				if (result == DialogResult.Yes)
+				{
+					ProjectLoader.Save();
+				}
+			}
+		}
+	}
 }

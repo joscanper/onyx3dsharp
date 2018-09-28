@@ -26,6 +26,7 @@ namespace Onyx3DEditor
                     {
                         AssetLoader<Scene>.Save(SceneManagement.ActiveScene, saveFileDialog1.FileName, false);
                         ProjectManager.Instance.Content.AddScene(saveFileDialog1.FileName, false, SceneManagement.ActiveScene);
+						SceneManagement.ActiveScene.SetDirty(false);
                     }
                     catch (Exception ex)
                     {

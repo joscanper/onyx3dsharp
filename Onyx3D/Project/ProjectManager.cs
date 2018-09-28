@@ -9,11 +9,13 @@ namespace Onyx3D
 		private static readonly int VERSION = 1;
 
 		private ProjectData mData;
+		private bool mDirty;
 		private string mCurrentProjectPath;
 
         public string Directory { get { return Path.GetDirectoryName(CurrentProjectPath); } }
 		public string CurrentProjectPath { get { return mCurrentProjectPath; } }
 		public ProjectContent Content { get { return mData.Content; } }
+		public bool IsDirty { get { return mDirty; } }
 
         // --------------------------------------------------------------------
 
@@ -38,6 +40,7 @@ namespace Onyx3D
         public void Save()
 		{
             Save(mCurrentProjectPath);
+			SetDirty(false);
 		}
 
         // --------------------------------------------------------------------
@@ -47,5 +50,12 @@ namespace Onyx3D
 			mCurrentProjectPath = path;
             AssetStreamLoader<ProjectData>.Save(mData, path, false);
         }
+
+		// --------------------------------------------------------------------
+
+		public void SetDirty(bool dirty)
+		{
+			mDirty = dirty;
+		}
 	}
 }
