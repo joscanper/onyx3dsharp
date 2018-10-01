@@ -24,8 +24,10 @@ namespace Onyx3DEditor
 			listViewTextures.Items.Clear();
 			int i = 0;
 
-			listViewTextures.SmallImageList = new ImageList();
-			listViewTextures.SmallImageList.ImageSize = new Size(64,64);
+            
+            listViewTextures.SmallImageList = new ImageList();
+            listViewTextures.SmallImageList.ColorDepth = ColorDepth.Depth32Bit;
+            listViewTextures.SmallImageList.ImageSize = new Size(64,64);
 			foreach (OnyxProjectAsset t in ProjectManager.Instance.Content.Textures)
 			{
 				Bitmap bmp = new Bitmap(ProjectContent.GetAbsolutePath(t.Path));
