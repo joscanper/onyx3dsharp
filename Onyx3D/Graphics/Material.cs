@@ -30,6 +30,11 @@ namespace Onyx3D
 			Type = type;
 			Data = data;
 		}
+
+		public MaterialProperty Clone()
+		{
+			return (MaterialProperty)this.MemberwiseClone();
+		}
 	}
 
 	public class TextureMaterialProperty : MaterialProperty
@@ -61,6 +66,8 @@ namespace Onyx3D
 	{
 		public Shader Shader;
 		public Dictionary<string, MaterialProperty> Properties = new Dictionary<string, MaterialProperty>();
+
+		// --------------------------------------------------------------------
 
 		public void ApplyProperties()
 		{
@@ -103,12 +110,16 @@ namespace Onyx3D
 			}
 		}
 
-        public override void Copy(GameAsset other)
+		// --------------------------------------------------------------------
+
+		public override void Copy(GameAsset other)
         {
             Material otherMat = other as Material;
             Shader = otherMat.Shader;
             Properties = otherMat.Properties;
         }
+
+		// --------------------------------------------------------------------
 
 		public T GetProperty<T>(string name) where T : MaterialProperty
 		{
@@ -117,6 +128,8 @@ namespace Onyx3D
 
 			return Properties[name] as T;
 		}
+		
+		// --------------------------------------------------------------------
 
 		public void SetProperty<T>(string name, object data) where T : MaterialProperty
 		{
@@ -132,8 +145,25 @@ namespace Onyx3D
 			property.Data = data;
 		}
 
+		// --------------------------------------------------------------------
 
+		private void SyncPropertiesWithDefaulMaterial()
+		{
+			DefaultMaterial mat = new DefaultMaterial();
+			foreach (KeyValuePair<string, MaterialProperty> prop in mat.Properties)
+			{
+				if (!Properties.ContainsKey(prop.Key))
+				{
+					Properties.Add(prop.Key, prop.Value.Clone());
+				}
+
+				// TODO - Check if the property type has changed and update it
+			}
+		}
+
+		// --------------------------------------------------------------------
 		// ------ Serialization ------
+		// --------------------------------------------------------------------
 
 		public XmlSchema GetSchema()
 		{

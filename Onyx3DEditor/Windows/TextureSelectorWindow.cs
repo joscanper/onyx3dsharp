@@ -18,8 +18,6 @@ namespace Onyx3DEditor
 
 		private List<OnyxProjectAsset> mTextureIds;
 
-        private ResourcesManager mResources;
-
 		public TextureSelectorWindow()
 		{
 			InitializeComponent();
@@ -35,24 +33,28 @@ namespace Onyx3DEditor
 			listViewTextures.SmallImageList = new ImageList();
 			listViewTextures.SmallImageList.ImageSize = new Size(64, 64);
 
-            AddTexture(ProjectManager.Instance.Content.GetAsset(BuiltInTexture.Checker));
-            AddTexture(ProjectManager.Instance.Content.GetAsset(BuiltInTexture.Black));
-            AddTexture(ProjectManager.Instance.Content.GetAsset(BuiltInTexture.White));
-			AddTexture(ProjectManager.Instance.Content.GetAsset(BuiltInTexture.Normal));
+            AddTextureToList(ProjectManager.Instance.Content.GetAsset(BuiltInTexture.Checker));
+            AddTextureToList(ProjectManager.Instance.Content.GetAsset(BuiltInTexture.Black));
+            AddTextureToList(ProjectManager.Instance.Content.GetAsset(BuiltInTexture.White));
+			AddTextureToList(ProjectManager.Instance.Content.GetAsset(BuiltInTexture.Normal));
 
 			foreach (OnyxProjectAsset t in ProjectManager.Instance.Content.Textures)
-                AddTexture(t);
+                AddTextureToList(t);
 			
 		}
 
-        private void AddTexture(OnyxProjectAsset t)
+        private void AddTextureToList(OnyxProjectAsset t)
         {
-            Bitmap bmp = new Bitmap(t.AbsolutePath);
-            Image small_img = bmp.GetThumbnailImage(64, 64, null, IntPtr.Zero);
-            listViewTextures.SmallImageList.Images.Add(small_img);
+            listViewTextures.SmallImageList.Images.Add(GetThumbnail(t.AbsolutePath));
             listViewTextures.Items.Add(new ListViewItem(t.Guid.ToString(), mTextureIds.Count));
             mTextureIds.Add(t);
         }
+
+		Image GetThumbnail(string path)
+		{
+			Bitmap bmp = new Bitmap(path);
+			return bmp.GetThumbnailImage(64, 64, null, IntPtr.Zero);
+		}
 
 		private void OnTextureSelected(object sender, EventArgs e)
 		{

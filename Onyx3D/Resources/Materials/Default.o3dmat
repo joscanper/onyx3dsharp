@@ -5,6 +5,8 @@
 
 	<Properties>  
       <Property id="base_color" type="color" value="1,1,1,1"/>
+      <Property id="offset" type="float2" value="0,0"/>
+      <Property id="tiling" type="float2" value="1,1"/>
     
 		  <Property id="albedo" type="sampler2d" value="200000001" index="0"/>
   		<Property id="metallic" type="sampler2d" value="200000002" index="1"/>
@@ -12,6 +14,7 @@
   		<Property id="occlusion" type="sampler2d" value="200000002" index="3"/>
       <Property id="normal" type="sampler2d" value="200000004" index="4"/>
 
+      <Property id="normal_strength" type="float" value="1" />
   		<Property id="metallic_strength" type="float" value="0" />
   		<Property id="roughness_strength" type="float" value="0.75" />
   		<Property id="occlusion_strength" type="float" value="1" />

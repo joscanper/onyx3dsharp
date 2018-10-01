@@ -35,17 +35,14 @@ namespace Onyx3DEditor
 			this.components = new System.ComponentModel.Container();
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
 			this.splitContainer2 = new System.Windows.Forms.SplitContainer();
-			this.materialViewList1 = new Onyx3DEditor.MaterialViewList();
 			this.toolStrip1 = new System.Windows.Forms.ToolStrip();
 			this.toolStripNewMaterialButton = new System.Windows.Forms.ToolStripButton();
 			this.toolStripSaveMaterialButton = new System.Windows.Forms.ToolStripButton();
 			this.toolStripDeleteMaterialButton = new System.Windows.Forms.ToolStripButton();
 			this.panel1 = new System.Windows.Forms.Panel();
 			this.groupBoxProperties = new System.Windows.Forms.GroupBox();
-			this.materialPropertiesControl = new Onyx3DEditor.MaterialPropertiesControl();
 			this.tabControlMain = new System.Windows.Forms.TabControl();
 			this.tabPreview = new System.Windows.Forms.TabPage();
-			this.onyx3DControl = new Onyx3DEditor.Onyx3DControl();
 			this.toolStrip2 = new System.Windows.Forms.ToolStrip();
 			this.toolStripButtonGrid = new System.Windows.Forms.ToolStripButton();
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
@@ -60,6 +57,9 @@ namespace Onyx3DEditor
 			this.tabFragment = new System.Windows.Forms.TabPage();
 			this.textBoxFragmentCode = new System.Windows.Forms.TextBox();
 			this.timer1 = new System.Windows.Forms.Timer(this.components);
+			this.materialViewList1 = new Onyx3DEditor.MaterialViewList();
+			this.materialPropertiesControl = new Onyx3DEditor.MaterialPropertiesControl();
+			this.onyx3DControl = new Onyx3DEditor.Onyx3DControl();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
 			this.splitContainer1.Panel1.SuspendLayout();
 			this.splitContainer1.Panel2.SuspendLayout();
@@ -92,7 +92,7 @@ namespace Onyx3DEditor
 			// 
 			this.splitContainer1.Panel2.Controls.Add(this.tabControlMain);
 			this.splitContainer1.Size = new System.Drawing.Size(877, 681);
-			this.splitContainer1.SplitterDistance = 385;
+			this.splitContainer1.SplitterDistance = 400;
 			this.splitContainer1.TabIndex = 0;
 			// 
 			// splitContainer2
@@ -109,19 +109,9 @@ namespace Onyx3DEditor
 			// 
 			this.splitContainer2.Panel2.Controls.Add(this.toolStrip1);
 			this.splitContainer2.Panel2.Controls.Add(this.panel1);
-			this.splitContainer2.Size = new System.Drawing.Size(385, 681);
-			this.splitContainer2.SplitterDistance = 145;
+			this.splitContainer2.Size = new System.Drawing.Size(400, 681);
+			this.splitContainer2.SplitterDistance = 150;
 			this.splitContainer2.TabIndex = 3;
-			// 
-			// materialViewList1
-			// 
-			this.materialViewList1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.materialViewList1.Location = new System.Drawing.Point(0, 0);
-			this.materialViewList1.Name = "materialViewList1";
-			this.materialViewList1.SelectedIndex = 0;
-			this.materialViewList1.Size = new System.Drawing.Size(145, 681);
-			this.materialViewList1.TabIndex = 5;
-			this.materialViewList1.SelectedChanged += new System.EventHandler(this.materialViewList_SelectedChanged);
 			// 
 			// toolStrip1
 			// 
@@ -131,7 +121,7 @@ namespace Onyx3DEditor
             this.toolStripDeleteMaterialButton});
 			this.toolStrip1.Location = new System.Drawing.Point(0, 0);
 			this.toolStrip1.Name = "toolStrip1";
-			this.toolStrip1.Size = new System.Drawing.Size(236, 25);
+			this.toolStrip1.Size = new System.Drawing.Size(246, 25);
 			this.toolStrip1.TabIndex = 3;
 			this.toolStrip1.Text = "toolStrip1";
 			// 
@@ -173,7 +163,7 @@ namespace Onyx3DEditor
 			this.panel1.Location = new System.Drawing.Point(0, 0);
 			this.panel1.Name = "panel1";
 			this.panel1.Padding = new System.Windows.Forms.Padding(0, 30, 0, 0);
-			this.panel1.Size = new System.Drawing.Size(236, 681);
+			this.panel1.Size = new System.Drawing.Size(246, 681);
 			this.panel1.TabIndex = 4;
 			// 
 			// groupBoxProperties
@@ -182,19 +172,10 @@ namespace Onyx3DEditor
 			this.groupBoxProperties.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.groupBoxProperties.Location = new System.Drawing.Point(0, 30);
 			this.groupBoxProperties.Name = "groupBoxProperties";
-			this.groupBoxProperties.Size = new System.Drawing.Size(236, 651);
+			this.groupBoxProperties.Size = new System.Drawing.Size(246, 651);
 			this.groupBoxProperties.TabIndex = 1;
 			this.groupBoxProperties.TabStop = false;
 			this.groupBoxProperties.Text = "Material Properties";
-			// 
-			// materialPropertiesControl
-			// 
-			this.materialPropertiesControl.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.materialPropertiesControl.Location = new System.Drawing.Point(3, 16);
-			this.materialPropertiesControl.Name = "materialPropertiesControl";
-			this.materialPropertiesControl.Size = new System.Drawing.Size(230, 632);
-			this.materialPropertiesControl.TabIndex = 2;
-			this.materialPropertiesControl.PropertyChanged += new System.EventHandler(this.materialProperties_Changed);
 			// 
 			// tabControlMain
 			// 
@@ -205,7 +186,7 @@ namespace Onyx3DEditor
 			this.tabControlMain.Location = new System.Drawing.Point(0, 0);
 			this.tabControlMain.Name = "tabControlMain";
 			this.tabControlMain.SelectedIndex = 0;
-			this.tabControlMain.Size = new System.Drawing.Size(488, 681);
+			this.tabControlMain.Size = new System.Drawing.Size(473, 681);
 			this.tabControlMain.TabIndex = 0;
 			this.tabControlMain.SelectedIndexChanged += new System.EventHandler(this.tabControlMain_SelectedIndexChanged);
 			// 
@@ -216,19 +197,10 @@ namespace Onyx3DEditor
 			this.tabPreview.Controls.Add(this.textBoxLog);
 			this.tabPreview.Location = new System.Drawing.Point(4, 22);
 			this.tabPreview.Name = "tabPreview";
-			this.tabPreview.Size = new System.Drawing.Size(480, 655);
+			this.tabPreview.Size = new System.Drawing.Size(465, 655);
 			this.tabPreview.TabIndex = 2;
 			this.tabPreview.Text = "Preview";
 			this.tabPreview.UseVisualStyleBackColor = true;
-			// 
-			// onyx3DControl
-			// 
-			this.onyx3DControl.BackColor = System.Drawing.Color.Magenta;
-			this.onyx3DControl.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.onyx3DControl.Location = new System.Drawing.Point(0, 25);
-			this.onyx3DControl.Name = "onyx3DControl";
-			this.onyx3DControl.Size = new System.Drawing.Size(480, 575);
-			this.onyx3DControl.TabIndex = 4;
 			// 
 			// toolStrip2
 			// 
@@ -242,7 +214,7 @@ namespace Onyx3DEditor
             this.toolStripButtonTeapot});
 			this.toolStrip2.Location = new System.Drawing.Point(0, 0);
 			this.toolStrip2.Name = "toolStrip2";
-			this.toolStrip2.Size = new System.Drawing.Size(480, 25);
+			this.toolStrip2.Size = new System.Drawing.Size(465, 25);
 			this.toolStrip2.TabIndex = 2;
 			this.toolStrip2.Text = "toolStrip2";
 			// 
@@ -321,7 +293,7 @@ namespace Onyx3DEditor
 			this.textBoxLog.Location = new System.Drawing.Point(0, 600);
 			this.textBoxLog.Multiline = true;
 			this.textBoxLog.Name = "textBoxLog";
-			this.textBoxLog.Size = new System.Drawing.Size(480, 55);
+			this.textBoxLog.Size = new System.Drawing.Size(465, 55);
 			this.textBoxLog.TabIndex = 1;
 			// 
 			// tabVertex
@@ -330,7 +302,7 @@ namespace Onyx3DEditor
 			this.tabVertex.Location = new System.Drawing.Point(4, 22);
 			this.tabVertex.Name = "tabVertex";
 			this.tabVertex.Padding = new System.Windows.Forms.Padding(3);
-			this.tabVertex.Size = new System.Drawing.Size(480, 655);
+			this.tabVertex.Size = new System.Drawing.Size(365, 655);
 			this.tabVertex.TabIndex = 0;
 			this.tabVertex.Text = "Vertex Shader";
 			this.tabVertex.UseVisualStyleBackColor = true;
@@ -347,7 +319,7 @@ namespace Onyx3DEditor
 			this.textBoxVertexCode.Multiline = true;
 			this.textBoxVertexCode.Name = "textBoxVertexCode";
 			this.textBoxVertexCode.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.textBoxVertexCode.Size = new System.Drawing.Size(474, 649);
+			this.textBoxVertexCode.Size = new System.Drawing.Size(359, 649);
 			this.textBoxVertexCode.TabIndex = 0;
 			// 
 			// tabFragment
@@ -356,7 +328,7 @@ namespace Onyx3DEditor
 			this.tabFragment.Location = new System.Drawing.Point(4, 22);
 			this.tabFragment.Name = "tabFragment";
 			this.tabFragment.Padding = new System.Windows.Forms.Padding(3);
-			this.tabFragment.Size = new System.Drawing.Size(480, 655);
+			this.tabFragment.Size = new System.Drawing.Size(365, 655);
 			this.tabFragment.TabIndex = 1;
 			this.tabFragment.Text = "Fragment Shader";
 			this.tabFragment.UseVisualStyleBackColor = true;
@@ -373,7 +345,7 @@ namespace Onyx3DEditor
 			this.textBoxFragmentCode.Multiline = true;
 			this.textBoxFragmentCode.Name = "textBoxFragmentCode";
 			this.textBoxFragmentCode.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.textBoxFragmentCode.Size = new System.Drawing.Size(474, 649);
+			this.textBoxFragmentCode.Size = new System.Drawing.Size(359, 649);
 			this.textBoxFragmentCode.TabIndex = 1;
 			// 
 			// timer1
@@ -381,6 +353,36 @@ namespace Onyx3DEditor
 			this.timer1.Enabled = true;
 			this.timer1.Interval = 33;
 			this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+			
+			// 
+			// materialViewList1
+			// 
+			this.materialViewList1.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.materialViewList1.Location = new System.Drawing.Point(0, 0);
+			this.materialViewList1.Name = "materialViewList1";
+			this.materialViewList1.SelectedIndex = 0;
+			this.materialViewList1.Size = new System.Drawing.Size(150, 681);
+			this.materialViewList1.TabIndex = 5;
+			this.materialViewList1.SelectedChanged += new System.EventHandler(this.materialViewList_SelectedChanged);
+			// 
+			// materialPropertiesControl
+			// 
+			this.materialPropertiesControl.AutoSize = true;
+			this.materialPropertiesControl.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.materialPropertiesControl.Location = new System.Drawing.Point(3, 16);
+			this.materialPropertiesControl.Name = "materialPropertiesControl";
+			this.materialPropertiesControl.Size = new System.Drawing.Size(240, 632);
+			this.materialPropertiesControl.TabIndex = 2;
+			this.materialPropertiesControl.PropertyChanged += new System.EventHandler(this.materialProperties_Changed);
+			// 
+			// onyx3DControl
+			// 
+			this.onyx3DControl.BackColor = System.Drawing.Color.Magenta;
+			this.onyx3DControl.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.onyx3DControl.Location = new System.Drawing.Point(0, 25);
+			this.onyx3DControl.Name = "onyx3DControl";
+			this.onyx3DControl.Size = new System.Drawing.Size(465, 575);
+			this.onyx3DControl.TabIndex = 4;
 			// 
 			// MaterialEditorWindow
 			// 
@@ -406,6 +408,7 @@ namespace Onyx3DEditor
 			this.toolStrip1.PerformLayout();
 			this.panel1.ResumeLayout(false);
 			this.groupBoxProperties.ResumeLayout(false);
+			this.groupBoxProperties.PerformLayout();
 			this.tabControlMain.ResumeLayout(false);
 			this.tabPreview.ResumeLayout(false);
 			this.tabPreview.PerformLayout();

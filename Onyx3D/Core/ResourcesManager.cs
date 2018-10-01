@@ -15,8 +15,9 @@ namespace Onyx3D
 		private Dictionary<int, Shader> mShaders = new Dictionary<int, Shader>();
         private Dictionary<int, Entity> mEntities = new Dictionary<int, Entity>();
 
+		// --------------------------------------------------------------------
 
-        public void RefreshAll()
+		public void RefreshAll()
         {
             Refresh(mMeshes, LoadMesh);
             Refresh(mTextures, LoadTexture);
@@ -25,7 +26,9 @@ namespace Onyx3D
             Refresh(mEntities, LoadEntity);
         }
 
-        private void Refresh<T>(Dictionary<int, T> dict, Func<OnyxProjectAsset, T> loadFallback) where T : GameAsset
+		// --------------------------------------------------------------------
+
+		private void Refresh<T>(Dictionary<int, T> dict, Func<OnyxProjectAsset, T> loadFallback) where T : GameAsset
         {
             foreach(KeyValuePair<int, T> asset in dict)
             {
@@ -36,9 +39,13 @@ namespace Onyx3D
             }
         }
 
-        // ----------------------------------------------------------------  Getters
 
-        private T GetResource<T>(int id, Dictionary<int, T> map, Func<OnyxProjectAsset, T> loadFallback, int defaultAsset) where T : GameAsset
+		// --------------------------------------------------------------------
+		// -----------------------------------------------------------  Getters
+		// --------------------------------------------------------------------
+
+
+		private T GetResource<T>(int id, Dictionary<int, T> map, Func<OnyxProjectAsset, T> loadFallback, int defaultAsset) where T : GameAsset
 		{
             
 			if (!map.ContainsKey(id))
@@ -59,7 +66,9 @@ namespace Onyx3D
 			return map[id];
 		}
 
-        private void ReloadResource<T>(int id, Dictionary<int, T> map, Func<OnyxProjectAsset, T> loadFallback) where T : GameAsset
+		// --------------------------------------------------------------------
+
+		public void ReloadResource<T>(int id, Dictionary<int, T> map, Func<OnyxProjectAsset, T> loadFallback) where T : GameAsset
         {
             OnyxProjectAsset asset = GetResource(id, map, loadFallback, 0).LinkedProjectAsset;
             T newAsset = loadFallback(asset);
@@ -67,44 +76,61 @@ namespace Onyx3D
             map[id].IsDirty = false;
         }
 
-        public Mesh GetMesh(int id)
+		// --------------------------------------------------------------------
+
+		public Mesh GetMesh(int id)
 		{
 			Mesh m = GetResource(id, mMeshes, LoadMesh, BuiltInMesh.Cube);
 			return m;
 		}
 
+		// --------------------------------------------------------------------
+
 		public Material GetMaterial(int id)
 		{
 			return GetResource(id, mMaterials, LoadMaterial, BuiltInMaterial.NotFound);
 		}
-		
+
+		// --------------------------------------------------------------------
+
 		public Texture GetTexture(int id)
 		{
 			return GetResource(id, mTextures, LoadTexture, BuiltInTexture.Checker);
 		}
+
+		// --------------------------------------------------------------------
 
 		public Shader GetShader(int id)
 		{
 			return GetResource(id, mShaders, LoadShader, BuiltInShader.Default);
 		}
 
-        public Entity GetEntity(int id)
+		// --------------------------------------------------------------------
+
+		public Entity GetEntity(int id)
         {
             return GetResource(id, mEntities, LoadEntity, 0);
         }
 
-     
-        // ----------------------------------------------------------------  Loaders
 
-        private Mesh LoadMesh(OnyxProjectAsset asset)
+		// --------------------------------------------------------------------
+		// -----------------------------------------------------------  Loaders
+		// --------------------------------------------------------------------
+
+
+		private Mesh LoadMesh(OnyxProjectAsset asset)
 		{
 			return AssetLoader<Mesh>.Load(asset.Path, true);
 		}
 
-        private Material LoadMaterial(OnyxProjectAsset asset)
+		// --------------------------------------------------------------------
+
+		private Material LoadMaterial(OnyxProjectAsset asset)
 		{
 			return AssetLoader<Material>.Load(asset.Path, true);
 		}
+
+		// --------------------------------------------------------------------
 
 		private Shader LoadShader(OnyxProjectAsset asset)
 		{
@@ -112,12 +138,16 @@ namespace Onyx3D
 			return new Shader(sAsset.PathVertex, sAsset.PathFragment);
 		}
 
+		// --------------------------------------------------------------------
+
 		private Texture LoadTexture(OnyxProjectAsset asset)
 		{
 			return new Texture(asset.AbsolutePath);
 		}
 
-        private Entity LoadEntity(OnyxProjectAsset asset)
+		// --------------------------------------------------------------------
+
+		private Entity LoadEntity(OnyxProjectAsset asset)
         {
             return AssetLoader<Entity>.Load(asset.Path, true);
         }
