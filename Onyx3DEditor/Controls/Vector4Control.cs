@@ -14,9 +14,9 @@ namespace Onyx3DEditor
 	{
 
 		public float X { get { return SafeGet(textBoxX.Text); } }
-		public float Y { get { return SafeGet(textBoxX.Text); } }
-		public float Z { get { return SafeGet(textBoxX.Text); } }
-		public float W { get { return SafeGet(textBoxX.Text); } }
+		public float Y { get { return SafeGet(textBoxY.Text); } }
+		public float Z { get { return SafeGet(textBoxZ.Text); } }
+		public float W { get { return SafeGet(textBoxW.Text); } }
 
 		// --------------------------------------------------------------------
 

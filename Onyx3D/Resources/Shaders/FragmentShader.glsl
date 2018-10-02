@@ -28,9 +28,13 @@ uniform samplerCube environment_map;
 uniform sampler2D brdfLUT;
 
 uniform vec4 base_color;
+uniform float normal_strength = 1f;
 uniform float metallic_strength;
 uniform float roughness_strength;
 uniform float occlusion_strength;
+
+uniform vec2 offset;
+uniform vec2 tiling;
 
 
 // ------------------------------- Camera UBO
@@ -231,15 +235,20 @@ vec3 Uncharted(vec3 color)
 
 void main()
 {		
-	vec3 albedo_color = (texture(albedo, o_uv) * base_color).rgb;
+
+	vec2 uv = o_uv;
+	uv += offset;
+	uv *= tiling;
+
+	vec3 albedo_color = (texture(albedo, uv) * base_color).rgb;
 	
-	float metallic_f = texture(metallic, o_uv).r * metallic_strength;
-	float roughness_f = max(texture(roughness, o_uv).r * roughness_strength, 0.001f);
-	float ao_f = texture(occlusion, o_uv).r * occlusion_strength;
+	float metallic_f = texture(metallic, uv).r * metallic_strength;
+	float roughness_f = max(texture(roughness, uv).r * roughness_strength, 0.001f);
+	float ao_f = texture(occlusion, uv).r * occlusion_strength;
 	
 	vec3 F0 = mix(vec3(0.04), albedo_color, metallic_f);
 	vec3 V = normalize(cameraPos.xyz - o_fragpos);
-    vec3 N = normalize(texture(normal, o_uv).rgb * 2.0 - 1.0);
+    vec3 N = normalize(texture(normal, uv).rgb * 2.0 - 1.0);
 	N = normalize(o_tbn * N);    
 	           
     // reflectance equation
