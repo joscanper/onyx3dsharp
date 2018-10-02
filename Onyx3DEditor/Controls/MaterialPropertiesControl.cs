@@ -41,7 +41,8 @@ namespace Onyx3DEditor
 			tableLayoutPanelProperties.RowCount = mat.Properties.Count + 2;
 			tableLayoutPanelProperties.RowStyles.Clear();
 			int currentRow = 0;
-			foreach (KeyValuePair<string,MaterialProperty> prop in mat.Properties)
+
+			foreach (KeyValuePair<string,MaterialProperty> prop in mat.Properties.OrderBy(prop => prop.Value.Order))
 			{
 				MaterialPropertyControl propControl = new MaterialPropertyControl();
 				propControl.Fill(prop.Key, prop.Value);
