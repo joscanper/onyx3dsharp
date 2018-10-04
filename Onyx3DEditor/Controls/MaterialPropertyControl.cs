@@ -43,8 +43,23 @@ namespace Onyx3DEditor
 				case MaterialPropertyType.Float:
 					SetTextBoxLayout(prop, ((float)prop.Data).ToString());
 					break;
+				case MaterialPropertyType.Vector2:
+					SetVectorLayout(prop, 2, new Vector4(((Vector2)prop.Data)));
+					break;
 			}
 		}
+		private void SetVectorLayout(MaterialProperty prop, int size, Vector4 data)
+		{
+			
+			Vector4Control tb = new Vector4Control();
+			tb.Fill(data, size);
+			tb.Dock = DockStyle.Fill;
+			tb.TextChanged += OnVectorChanged;
+			panelPropertyValue.Controls.Add(tb);
+
+			mPropertyControl = tb;
+		}
+
 
 		private void SetColorLayout(MaterialProperty prop)
 		{
@@ -111,6 +126,25 @@ namespace Onyx3DEditor
 
 				OnPropertyChanged();
 			}
+		}
+
+		private void OnVectorChanged(object sender, EventArgs e)
+		{
+			Vector4Control control = (Vector4Control)sender;
+			object data = mProperty.Data;
+			switch (mProperty.Type)
+			{
+				case MaterialPropertyType.Vector2:
+					data = new Vector2(control.X, control.Y);
+					break;
+				case MaterialPropertyType.Vector3:
+					data = new Vector3(control.X, control.Y, control.Z);
+					break;
+				case MaterialPropertyType.Vector4:
+					data = new Vector4(control.X, control.Y, control.Z, control.W);
+					break;
+			}
+			mProperty.Data = data;
 		}
 
 		private void OnPictureBoxClicked(object sender, EventArgs e)

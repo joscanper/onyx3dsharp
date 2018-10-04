@@ -43,9 +43,9 @@
 			// 
 			// panelPropertyValue
 			// 
-			this.panelPropertyValue.Location = new System.Drawing.Point(125, 0);
+			this.panelPropertyValue.Location = new System.Drawing.Point(108, 1);
 			this.panelPropertyValue.Name = "panelPropertyValue";
-			this.panelPropertyValue.Size = new System.Drawing.Size(64, 27);
+			this.panelPropertyValue.Size = new System.Drawing.Size(119, 27);
 			this.panelPropertyValue.TabIndex = 1;
 			// 
 			// MaterialPropertyControl
@@ -55,7 +55,7 @@
 			this.Controls.Add(this.panelPropertyValue);
 			this.Controls.Add(this.labelPropertyName);
 			this.Name = "MaterialPropertyControl";
-			this.Size = new System.Drawing.Size(194, 27);
+			this.Size = new System.Drawing.Size(230, 29);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 

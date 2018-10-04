@@ -130,6 +130,12 @@
     <Compile Include="Controls\MeshViewList.Designer.cs">
       <DependentUpon>MeshViewList.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\Vector4Control.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Vector4Control.Designer.cs">
+      <DependentUpon>Vector4Control.cs</DependentUpon>
+    </Compile>
     <Compile Include="IAssetSelector.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -277,6 +283,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\MeshViewList.resx">
       <DependentUpon>MeshViewList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\Vector4Control.resx">
+      <DependentUpon>Vector4Control.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Windows\EntitySelectorWindow.resx">
       <DependentUpon>EntitySelectorWindow.cs</DependentUpon>

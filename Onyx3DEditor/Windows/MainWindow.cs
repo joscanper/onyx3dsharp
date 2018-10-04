@@ -224,9 +224,6 @@ namespace Onyx3DEditor
 
         private void timer1_Tick(object sender, EventArgs e)
 		{
-            //myTeapot.Transform.Rotate(new Vector3(0, 0.1f, 0));
-            //renderCanvas.Refresh();
-            //mReflectionProbe.Angle += 0.01f;
             mNavigation.OnFrameTick();
 		}
 
@@ -442,6 +439,33 @@ namespace Onyx3DEditor
                 MessageBox.Show(string.Format("{0} new assets have been imported", newAssets));
             }
         }
+		
+		private void revertMaterialsToDefaultToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			DefaultMaterial defaultMat = new DefaultMaterial();
+			foreach (OnyxProjectAsset matAsset in ProjectManager.Instance.Content.Materials)
+			{
+				Material mat = AssetLoader<Material>.Load(matAsset.Path, true);
+
+
+				foreach (KeyValuePair<string, MaterialProperty> prop in defaultMat.Properties)
+				{
+					if (!mat.Properties.ContainsKey(prop.Key))
+					{
+						mat.Properties.Add(prop.Key, prop.Value.Clone());
+					}
+					else
+					{
+						mat.Properties[prop.Key].Order = prop.Value.Order;
+					}
+
+					// TODO - Check if the property type has changed and update it
+				}
+
+				AssetLoader<Material>.Save(mat, matAsset.Path);
+			}
+			mOnyxInstance.Resources.RefreshAll();
+		}
 
 		#endregion
 
@@ -465,5 +489,6 @@ namespace Onyx3DEditor
 				}
 			}
 		}
+
 	}
 }

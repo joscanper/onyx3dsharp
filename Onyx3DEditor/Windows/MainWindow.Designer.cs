@@ -83,6 +83,7 @@ namespace Onyx3DEditor
 			this.bakeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripDropDownButton4 = new System.Windows.Forms.ToolStripDropDownButton();
 			this.refreshToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.updateMaterialAttributesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
 			this.sceneHierarchy = new Onyx3DEditor.SceneHierarchyControl();
 			this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -321,7 +322,8 @@ namespace Onyx3DEditor
 			// 
 			this.toolStripDropDownButton4.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
 			this.toolStripDropDownButton4.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.refreshToolStripMenuItem});
+            this.refreshToolStripMenuItem,
+            this.updateMaterialAttributesToolStripMenuItem});
 			this.toolStripDropDownButton4.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButton4.Image")));
 			this.toolStripDropDownButton4.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.toolStripDropDownButton4.Name = "toolStripDropDownButton4";
@@ -331,9 +333,16 @@ namespace Onyx3DEditor
 			// refreshToolStripMenuItem
 			// 
 			this.refreshToolStripMenuItem.Name = "refreshToolStripMenuItem";
-			this.refreshToolStripMenuItem.Size = new System.Drawing.Size(113, 22);
-			this.refreshToolStripMenuItem.Text = "Refresh";
+			this.refreshToolStripMenuItem.Size = new System.Drawing.Size(211, 22);
+			this.refreshToolStripMenuItem.Text = "Refresh from directory";
 			this.refreshToolStripMenuItem.Click += new System.EventHandler(this.refreshToolStripMenuItem_Click);
+			// 
+			// updateMaterialAttributesToolStripMenuItem
+			// 
+			this.updateMaterialAttributesToolStripMenuItem.Name = "updateMaterialAttributesToolStripMenuItem";
+			this.updateMaterialAttributesToolStripMenuItem.Size = new System.Drawing.Size(211, 22);
+			this.updateMaterialAttributesToolStripMenuItem.Text = "Update material attributes";
+			this.updateMaterialAttributesToolStripMenuItem.Click += new System.EventHandler(this.revertMaterialsToDefaultToolStripMenuItem_Click);
 			// 
 			// splitContainer1
 			// 
@@ -782,5 +791,6 @@ namespace Onyx3DEditor
 		private Label renderInfoLabel;
         private ToolStripDropDownButton toolStripDropDownButton4;
         private ToolStripMenuItem refreshToolStripMenuItem;
-    }
+		private ToolStripMenuItem updateMaterialAttributesToolStripMenuItem;
+	}
 }

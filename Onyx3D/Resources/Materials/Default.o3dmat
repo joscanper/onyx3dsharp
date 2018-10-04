@@ -4,19 +4,22 @@
 	<Shader>300000001</Shader>
 
 	<Properties>  
-      <Property id="base_color" type="color" value="1,1,1,1"/>
+      <Property id="base_color" order="1" type="color" value="1,1,1,1"/>
+      <Property id="offset" order="2" type="float2" value="0,0"/>
+      <Property id="tiling" order="3" type="float2" value="1,1"/>
     
-		  <Property id="albedo" type="sampler2d" value="200000001" index="0"/>
-  		<Property id="metallic" type="sampler2d" value="200000002" index="1"/>
-  		<Property id="roughness" type="sampler2d" value="200000002" index="2"/>
-  		<Property id="occlusion" type="sampler2d" value="200000002" index="3"/>
-      <Property id="normal" type="sampler2d" value="200000004" index="4"/>
+		  <Property id="albedo" order="4" type="sampler2d" value="200000001" index="0"/>
+  		<Property id="metallic" order="5" type="sampler2d" value="200000002" index="1"/>
+  		<Property id="roughness" order="6" type="sampler2d" value="200000002" index="2"/>
+  		<Property id="occlusion" order="7" type="sampler2d" value="200000002" index="3"/>
+      <Property id="normal" order="8" type="sampler2d" value="200000004" index="4"/>
 
-  		<Property id="metallic_strength" type="float" value="0" />
-  		<Property id="roughness_strength" type="float" value="0.75" />
-  		<Property id="occlusion_strength" type="float" value="1" />
+      <Property id="normal_strength" order="9" type="float" value="1" />
+  		<Property id="metallic_strength" order="10" type="float" value="0" />
+  		<Property id="roughness_strength" order="11" type="float" value="0.75" />
+  		<Property id="occlusion_strength" order="12" type="float" value="1" />
     
-      <Property id="environment_map" type="samplerCube" value="0" index="5" />
-      <Property id="brdfLUT" type="sampler2d" value="200000005" index="6"/>
+      <Property id="environment_map" order="999" type="samplerCube" value="0" index="5" />
+      <Property id="brdfLUT" order="999" type="sampler2d" value="200000005" index="6"/>
 	</Properties>
 </Material>

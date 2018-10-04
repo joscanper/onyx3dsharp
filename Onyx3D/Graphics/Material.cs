@@ -24,11 +24,18 @@ namespace Onyx3D
 	public class MaterialProperty {
 		public MaterialPropertyType Type;
 		public object Data;
+		public int Order;
 
-		public MaterialProperty(MaterialPropertyType type, object data)
+		public MaterialProperty(MaterialPropertyType type, object data, int order)
 		{
 			Type = type;
 			Data = data;
+			Order = order;
+		}
+
+		public MaterialProperty Clone()
+		{
+			return (MaterialProperty)this.MemberwiseClone();
 		}
 	}
 
@@ -40,7 +47,7 @@ namespace Onyx3D
         }
 		public int DataIndex;
 
-		public TextureMaterialProperty(MaterialPropertyType type, int textureId, int index) : base(type, textureId)
+		public TextureMaterialProperty(MaterialPropertyType type, int textureId, int index, int order) : base(type, textureId, order)
 		{
 			DataIndex = index;
 		}
@@ -53,7 +60,7 @@ namespace Onyx3D
             set { Data = value; }
             get { return (int)Data; }
         }
-        public CubemapMaterialProperty(MaterialPropertyType type, int textureId, int index) : base(type, textureId, index) { }
+        public CubemapMaterialProperty(MaterialPropertyType type, int textureId, int index, int order) : base(type, textureId, index, order) { }
     }
 
 
@@ -61,6 +68,8 @@ namespace Onyx3D
 	{
 		public Shader Shader;
 		public Dictionary<string, MaterialProperty> Properties = new Dictionary<string, MaterialProperty>();
+
+		// --------------------------------------------------------------------
 
 		public void ApplyProperties()
 		{
@@ -103,12 +112,16 @@ namespace Onyx3D
 			}
 		}
 
-        public override void Copy(GameAsset other)
+		// --------------------------------------------------------------------
+
+		public override void Copy(GameAsset other)
         {
             Material otherMat = other as Material;
             Shader = otherMat.Shader;
             Properties = otherMat.Properties;
         }
+
+		// --------------------------------------------------------------------
 
 		public T GetProperty<T>(string name) where T : MaterialProperty
 		{
@@ -117,6 +130,8 @@ namespace Onyx3D
 
 			return Properties[name] as T;
 		}
+		
+		// --------------------------------------------------------------------
 
 		public void SetProperty<T>(string name, object data) where T : MaterialProperty
 		{
@@ -133,7 +148,9 @@ namespace Onyx3D
 		}
 
 
+		// --------------------------------------------------------------------
 		// ------ Serialization ------
+		// --------------------------------------------------------------------
 
 		public XmlSchema GetSchema()
 		{
@@ -157,20 +174,21 @@ namespace Onyx3D
 							string id = reader.GetAttribute("id");
 							string type = reader.GetAttribute("type");
 							string value = reader.GetAttribute("value");
-                            if (type == "float")
-                                Properties.Add(id, new MaterialProperty(MaterialPropertyType.Float, (float)Convert.ToDecimal(value)));
+							int order = Convert.ToInt32(reader.GetAttribute("order"));
+							if (type == "float")
+                                Properties.Add(id, new MaterialProperty(MaterialPropertyType.Float, (float)Convert.ToDecimal(value), order));
                             else if (type == "float2")
-                                Properties.Add(id, new MaterialProperty(MaterialPropertyType.Vector2, XmlUtils.StringToVector2(value)));
+                                Properties.Add(id, new MaterialProperty(MaterialPropertyType.Vector2, XmlUtils.StringToVector2(value), order));
                             else if (type == "float3")
-                                Properties.Add(id, new MaterialProperty(MaterialPropertyType.Vector3, XmlUtils.StringToVector3(value)));
+                                Properties.Add(id, new MaterialProperty(MaterialPropertyType.Vector3, XmlUtils.StringToVector3(value), order));
                             else if (type == "float4")
-                                Properties.Add(id, new MaterialProperty(MaterialPropertyType.Vector4, XmlUtils.StringToVector4(value)));
+                                Properties.Add(id, new MaterialProperty(MaterialPropertyType.Vector4, XmlUtils.StringToVector4(value), order));
                             else if (type == "color")
-                                Properties.Add(id, new MaterialProperty(MaterialPropertyType.Color, XmlUtils.StringToVector4(value)));
+                                Properties.Add(id, new MaterialProperty(MaterialPropertyType.Color, XmlUtils.StringToVector4(value), order));
                             else if (type == "sampler2d")
-								Properties.Add(id, new TextureMaterialProperty(MaterialPropertyType.Sampler2D, Convert.ToInt32(value), Convert.ToInt32(reader.GetAttribute("index"))));
+								Properties.Add(id, new TextureMaterialProperty(MaterialPropertyType.Sampler2D, Convert.ToInt32(value), Convert.ToInt32(reader.GetAttribute("index")), order));
 							else if (type == "samplerCube")
-								Properties.Add(id, new CubemapMaterialProperty(MaterialPropertyType.SamplerCube, Convert.ToInt32(value), Convert.ToInt32(reader.GetAttribute("index"))));
+								Properties.Add(id, new CubemapMaterialProperty(MaterialPropertyType.SamplerCube, Convert.ToInt32(value), Convert.ToInt32(reader.GetAttribute("index")), order));
                         }
 						break;
 				}
@@ -191,6 +209,7 @@ namespace Onyx3D
 			{
 				writer.WriteStartElement("Property");
 				writer.WriteAttributeString("id", prop.Key);
+				writer.WriteAttributeString("order", prop.Value.Order.ToString());
 				switch (prop.Value.Type)
 				{
 					case MaterialPropertyType.Color:
