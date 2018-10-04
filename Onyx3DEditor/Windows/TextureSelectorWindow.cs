@@ -33,7 +33,8 @@ namespace Onyx3DEditor
 			
             mTextureIds = new List<OnyxProjectAsset>();
 			listViewTextures.SmallImageList = new ImageList();
-			listViewTextures.SmallImageList.ImageSize = new Size(64, 64);
+            listViewTextures.SmallImageList.ColorDepth = ColorDepth.Depth32Bit;
+            listViewTextures.SmallImageList.ImageSize = new Size(64, 64);
 
             AddTexture(ProjectManager.Instance.Content.GetAsset(BuiltInTexture.Checker));
             AddTexture(ProjectManager.Instance.Content.GetAsset(BuiltInTexture.Black));
