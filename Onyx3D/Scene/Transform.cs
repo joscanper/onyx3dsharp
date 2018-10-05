@@ -6,6 +6,7 @@ using System.Xml.Schema;
 
 namespace Onyx3D
 {
+	[System.Diagnostics.DebuggerDisplay("{GetType()} ({SceneObject.Id})")]
 	public class Transform : IXmlSerializable
 	{
 		public SceneObject SceneObject;
@@ -89,6 +90,11 @@ namespace Onyx3D
         public Transform(SceneObject sceneObject)
 		{
 			SceneObject = sceneObject;
+
+			mLocalPosition = Vector4.Zero;
+			mLocalRotation = Quaternion.Identity;
+			mLocalScale = Vector4.One;
+
 			SetDirty();
 		}
 

@@ -40,6 +40,11 @@ public static class Vector3Extension
 	{
 		return Math.Min(v.X, Math.Max(v.Y, v.Z));
 	}
+
+	public static Vector3 Abs(this Vector3 v)
+	{
+		return new Vector3(Math.Abs(v.X), Math.Abs(v.Y), Math.Abs(v.Z));
+	}
 }
 
 public static class Vector4Extension
@@ -56,4 +61,8 @@ public static class Vector4Extension
 		return Color.FromArgb((int)(v.W * 255.0f), (int)(v.X * 255.0f), (int)(v.Y * 255.0f), (int)(v.Z * 255.0f));
 	}
 
+	public static Vector4 Abs(this Vector4 v)
+	{
+		return new Vector4(Math.Abs(v.X), Math.Abs(v.Y), Math.Abs(v.Z), Math.Abs(v.W));
+	}
 }
