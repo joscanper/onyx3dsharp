@@ -46,8 +46,9 @@ namespace Onyx3DEditor
 			this.renderCanvas.TabIndex = 0;
 			
 			this.renderCanvas.Click += new System.EventHandler(this.renderCanvas_Click);
+			this.renderCanvas.DoubleClick += new System.EventHandler(this.renderCanvas_DoubleClick);
 
-            splitContainer2.Panel1.Controls.Add(this.renderCanvas);
+			splitContainer2.Panel1.Controls.Add(this.renderCanvas);
 		}
 
 		#region Windows Form Designer generated code

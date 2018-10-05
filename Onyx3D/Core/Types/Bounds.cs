@@ -24,7 +24,7 @@ namespace Onyx3D
 
 
 		public void Encapsulate(Vector3 position)
-		{
+		{			
 			if (position.X < Min.X) Min.X = position.X;
 			if (position.Y < Min.Y) Min.Y = position.Y;
 			if (position.Z < Min.Z) Min.Z = position.Z;

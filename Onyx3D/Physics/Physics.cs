@@ -13,16 +13,30 @@ namespace Onyx3D
 		public static bool RaycastScene(Ray ray, out RaycastHit hit, Scene scene)
 		{
 			SceneObject obj = scene.Root;
+			return RaycastObject(ray, out hit, obj);
+		}
+		
+		// --------------------------------------------------------------------
 
+		public static bool RaycastObject(Ray ray, out RaycastHit hit, SceneObject obj)
+		{
 			hit = new RaycastHit();
 			hit.Distance = float.MaxValue;
-			if (scene.Root == null)
+			if (obj == null)
 				return false;
-
 			
-			return scene.Root.IntersectRay(ray, out hit);
+			return obj.IntersectRay(ray, out hit);
 		}
 
+		// --------------------------------------------------------------------
+
+		public static bool RaycastEntity(Ray ray, out RaycastHit hit, EntityProxy obj)
+		{
+			obj.CalculateBounds();
+			return RaycastObject(ray, out hit, obj.EntityRef.Root);
+		}
+
+		// --------------------------------------------------------------------
 
 		public static bool RaycastTriangle(Ray ray, Vector3 vertex0, Vector3 vertex1, Vector3 vertex2, out RaycastHit hit, bool ignoreBackfaces = true)
 		{

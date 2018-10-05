@@ -10,9 +10,10 @@ namespace Onyx3D
 {
 	public abstract class Renderer : Component
 	{
-		public Bounds Bounds { get; protected set; }
+		protected Bounds mBounds;
+		public Bounds Bounds { get { return mBounds; } }
 
-		protected abstract void UpdateBounds();
+		public abstract void UpdateBounds();
 
         public virtual void PreRender() { }
 

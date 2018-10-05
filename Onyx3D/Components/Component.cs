@@ -9,6 +9,7 @@ using System.Xml.Serialization;
 namespace Onyx3D
 {
 	
+	[System.Diagnostics.DebuggerDisplay("{GetType()} ({SceneObject.Id})")]
 	public abstract class Component : Object, IXmlSerializable
 	{
         private SceneObject mObject;

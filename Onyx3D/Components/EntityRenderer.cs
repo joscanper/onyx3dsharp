@@ -27,9 +27,9 @@ namespace Onyx3D
 		
 		// --------------------------------------------------------------------
 
-		protected override void UpdateBounds()
+		public override void UpdateBounds()
 		{
-			Bounds.Clear();
+			mBounds.Clear();
 
 			if (Entity == null)
 				return;
@@ -37,11 +37,12 @@ namespace Onyx3D
 			Entity.Root.Transform.SetModelMatrix(SceneObject.Transform.ModelMatrix);
 
 			if (Renderers.Count > 0)
-				Bounds = Renderers[0].Bounds;
-
+				mBounds = Renderers[0].Bounds;
+			
 			foreach(Renderer renderer in Renderers)
 			{
-				Bounds.Encapsulate(renderer.Bounds);
+				renderer.UpdateBounds();
+				mBounds.Encapsulate(renderer.Bounds);
 			}
 		}
 
@@ -77,6 +78,7 @@ namespace Onyx3D
 				return false;
 
 			myEntity.Root.Transform.SetModelMatrix(SceneObject.Transform.ModelMatrix);
+
 			myEntity.Root.IntersectRay(ray, out hit);
 
 			if (hit.Object != null)

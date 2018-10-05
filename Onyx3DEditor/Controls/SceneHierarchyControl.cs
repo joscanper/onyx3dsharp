@@ -5,15 +5,26 @@ using System.Windows.Forms;
 
 using Onyx3D;
 
+
+
 namespace Onyx3DEditor
 {
+	public class OnHierarchyEntityChange : EventArgs
+	{
+		public EntityProxy EntityProxy;
+	}
+
 	public partial class SceneHierarchyControl : UserControl
 	{
         private Scene mScene;
 		private TreeNode mPrevSelected;
-		private Entity mExpandedEntity;
+		private EntityProxy mEntityProxy;
+		private OnHierarchyEntityChange mEntityChangeEvent = new OnHierarchyEntityChange();
 
-        // --------------------------------------------------------------------
+		public EventHandler<OnHierarchyEntityChange> OnEntityEditingChange;
+		
+		
+		// --------------------------------------------------------------------
 
         public SceneHierarchyControl()
 		{
@@ -158,24 +169,48 @@ namespace Onyx3DEditor
 
         private void treeViewScene_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
 		{
-			if (e.Node.GetType() != typeof(SceneTreeNode))
+			if (e.Node.GetType() != typeof(SceneTreeNode) && mEntityProxy != null)
 			{
-				if (mExpandedEntity != null)
-				{
-					AssetLoader<Entity>.Save(mExpandedEntity, mExpandedEntity.LinkedProjectAsset.Path);
-					mExpandedEntity = null;
-				}
-				SetScene(mScene);
+				ExitEntity();
+				NotifyChange();
 				return;
 			}
-
-			SceneTreeNode node = (SceneTreeNode)e.Node;
-			EntityProxy entity = node.BoundSceneObject as EntityProxy;
-			if (entity != null)
+			else
 			{
-				SetObject(entity.EntityRef.Root);
-				mExpandedEntity = entity.EntityRef;
+				SceneTreeNode node = (SceneTreeNode)e.Node;
+				EntityProxy proxy = node.BoundSceneObject as EntityProxy;
+				if (proxy != null)
+				{
+					EnterEntity(proxy);
+					NotifyChange();
+				}
 			}
+			
+		}
+
+		// --------------------------------------------------------------------
+
+		public void ExitEntity()
+		{
+			AssetLoader<Entity>.Save(mEntityProxy.EntityRef, mEntityProxy.EntityRef.LinkedProjectAsset.Path);
+			mEntityProxy = null;
+			SetScene(mScene);			
+		}
+
+		// --------------------------------------------------------------------
+
+		public void EnterEntity(EntityProxy proxy)
+		{
+			mEntityProxy = proxy;
+			SetObject(mEntityProxy.EntityRef.Root);
+		}
+
+		// --------------------------------------------------------------------
+
+		private void NotifyChange()
+		{
+			mEntityChangeEvent.EntityProxy = mEntityProxy;
+			OnEntityEditingChange(this, mEntityChangeEvent);
 		}
 	}
 }

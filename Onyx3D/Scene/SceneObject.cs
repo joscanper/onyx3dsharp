@@ -9,13 +9,14 @@ using System.Xml.Serialization;
 namespace Onyx3D
 {
 	
+	[System.Diagnostics.DebuggerDisplay("{GetType()} {Id}")]
 	public class SceneObject : Object, IXmlSerializable, IDisposable
 	{
 	
 		private List<Component> mComponents = new List<Component>();
 		private SceneObject mParent;
 		private Bounds mObjectBounds = new Bounds();
-		private List<Renderer> mTmpRendererList = new List<Renderer>();
+		protected List<Renderer> mTmpRendererList = new List<Renderer>();
 
 		// --------------------------------------------------------------------
 
@@ -394,12 +395,12 @@ namespace Onyx3D
 
 		private List<Renderer> mRaycastCandidates = new List<Renderer>();
 
-		public bool IntersectRay(Ray ray, out RaycastHit hit)
+		public virtual bool IntersectRay(Ray ray, out RaycastHit hit)
 		{
 			hit = new RaycastHit();
 
 			mRaycastCandidates.Clear();
-			this.GetIntersectedRendererBounds(ray, this, mRaycastCandidates);
+			GetIntersectedRendererBounds(ray, mRaycastCandidates);
 
 			hit.Distance = float.MaxValue;
 			RaycastHit objHit = new RaycastHit();
@@ -416,10 +417,11 @@ namespace Onyx3D
 
 		// --------------------------------------------------------------------
 
-		private void GetIntersectedRendererBounds(Ray ray, SceneObject obj, List<Renderer> list)
+		public virtual void GetIntersectedRendererBounds(Ray ray, List<Renderer> list)
 		{
 			mTmpRendererList.Clear();
-			obj.GetComponentsInChildren<Renderer>(mTmpRendererList, true);
+			GetComponents<Renderer>(mTmpRendererList);
+
 			if (mTmpRendererList.Count > 0)
 			{
 				for (int i = 0; i < mTmpRendererList.Count; ++i)
@@ -430,6 +432,12 @@ namespace Onyx3D
 					}
 				}
 			}
+
+			ForEachChild(c =>
+			{
+				c.GetIntersectedRendererBounds(ray, list);
+			});
+			
 		}
 
 		// --------------------------------------------------------------------

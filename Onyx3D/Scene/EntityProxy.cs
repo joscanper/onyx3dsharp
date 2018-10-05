@@ -78,6 +78,25 @@ namespace Onyx3D
 		}
 
 		// --------------------------------------------------------------------
+
+		public override Bounds CalculateBounds()
+		{
+			mRenderer.UpdateBounds();
+			return base.CalculateBounds();
+		}
+
+		// --------------------------------------------------------------------
+
+		public override void GetIntersectedRendererBounds(Ray ray, List<Renderer> list)
+		{
+			base.GetIntersectedRendererBounds(ray, list);
+
+			mRenderer.UpdateBounds();
+			
+			EntityRef.Root.GetIntersectedRendererBounds(ray, list);
+		}
+
+		// --------------------------------------------------------------------
 		// ------ Serialization ------
 		// --------------------------------------------------------------------
 

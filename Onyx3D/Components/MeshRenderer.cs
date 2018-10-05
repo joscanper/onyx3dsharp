@@ -61,17 +61,17 @@ namespace Onyx3D
 		
 		// --------------------------------------------------------------------
 
-		protected override void UpdateBounds()
+		public override void UpdateBounds()
 		{
 			if (Mesh == null)
 			{
-				Bounds = new Bounds();
+				mBounds = new Bounds();
 				return;
 			}
 
 			if (Transform == null)
 			{
-				Bounds = Mesh.Bounds;
+				mBounds = Mesh.Bounds;
 				return;
 			}
 
@@ -87,8 +87,8 @@ namespace Onyx3D
 			}
 
 			bounds.Center = initPos;
-			
-			Bounds = bounds;
+
+			mBounds = bounds;
 		}
 
 		// --------------------------------------------------------------------

@@ -1,46 +1,47 @@
-﻿using System;
-using System.Drawing;
-using System.Windows.Forms;
-using System.Collections.Generic;
-
-using Onyx3D;
+﻿using Onyx3D;
 using OpenTK;
+using System;
+using System.Collections.Generic;
+using System.Drawing;
 using System.Text;
+using System.Windows.Forms;
 
 namespace Onyx3DEditor
 {
-    
 	public partial class MainWindow : SingletonForm<MainWindow>
 	{
-   
-        bool canDraw = false;
+		private bool mCanDraw = false;
+		private Onyx3DInstance mOnyxInstance;
+		private GridRenderer mGridRenderer;
+		private SceneObject mSelectedSceneObject;
+		private EntityProxy mSelectedEntity;
+		private ObjectHandler mObjectHandler;
+		private OnyxViewerNavigation mNavigation = new OnyxViewerNavigation();
 
-		Onyx3DInstance mOnyxInstance;
-		GridRenderer mGridRenderer;
-		SceneObject mSelectedSceneObject;
-		Ray mClickRay;
-		ObjectHandler mObjectHandler;
-		OnyxViewerNavigation mNavigation = new OnyxViewerNavigation();
+		// --------------------------------------------------------------------
 
-        // --------------------------------------------------------------------
+		private bool EditingEntity { get { return mSelectedEntity != null; } }
 
-        public MainWindow()
+		// --------------------------------------------------------------------
+
+		public MainWindow()
 		{
-			
 			InitializeComponent();
-            InitializeCanvas();
+			InitializeCanvas();
 
-            Selection.OnSelectionChanged += OnSelectionChanged;
-            SceneManagement.OnSceneChanged += OnSceneChanged;
+			Selection.OnSelectionChanged += OnSelectionChanged;
+			SceneManagement.OnSceneChanged += OnSceneChanged;
 
-            mNavigation.Bind(renderCanvas);
+			sceneHierarchy.OnEntityEditingChange += OnEntityEditingChange;
 
-            KeyPreview = true;
+			mNavigation.Bind(renderCanvas);
+
+			KeyPreview = true;
 		}
 
-        // --------------------------------------------------------------------
+		// --------------------------------------------------------------------
 
-        private void InitializeEditor()
+		private void InitializeEditor()
 		{
 			Onyx3DEngine.InitMain(renderCanvas.Context, renderCanvas.WindowInfo);
 			mOnyxInstance = Onyx3DEngine.Instance;
@@ -92,35 +93,40 @@ namespace Onyx3DEditor
 			RenderScene();
 		}
 
-        // --------------------------------------------------------------------
+		// --------------------------------------------------------------------
 
-        private void OnInspectorChanged(object sender, EventArgs args)
+		private void OnInspectorChanged(object sender, EventArgs args)
 		{
 			RenderScene();
 		}
 
-        // --------------------------------------------------------------------
+		// --------------------------------------------------------------------
 
-        private void OnTransformModifiedFromObjectHandler()
+		private void OnTransformModifiedFromObjectHandler()
 		{
 			selectedObjectInspector.Fill(mSelectedSceneObject);
 		}
 
-        // --------------------------------------------------------------------
+		// --------------------------------------------------------------------
 
-        private void OnSceneChanged(Scene s)
+		private void OnSceneChanged(Scene s)
 		{
 			sceneHierarchy.SetScene(s);
 			renderCanvas.Refresh();
-            Selection.ActiveObject = null;
+			Selection.ActiveObject = null;
 		}
 
-        // --------------------------------------------------------------------
+		// --------------------------------------------------------------------
 
-        private void HighlightSelected()
+		private void HighlightSelected()
 		{
 			if (mSelectedSceneObject != null)
 			{
+				if (EditingEntity)
+				{
+					mSelectedEntity.CalculateBounds();
+				}
+
 				mObjectHandler.Update();
 
 				foreach (SceneObject obj in Selection.Selected)
@@ -132,48 +138,69 @@ namespace Onyx3DEditor
 				Bounds activeBounds = Selection.ActiveObject.CalculateBounds();
 				mOnyxInstance.Gizmos.DrawBox(activeBounds.Center, activeBounds.Size * 1.01f, Color.Orange.ToVector().Xyz);
 			}
-
 		}
 
-        // --------------------------------------------------------------------
+		// --------------------------------------------------------------------
 
-        private void RenderScene()
-		{            
-            if (!canDraw)
+		private void RenderScene()
+		{
+			if (!mCanDraw)
 				return;
-            
-            renderCanvas.MakeCurrent();
-            mOnyxInstance.Resources.RefreshAll();
 
-            mNavigation.UpdateCamera();
-            
-            mOnyxInstance.Renderer.Render(SceneManagement.ActiveScene, mNavigation.Camera, renderCanvas.Width, renderCanvas.Height);
+			renderCanvas.MakeCurrent();
+			mOnyxInstance.Resources.RefreshAll();
+
+			mNavigation.UpdateCamera();
+
+			mOnyxInstance.Renderer.Render(SceneManagement.ActiveScene, mNavigation.Camera, renderCanvas.Width, renderCanvas.Height);
 			mOnyxInstance.Renderer.Render(mGridRenderer, mNavigation.Camera);
 
 			HighlightSelected();
 
-			mOnyxInstance.Gizmos.DrawComponentGizmos(mNavigation.Camera, SceneManagement.ActiveScene);            
+			mOnyxInstance.Gizmos.DrawComponentGizmos(mNavigation.Camera, SceneManagement.ActiveScene);
 
 			renderCanvas.SwapBuffers();
 		}
 
-        // --------------------------------------------------------------------
+		// --------------------------------------------------------------------
 
-        public void UpdateHierarchy()
-        {
-            sceneHierarchy.UpdateScene();
-        }
+		public void UpdateHierarchy()
+		{
+			sceneHierarchy.UpdateScene();
+		}
 
-        // --------------------------------------------------------------------
+		// --------------------------------------------------------------------
 
-        #region RenderCanvas callbacks
+		private void Select(SceneObject obj)
+		{
+			if (ModifierKeys.HasFlag(Keys.Control))
+			{
+				Selection.Add(obj);
+			}
+			else
+			{
+				Selection.ActiveObject = obj;
+			}
+		}
 
-        private void renderCanvas_Load(object sender, EventArgs e)
+		// --------------------------------------------------------------------
+
+		private void SetEditingEntity(EntityProxy proxy)
+		{
+			mSelectedEntity = proxy;
+			Selection.ActiveObject = null;
+		}
+
+		// --------------------------------------------------------------------
+
+		#region RenderCanvas callbacks
+
+		private void renderCanvas_Load(object sender, EventArgs e)
 		{
 			InitializeEditor();
-            SceneManagement.LoadInitScene();
+			SceneManagement.LoadInitScene();
 
-            canDraw = true;
+			mCanDraw = true;
 
 			RenderScene();
 		}
@@ -192,39 +219,59 @@ namespace Onyx3DEditor
 
 			if (mouseEvent.Button == MouseButtons.Left && !mObjectHandler.IsHandling)
 			{
-				mClickRay = mNavigation.Camera.ScreenPointToRay(mouseEvent.X, mouseEvent.Y, renderCanvas.Width, renderCanvas.Height);
+				Ray clickRay = mNavigation.Camera.ScreenPointToRay(mouseEvent.X, mouseEvent.Y, renderCanvas.Width, renderCanvas.Height);
 
 				RaycastHit hit = new RaycastHit();
-				if (Physics.RaycastScene(mClickRay, out hit, SceneManagement.ActiveScene))
+				if (!EditingEntity)
 				{
-					if (ModifierKeys.HasFlag(Keys.Control))
+					if (Physics.RaycastScene(clickRay, out hit, SceneManagement.ActiveScene))
 					{
-						Selection.Add(hit.Object);
+						Select(hit.Object);
 					}
 					else
 					{
-						Selection.ActiveObject = hit.Object;
+						Selection.ActiveObject = null;
 					}
 				}
 				else
 				{
-					Selection.ActiveObject = null;
+					if (Physics.RaycastEntity(clickRay, out hit, mSelectedEntity))
+					{
+						Select(hit.Object);
+					}
+					else
+					{
+						Selection.ActiveObject = null;
+					}
 				}
 
 				renderCanvas.Refresh();
 			}
 		}
 
-
-        #endregion
-
-        // --------------------------------------------------------------------
-
-        #region UI callbacks
-
-        private void timer1_Tick(object sender, EventArgs e)
+		private void renderCanvas_DoubleClick(object sender, EventArgs e)
 		{
-            mNavigation.OnFrameTick();
+			if (Selection.ActiveObject != null && Selection.ActiveObject.GetType() == typeof(EntityProxy))
+			{
+				EntityProxy proxy = (EntityProxy)Selection.ActiveObject;
+				sceneHierarchy.EnterEntity(proxy);
+				SetEditingEntity(proxy);
+			}else if (Selection.ActiveObject == null && EditingEntity)
+			{
+				sceneHierarchy.ExitEntity();
+				SetEditingEntity(null);
+			}
+		}
+
+		#endregion RenderCanvas callbacks
+
+		// --------------------------------------------------------------------
+
+		#region UI callbacks
+
+		private void timer1_Tick(object sender, EventArgs e)
+		{
+			mNavigation.OnFrameTick();
 		}
 
 		private void toolStripButtonEntityManager_Click(object sender, EventArgs e)
@@ -234,8 +281,8 @@ namespace Onyx3DEditor
 
 		private void toolStripButtonSaveProject_Click(object sender, EventArgs e)
 		{
-            EditorSceneUtils.Save();
-            ProjectLoader.Save();
+			EditorSceneUtils.Save();
+			ProjectLoader.Save();
 			Logger.Instance.Clear();
 			Logger.Instance.Append("Saved " + DateTime.Now.ToString());
 			UpdateFormTitle();
@@ -243,8 +290,8 @@ namespace Onyx3DEditor
 
 		private void toolStripButtonMaterials_Click(object sender, EventArgs e)
 		{
-            MaterialEditorWindow matEditor = new MaterialEditorWindow();
-            matEditor.Show();
+			MaterialEditorWindow matEditor = new MaterialEditorWindow();
+			matEditor.Show();
 		}
 
 		private void toolStripButtonTextures_Click(object sender, EventArgs e)
@@ -258,9 +305,9 @@ namespace Onyx3DEditor
 			if (confirmResult == DialogResult.Yes)
 			{
 				ProjectManager.Instance.New();
-                SceneManagement.New();
-                ProjectLoader.Save();
-            }
+				SceneManagement.New();
+				ProjectLoader.Save();
+			}
 		}
 
 		private void toolStripButtonOpenProject_Click(object sender, EventArgs e)
@@ -275,7 +322,7 @@ namespace Onyx3DEditor
 			if (openFileDialog1.ShowDialog() == DialogResult.OK)
 			{
 				ProjectManager.Instance.Load(openFileDialog1.FileName);
-                SceneManagement.LoadInitScene();
+				SceneManagement.LoadInitScene();
 			}
 		}
 
@@ -288,7 +335,7 @@ namespace Onyx3DEditor
 
 		private void toolStripButtonOpenScene_Click(object sender, EventArgs e)
 		{
-            EditorSceneUtils.Open();
+			EditorSceneUtils.Open();
 		}
 
 		private void toolStripCreateCube_Click(object sender, EventArgs e)
@@ -298,40 +345,40 @@ namespace Onyx3DEditor
 
 		private void toolStripCreateCylinder_Click(object sender, EventArgs e)
 		{
-            EditorSceneObjectUtils.AddPrimitive(BuiltInMesh.Cylinder, "Cylinder");
+			EditorSceneObjectUtils.AddPrimitive(BuiltInMesh.Cylinder, "Cylinder");
 		}
 
 		private void toolStripCreateTeapot_Click(object sender, EventArgs e)
 		{
-            EditorSceneObjectUtils.AddPrimitive(BuiltInMesh.Teapot, "Teapot");
+			EditorSceneObjectUtils.AddPrimitive(BuiltInMesh.Teapot, "Teapot");
 		}
 
 		private void toolStripCreateSphere_Click(object sender, EventArgs e)
 		{
-            EditorSceneObjectUtils.AddPrimitive(BuiltInMesh.Sphere, "Sphere");
+			EditorSceneObjectUtils.AddPrimitive(BuiltInMesh.Sphere, "Sphere");
 		}
 
-        private void toolStripCreateQuad_Click(object sender, EventArgs e)
-        {
-            EditorSceneObjectUtils.AddPrimitive(BuiltInMesh.Quad, "Quad");
-        }
-
-        private void toolStripCreateLight_Click(object sender, EventArgs e)
+		private void toolStripCreateQuad_Click(object sender, EventArgs e)
 		{
-            EditorSceneObjectUtils.AddLight();
-        }
+			EditorSceneObjectUtils.AddPrimitive(BuiltInMesh.Quad, "Quad");
+		}
 
-        private void toolStripCreateTemplate_Click(object sender, EventArgs e)
-        {
-            EditorEntityUtils.AddProxy();
-        }
+		private void toolStripCreateLight_Click(object sender, EventArgs e)
+		{
+			EditorSceneObjectUtils.AddLight();
+		}
 
-        private void toolStripCreateCamera_Click(object sender, EventArgs e)
-        {
-            EditorSceneObjectUtils.AddCamera();
-        }
+		private void toolStripCreateTemplate_Click(object sender, EventArgs e)
+		{
+			EditorEntityUtils.AddProxy();
+		}
 
-        private void toolStripButtonMove_Click(object sender, EventArgs e)
+		private void toolStripCreateCamera_Click(object sender, EventArgs e)
+		{
+			EditorSceneObjectUtils.AddCamera();
+		}
+
+		private void toolStripButtonMove_Click(object sender, EventArgs e)
 		{
 			toolStripButtonScale.Checked = false;
 			toolStripButtonMove.Checked = true;
@@ -357,34 +404,34 @@ namespace Onyx3DEditor
 			mObjectHandler.SetAxisAction(ObjectHandler.HandlerAxisAction.Rotate);
 			renderCanvas.Refresh();
 		}
-        
+
 		private void toolStripButtonImportModel_Click(object sender, EventArgs e)
 		{
-            if (ProjectManager.Instance.CurrentProjectPath.Length == 0)
-            {
-                ProjectLoader.Save();
+			if (ProjectManager.Instance.CurrentProjectPath.Length == 0)
+			{
+				ProjectLoader.Save();
 				UpdateFormTitle();
 			}
-            else
-            {
-                new ModelImporterWindow().Show();
-            }
+			else
+			{
+				new ModelImporterWindow().Show();
+			}
 		}
 
-        private void duplicateSceneObjectToolStripMenuItem_Click(object sender, EventArgs e)
+		private void duplicateSceneObjectToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-            EditorSceneObjectUtils.Duplicate();
+			EditorSceneObjectUtils.Duplicate();
 		}
 
 		private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			if (Selection.ActiveObject != null)
-                EditorSceneObjectUtils.Delete(Selection.Selected);
+				EditorSceneObjectUtils.Delete(Selection.Selected);
 		}
 
 		private void toolStripCreateReflectionProbe_Click(object sender, EventArgs e)
 		{
-            EditorSceneObjectUtils.AddReflectionProbe();
+			EditorSceneObjectUtils.AddReflectionProbe();
 		}
 
 		private void bakeToolStripMenuItem_Click(object sender, EventArgs e)
@@ -396,57 +443,54 @@ namespace Onyx3DEditor
 
 		private void setParentToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-            EditorSceneObjectUtils.SetActiveAsParent();
+			EditorSceneObjectUtils.SetActiveAsParent();
 		}
-		
 
 		private void clearParentToolStripMenuItem_Click_1(object sender, EventArgs e)
 		{
-            EditorSceneObjectUtils.ClearParent();
+			EditorSceneObjectUtils.ClearParent();
 		}
 
 		private void groupObjectsToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-            EditorSceneObjectUtils.Group(Selection.Selected);
+			EditorSceneObjectUtils.Group(Selection.Selected);
 		}
 
 		private void createEntityToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-            EditorEntityUtils.CreateFromSelection();
+			EditorEntityUtils.CreateFromSelection();
 		}
 
 		private void excludeFromEntityToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-            EditorEntityUtils.ExcludeSelection();
+			EditorEntityUtils.ExcludeSelection();
 		}
 
 		private void saveSceneToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-            EditorSceneUtils.Save();
+			EditorSceneUtils.Save();
 		}
 
 		private void newSceneToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-            SceneManagement.New();
-        }
+			SceneManagement.New();
+		}
 
+		private void refreshToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			int newAssets = ProjectManager.Instance.Content.RefreshAssets();
+			if (newAssets > 0)
+			{
+				MessageBox.Show(string.Format("{0} new assets have been imported", newAssets));
+			}
+		}
 
-        private void refreshToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            int newAssets = ProjectManager.Instance.Content.RefreshAssets();
-            if (newAssets > 0)
-            {
-                MessageBox.Show(string.Format("{0} new assets have been imported", newAssets));
-            }
-        }
-		
 		private void revertMaterialsToDefaultToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			DefaultMaterial defaultMat = new DefaultMaterial();
 			foreach (OnyxProjectAsset matAsset in ProjectManager.Instance.Content.Materials)
 			{
 				Material mat = AssetLoader<Material>.Load(matAsset.Path, true);
-
 
 				foreach (KeyValuePair<string, MaterialProperty> prop in defaultMat.Properties)
 				{
@@ -467,7 +511,12 @@ namespace Onyx3DEditor
 			mOnyxInstance.Resources.RefreshAll();
 		}
 
-		#endregion
+		private void OnEntityEditingChange(object sender, OnHierarchyEntityChange e)
+		{
+			SetEditingEntity(e.EntityProxy);
+		}
+
+		#endregion UI callbacks
 
 		private void MainWindow_FormClosed(object sender, FormClosedEventArgs e)
 		{
@@ -489,6 +538,5 @@ namespace Onyx3DEditor
 				}
 			}
 		}
-
 	}
 }
