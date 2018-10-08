@@ -66,15 +66,16 @@ void main()
 {
 	o_color = color;
 	o_uv = vec2(texcoord.x, 1.0 - texcoord.y);
-	o_normal = normalize(NM * vec4(normal, 0.0f)).xyz; 
+	o_normal = normalize(normal); 
 
 	vec4 worldPos = M * vec4(position, 1.0f);
 	o_fragpos = worldPos.xyz;
 	
-	o_tbn = mat3(
-		normalize(vec3(NM * vec4(tangent, 0.0))), 
-		normalize(vec3(NM * vec4(bitangent, 0.0))), 
-		o_normal);
+	vec3 tng = normalize(vec3(NM * normalize(vec4(tangent, 0.0))));
+	vec3 bitng = normalize(vec3(NM * normalize(vec4(bitangent, 0.0))));
+	vec3 nom  = normalize(NM * vec4(o_normal, 0.0f)).xyz;
+	
+	o_tbn = mat3( normalize(tng), normalize(bitng),  normalize(nom));
 
 	gl_Position = P * V * worldPos;
 
