@@ -148,7 +148,7 @@ namespace Onyx3DEditor
 				return;
 
 			renderCanvas.MakeCurrent();
-			mOnyxInstance.Resources.RefreshAll();
+			mOnyxInstance.Resources.RefreshDirty();
 
 			mNavigation.UpdateCamera();
 
@@ -304,7 +304,8 @@ namespace Onyx3DEditor
 			var confirmResult = MessageBox.Show("Are you sure to start a new project?", "New Project", MessageBoxButtons.YesNo);
 			if (confirmResult == DialogResult.Yes)
 			{
-				ProjectManager.Instance.New();
+                mOnyxInstance.Reset();
+                ProjectManager.Instance.New();
 				SceneManagement.New();
 				ProjectLoader.Save();
 			}
@@ -507,8 +508,9 @@ namespace Onyx3DEditor
 				}
 
 				AssetLoader<Material>.Save(mat, matAsset.Path);
+                ProjectManager.Instance.Content.MarkDirty(mat.LinkedProjectAsset.Guid);
 			}
-			mOnyxInstance.Resources.RefreshAll();
+			mOnyxInstance.Resources.RefreshDirty();
 		}
 
 		private void OnEntityEditingChange(object sender, OnHierarchyEntityChange e)
@@ -538,5 +540,13 @@ namespace Onyx3DEditor
 				}
 			}
 		}
-	}
+
+        private void reloadDefaultShaderToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            
+            Shader shader = mOnyxInstance.Resources.GetShader(BuiltInShader.Default);
+            shader.Load("../../../Onyx3D/Resources/Shaders/VertexShader.glsl", "../../../Onyx3D/Resources/Shaders/FragmentShader.glsl");
+            renderCanvas.Refresh();
+        }
+    }
 }

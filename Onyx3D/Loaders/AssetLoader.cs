@@ -5,7 +5,8 @@ using System.Xml.Serialization;
 
 namespace Onyx3D
 {
-	public class AssetLoader<T> where T : IXmlSerializable
+   
+    public class AssetLoader<T> where T : IXmlSerializable
 	{
 
 		public static T Load(string path, bool relative, params object[] args)

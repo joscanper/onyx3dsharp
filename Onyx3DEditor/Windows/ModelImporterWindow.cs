@@ -57,7 +57,9 @@ namespace Onyx3DEditor
 
             AssimpContext importer = new AssimpContext();
             importer.SetConfig(new NormalSmoothingAngleConfig(66.0f));
+            
             mCurrentModel = importer.ImportFile(path, PostProcessPreset.TargetRealTimeMaximumQuality);
+            
             
             ReloadSupportFile();
 
@@ -226,9 +228,14 @@ namespace Onyx3DEditor
             }
             else
             {
-                if (ProjectManager.Instance.Content.GetAsset(id) == null)
+                OnyxProjectAsset asset = ProjectManager.Instance.Content.GetAsset(id);
+                if (asset == null)
                 {
                     ProjectManager.Instance.Content.AddObject(meshPath, false, ProjectManager.Instance.Content.Meshes, id, onyxMesh);
+                }
+                else
+                {
+                    onyxMesh.LinkedProjectAsset = asset;
                 }
             }
 
@@ -237,8 +244,8 @@ namespace Onyx3DEditor
             data.Id = id;
             data.Name = name;
             mSupportFile.Meshes.Add(data);
-
-            onyxMesh.LinkedProjectAsset.Dirty = true;
+            
+            ProjectManager.Instance.Content.MarkDirty(id);
 
             return id;
         }

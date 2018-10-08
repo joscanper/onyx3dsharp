@@ -221,7 +221,8 @@ namespace Onyx3DEditor
 		{
 			AssetLoader<Material>.Save(mMaterial, mMaterial.LinkedProjectAsset.Path);
             MaterialSaved?.Invoke(SelectedMaterial);
-            mMaterial.LinkedProjectAsset.Dirty = true;
+
+            ProjectManager.Instance.Content.MarkDirty(mMaterial.LinkedProjectAsset.Guid);
 
             materialViewList1.UpdateMaterial(SelectedMaterial != null ? SelectedMaterial.Guid : -1);
         }

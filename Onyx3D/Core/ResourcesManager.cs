@@ -9,107 +9,116 @@ namespace Onyx3D
 
 	public class ResourcesManager : EngineComponent
 	{
-		private Dictionary<int, Mesh> mMeshes = new Dictionary<int, Mesh>();
-		private Dictionary<int, Texture> mTextures = new Dictionary<int, Texture>();
-		private Dictionary<int, Material> mMaterials = new Dictionary<int, Material>();
-		private Dictionary<int, Shader> mShaders = new Dictionary<int, Shader>();
-        private Dictionary<int, Entity> mEntities = new Dictionary<int, Entity>();
+        private Dictionary<Type, Func<OnyxProjectAsset, GameAsset>> mLoaders = new Dictionary<Type, Func<OnyxProjectAsset, GameAsset>>();
+        private Dictionary<int, GameAsset> mLoadedAssets = new Dictionary<int, GameAsset>();
 
-		// --------------------------------------------------------------------
-
-		public void RefreshAll()
+        public ResourcesManager()
         {
-            Refresh(mMeshes, LoadMesh);
-            Refresh(mTextures, LoadTexture);
-            Refresh(mMaterials, LoadMaterial);
-            Refresh(mShaders, LoadShader);
-            Refresh(mEntities, LoadEntity);
+            mLoaders.Add(typeof(Entity), LoadEntity);
+            mLoaders.Add(typeof(Material), LoadMaterial);
+            mLoaders.Add(typeof(Texture), LoadTexture);
+            mLoaders.Add(typeof(Mesh), LoadMesh);
+            mLoaders.Add(typeof(Shader), LoadShader);
+        }
+
+        // --------------------------------------------------------------------
+
+        public void ClearAll()
+        {
+            mLoadedAssets.Clear();            
         }
 
 		// --------------------------------------------------------------------
 
-		private void Refresh<T>(Dictionary<int, T> dict, Func<OnyxProjectAsset, T> loadFallback) where T : GameAsset
+		public void RefreshDirty()
         {
-            foreach(KeyValuePair<int, T> asset in dict)
+            HashSet<int> dirtyGuids = ProjectManager.Instance.Content.GetDirtyAssetsGuid();
+            foreach (int guid in dirtyGuids)
+                Refresh(guid);
+            ProjectManager.Instance.Content.ClearDirty();
+        }
+
+        // --------------------------------------------------------------------
+
+        private void Refresh(int guid)
+        {
+            if (!mLoadedAssets.ContainsKey(guid))
+                return;
+
+            GameAsset asset = mLoadedAssets[guid];
+            Type assetType = asset.GetType();
+            OnyxProjectAsset projectAsset = asset.LinkedProjectAsset;
+            if (projectAsset == null)
             {
-                if (asset.Value.LinkedProjectAsset.Dirty)
-                {
-                    ReloadResource(asset.Key, dict, loadFallback);
-                }
+                projectAsset = ProjectManager.Instance.Content.GetAsset(guid);
+                mLoadedAssets[guid].LinkedProjectAsset = projectAsset;
             }
+
+            mLoadedAssets[guid].Copy(mLoaders[assetType](projectAsset));
+
+            Logger.Instance.Append("Reloaded "+ assetType +" guid : " + guid);
         }
 
+        // --------------------------------------------------------------------
+        // -----------------------------------------------------------  Getters
+        // --------------------------------------------------------------------
 
-		// --------------------------------------------------------------------
-		// -----------------------------------------------------------  Getters
-		// --------------------------------------------------------------------
 
-
-		private T GetResource<T>(int id, Dictionary<int, T> map, Func<OnyxProjectAsset, T> loadFallback, int defaultAsset) where T : GameAsset
+        private T GetResource<T>(int id, Func<OnyxProjectAsset, T> loadFallback, int defaultAsset) where T : GameAsset
 		{
             
-			if (!map.ContainsKey(id))
+			if (!mLoadedAssets.ContainsKey(id))
 			{
 				OnyxProjectAsset asset = ProjectManager.Instance.Content.GetAsset(id);
 				if (asset == null)
 				{
 					if (defaultAsset > 0)
-						return GetResource(defaultAsset, map, loadFallback, 0);
+						return GetResource(defaultAsset, loadFallback, 0);
 					else
 						return null;
 				}
-                
-                map[id] = loadFallback(asset);
-				map[id].LinkedProjectAsset = asset; 
+
+                mLoadedAssets[id] = loadFallback(asset);
+                mLoadedAssets[id].LinkedProjectAsset = asset; 
 			}
 
-			return map[id];
+			return (T)mLoadedAssets[id];
 		}
-
-		// --------------------------------------------------------------------
-
-		public void ReloadResource<T>(int id, Dictionary<int, T> map, Func<OnyxProjectAsset, T> loadFallback) where T : GameAsset
-        {
-            OnyxProjectAsset asset = GetResource(id, map, loadFallback, 0).LinkedProjectAsset;
-            T newAsset = loadFallback(asset);
-            map[id].Copy(newAsset);
-            map[id].IsDirty = false;
-        }
 
 		// --------------------------------------------------------------------
 
 		public Mesh GetMesh(int id)
 		{
-			Mesh m = GetResource(id, mMeshes, LoadMesh, BuiltInMesh.Cube);
+			Mesh m = GetResource(id, LoadMesh, BuiltInMesh.Cube);
 			return m;
 		}
 
-		// --------------------------------------------------------------------
+        // --------------------------------------------------------------------
 
-		public Material GetMaterial(int id)
+        public Material GetMaterial(int id)
 		{
-			return GetResource(id, mMaterials, LoadMaterial, BuiltInMaterial.NotFound);
+			return GetResource(id, LoadMaterial, BuiltInMaterial.NotFound);
 		}
 
 		// --------------------------------------------------------------------
 
 		public Texture GetTexture(int id)
 		{
-			return GetResource(id, mTextures, LoadTexture, BuiltInTexture.Checker);
+			return GetResource(id, LoadTexture, BuiltInTexture.Checker);
 		}
 
 		// --------------------------------------------------------------------
 
 		public Shader GetShader(int id)
 		{
-			return GetResource(id, mShaders, LoadShader, BuiltInShader.Default);
+			return GetResource(id, LoadShader, BuiltInShader.Default);
 		}
 
 		// --------------------------------------------------------------------
 
 		public Entity GetEntity(int id)
         {
-            return GetResource(id, mEntities, LoadEntity, 0);
+            return GetResource(id, LoadEntity, 0);
         }
 
 
@@ -117,6 +126,8 @@ namespace Onyx3D
 		// -----------------------------------------------------------  Loaders
 		// --------------------------------------------------------------------
 
+        // TODO - All assets should be able to be loaded using AssetLoader
+        // I have to add meta files for those assets that don´t have it yet
 
 		private Mesh LoadMesh(OnyxProjectAsset asset)
 		{
@@ -151,8 +162,7 @@ namespace Onyx3D
         {
             return AssetLoader<Entity>.Load(asset.Path, true);
         }
-
-
+        
     }
 
 }

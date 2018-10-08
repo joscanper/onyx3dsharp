@@ -175,7 +175,7 @@ namespace Onyx3DEditor
 				NotifyChange();
 				return;
 			}
-			else
+			else if (e.Node.GetType() == typeof(SceneTreeNode))
 			{
 				SceneTreeNode node = (SceneTreeNode)e.Node;
 				EntityProxy proxy = node.BoundSceneObject as EntityProxy;

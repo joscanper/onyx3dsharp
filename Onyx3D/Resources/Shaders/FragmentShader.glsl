@@ -1,7 +1,7 @@
 ﻿#version 330
 
 #define IRRADIANCE_LOD 4
-#define REFLECTION_LOD 10
+#define REFLECTION_LOD 8
 
 #define MAX_DIR_LIGHTS 2
 #define MAX_POINT_LIGHTS 8
@@ -69,6 +69,7 @@ struct LightCalculationData {
 	vec3 V;
 	vec3 L;
 	vec3 H;
+    float NdotV;
 };
 
 layout(std140) uniform LightingData { 
@@ -105,8 +106,7 @@ float DistributionGGX(vec3 N, vec3 H, float roughness)
 
 float GeometrySchlickGGX(float NdotV, float roughness)
 {
-    float r = (roughness + 1.0);
-    float k = (r*r) / 8.0;
+    float k = (roughness*roughness) / 2.0;
 
     float num   = NdotV;
     float denom = NdotV * (1.0 - k) + k;
@@ -114,10 +114,8 @@ float GeometrySchlickGGX(float NdotV, float roughness)
     return num / denom;
 }
 
-float GeometrySmith(vec3 N, vec3 V, vec3 L, float roughness)
+float GeometrySmith(float NdotV,float NdotL, float roughness)
 {
-    float NdotV = max(dot(N, V), 0.0);
-    float NdotL = max(dot(N, L), 0.0);
     float ggx2  = GeometrySchlickGGX(NdotV, roughness);
     float ggx1  = GeometrySchlickGGX(NdotL, roughness);
 	
@@ -136,20 +134,21 @@ vec3 fresnelSchlickRoughness(float cosTheta, vec3 F0, float roughness)
 
 vec3 CookTorranceBDRF(LightCalculationData data)
 {
+
+        float NdotL = max(dot(data.N, data.L), 0.0);      
+
         float NDF = DistributionGGX(data.N, data.H, data.roughness);        
-        float G   = GeometrySmith(data.N, data.V, data.L, data.roughness);      
-        vec3 F    = fresnelSchlick(max(dot(data.H, data.V), 0.0), data.F0);       
+        float G   = GeometrySmith(data.NdotV, NdotL, data.roughness);      
+        vec3 F    = fresnelSchlick(data.NdotV, data.F0);       
         
         vec3 kS = F;
-        vec3 kD = 1.0 - kS;
+        vec3 kD = vec3(1.0) - kS;
         kD *= 1.0 - data.metallic;	  
- 
-		float NdotV = max(dot(data.N, data.V), 0.0);
-        float NdotL = max(dot(data.N, data.L), 0.0);         
+   
 
         vec3 numerator    = NDF * G * F;
-        float denominator = 4.0 * NdotV * NdotL;
-        vec3 specular     =  numerator / max(denominator, 0.001);  
+        float denominator = 4.0 * data.NdotV * NdotL + 0.001;
+        vec3 specular     =  numerator / denominator;  
 
         return (kD * data.albedo / PI + specular) * data.radiance * NdotL; 
 }
@@ -169,7 +168,7 @@ vec3 calculateSpotLights(LightCalculationData lightData, vec3 worldPos)
 		float intensity = clamp((theta - 0.82) / epsilon, 0.0, 1.0);    
 		
 		float distance    = length(lightPos - worldPos);
-        float attenuation = 1.0 / (distance * distance);
+        float attenuation = 2.0 / (distance * distance);
 
         lightData.radiance     = spotLight[i].color.rgb * attenuation * spotLight[i].intensity * intensity;
         
@@ -243,41 +242,45 @@ void main()
 	vec3 albedo_color = (texture(albedo, uv) * base_color).rgb;
 	
 	float metallic_f = texture(metallic, uv).r * metallic_strength;
-	float roughness_f = max(texture(roughness, uv).r * roughness_strength, 0.001f);
+	vec4 roughness_rgba = texture(roughness, uv);
+    float roughness_f = max(roughness_rgba.r * roughness_strength, 0.0f);
 	float ao_f = texture(occlusion, uv).r * occlusion_strength;
-	
+	vec3 normal = texture(normal, uv).rgb;
+
 	vec3 F0 = mix(vec3(0.04), albedo_color, metallic_f);
 	vec3 V = normalize(cameraPos.xyz - o_fragpos);
-    vec3 N = normalize(texture(normal, uv).rgb * 2.0 - 1.0);
-	N = normalize(o_tbn * N);    
+    vec3 N = normal * 2.0 - 1.0;
+	N = normalize(o_tbn * N);  
 	           
     // reflectance equation
     vec3 Lo = vec3(0.0);
 	LightCalculationData lightData;
 	lightData.F0 = F0;
+    lightData.NdotV = max(0.001, dot(N, V));
 	lightData.V = V;
 	lightData.N = N;
 	lightData.roughness = roughness_f;
 	lightData.metallic = metallic_f;
 	lightData.albedo = albedo_color;
+
 	Lo += calculateDirectionalLights(lightData);
 	Lo += calculatePointLights(lightData, o_fragpos);
 	Lo += calculateSpotLights(lightData, o_fragpos);
     
 	vec3 R = reflect(-V, N);
-    vec3 F = fresnelSchlickRoughness(max(dot(N, V), 0.0), F0, roughness_f);
-    vec2 envBRDF  = texture(brdfLUT, vec2(max(dot(N, V), 0.0), roughness_f)).rg;
-
+    vec3 F = fresnelSchlickRoughness(lightData.NdotV, F0, roughness_f);
+    vec2 envBRDF  = texture(brdfLUT, vec2(lightData.NdotV, roughness_f)).rg;
     vec3 kS = F;
     vec3 kD = 1.0 - kS;
     kD *= 1.0 - metallic_f;
 
+ 
 	vec3 reflection = textureLod(environment_map, R * vec3(1,-1,-1), roughness_f * REFLECTION_LOD).rgb;
 	vec3 specular = reflection * (F * envBRDF.x + envBRDF.y);
 
     vec3 irradiance = textureLod(environment_map,  N * vec3(1,-1,-1), IRRADIANCE_LOD).rgb;
     vec3 diffuse      = irradiance * albedo_color;
-    vec3 ambient_color = ambient.xyz + (kD * diffuse + specular) * ao_f;
+    vec3 ambient_color = ambient.xyz +  (kD*diffuse + specular) * ao_f;
     
     vec3 color = ambient_color + Lo;  
    

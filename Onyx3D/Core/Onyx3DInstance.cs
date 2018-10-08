@@ -46,6 +46,13 @@ namespace Onyx3D
 
         // --------------------------------------------------------------------
 
+        public void Reset()
+        {
+            Resources.ClearAll();
+        }
+
+        // --------------------------------------------------------------------
+
         public void Dispose()
 		{
             mWindowsInfo.Dispose();

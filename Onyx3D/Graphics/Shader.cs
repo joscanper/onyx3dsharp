@@ -51,8 +51,6 @@ namespace Onyx3D
 				return false;
 			}
 
-			//GL.UseProgram(mProgram);
-
 			return true;
 		}
 		
