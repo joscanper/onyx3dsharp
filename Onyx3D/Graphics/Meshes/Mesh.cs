@@ -214,7 +214,10 @@ namespace Onyx3D
 							v.Position = XmlUtils.StringToVector3(reader.GetAttribute("position"));
 							v.Normal = XmlUtils.StringToVector3(reader.GetAttribute("normal"));
 							v.Tangent = XmlUtils.StringToVector3(reader.GetAttribute("tangent"));
-							v.Color = XmlUtils.StringToVector3(reader.GetAttribute("color"));
+                            v.Bitangent = XmlUtils.StringToVector3(reader.GetAttribute("bitangent"));
+                            if (v.Bitangent.IsZero())
+                                v.Bitangent = Vector3.Cross(v.Tangent, v.Normal);
+                            v.Color = XmlUtils.StringToVector3(reader.GetAttribute("color"));
 							v.TexCoord = XmlUtils.StringToVector2(reader.GetAttribute("texcoord"));
 							Vertices.Add(v);
 						}
@@ -256,8 +259,9 @@ namespace Onyx3D
 				writer.WriteAttributeString("texcoord", XmlUtils.Vector2ToString(v.TexCoord));
 				writer.WriteAttributeString("color", XmlUtils.Vector3ToString(v.Color));
 				writer.WriteAttributeString("tangent", XmlUtils.Vector3ToString(v.Tangent));
+                writer.WriteAttributeString("bitangent", XmlUtils.Vector3ToString(v.Bitangent));
 
-				writer.WriteEndElement();
+                writer.WriteEndElement();
 			}
 
 			writer.WriteEndElement();

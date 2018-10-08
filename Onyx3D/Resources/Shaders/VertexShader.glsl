@@ -9,7 +9,7 @@ layout (location = 1) in vec3 color;
 layout (location = 2) in vec3 normal;
 layout (location = 3) in vec2 texcoord;
 layout (location = 4) in vec3 tangent;
-layout (location = 4) in vec3 bitangent;
+layout (location = 5) in vec3 bitangent;
 
 uniform mat4 NM;
 uniform mat4 M;
@@ -64,22 +64,30 @@ layout(std140) uniform LightingData {
 
 void main()
 {
+
+	
+	vec3 o_tangent = normalize(tangent);
+	vec3 o_bitangent = normalize(bitangent);
+	vec3 o_normal = normalize(normal);
+	
 	o_color = color;
 	o_uv = vec2(texcoord.x, 1.0 - texcoord.y);
-	o_normal = normalize(normal); 
+
+	o_normal = cross(o_tangent, o_bitangent);
+	o_tangent = -cross(o_normal, normalize(bitangent));
+	o_bitangent = -cross(o_normal, normalize(tangent));
+	o_normal *= sign(dot(o_normal , normal));
+	
+	o_tangent    	= normalize(vec3(NM * vec4(o_tangent,   0.0)));
+	o_bitangent 	= normalize(vec3(NM * vec4(o_bitangent, 0.0)));
+	o_normal   		= normalize(vec3(NM * vec4(o_normal,   0.0f)));
+
+	o_tbn = mat3(o_tangent, o_bitangent, o_normal);
+	
+	
+	//o_normal = normalize(cross(o_tangent, o_bitangent)); 
 
 	vec4 worldPos = M * vec4(position, 1.0f);
 	o_fragpos = worldPos.xyz;
-	
-	vec3 tng = normalize(vec3(NM * normalize(vec4(tangent, 0.0))));
-	vec3 bitng = normalize(vec3(NM * normalize(vec4(bitangent, 0.0))));
-	vec3 nom  = normalize(NM * vec4(o_normal, 0.0f)).xyz;
-	
-	o_tbn = mat3( normalize(tng), normalize(bitng),  normalize(nom));
-
 	gl_Position = P * V * worldPos;
-
-	
-	//o_tangent_fragpos = tbn * o_fragpos.zyx;
-	//o_tangent_campos = tbn * cameraPos.xyz;
 }
