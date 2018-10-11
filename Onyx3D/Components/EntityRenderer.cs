@@ -10,7 +10,7 @@ namespace Onyx3D
 		
 		public List<MeshRenderer> Renderers { get; } = new List<MeshRenderer>();
 
-		private Entity Entity { get { return ((EntityProxy)SceneObject).EntityRef; } }
+		public Entity Entity { get { return ((EntityProxy)SceneObject).EntityRef; } }
 
 		// --------------------------------------------------------------------
 

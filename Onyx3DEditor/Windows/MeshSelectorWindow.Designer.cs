@@ -1,6 +1,6 @@
 ﻿namespace Onyx3DEditor
 {
-	partial class MeshSelectorWindow
+	partial class MeshSelectorWindow : AssetSelector<MeshViewList>
 	{
 		/// <summary>
 		/// Required designer variable.

@@ -11,27 +11,11 @@ using Onyx3D;
 
 namespace Onyx3DEditor
 {
-	public partial class MaterialSelectorWindow : AssetSelector
+	public partial class MaterialSelectorWindow : AssetSelector<MaterialViewList>
 	{
-		
-		public MaterialSelectorWindow()
+		protected override string GetWindowName()
 		{
-			InitializeComponent();
-			materialViewList.SelectedChanged += new EventHandler(OnSelectionChanged);
+			return "Material Library";
 		}
-
-
-        private void MaterialSelectorWindow_Load(object sender, EventArgs e)
-        {
-            materialViewList.UpdateMaterialList(-1, true);
-        }
-
-
-        private void OnSelectionChanged(object sender, EventArgs e)
-		{
-			SelectedAsset = materialViewList.SelectedMaterial;
-			SelectedAssetChanged?.Invoke(this, e);
-		}
-
 	}
 }

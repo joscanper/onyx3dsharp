@@ -545,7 +545,7 @@ namespace Onyx3DEditor
         {
             
             Shader shader = mOnyxInstance.Resources.GetShader(BuiltInShader.Default);
-            shader.Load("../../../Onyx3D/Resources/Shaders/VertexShader.glsl", "../../../Onyx3D/Resources/Shaders/FragmentShader.glsl");
+            shader.Load("../../../../Onyx3D/Resources/Shaders/VertexShader.glsl", "../../../../Onyx3D/Resources/Shaders/FragmentShader.glsl");
             renderCanvas.Refresh();
         }
     }
