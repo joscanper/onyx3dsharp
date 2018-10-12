@@ -1,15 +1,11 @@
-﻿using System;
+﻿using Onyx3D;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Windows.Forms;
-
-using Onyx3D;
 
 namespace Onyx3DEditor
 {
 	public partial class MeshViewList : AssetViewList
 	{
-
 		protected override void AddBuiltIn(int selectedGuid)
 		{
 			AddElement(ProjectManager.Instance.Content.GetAsset(BuiltInMesh.Cube), 0, selectedGuid);
@@ -22,11 +18,20 @@ namespace Onyx3DEditor
 
 		// --------------------------------------------------------------------
 
+		protected override PreviewRenderer InstantiatePreviewRenderer()
+		{
+			return new SingleMeshPreviewRenderer();
+		}
+
+		// --------------------------------------------------------------------
+
 		protected override Bitmap GeneratePreview(int guid)
 		{
-			mPreview.SetMesh(guid);
-			mPreview.Render();
-			return mPreview.AsBitmap();
+			SingleMeshPreviewRenderer meshPreview = (SingleMeshPreviewRenderer)mPreview;
+			meshPreview.SetMesh(guid);
+			meshPreview.SetFloorActive(false);
+			meshPreview.Render();
+			return meshPreview.AsBitmap();
 		}
 
 		// --------------------------------------------------------------------

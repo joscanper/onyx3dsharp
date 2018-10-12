@@ -123,8 +123,15 @@ namespace Onyx3D
             // TODO - improve this so we only check a template once!
             foreach (EntityRenderer er in scene.RenderData.EntityRenderers)
             {
-                foreach (MeshRenderer mr in er.Renderers)
-                    materials.Add(mr.Material);
+				if (!er.SceneObject.Active)
+					return;
+
+				foreach (MeshRenderer mr in er.Renderers)
+				{
+					if (!mr.SceneObject.Active)
+						return;
+					materials.Add(mr.Material);
+				}
             }
 
             foreach (Material m in materials)
@@ -143,7 +150,10 @@ namespace Onyx3D
         {
             for (int i = 0; i < scene.RenderData.MeshRenderers.Count; ++i)
             {
-                scene.RenderData.MeshRenderers[i].PreRender();
+				if (!scene.RenderData.MeshRenderers[i].SceneObject.Active)
+					continue;
+
+				scene.RenderData.MeshRenderers[i].PreRender();
                 SetUpReflectionProbe(scene, scene.RenderData.MeshRenderers[i]);
                 scene.RenderData.MeshRenderers[i].Render();
             }
@@ -155,13 +165,19 @@ namespace Onyx3D
         {
             for (int i = 0; i < scene.RenderData.EntityRenderers.Count; ++i)
             {
-                scene.RenderData.EntityRenderers[i].PreRender();
+				if (!scene.RenderData.EntityRenderers[i].SceneObject.Active)
+					continue;
+
+				scene.RenderData.EntityRenderers[i].PreRender();
 
                 // TODO - Maybe better to get the right reflectionprobe considering only the entityProxy position and not for all its renderers
                 foreach (MeshRenderer mr in scene.RenderData.EntityRenderers[i].Renderers)
-                    SetUpReflectionProbe(scene, mr);
+				{ 
+					if (mr.SceneObject.Active)
+						SetUpReflectionProbe(scene, mr);
+				}
 
-                scene.RenderData.EntityRenderers[i].Render();
+				scene.RenderData.EntityRenderers[i].Render();
             }
         }
 

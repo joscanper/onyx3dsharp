@@ -68,7 +68,8 @@ void main()
 	
 	vec3 o_tangent = normalize(tangent);
 	vec3 o_bitangent = normalize(bitangent);
-	vec3 o_normal = normalize(normal);
+	
+	o_normal = normalize(normal);
 	
 	o_color = color;
 	o_uv = vec2(texcoord.x, 1.0 - texcoord.y);

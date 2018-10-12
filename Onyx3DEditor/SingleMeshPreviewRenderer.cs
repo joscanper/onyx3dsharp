@@ -18,6 +18,7 @@ namespace Onyx3DEditor
 			mRenderer = sphere.AddComponent<MeshRenderer>();
 			mRenderer.Material = OnyxInstance.Resources.GetMaterial(BuiltInMaterial.Default);
 			SetMesh(BuiltInMesh.Sphere);
+			sphere.Transform.Rotate(new Vector3(0, MathHelper.DegreesToRadians(45f), 0));
 			sphere.Parent = Scene.Root;
 
 			mFloor = new SceneObject("floor");
@@ -42,10 +43,8 @@ namespace Onyx3DEditor
 
         public void SetMesh(int guid)
 		{
-			
 			mRenderer.Mesh = OnyxInstance.Resources.GetMesh(guid);
 			float scale = 1.25f / mRenderer.Mesh.Bounds.Size.Max();
-
 			mRenderer.Transform.LocalScale = Vector3.One * scale;
 		}
 

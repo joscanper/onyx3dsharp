@@ -63,6 +63,9 @@ namespace Onyx3D
 		{
 			foreach (MeshRenderer mr in Renderers)
 			{
+				if (!mr.SceneObject.Active)
+					continue;
+
 				mr.Render();
 			}
 		}

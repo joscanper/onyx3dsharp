@@ -13,7 +13,7 @@ namespace Onyx3DEditor
 
 		private static readonly int mPreviewSize = 80;
 
-		protected SingleMeshPreviewRenderer mPreview;
+		protected PreviewRenderer mPreview;
 		private int mSelectedIndex;
 		private List<OnyxProjectAsset> mAssets = new List<OnyxProjectAsset>();
 
@@ -129,14 +129,17 @@ namespace Onyx3DEditor
 
 			if (!DesignMode)
 			{
-				mPreview = new SingleMeshPreviewRenderer();
+				mPreview = InstantiatePreviewRenderer();
 				mPreview.Init(mPreviewSize, mPreviewSize, this.Handle);
-				mPreview.SetFloorActive(false);
 				mPreview.Render();
 				UpdateList(0);
 			}
 
 		}
+
+		// --------------------------------------------------------------------
+
+		protected abstract PreviewRenderer InstantiatePreviewRenderer();
 
 		// --------------------------------------------------------------------
 

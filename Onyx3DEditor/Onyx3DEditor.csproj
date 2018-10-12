@@ -149,6 +149,7 @@
       <DependentUpon>Vector4Control.cs</DependentUpon>
     </Compile>
     <Compile Include="SceneManagement.cs" />
+    <Compile Include="SingleEntityPreviewRenderer.cs" />
     <Compile Include="SingleMeshPreviewRenderer.cs" />
     <Compile Include="Controls\MaterialViewList.cs">
       <SubType>UserControl</SubType>
