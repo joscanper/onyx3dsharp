@@ -5,124 +5,164 @@ using System.Drawing;
 
 namespace Onyx3D
 {
-    public class RenderManager : EngineComponent
-    {
-        private const string sMainRenderTrace = "RenderManager/MainRender";
+	public class RenderManager : EngineComponent
+	{
+		private const string sMainRenderTrace = "RenderManager/MainRender";
 
-        // --------------------------------------------------------------------
+		// --------------------------------------------------------------------
 
-        public GizmosManager Gizmos { get; private set; }
-        public double RenderTime { get { return Profiler.Instance.GetTrace(sMainRenderTrace).Duration; } }
-        public Vector2 ScreenSize = new Vector2(800, 600);
+		public GizmosManager Gizmos { get; private set; }
+		public double RenderTime { get { return Profiler.Instance.GetTrace(sMainRenderTrace).Duration; } }
+		public Vector2 MainResolution = new Vector2(1900, 1900);
 
-        // --------------------------------------------------------------------
+		private FrameBuffer mRenderFrame;
+		private ScreenQuadRenderer mScreenQuad;
+		private Camera mScreenCamera;
 
-        public override void Init(Onyx3DInstance onyx3d)
-        {
-            base.Init(onyx3d);
+		public Texture RenderedImage { get { return mRenderFrame.Texture; } }
 
-            GL.Enable(EnableCap.CullFace);
-            GL.Enable(EnableCap.DepthTest);
+		// --------------------------------------------------------------------
 
-            GL.Enable(EnableCap.Multisample);
+		public override void Init(Onyx3DInstance onyx3d)
+		{
+			base.Init(onyx3d);
 
-            GL.Enable(EnableCap.LineSmooth);
-            GL.Hint(HintTarget.LineSmoothHint, HintMode.Nicest);
+			GL.Enable(EnableCap.CullFace);
+			GL.Enable(EnableCap.DepthTest);
 
-            GL.Enable(EnableCap.Blend);
-            GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
+			GL.Enable(EnableCap.Multisample);
 
-            GL.Enable(EnableCap.TextureCubeMapSeamless);
+			GL.Enable(EnableCap.LineSmooth);
+			GL.Hint(HintTarget.LineSmoothHint, HintMode.Nicest);
 
-            GL.ClearColor(Color.SlateGray);
+			GL.Enable(EnableCap.Blend);
+			GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
 
-            Gizmos = new GizmosManager();
-            Gizmos.Init(onyx3d);
-        }
+			GL.Enable(EnableCap.TextureCubeMapSeamless);
 
-        // --------------------------------------------------------------------
+			GL.ClearColor(Color.SlateGray);
 
-        public void Render(Scene scene, Camera cam, int w, int h)
-        {
-            Profiler.Instance.StartTrace(sMainRenderTrace);
-            Onyx3D.MakeCurrent();
+			Gizmos = new GizmosManager();
+			Gizmos.Init(onyx3d);
 
-            cam.UpdateUBO();
+			mRenderFrame = new FrameBuffer((int)MainResolution.X, (int)MainResolution.Y);
 
-            scene.Lighting.UpdateUBO(scene);
+			mScreenCamera = new OrthoCamera("Cam", 1, 1, 0, 1000);
+			mScreenQuad = new ScreenQuadRenderer();
+			mScreenQuad.GenerateQuad(1, 1);
+			mScreenQuad.Material = onyx3d.Resources.GetMaterial(BuiltInMaterial.Screen);
+		}
 
-            GL.Viewport(0, 0, w, h);
-            GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
+		// --------------------------------------------------------------------
 
-            if (scene.IsDirty)
-            {
-                scene.UpdateRenderData();
-                //BakeReflectionProbes(scene, false);
-            }
+		public void MainRender(Scene scene, Camera cam, int w, int h)
+		{
+			Profiler.Instance.StartTrace(sMainRenderTrace);
 
-            PrepareMaterials(scene, cam.UBO, scene.Lighting.UBO);
+			mRenderFrame.Bind();
+			RenderScene(scene, cam, (int)MainResolution.X, (int)MainResolution.Y);
+			mRenderFrame.Unbind();
 
-            RenderSky(scene, cam);
-            RenderMeshes(scene);
-            RenderEntities(scene);
+			//TODO - Post process FXs!
+			RenderScreenQuad(w, h);
 
-            GL.Flush();
+			GL.Flush();
 
-            Profiler.Instance.EndTrace();
-        }
+			Profiler.Instance.EndTrace();
+		}
 
-        // --------------------------------------------------------------------
+		// --------------------------------------------------------------------
 
-        private void RenderSky(Scene scene, Camera cam)
-        {
-            scene.Sky.Prepare(scene.Context);
+		public void RenderScene(Scene scene, Camera cam, int w, int h)
+		{
+			Onyx3D.MakeCurrent();
 
-            if (scene.Sky.Type == Sky.ShadingType.Procedural)
-            {
-                GL.DepthMask(false);
-                Render(scene.Sky.SkyMesh, cam);
-                GL.DepthMask(true);
-            }
-            else
-            {
-                GL.ClearColor(scene.Sky.Color);
-                GL.Clear(ClearBufferMask.ColorBufferBit);
-            }
-        }
+			GL.Viewport(0, 0, w, h);
+			GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
-        // --------------------------------------------------------------------
+			cam.UpdateUBO();
 
-        private void BakeReflectionProbes(Scene scene, bool forced)
-        {
-            for (int i = 0; i < scene.RenderData.ReflectionProbes.Count; i++)
-            {
-                if (!scene.RenderData.ReflectionProbes[i].IsBaked || forced)
-                {
-                    scene.RenderData.ReflectionProbes[i].Bake(this);
-                    scene.RenderData.ReflectionProbes[i].Bake(this);
-                }
-            }
-        }
+			scene.Lighting.UpdateUBO(scene);
 
-        // --------------------------------------------------------------------
+			if (scene.IsDirty)
+			{
+				scene.UpdateRenderData();
+				BakeReflectionProbes(scene, false);
+			}
 
-        private HashSet<Material> GetMaterialsFromRenderers(Scene scene)
-        {
-            HashSet<Material> materials = new HashSet<Material>();
-            for (int i = 0; i < scene.RenderData.MeshRenderers.Count; ++i)
-                materials.Add(scene.RenderData.MeshRenderers[i].Material);
-            return materials;
-        }
+			PrepareMaterials(scene, cam.UBO, scene.Lighting.UBO);
 
-        // --------------------------------------------------------------------
+			RenderSky(scene, cam);
+			RenderMeshes(scene);
+			RenderEntities(scene);
 
-        private void PrepareMaterials(Scene scene, UBO<CameraUBufferData> camUBO, UBO<LightingUBufferData> lightUBO)
-        {
-            HashSet<Material> materials = GetMaterialsFromRenderers(scene);
+			GL.Flush();
+		}
 
-            // TODO - improve this so we only check a template once!
-            foreach (EntityRenderer er in scene.RenderData.EntityRenderers)
-            {
+		// --------------------------------------------------------------------
+
+		private void RenderScreenQuad(int w, int h)
+		{
+			GL.Viewport(0, 0, w, h);
+			GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
+			GL.DepthMask(false);
+			mScreenQuad.Material.SetTextureUniform(0, "maintex", mRenderFrame.Texture.Id);
+			Render(mScreenQuad, mScreenCamera);
+			GL.DepthMask(true);
+		}
+
+		// --------------------------------------------------------------------
+
+		private void RenderSky(Scene scene, Camera cam)
+		{
+			scene.Sky.Prepare(scene.Context);
+
+			if (scene.Sky.Type == Sky.ShadingType.Procedural)
+			{
+				GL.DepthMask(false);
+				Render(scene.Sky.SkyMesh, cam);
+				GL.DepthMask(true);
+			}
+			else
+			{
+				GL.ClearColor(scene.Sky.Color);
+				GL.Clear(ClearBufferMask.ColorBufferBit);
+			}
+		}
+
+		// --------------------------------------------------------------------
+
+		private void BakeReflectionProbes(Scene scene, bool forced)
+		{
+			for (int i = 0; i < scene.RenderData.ReflectionProbes.Count; i++)
+			{
+				if (!scene.RenderData.ReflectionProbes[i].IsBaked || forced)
+				{
+					scene.RenderData.ReflectionProbes[i].Bake(this);
+					scene.RenderData.ReflectionProbes[i].Bake(this);
+				}
+			}
+		}
+
+		// --------------------------------------------------------------------
+
+		private HashSet<Material> GetMaterialsFromRenderers(Scene scene)
+		{
+			HashSet<Material> materials = new HashSet<Material>();
+			for (int i = 0; i < scene.RenderData.MeshRenderers.Count; ++i)
+				materials.Add(scene.RenderData.MeshRenderers[i].Material);
+			return materials;
+		}
+
+		// --------------------------------------------------------------------
+
+		private void PrepareMaterials(Scene scene, UBO<CameraUBufferData> camUBO, UBO<LightingUBufferData> lightUBO)
+		{
+			HashSet<Material> materials = GetMaterialsFromRenderers(scene);
+
+			// TODO - improve this so we only check a template once!
+			foreach (EntityRenderer er in scene.RenderData.EntityRenderers)
+			{
 				if (!er.SceneObject.Active)
 					return;
 
@@ -132,104 +172,104 @@ namespace Onyx3D
 						return;
 					materials.Add(mr.Material);
 				}
-            }
+			}
 
-            foreach (Material m in materials)
-            {
-                if (m == null)
-                    return;
+			foreach (Material m in materials)
+			{
+				if (m == null)
+					return;
 
-                m.Shader.BindUBO(camUBO);
-                m.Shader.BindUBO(lightUBO);
-            }
-        }
+				m.Shader.BindUBO(camUBO);
+				m.Shader.BindUBO(lightUBO);
+			}
+		}
 
-        // --------------------------------------------------------------------
+		// --------------------------------------------------------------------
 
-        private void RenderMeshes(Scene scene)
-        {
-            for (int i = 0; i < scene.RenderData.MeshRenderers.Count; ++i)
-            {
+		private void RenderMeshes(Scene scene)
+		{
+			for (int i = 0; i < scene.RenderData.MeshRenderers.Count; ++i)
+			{
 				if (!scene.RenderData.MeshRenderers[i].SceneObject.Active)
 					continue;
 
 				scene.RenderData.MeshRenderers[i].PreRender();
-                SetUpReflectionProbe(scene, scene.RenderData.MeshRenderers[i]);
-                scene.RenderData.MeshRenderers[i].Render();
-            }
-        }
+				SetUpReflectionProbe(scene, scene.RenderData.MeshRenderers[i]);
+				scene.RenderData.MeshRenderers[i].Render();
+			}
+		}
 
-        // --------------------------------------------------------------------
+		// --------------------------------------------------------------------
 
-        private void RenderEntities(Scene scene)
-        {
-            for (int i = 0; i < scene.RenderData.EntityRenderers.Count; ++i)
-            {
+		private void RenderEntities(Scene scene)
+		{
+			for (int i = 0; i < scene.RenderData.EntityRenderers.Count; ++i)
+			{
 				if (!scene.RenderData.EntityRenderers[i].SceneObject.Active)
 					continue;
 
 				scene.RenderData.EntityRenderers[i].PreRender();
 
-                // TODO - Maybe better to get the right reflectionprobe considering only the entityProxy position and not for all its renderers
-                foreach (MeshRenderer mr in scene.RenderData.EntityRenderers[i].Renderers)
-				{ 
+				// TODO - Maybe better to get the right reflectionprobe considering only the entityProxy position and not for all its renderers
+				foreach (MeshRenderer mr in scene.RenderData.EntityRenderers[i].Renderers)
+				{
 					if (mr.SceneObject.Active)
 						SetUpReflectionProbe(scene, mr);
 				}
 
 				scene.RenderData.EntityRenderers[i].Render();
-            }
-        }
+			}
+		}
 
-        // --------------------------------------------------------------------
+		// --------------------------------------------------------------------
 
-        private void SetUpReflectionProbe(Scene scene, MeshRenderer renderer)
-        {
-            if (scene.RenderData.ReflectionProbes.Count == 0)
-                return;
+		private void SetUpReflectionProbe(Scene scene, MeshRenderer renderer)
+		{
+			if (scene.RenderData.ReflectionProbes.Count == 0)
+				return;
 
-            CubemapMaterialProperty cubemapProp = renderer.Material.GetProperty<CubemapMaterialProperty>("environment_map");
-            if (cubemapProp == null)
-                return;
+			CubemapMaterialProperty cubemapProp = renderer.Material.GetProperty<CubemapMaterialProperty>("environment_map");
+			if (cubemapProp == null)
+				return;
 
-            ReflectionProbe reflectionProbe = GetClosestReflectionProbe(scene, renderer.Transform.Position);
-            cubemapProp.Data = reflectionProbe.Cubemap.Id;
-        }
+			ReflectionProbe reflectionProbe = GetClosestReflectionProbe(scene, renderer.Transform.Position);
+			cubemapProp.Data = reflectionProbe.Cubemap.Id;
+		}
 
-        // --------------------------------------------------------------------
+		// --------------------------------------------------------------------
 
-        private ReflectionProbe GetClosestReflectionProbe(Scene scene, Vector3 toPosition)
-        {
-            ReflectionProbe reflectionProbe = null;
-            float candidateDist = float.MaxValue;
-            for (int i = 0; i < scene.RenderData.ReflectionProbes.Count; ++i)
-            {
-                float sqrDist = scene.RenderData.ReflectionProbes[i].Transform.Position.SqrDistance(toPosition);
-                if (sqrDist < candidateDist)
-                {
-                    candidateDist = sqrDist;
-                    reflectionProbe = scene.RenderData.ReflectionProbes[i];
-                }
-            }
+		private ReflectionProbe GetClosestReflectionProbe(Scene scene, Vector3 toPosition)
+		{
+			ReflectionProbe reflectionProbe = null;
+			float candidateDist = float.MaxValue;
+			for (int i = 0; i < scene.RenderData.ReflectionProbes.Count; ++i)
+			{
+				float sqrDist = scene.RenderData.ReflectionProbes[i].Transform.Position.SqrDistance(toPosition);
+				if (sqrDist < candidateDist)
+				{
+					candidateDist = sqrDist;
+					reflectionProbe = scene.RenderData.ReflectionProbes[i];
+				}
+			}
 
-            return reflectionProbe;
-        }
+			return reflectionProbe;
+		}
 
-        // --------------------------------------------------------------------
+		// --------------------------------------------------------------------
 
-        public void Render(MeshRenderer r, Camera cam)
-        {
-            r.Material.Shader.BindUBO(cam.UBO);
-            r.Render();
-        }
+		public void Render(MeshRenderer r, Camera cam)
+		{
+			r.Material.Shader.BindUBO(cam.UBO);
+			r.Render();
+		}
 
-        // --------------------------------------------------------------------
+		// --------------------------------------------------------------------
 
-        public void RefreshReflectionProbes(Scene scene)
-        {
-            BakeReflectionProbes(scene, true);
-        }
+		public void RefreshReflectionProbes(Scene scene)
+		{
+			BakeReflectionProbes(scene, true);
+		}
 
-        // --------------------------------------------------------------------
-    }
+		// --------------------------------------------------------------------
+	}
 }

@@ -31,6 +31,9 @@ public class XmlUtils
 
     public static Vector3 StringToVector3(string vs)
     {
+		if (vs == null)
+			return Vector3.Zero;
+
         Vector3 v = new Vector3();
         string[] values = vs.Split(',');
         v.X = (float)Convert.ToDouble(values[0]);

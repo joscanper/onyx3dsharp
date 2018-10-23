@@ -88,6 +88,7 @@
     <Compile Include="Components\ReflectionProbe.cs" />
     <Compile Include="Components\Renderer.cs" />
     <Compile Include="Components\EntityRenderer.cs" />
+    <Compile Include="Components\ScreenQuadRenderer.cs" />
     <Compile Include="Core\EngineComponent.cs" />
     <Compile Include="Core\Extensions\ColorExtension.cs" />
     <Compile Include="Core\Extensions\QuaternionExtension.cs" />
@@ -131,6 +132,10 @@
     <Compile Include="Project\ProjectData.cs" />
     <Compile Include="Project\ProjectManager.cs" />
     <None Include="OpenTK.dll.config" />
+    <None Include="Resources\Materials\Screen.o3dmat">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Resources\Meshes\cube.o3dmesh">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -164,6 +169,9 @@
     <None Include="Resources\Materials\Sky.o3dmat">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <Content Include="Resources\Shaders\ScreenFragmentShader.glsl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Compile Include="Scene\Axis.cs" />
     <Compile Include="Scene\Camera.cs" />
     <Compile Include="Scene\Scene.cs" />
@@ -177,6 +185,9 @@
     <Compile Include="Scene\EntityProxy.cs" />
     <Compile Include="Scene\Transform.cs" />
     <Compile Include="Utils\XmlUtils.cs" />
+    <Content Include="Resources\Shaders\ScreenVertexShader.glsl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\Textures\brdf_lut.png">

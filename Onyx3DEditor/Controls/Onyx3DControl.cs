@@ -98,7 +98,7 @@ namespace Onyx3DEditor
             if (OnyxInstance!= null)
             { 
                 Scene.ActiveCamera.Update();
-                OnyxInstance.Renderer.Render(Scene, Scene.ActiveCamera, renderCanvas.Width, renderCanvas.Height);
+                OnyxInstance.Renderer.RenderScene(Scene, Scene.ActiveCamera, renderCanvas.Width, renderCanvas.Height);
 				if (DrawGrid)
 					OnyxInstance.Renderer.Render(mGridRenderer, Scene.ActiveCamera);
             }

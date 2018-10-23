@@ -52,16 +52,18 @@ namespace Onyx3D
             MapAsset(new OnyxProjectShaderAsset("./Resources/Shaders/VertexShader.glsl", "./Resources/Shaders/UnlitVertexColorFragmentShader.glsl", BuiltInShader.UnlitVertexColor));
             MapAsset(new OnyxProjectShaderAsset("./Resources/Shaders/VertexShader.glsl", "./Resources/Shaders/ReflectionProbeFragmentShader.glsl", BuiltInShader.ReflectionProbe));
             MapAsset(new OnyxProjectShaderAsset("./Resources/Shaders/SkyVertexShader.glsl", "./Resources/Shaders/SkyFragmentShader.glsl", BuiltInShader.ProceduralSky));
+			MapAsset(new OnyxProjectShaderAsset("./Resources/Shaders/ScreenVertexShader.glsl", "./Resources/Shaders/ScreenFragmentShader.glsl", BuiltInShader.Screen));
 
-            // Built-in materials (from 400000000)
-            MapAsset(new OnyxProjectAsset("./Resources/Materials/NotFound.o3dmat", "NotFound", BuiltInMaterial.NotFound));
+			// Built-in materials (from 400000000)
+			MapAsset(new OnyxProjectAsset("./Resources/Materials/NotFound.o3dmat", "NotFound", BuiltInMaterial.NotFound));
             MapAsset(new OnyxProjectAsset("./Resources/Materials/Default.o3dmat", "Default", BuiltInMaterial.Default));
             MapAsset(new OnyxProjectAsset("./Resources/Materials/Unlit.o3dmat", "Unlit", BuiltInMaterial.Unlit));
             MapAsset(new OnyxProjectAsset("./Resources/Materials/UnlitVertexColor.o3dmat", "UnlitVertexColor", BuiltInMaterial.UnlitVertexColor));
             MapAsset(new OnyxProjectAsset("./Resources/Materials/ReflectionProbe.o3dmat", "ReflectionProbe", BuiltInMaterial.ReflectionProbe));
             MapAsset(new OnyxProjectAsset("./Resources/Materials/Sky.o3dmat", "Sky", BuiltInMaterial.Sky));
+			MapAsset(new OnyxProjectAsset("./Resources/Materials/Screen.o3dmat", "Sky", BuiltInMaterial.Screen));
 
-            MapAssets(Scenes);
+			MapAssets(Scenes);
             MapAssets(Materials);
             MapAssets(Textures);
             MapAssets(Meshes);

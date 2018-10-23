@@ -11,9 +11,11 @@ namespace Onyx3D
 		public RenderManager Renderer = new RenderManager();
 		public ResourcesManager Resources = new ResourcesManager();
 		public GizmosManager Gizmos = new GizmosManager();
-        
-        private IGraphicsContext mGraphicsContext;
-        private IWindowInfo mWindowsInfo;
+
+		private IGraphicsContext mGraphicsContext;
+		private IWindowInfo mWindowsInfo;
+
+		public static Onyx3DInstance CurrentContext { get; private set;}
 
         // --------------------------------------------------------------------
 
@@ -39,8 +41,10 @@ namespace Onyx3D
             mWindowsInfo = info;
             mGraphicsContext = context;
 
-            Renderer.Init(this);
+			MakeCurrent();
+
 			Resources.Init(this);
+			Renderer.Init(this);
 			Gizmos.Init(this);
 		}
 
@@ -67,6 +71,7 @@ namespace Onyx3D
         public void MakeCurrent()
         {
             mGraphicsContext.MakeCurrent(mWindowsInfo);
+			CurrentContext = this;
         }
     }
 }
