@@ -21,6 +21,8 @@ public class XmlUtils
 
     public static Vector2 StringToVector2(string vs)
     {
+        if (vs == null)
+            return Vector2.Zero;
         Vector2 v = new Vector2();
         string[] values = vs.Split(',');
         v.X = (float)Convert.ToDouble(values[0]);
@@ -31,6 +33,8 @@ public class XmlUtils
 
     public static Vector3 StringToVector3(string vs)
     {
+        if (vs == null)
+            return Vector3.Zero;
         Vector3 v = new Vector3();
         string[] values = vs.Split(',');
         v.X = (float)Convert.ToDouble(values[0]);
@@ -41,6 +45,8 @@ public class XmlUtils
 
     public static Vector4 StringToVector4(string vs)
     {
+        if (vs == null)
+            return Vector4.Zero;
         Vector4 v = new Vector4();
         string[] values = vs.Split(',');
         v.X = (float)Convert.ToDouble(values[0]);
