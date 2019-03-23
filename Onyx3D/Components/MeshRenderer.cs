@@ -50,9 +50,9 @@ namespace Onyx3D
 
 		protected void SetUpMVP(int program)
 		{
-			Matrix4 M = Transform.ModelMatrix;
-			Matrix4 R = Transform.GetRotationMatrix();
-            Matrix4 NM = Transform.NormalMatrix;
+			Matrix4 M = Transform != null ? Transform.ModelMatrix : Matrix4.Identity;
+			Matrix4 R = Transform != null ? Transform.GetRotationMatrix() : Matrix4.Identity;
+            Matrix4 NM = Transform != null ? Transform.NormalMatrix : Matrix4.Identity;
             
             GL.UniformMatrix4(GL.GetUniformLocation(program, "M"), false, ref M);
 			GL.UniformMatrix4(GL.GetUniformLocation(program, "R"), false, ref R);

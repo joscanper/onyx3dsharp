@@ -48,7 +48,7 @@ namespace Onyx3D
                 mCamera.Transform.LocalRotation = Quaternion.FromEulerAngles(mCamRotations[i]);
 
 				mFrameBuffer.Bind();
-                renderMgr.Render(scene, mCamera, mFrameBuffer.Width, mFrameBuffer.Height);
+                renderMgr.RenderScene(scene, mCamera, mFrameBuffer.Width, mFrameBuffer.Height);
                 mFrameBuffer.Unbind();
 
                 cubemap.SetTexture((CubemapFace)i, mFrameBuffer.Texture);

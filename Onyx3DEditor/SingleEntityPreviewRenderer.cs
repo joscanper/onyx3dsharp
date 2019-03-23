@@ -1,11 +1,17 @@
-﻿using Onyx3D;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+using Onyx3D;
 using OpenTK;
 
 namespace Onyx3DEditor
 {
-	public class SingleMeshPreviewRenderer : PreviewRenderer
+
+	public class SingleEntityPreviewRenderer : PreviewRenderer
 	{
-        private MeshRenderer mRenderer;
+        private EntityProxy mProxy;
 		private SceneObject mFloor;
 
         // --------------------------------------------------------------------
@@ -14,12 +20,10 @@ namespace Onyx3DEditor
 		{
 			base.InitializeBasicScene();
 
-			SceneObject sphere = new SceneObject("sphere");
-			mRenderer = sphere.AddComponent<MeshRenderer>();
-			mRenderer.Material = OnyxInstance.Resources.GetMaterial(BuiltInMaterial.Default);
-			SetMesh(BuiltInMesh.Sphere);
-			sphere.Transform.Rotate(new Vector3(0, MathHelper.DegreesToRadians(45f), 0));
-			sphere.Parent = Scene.Root;
+			mProxy = new EntityProxy("proxy");
+			mProxy.Parent = Scene.Root;
+
+			mProxy.Transform.Rotate(new Vector3(0, MathHelper.DegreesToRadians(45f), 0));
 
 			mFloor = new SceneObject("floor");
 			MeshRenderer mr = mFloor.AddComponent<MeshRenderer>();
@@ -32,20 +36,18 @@ namespace Onyx3DEditor
 			Camera.Transform.Translate(-Camera.Transform.Forward * 0.25f);
 		}
 
+       
         // --------------------------------------------------------------------
 
-        public void SetMaterial(int guid)
+        public void SetEntity(int guid)
 		{
-			mRenderer.Material = Onyx3DEngine.Instance.Resources.GetMaterial(guid);
-		}
+			Entity e = OnyxInstance.Resources.GetEntity(guid);
+			mProxy.EntityRef = e;
 
-        // --------------------------------------------------------------------
+			EntityRenderer renderer = mProxy.GetComponent<EntityRenderer>();
+			float scale = 1.25f / renderer.Bounds.Size.Max();
 
-        public void SetMesh(int guid)
-		{
-			mRenderer.Mesh = OnyxInstance.Resources.GetMesh(guid);
-			float scale = 1.25f / mRenderer.Mesh.Bounds.Size.Max();
-			mRenderer.Transform.LocalScale = Vector3.One * scale;
+			mProxy.Transform.LocalScale = Vector3.One * scale;
 		}
 
         // --------------------------------------------------------------------
@@ -55,4 +57,5 @@ namespace Onyx3DEditor
 			mFloor.Active = active;
 		}
 	}
+
 }

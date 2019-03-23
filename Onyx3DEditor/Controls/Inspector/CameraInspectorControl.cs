@@ -33,7 +33,7 @@ namespace Onyx3DEditor.Controls.Inspector
         public void Render()
         {
             mFrameBuffer.Bind();    
-            Onyx3DEngine.Instance.Renderer.Render(SceneManagement.ActiveScene, mCamera, mFrameBuffer.Width, mFrameBuffer.Height);
+            Onyx3DEngine.Instance.Renderer.RenderScene(SceneManagement.ActiveScene, mCamera, mFrameBuffer.Width, mFrameBuffer.Height);
             mFrameBuffer.Unbind();
             pictureBox1.Image = mFrameBuffer.Texture.AsBitmap();
         }

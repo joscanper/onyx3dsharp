@@ -91,8 +91,10 @@ namespace Onyx3D
 		{
 			base.GetIntersectedRendererBounds(ray, list);
 
+			if (EntityRef == null)
+				return;
+
 			mRenderer.UpdateBounds();
-			
 			EntityRef.Root.GetIntersectedRendererBounds(ray, list);
 		}
 

@@ -152,13 +152,13 @@ namespace Onyx3DEditor
 
 			mNavigation.UpdateCamera();
 
-			mOnyxInstance.Renderer.Render(SceneManagement.ActiveScene, mNavigation.Camera, renderCanvas.Width, renderCanvas.Height);
+			mOnyxInstance.Renderer.MainRender(SceneManagement.ActiveScene, mNavigation.Camera, renderCanvas.Width, renderCanvas.Height);
 			mOnyxInstance.Renderer.Render(mGridRenderer, mNavigation.Camera);
 
 			HighlightSelected();
 
 			mOnyxInstance.Gizmos.DrawComponentGizmos(mNavigation.Camera, SceneManagement.ActiveScene);
-
+			
 			renderCanvas.SwapBuffers();
 		}
 
@@ -545,7 +545,7 @@ namespace Onyx3DEditor
         {
             
             Shader shader = mOnyxInstance.Resources.GetShader(BuiltInShader.Default);
-            shader.Load("../../../Onyx3D/Resources/Shaders/VertexShader.glsl", "../../../Onyx3D/Resources/Shaders/FragmentShader.glsl");
+            shader.Load("../../../../Onyx3D/Resources/Shaders/VertexShader.glsl", "../../../../Onyx3D/Resources/Shaders/FragmentShader.glsl");
             renderCanvas.Refresh();
         }
     }

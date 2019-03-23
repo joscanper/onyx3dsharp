@@ -1,8 +1,7 @@
-﻿using System;
-using System.Drawing;
-
-using Onyx3D;
+﻿using Onyx3D;
 using OpenTK;
+using System;
+using System.Drawing;
 
 namespace Onyx3DEditor
 {
@@ -12,36 +11,32 @@ namespace Onyx3DEditor
 		public Scene Scene;
 		public Camera Camera;
 		public bool DrawGrid;
-		
+
 		private SceneObject mCamPivot;
-        private FrameBuffer mFrameBuffer;
-        private GridRenderer mGridRenderer;
-        private ReflectionProbe mReflectionProbe;
-        
-        // --------------------------------------------------------------------
+		private FrameBuffer mFrameBuffer;
+		private GridRenderer mGridRenderer;
+		private ReflectionProbe mReflectionProbe;
 
-        public void Init(int w, int h, IntPtr handle)
+		// --------------------------------------------------------------------
+
+		public void Init(int w, int h, IntPtr handle)
 		{
+			OnyxInstance = Onyx3DEngine.Instance;
+			OnyxInstance.MakeCurrent();
 
-            OnyxInstance = Onyx3DEngine.Instance;
-            OnyxInstance.MakeCurrent();
-
-            mFrameBuffer = new FrameBuffer(w, h);
+			mFrameBuffer = new FrameBuffer(w, h);
 
 			InitializeBasicScene();
 		}
 
-        // --------------------------------------------------------------------
+		// --------------------------------------------------------------------
 
-        public virtual void InitializeBasicScene()
+		public virtual void InitializeBasicScene()
 		{
-
-            
-
 			Scene = new Scene(OnyxInstance);
 
-			Camera = new PerspectiveCamera("MainCamera", 1.5f, (float)mFrameBuffer.Width / (float)mFrameBuffer.Height);
-			Camera.Transform.LocalPosition = new Vector3(0, 0.65f, 1.25f);
+			Camera = new PerspectiveCamera("MainCamera", 0.5f, (float)mFrameBuffer.Width / (float)mFrameBuffer.Height);
+			Camera.Transform.LocalPosition = new Vector3(0, 1.45f, 3f);
 			Camera.Transform.LocalRotation = OpenTK.Quaternion.FromAxisAngle(new Vector3(1, 0, 0), -0.45f);
 
 			Scene.ActiveCamera = Camera;
@@ -66,39 +61,38 @@ namespace Onyx3DEditor
 			test.Transform.LocalPosition = new Vector3(0, 0, 0);
 			mReflectionProbe = test.AddComponent<ReflectionProbe>();
 			mReflectionProbe.Init(64);
-			
+
 			mReflectionProbe.Bake(OnyxInstance.Renderer);
 		}
 
-        // --------------------------------------------------------------------
+		// --------------------------------------------------------------------
 
-        public void BakeReflection()
+		public void BakeReflection()
 		{
 			mReflectionProbe.Bake(OnyxInstance.Renderer);
 		}
 
-        // --------------------------------------------------------------------
+		// --------------------------------------------------------------------
 
-        public void Render()
+		public void Render()
 		{
-            mFrameBuffer.Bind();
-            OnyxInstance.Renderer.Render(Scene, Scene.ActiveCamera, mFrameBuffer.Width, mFrameBuffer.Height);
+			mFrameBuffer.Bind();
+			OnyxInstance.Renderer.RenderScene(Scene, Scene.ActiveCamera, mFrameBuffer.Width, mFrameBuffer.Height);
 			if (DrawGrid)
-                OnyxInstance.Renderer.Render(mGridRenderer, Scene.ActiveCamera);
+				OnyxInstance.Renderer.Render(mGridRenderer, Scene.ActiveCamera);
 			mFrameBuffer.Unbind();
-		
 		}
 
-        // --------------------------------------------------------------------
+		// --------------------------------------------------------------------
 
-        public Bitmap AsBitmap()
+		public Bitmap AsBitmap()
 		{
 			return mFrameBuffer.Texture.AsBitmap();
 		}
 
-        // --------------------------------------------------------------------
+		// --------------------------------------------------------------------
 
-        public void Dispose()
+		public void Dispose()
 		{
 			mFrameBuffer.Dispose();
 			Scene.Dispose();

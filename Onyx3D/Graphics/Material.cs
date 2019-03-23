@@ -79,16 +79,12 @@ namespace Onyx3D
 				{
                     case MaterialPropertyType.SamplerCube:
                         CubemapMaterialProperty cmp = (CubemapMaterialProperty)mp.Value;
-                        GL.ActiveTexture(TextureUnit.Texture0 + cmp.DataIndex);
-                        GL.BindTexture(TextureTarget.TextureCubeMap, cmp.CubemapId);
-                        GL.Uniform1(GL.GetUniformLocation(Shader.Program, mp.Key), cmp.DataIndex);
+						SetCubemapUniform(cmp.DataIndex, mp.Key, cmp.CubemapId);
                         break;
                     case MaterialPropertyType.Sampler2D:
 						TextureMaterialProperty tmp = (TextureMaterialProperty)mp.Value;
-						GL.ActiveTexture(TextureUnit.Texture0 + tmp.DataIndex);
-                        Texture t = Onyx3DEngine.Instance.Resources.GetTexture(tmp.TextureGuid);
-						GL.BindTexture(TextureTarget.Texture2D, t.Id);
-						GL.Uniform1(GL.GetUniformLocation(Shader.Program, mp.Key), tmp.DataIndex);
+						Texture t = Onyx3DEngine.Instance.Resources.GetTexture(tmp.TextureGuid);
+						SetTextureUniform(tmp.DataIndex, mp.Key, t.Id);
 						break;
 					case MaterialPropertyType.Float:
 						int loc = GL.GetUniformLocation(Shader.Program, mp.Key);
@@ -110,6 +106,24 @@ namespace Onyx3D
 
 				}
 			}
+		}
+
+		// --------------------------------------------------------------------
+
+		public void SetCubemapUniform(int index, string name, int id)
+		{
+			GL.ActiveTexture(TextureUnit.Texture0 + index);
+			GL.BindTexture(TextureTarget.TextureCubeMap, id);
+			GL.Uniform1(GL.GetUniformLocation(Shader.Program, name), index);
+		}
+
+		// --------------------------------------------------------------------
+
+		public void SetTextureUniform(int index, string name, int id)
+		{
+			GL.ActiveTexture(TextureUnit.Texture0 + index);
+			GL.BindTexture(TextureTarget.Texture2D, id);
+			GL.Uniform1(GL.GetUniformLocation(Shader.Program, name), index);
 		}
 
 		// --------------------------------------------------------------------
@@ -167,7 +181,7 @@ namespace Onyx3D
 					case XmlNodeType.Element:
 						if (reader.Name == "Shader")
 						{
-							Shader = Onyx3DEngine.Instance.Resources.GetShader(reader.ReadElementContentAsInt());
+							Shader = Onyx3DInstance.CurrentContext.Resources.GetShader(reader.ReadElementContentAsInt());
 						}
 						if (reader.Name == "Property")
 						{

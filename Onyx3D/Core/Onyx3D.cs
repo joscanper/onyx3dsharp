@@ -9,6 +9,7 @@ namespace Onyx3D
 	public class Onyx3DEngine
 	{
         private static Onyx3DInstance mMainInstance;
+		private static Onyx3DInstance mCurrentContext;
         
 		public static Onyx3DInstance Instance
 		{

@@ -88,11 +88,23 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Attributes\ComponentInspector.cs" />
+    <Compile Include="Controls\AssetViewList.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\AssetViewList.Designer.cs">
+      <DependentUpon>AssetViewList.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\CubemapViewer.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Controls\CubemapViewer.Designer.cs">
       <DependentUpon>CubemapViewer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\EntityViewList.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\EntityViewList.Designer.cs">
+      <DependentUpon>EntityViewList.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\Inspector\CameraInspectorControl.cs">
       <SubType>UserControl</SubType>
@@ -118,11 +130,11 @@
     <Compile Include="Controls\Inspector\MeshRendererInspectorControl.Designer.cs">
       <DependentUpon>MeshRendererInspectorControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Inspector\EntityInspectorControl.cs">
+    <Compile Include="Controls\Inspector\EntityRendererInspectorControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\Inspector\EntityInspectorControl.Designer.cs">
-      <DependentUpon>EntityInspectorControl.cs</DependentUpon>
+    <Compile Include="Controls\Inspector\EntityRendererInspectorControl.Designer.cs">
+      <DependentUpon>EntityRendererInspectorControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\MeshViewList.cs">
       <SubType>UserControl</SubType>
@@ -136,10 +148,8 @@
     <Compile Include="Controls\Vector4Control.Designer.cs">
       <DependentUpon>Vector4Control.cs</DependentUpon>
     </Compile>
-    <Compile Include="IAssetSelector.cs">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="SceneManagement.cs" />
+    <Compile Include="SingleEntityPreviewRenderer.cs" />
     <Compile Include="SingleMeshPreviewRenderer.cs" />
     <Compile Include="Controls\MaterialViewList.cs">
       <SubType>UserControl</SubType>
@@ -160,6 +170,9 @@
     <Compile Include="PropertyInspectors\EntityProxyInspector.cs" />
     <Compile Include="PropertyInspectors\TransformInspector.cs" />
     <Compile Include="PropertyInspectors\Vector3Inspector.cs" />
+    <Compile Include="Windows\AssetSelector.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Windows\EntitySelectorWindow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -212,9 +225,7 @@
     </Compile>
     <Compile Include="PreviewRenderer.cs" />
     <Compile Include="ProjectLoader.cs" />
-    <Compile Include="Controls\SceneHierarchyControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
+    <Compile Include="Controls\SceneHierarchyControl.cs" />
     <Compile Include="Controls\SceneHierarchyControl.Designer.cs">
       <DependentUpon>SceneHierarchyControl.cs</DependentUpon>
     </Compile>
@@ -266,6 +277,9 @@
       <DependentUpon>TextureSelectorWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="Utils.cs" />
+    <EmbeddedResource Include="Controls\AssetViewList.resx">
+      <DependentUpon>AssetViewList.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controls\CubemapViewer.resx">
       <DependentUpon>CubemapViewer.cs</DependentUpon>
     </EmbeddedResource>
@@ -278,14 +292,17 @@
     <EmbeddedResource Include="Controls\Inspector\MeshRendererInspectorControl.resx">
       <DependentUpon>MeshRendererInspectorControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Controls\Inspector\EntityInspectorControl.resx">
-      <DependentUpon>EntityInspectorControl.cs</DependentUpon>
+    <EmbeddedResource Include="Controls\Inspector\EntityRendererInspectorControl.resx">
+      <DependentUpon>EntityRendererInspectorControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\MeshViewList.resx">
       <DependentUpon>MeshViewList.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\Vector4Control.resx">
       <DependentUpon>Vector4Control.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Windows\AssetSelector.resx">
+      <DependentUpon>AssetSelector.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Windows\EntitySelectorWindow.resx">
       <DependentUpon>EntitySelectorWindow.cs</DependentUpon>

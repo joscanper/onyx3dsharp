@@ -328,7 +328,8 @@ namespace Onyx3DEditor
 			gizmos.DrawWireSphere(obj.Transform.Position + up, 0.05f * scale, Vector3.UnitY);
 			gizmos.DrawWireSphere(obj.Transform.Position + forward, 0.05f * scale, Vector3.UnitX);
 
-			//gizmos.DrawWireSphere(hitPoint, 0.25f, Vector3.One);
+			gizmos.DrawLine(obj.Transform.Position, hitPoint, Vector3.One);
+			gizmos.DrawWireSphere(hitPoint, 0.05f, Vector3.One);
 		}
 
 		public override void Update(SceneObject obj, float scale)
@@ -367,8 +368,9 @@ namespace Onyx3DEditor
 
 		private Vector3 GetAxisPlaneHitPoint(SceneObject obj, Ray ray)
 		{
-			Vector3 axis = SelectedAxis;
-			Plane p1 = new Plane((obj.Transform.Position * axis.Abs()).Length, -axis);
+			Vector3 planeDisplacement = (obj.Transform.Position * SelectedAxis.Abs());
+			float sign = planeDisplacement.IsZero() ? 1 : Math.Sign(planeDisplacement.X + planeDisplacement.Y + planeDisplacement.Z);
+			Plane p1 = new Plane(planeDisplacement.Length, sign * SelectedAxis);
 
 			float dist;
 			if (p1.IntersectsRay(ray, out dist))

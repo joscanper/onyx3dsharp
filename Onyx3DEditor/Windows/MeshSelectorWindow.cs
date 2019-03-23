@@ -1,30 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
-
-using Onyx3D;
-
-namespace Onyx3DEditor
+﻿namespace Onyx3DEditor
 {
-	public partial class MeshSelectorWindow : AssetSelector
+	public partial class MeshSelectorWindow : AssetSelector<MeshViewList>
 	{
-		
-		public MeshSelectorWindow()
+		protected override string GetWindowName()
 		{
-			InitializeComponent();
-			meshViewList.SelectedChanged += new EventHandler(OnSelectionChanged);
+			return "Mesh Library";
 		}
-
-		private void OnSelectionChanged(object sender, EventArgs e)
-		{
-			SelectedAsset = meshViewList.SelectedMesh;
-			SelectedAssetChanged?.Invoke(this, e);
-		}
-
 	}
 }

@@ -19,13 +19,6 @@ out vec3 o_normal;
 out vec3 o_fragpos;
 out vec2 o_uv;
 out mat3 o_tbn;
-//out vec3 o_tangent_fragpos;
-//out vec3 o_tangent_campos;
-
-
-//#include OnyxShaderCamera
-//#include OnyxShaderLighting
-//#include OnyxShaderUtils
 
 layout(std140) uniform CameraData { 
 	mat4 V; 
@@ -33,42 +26,14 @@ layout(std140) uniform CameraData {
 	vec4 cameraPos; 
 };
 
-
-// ------------------------------- Lighting UBO
-/*
-struct Light{
-    float range;
-    vec3 position;
-    vec3 direction;
-    vec3 color;
-    float angle;
-    vec3 specular;
-    float intensity;
-};
-
-layout(std140) uniform LightingData { 
-	vec3 ambient;
-    
-    int pointLightsNum;
-    Light pointLight[MAX_POINT_LIGHTS];
-    
-    int dirLightsNum;
-    Light dirLight[MAX_DIR_LIGHTS];
-    
-    int spotLightsNum;
-    Light spotLight[MAX_SPOT_LIGHTS];
-};
-
-*/
-
-
 void main()
 {
 
 	
 	vec3 o_tangent = normalize(tangent);
 	vec3 o_bitangent = normalize(bitangent);
-	vec3 o_normal = normalize(normal);
+	
+	o_normal = normalize(normal);
 	
 	o_color = color;
 	o_uv = vec2(texcoord.x, 1.0 - texcoord.y);

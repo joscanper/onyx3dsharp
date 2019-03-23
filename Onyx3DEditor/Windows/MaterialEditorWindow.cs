@@ -23,7 +23,7 @@ namespace Onyx3DEditor
 
         public OnyxProjectAsset SelectedMaterial
         {
-            get { return materialViewList1.SelectedMaterial; }
+            get { return materialViewList1.SelectedAsset; }
         }
 		
         public MaterialEditorWindow()
@@ -88,7 +88,7 @@ namespace Onyx3DEditor
 		{
 			textBoxVertexCode.Text = mMaterial.Shader.VertexCode;
 			textBoxFragmentCode.Text = mMaterial.Shader.FragmentCode;
-            materialViewList1.UpdateMaterialList(-1, false);
+            materialViewList1.UpdateList(-1, false);
 		}
 
 		
@@ -147,7 +147,7 @@ namespace Onyx3DEditor
 			AssetLoader<Material>.Save(material, material.LinkedProjectAsset.Path);
 
 			SetMaterial(material);
-			materialViewList1.UpdateMaterialList(material.LinkedProjectAsset.Guid, false);
+			materialViewList1.UpdateList(material.LinkedProjectAsset.Guid, false);
 		}
 
 		private void tabControlMain_SelectedIndexChanged(object sender, EventArgs e)
@@ -224,7 +224,7 @@ namespace Onyx3DEditor
 
             ProjectManager.Instance.Content.MarkDirty(mMaterial.LinkedProjectAsset.Guid);
 
-            materialViewList1.UpdateMaterial(SelectedMaterial != null ? SelectedMaterial.Guid : -1);
+            materialViewList1.UpdateAsset(SelectedMaterial != null ? SelectedMaterial.Guid : -1);
         }
 
 		private void toolStripDeleteMaterialButton_Click(object sender, EventArgs e)
@@ -236,7 +236,7 @@ namespace Onyx3DEditor
 					if (ProjectManager.Instance.Content.Materials.Remove(SelectedMaterial))
 					{
 						materialPropertiesControl.Clear();
-						materialViewList1.UpdateMaterialList(0, false);
+						materialViewList1.UpdateList(0, false);
 					}
 				}
 			}

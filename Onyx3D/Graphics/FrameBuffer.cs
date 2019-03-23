@@ -43,6 +43,8 @@ namespace Onyx3D
 			FramebufferErrorCode result = GL.CheckFramebufferStatus(FramebufferTarget.Framebuffer);
 			if (result != FramebufferErrorCode.FramebufferComplete)
 				Logger.Instance.Append("Framebuffer failed status : " + result.ToString());
+
+			Unbind();
 		}
 
 

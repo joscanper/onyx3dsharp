@@ -1,8 +1,7 @@
 ﻿using System;
 using System.IO;
-
+using System.Reflection;
 using OpenTK.Graphics.OpenGL;
-
 namespace Onyx3D
 {
     public class Shader : GameAsset
@@ -58,6 +57,7 @@ namespace Onyx3D
 		{
 			string shaderSource = null;
 
+			string current = System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
 			if (!File.Exists(shaderFileName))
 			{
 				throw new FileNotFoundException("Unable to open \"" + shaderFileName + "\", does not exist.");

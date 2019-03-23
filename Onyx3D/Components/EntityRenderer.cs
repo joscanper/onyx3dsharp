@@ -1,16 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Xml;
 
-using OpenTK;
-
 namespace Onyx3D
 {
 	public class EntityRenderer : Renderer
 	{
-		
 		public List<MeshRenderer> Renderers { get; } = new List<MeshRenderer>();
 
-		private Entity Entity { get { return ((EntityProxy)SceneObject).EntityRef; } }
+		public Entity Entity { get { return ((EntityProxy)SceneObject).EntityRef; } }
 
 		// --------------------------------------------------------------------
 
@@ -24,7 +21,7 @@ namespace Onyx3D
 
 			UpdateBounds();
 		}
-		
+
 		// --------------------------------------------------------------------
 
 		public override void UpdateBounds()
@@ -38,37 +35,40 @@ namespace Onyx3D
 
 			if (Renderers.Count > 0)
 				mBounds = Renderers[0].Bounds;
-			
-			foreach(Renderer renderer in Renderers)
+
+			foreach (Renderer renderer in Renderers)
 			{
 				renderer.UpdateBounds();
 				mBounds.Encapsulate(renderer.Bounds);
 			}
 		}
 
-        // --------------------------------------------------------------------
+		// --------------------------------------------------------------------
 
-        public override void PreRender()
-        {
-            Entity myEntity = Entity;
-            if (myEntity == null)
-                return;
+		public override void PreRender()
+		{
+			Entity myEntity = Entity;
+			if (myEntity == null)
+				return;
 
-            myEntity.Root.Transform.SetModelMatrix(SceneObject.Transform.ModelMatrix);
-        }
+			myEntity.Root.Transform.SetModelMatrix(SceneObject.Transform.ModelMatrix);
+		}
 
-        // --------------------------------------------------------------------
+		// --------------------------------------------------------------------
 
-        public override void Render()
+		public override void Render()
 		{
 			foreach (MeshRenderer mr in Renderers)
 			{
+				if (!mr.SceneObject.Active)
+					continue;
+
 				mr.Render();
 			}
 		}
 
 		// --------------------------------------------------------------------
-		
+
 		public override bool IntersectsRay(Ray ray, out RaycastHit hit)
 		{
 			hit = new RaycastHit();
@@ -93,15 +93,12 @@ namespace Onyx3D
 
 		public override void ReadComponentXmlNode(XmlReader reader)
 		{
-			
 		}
 
 		// --------------------------------------------------------------------
 
 		public override void WriteComponentXml(XmlWriter writer)
 		{
-			
 		}
-
 	}
 }
